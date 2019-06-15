@@ -7,20 +7,15 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TaxApp.Models
+namespace Model
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class JobExpense
+    public partial class TaxConsultant
     {
-        public string JobID { get; set; }
-        public string ExpenseID { get; set; }
-        public System.DateTime Date { get; set; }
-        public decimal Amount { get; set; }
-        public byte[] Invoice_ReceiptCopy { get; set; }
-    
-        public virtual Expense Expense { get; set; }
-        public virtual Job Job { get; set; }
+        public string ProfileID { get; set; }
+        public string Name { get; set; }
+        public string EmailAddress { get; set; }
     }
 }

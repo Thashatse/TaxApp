@@ -7,17 +7,15 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TaxApp.Models
+namespace Model
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class TaxConsultant
+    public partial class SP_GetBussiness_Result
     {
-        public string ProfileID { get; set; }
-        public string Name { get; set; }
-        public string EmailAddress { get; set; }
-    
-        public virtual Profile Profile { get; set; }
+        public string BusinessID { get; set; }
+        public decimal VATRate { get; set; }
+        public string SMSSid { get; set; }
+        public string SMSToken { get; set; }
     }
 }

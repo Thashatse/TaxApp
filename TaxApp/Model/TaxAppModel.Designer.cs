@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Models\TaxAppModel.edmx'. 
+﻿// T4 code generation is enabled for model 'F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\Model\TaxAppModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

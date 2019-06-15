@@ -7,22 +7,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TaxApp.Models
+namespace Model
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class EmailSetting
+    public partial class Job
     {
-        public string ProfileID { get; set; }
-        public string Address { get; set; }
-        public byte[] Password { get; set; }
-        public string Host { get; set; }
-        public string Port { get; set; }
-        public bool EnableSsl { get; set; }
-        public string DeliveryMethod { get; set; }
-        public bool UseDefailtCredentials { get; set; }
-    
-        public virtual Profile Profile { get; set; }
+        public string JobID { get; set; }
+        public string ClientID { get; set; }
+        public string JobTitle { get; set; }
+        public Nullable<decimal> HourlyRate { get; set; }
+        public Nullable<decimal> Budget { get; set; }
+        public System.DateTime StartDate { get; set; }
+        public Nullable<System.DateTime> EndDate { get; set; }
     }
 }

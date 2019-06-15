@@ -7,20 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TaxApp.Models
+namespace Model
 {
     using System;
     using System.Collections.Generic;
     
     public partial class Profile
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Profile()
-        {
-            this.Clients = new HashSet<Client>();
-            this.GeneralExpenses = new HashSet<GeneralExpense>();
-        }
-    
         public string ProfileID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -35,12 +28,5 @@ namespace TaxApp.Models
         public byte[] Username { get; set; }
         public byte[] Password { get; set; }
         public string PassRestCode { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Client> Clients { get; set; }
-        public virtual EmailSetting EmailSetting { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GeneralExpense> GeneralExpenses { get; set; }
-        public virtual TaxConsultant TaxConsultant { get; set; }
     }
 }

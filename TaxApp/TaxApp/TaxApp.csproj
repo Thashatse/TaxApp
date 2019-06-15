@@ -129,62 +129,9 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LandingController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Business.cs">
-      <DependentUpon>TaxAppModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Client.cs">
-      <DependentUpon>TaxAppModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\EmailSetting.cs">
-      <DependentUpon>TaxAppModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Expense.cs">
-      <DependentUpon>TaxAppModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ExpenseCategory.cs">
-      <DependentUpon>TaxAppModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\GeneralExpense.cs">
-      <DependentUpon>TaxAppModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Invoice.cs">
-      <DependentUpon>TaxAppModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Job.cs">
-      <DependentUpon>TaxAppModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\JobExpense.cs">
-      <DependentUpon>TaxAppModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Profile.cs">
-      <DependentUpon>TaxAppModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>TaxAppModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TaxAppModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TaxAppModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TaxAppModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TaxAppModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TaxAppModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TaxAppModel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TaxConsultant.cs">
-      <DependentUpon>TaxAppModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Worklog.cs">
-      <DependentUpon>TaxAppModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebPages\Landing.aspx.cs">
@@ -204,26 +151,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Models\TaxAppModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>TaxAppModel.edmx</DependentUpon>
-      <LastGenOutput>TaxAppModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\TaxAppModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>TaxAppModel.edmx</DependentUpon>
-      <LastGenOutput>TaxAppModel.cs</LastGenOutput>
-    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="WebPages\Landing.aspx" />
-    <EntityDeploy Include="Models\TaxAppModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>TaxAppModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\TaxAppModel.edmx.diagram">
-      <DependentUpon>TaxAppModel.edmx</DependentUpon>
-    </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -2160,6 +2090,7 @@
     <Content Include="Theam\vendor\nucleo\fonts\nucleo-icons.woff" />
     <Content Include="Theam\vendor\nucleo\fonts\nucleo-icons.woff2" />
     <Content Include="Theam\vendor\prismjs\components.json" />
+    <Content Include="Views\Landing\Welcome.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2179,6 +2110,16 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BLL\BLL.csproj">
+      <Project>{2e86d308-611a-4306-b209-6e0fd9799e24}</Project>
+      <Name>BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{b5bd499c-914c-483b-9ee8-5c2db4418a30}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

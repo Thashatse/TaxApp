@@ -7,24 +7,15 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TaxApp.Models
+namespace Model
 {
     using System;
     using System.Collections.Generic;
     
     public partial class ExpenseCategory
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ExpenseCategory()
-        {
-            this.Expenses = new HashSet<Expense>();
-        }
-    
         public string CategoryID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Expense> Expenses { get; set; }
     }
 }

@@ -7,16 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TaxApp.Models
+namespace Model
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
-    public partial class TaxAppEntities1 : DbContext
+    public partial class TaxAppEntities : DbContext
     {
-        public TaxAppEntities1()
-            : base("name=TaxAppEntities1")
+        public TaxAppEntities()
+            : base("name=TaxAppEntities")
         {
         }
     
@@ -29,14 +31,20 @@ namespace TaxApp.Models
         public virtual DbSet<Client> Clients { get; set; }
         public virtual DbSet<EmailSetting> EmailSettings { get; set; }
         public virtual DbSet<Expense> Expenses { get; set; }
-        public virtual DbSet<ExpenseCategory> ExpenseCategories { get; set; }
         public virtual DbSet<GeneralExpense> GeneralExpenses { get; set; }
-        public virtual DbSet<Invoice> Invoices { get; set; }
         public virtual DbSet<JobExpense> JobExpenses { get; set; }
+        public virtual DbSet<JobHour> JobHours { get; set; }
+        public virtual DbSet<JobInvoice> JobInvoices { get; set; }
         public virtual DbSet<Job> Jobs { get; set; }
         public virtual DbSet<Profile> Profiles { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TaxConsultant> TaxConsultants { get; set; }
+        public virtual DbSet<ExpenseCategory> ExpenseCategories { get; set; }
+        public virtual DbSet<Invoice> Invoices { get; set; }
         public virtual DbSet<Worklog> Worklogs { get; set; }
+    
+        public virtual ObjectResult<SP_GetBussiness_Result> SP_GetBussiness()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetBussiness_Result>("SP_GetBussiness");
+        }
     }
 }

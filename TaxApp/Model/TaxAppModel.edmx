@@ -50,9 +50,13 @@
           <Property Name="Name" Type="varchar(max)" Nullable="false" />
           <Property Name="Description" Type="varchar(max)" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TaxApp.dbo.ExpenseCategory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ExpenseCategory">
           <Key>
             <PropertyRef Name="CategoryID" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Description" />
           </Key>
           <Property Name="CategoryID" Type="nchar" MaxLength="10" Nullable="false" />
           <Property Name="Name" Type="varchar(max)" Nullable="false" />
@@ -70,9 +74,15 @@
           <Property Name="Repeat" Type="bit" Nullable="false" />
           <Property Name="Invoice/ReceiptCopy" Type="varbinary(max)" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TaxApp.dbo.Invoice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Invoice">
           <Key>
             <PropertyRef Name="InvoiceNum" />
+            <PropertyRef Name="DateTime" />
+            <PropertyRef Name="SubTotal" />
+            <PropertyRef Name="VAT" />
+            <PropertyRef Name="Paid" />
           </Key>
           <Property Name="InvoiceNum" Type="nchar" MaxLength="10" Nullable="false" />
           <Property Name="DateTime" Type="datetime" Nullable="false" />
@@ -138,16 +148,6 @@
           <Property Name="Password" Type="varbinary" MaxLength="50" Nullable="false" />
           <Property Name="PassRestCode" Type="varchar" MaxLength="30" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
-        </EntityType>
         <EntityType Name="TaxConsultant">
           <Key>
             <PropertyRef Name="ProfileID" />
@@ -156,239 +156,56 @@
           <Property Name="Name" Type="varchar(max)" Nullable="false" />
           <Property Name="EmailAddress" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TaxApp.dbo.Worklog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Worklog">
           <Key>
             <PropertyRef Name="LogItemID" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="StartTime" />
           </Key>
           <Property Name="LogItemID" Type="nchar" MaxLength="10" Nullable="false" />
           <Property Name="Description" Type="varchar(max)" Nullable="false" />
           <Property Name="StartTime" Type="datetime" Nullable="false" />
           <Property Name="EndTime" Type="datetime" />
         </EntityType>
-        <Association Name="FK_Client_Profile">
-          <End Role="Profile" Type="Self.Profile" Multiplicity="1" />
-          <End Role="Client" Type="Self.Client" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Profile">
-              <PropertyRef Name="ProfileID" />
-            </Principal>
-            <Dependent Role="Client">
-              <PropertyRef Name="ProfileID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_EmailSettings_Profile">
-          <End Role="Profile" Type="Self.Profile" Multiplicity="1" />
-          <End Role="EmailSettings" Type="Self.EmailSettings" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Profile">
-              <PropertyRef Name="ProfileID" />
-            </Principal>
-            <Dependent Role="EmailSettings">
-              <PropertyRef Name="ProfileID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Expense_ExpenseCategory">
-          <End Role="ExpenseCategory" Type="Self.ExpenseCategory" Multiplicity="1" />
-          <End Role="Expense" Type="Self.Expense" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ExpenseCategory">
-              <PropertyRef Name="CategoryID" />
-            </Principal>
-            <Dependent Role="Expense">
-              <PropertyRef Name="CategoryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_GeneralExpense_Expense">
-          <End Role="Expense" Type="Self.Expense" Multiplicity="1" />
-          <End Role="GeneralExpense" Type="Self.GeneralExpense" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Expense">
-              <PropertyRef Name="ExpenseID" />
-            </Principal>
-            <Dependent Role="GeneralExpense">
-              <PropertyRef Name="ExpenseID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_GeneralExpense_Profile">
-          <End Role="Profile" Type="Self.Profile" Multiplicity="1" />
-          <End Role="GeneralExpense" Type="Self.GeneralExpense" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Profile">
-              <PropertyRef Name="ProfileID" />
-            </Principal>
-            <Dependent Role="GeneralExpense">
-              <PropertyRef Name="ProfileID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_JobExpense_Expense">
-          <End Role="Expense" Type="Self.Expense" Multiplicity="1" />
-          <End Role="JobExpense" Type="Self.JobExpense" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Expense">
-              <PropertyRef Name="ExpenseID" />
-            </Principal>
-            <Dependent Role="JobExpense">
-              <PropertyRef Name="ExpenseID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_JobExpense_Jobs">
-          <End Role="Jobs" Type="Self.Jobs" Multiplicity="1" />
-          <End Role="JobExpense" Type="Self.JobExpense" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Jobs">
-              <PropertyRef Name="JobID" />
-            </Principal>
-            <Dependent Role="JobExpense">
-              <PropertyRef Name="JobID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_JobHours_Jobs">
-          <End Role="Jobs" Type="Self.Jobs" Multiplicity="1" />
-          <End Role="JobHours" Type="Self.JobHours" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Jobs">
-              <PropertyRef Name="JobID" />
-            </Principal>
-            <Dependent Role="JobHours">
-              <PropertyRef Name="JobID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_JobHours_Worklog">
-          <End Role="Worklog" Type="Self.Worklog" Multiplicity="1" />
-          <End Role="JobHours" Type="Self.JobHours" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Worklog">
-              <PropertyRef Name="LogItemID" />
-            </Principal>
-            <Dependent Role="JobHours">
-              <PropertyRef Name="LogItemID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_JobInvoice_Invoice">
-          <End Role="Invoice" Type="Self.Invoice" Multiplicity="1" />
-          <End Role="JobInvoice" Type="Self.JobInvoice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Invoice">
-              <PropertyRef Name="InvoiceNum" />
-            </Principal>
-            <Dependent Role="JobInvoice">
-              <PropertyRef Name="InvoiceNum" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_JobInvoice_Jobs">
-          <End Role="Jobs" Type="Self.Jobs" Multiplicity="1" />
-          <End Role="JobInvoice" Type="Self.JobInvoice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Jobs">
-              <PropertyRef Name="JobID" />
-            </Principal>
-            <Dependent Role="JobInvoice">
-              <PropertyRef Name="JobID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Jobs_Client">
-          <End Role="Client" Type="Self.Client" Multiplicity="1" />
-          <End Role="Jobs" Type="Self.Jobs" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Client">
-              <PropertyRef Name="ClientID" />
-            </Principal>
-            <Dependent Role="Jobs">
-              <PropertyRef Name="ClientID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TaxConsultant_Profile">
-          <End Role="Profile" Type="Self.Profile" Multiplicity="1" />
-          <End Role="TaxConsultant" Type="Self.TaxConsultant" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Profile">
-              <PropertyRef Name="ProfileID" />
-            </Principal>
-            <Dependent Role="TaxConsultant">
-              <PropertyRef Name="ProfileID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+        <Function Name="SP_GetBussiness" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="TaxAppModelStoreContainer">
           <EntitySet Name="Business" EntityType="Self.Business" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmailSettings" EntityType="Self.EmailSettings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Expense" EntityType="Self.Expense" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ExpenseCategory" EntityType="Self.ExpenseCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GeneralExpense" EntityType="Self.GeneralExpense" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Invoice" EntityType="Self.Invoice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JobExpense" EntityType="Self.JobExpense" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JobHours" EntityType="Self.JobHours" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JobInvoice" EntityType="Self.JobInvoice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Jobs" EntityType="Self.Jobs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Profile" EntityType="Self.Profile" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaxConsultant" EntityType="Self.TaxConsultant" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Worklog" EntityType="Self.Worklog" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_Client_Profile" Association="Self.FK_Client_Profile">
-            <End Role="Profile" EntitySet="Profile" />
-            <End Role="Client" EntitySet="Client" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EmailSettings_Profile" Association="Self.FK_EmailSettings_Profile">
-            <End Role="Profile" EntitySet="Profile" />
-            <End Role="EmailSettings" EntitySet="EmailSettings" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Expense_ExpenseCategory" Association="Self.FK_Expense_ExpenseCategory">
-            <End Role="ExpenseCategory" EntitySet="ExpenseCategory" />
-            <End Role="Expense" EntitySet="Expense" />
-          </AssociationSet>
-          <AssociationSet Name="FK_GeneralExpense_Expense" Association="Self.FK_GeneralExpense_Expense">
-            <End Role="Expense" EntitySet="Expense" />
-            <End Role="GeneralExpense" EntitySet="GeneralExpense" />
-          </AssociationSet>
-          <AssociationSet Name="FK_GeneralExpense_Profile" Association="Self.FK_GeneralExpense_Profile">
-            <End Role="Profile" EntitySet="Profile" />
-            <End Role="GeneralExpense" EntitySet="GeneralExpense" />
-          </AssociationSet>
-          <AssociationSet Name="FK_JobExpense_Expense" Association="Self.FK_JobExpense_Expense">
-            <End Role="Expense" EntitySet="Expense" />
-            <End Role="JobExpense" EntitySet="JobExpense" />
-          </AssociationSet>
-          <AssociationSet Name="FK_JobExpense_Jobs" Association="Self.FK_JobExpense_Jobs">
-            <End Role="Jobs" EntitySet="Jobs" />
-            <End Role="JobExpense" EntitySet="JobExpense" />
-          </AssociationSet>
-          <AssociationSet Name="FK_JobHours_Jobs" Association="Self.FK_JobHours_Jobs">
-            <End Role="Jobs" EntitySet="Jobs" />
-            <End Role="JobHours" EntitySet="JobHours" />
-          </AssociationSet>
-          <AssociationSet Name="FK_JobHours_Worklog" Association="Self.FK_JobHours_Worklog">
-            <End Role="Worklog" EntitySet="Worklog" />
-            <End Role="JobHours" EntitySet="JobHours" />
-          </AssociationSet>
-          <AssociationSet Name="FK_JobInvoice_Invoice" Association="Self.FK_JobInvoice_Invoice">
-            <End Role="Invoice" EntitySet="Invoice" />
-            <End Role="JobInvoice" EntitySet="JobInvoice" />
-          </AssociationSet>
-          <AssociationSet Name="FK_JobInvoice_Jobs" Association="Self.FK_JobInvoice_Jobs">
-            <End Role="Jobs" EntitySet="Jobs" />
-            <End Role="JobInvoice" EntitySet="JobInvoice" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Jobs_Client" Association="Self.FK_Jobs_Client">
-            <End Role="Client" EntitySet="Client" />
-            <End Role="Jobs" EntitySet="Jobs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TaxConsultant_Profile" Association="Self.FK_TaxConsultant_Profile">
-            <End Role="Profile" EntitySet="Profile" />
-            <End Role="TaxConsultant" EntitySet="TaxConsultant" />
-          </AssociationSet>
+          <EntitySet Name="ExpenseCategory" EntityType="Self.ExpenseCategory" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ExpenseCategory].[CategoryID] AS [CategoryID], 
+    [ExpenseCategory].[Name] AS [Name], 
+    [ExpenseCategory].[Description] AS [Description]
+    FROM [dbo].[ExpenseCategory] AS [ExpenseCategory]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Invoice" EntityType="Self.Invoice" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Invoice].[InvoiceNum] AS [InvoiceNum], 
+    [Invoice].[DateTime] AS [DateTime], 
+    [Invoice].[SubTotal] AS [SubTotal], 
+    [Invoice].[VAT] AS [VAT], 
+    [Invoice].[Paid] AS [Paid]
+    FROM [dbo].[Invoice] AS [Invoice]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Worklog" EntityType="Self.Worklog" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Worklog].[LogItemID] AS [LogItemID], 
+    [Worklog].[Description] AS [Description], 
+    [Worklog].[StartTime] AS [StartTime], 
+    [Worklog].[EndTime] AS [EndTime]
+    FROM [dbo].[Worklog] AS [Worklog]</DefiningQuery>
+          </EntitySet>
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
@@ -417,8 +234,6 @@
           <Property Name="PhysiclaAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="PreferedCommunicationChannel" Type="String" MaxLength="3" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="ProfileID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Profile" Relationship="Self.FK_Client_Profile" FromRole="Client" ToRole="Profile" />
-          <NavigationProperty Name="Jobs" Relationship="Self.FK_Jobs_Client" FromRole="Client" ToRole="Jobs" />
         </EntityType>
         <EntityType Name="EmailSetting">
           <Key>
@@ -432,7 +247,6 @@
           <Property Name="EnableSsl" Type="Boolean" Nullable="false" />
           <Property Name="DeliveryMethod" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="UseDefailtCredentials" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Profile" Relationship="Self.FK_EmailSettings_Profile" FromRole="EmailSettings" ToRole="Profile" />
         </EntityType>
         <EntityType Name="Expense">
           <Key>
@@ -442,18 +256,6 @@
           <Property Name="CategoryID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="ExpenseCategory" Relationship="Self.FK_Expense_ExpenseCategory" FromRole="Expense" ToRole="ExpenseCategory" />
-          <NavigationProperty Name="GeneralExpenses" Relationship="Self.FK_GeneralExpense_Expense" FromRole="Expense" ToRole="GeneralExpense" />
-          <NavigationProperty Name="JobExpenses" Relationship="Self.FK_JobExpense_Expense" FromRole="Expense" ToRole="JobExpense" />
-        </EntityType>
-        <EntityType Name="ExpenseCategory">
-          <Key>
-            <PropertyRef Name="CategoryID" />
-          </Key>
-          <Property Name="CategoryID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Expenses" Relationship="Self.FK_Expense_ExpenseCategory" FromRole="ExpenseCategory" ToRole="Expense" />
         </EntityType>
         <EntityType Name="GeneralExpense">
           <Key>
@@ -466,19 +268,6 @@
           <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="Repeat" Type="Boolean" Nullable="false" />
           <Property Name="Invoice_ReceiptCopy" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <NavigationProperty Name="Expense" Relationship="Self.FK_GeneralExpense_Expense" FromRole="GeneralExpense" ToRole="Expense" />
-          <NavigationProperty Name="Profile" Relationship="Self.FK_GeneralExpense_Profile" FromRole="GeneralExpense" ToRole="Profile" />
-        </EntityType>
-        <EntityType Name="Invoice">
-          <Key>
-            <PropertyRef Name="InvoiceNum" />
-          </Key>
-          <Property Name="InvoiceNum" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="SubTotal" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <Property Name="VAT" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <Property Name="Paid" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Jobs" Relationship="Self.JobInvoice" FromRole="Invoice" ToRole="Jobs" />
         </EntityType>
         <EntityType Name="JobExpense">
           <Key>
@@ -490,8 +279,22 @@
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="Invoice_ReceiptCopy" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <NavigationProperty Name="Expense" Relationship="Self.FK_JobExpense_Expense" FromRole="JobExpense" ToRole="Expense" />
-          <NavigationProperty Name="Job" Relationship="Self.FK_JobExpense_Jobs" FromRole="JobExpense" ToRole="Jobs" />
+        </EntityType>
+        <EntityType Name="JobHour">
+          <Key>
+            <PropertyRef Name="JobID" />
+            <PropertyRef Name="LogItemID" />
+          </Key>
+          <Property Name="JobID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="LogItemID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="JobInvoice">
+          <Key>
+            <PropertyRef Name="JobID" />
+            <PropertyRef Name="InvoiceNum" />
+          </Key>
+          <Property Name="JobID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="InvoiceNum" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="Job">
           <Key>
@@ -504,10 +307,6 @@
           <Property Name="Budget" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="EndDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Client" Relationship="Self.FK_Jobs_Client" FromRole="Jobs" ToRole="Client" />
-          <NavigationProperty Name="JobExpenses" Relationship="Self.FK_JobExpense_Jobs" FromRole="Jobs" ToRole="JobExpense" />
-          <NavigationProperty Name="Worklogs" Relationship="Self.JobHours" FromRole="Jobs" ToRole="Worklog" />
-          <NavigationProperty Name="Invoices" Relationship="Self.JobInvoice" FromRole="Jobs" ToRole="Invoice" />
         </EntityType>
         <EntityType Name="Profile">
           <Key>
@@ -527,20 +326,6 @@
           <Property Name="Username" Type="Binary" MaxLength="50" FixedLength="false" Nullable="false" />
           <Property Name="Password" Type="Binary" MaxLength="50" FixedLength="false" Nullable="false" />
           <Property Name="PassRestCode" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Clients" Relationship="Self.FK_Client_Profile" FromRole="Profile" ToRole="Client" />
-          <NavigationProperty Name="EmailSetting" Relationship="Self.FK_EmailSettings_Profile" FromRole="Profile" ToRole="EmailSettings" />
-          <NavigationProperty Name="GeneralExpenses" Relationship="Self.FK_GeneralExpense_Profile" FromRole="Profile" ToRole="GeneralExpense" />
-          <NavigationProperty Name="TaxConsultant" Relationship="Self.FK_TaxConsultant_Profile" FromRole="Profile" ToRole="TaxConsultant" />
-        </EntityType>
-        <EntityType Name="sysdiagram">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="TaxConsultant">
           <Key>
@@ -549,199 +334,71 @@
           <Property Name="ProfileID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="EmailAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Profile" Relationship="Self.FK_TaxConsultant_Profile" FromRole="TaxConsultant" ToRole="Profile" />
+        </EntityType>
+        <EntityType Name="ExpenseCategory">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Description" />
+          </Key>
+          <Property Name="CategoryID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Invoice">
+          <Key>
+            <PropertyRef Name="InvoiceNum" />
+            <PropertyRef Name="DateTime" />
+            <PropertyRef Name="SubTotal" />
+            <PropertyRef Name="VAT" />
+            <PropertyRef Name="Paid" />
+          </Key>
+          <Property Name="InvoiceNum" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SubTotal" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="VAT" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Paid" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Worklog">
           <Key>
             <PropertyRef Name="LogItemID" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="StartTime" />
           </Key>
           <Property Name="LogItemID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="EndTime" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Jobs" Relationship="Self.JobHours" FromRole="Worklog" ToRole="Jobs" />
         </EntityType>
-        <Association Name="FK_Client_Profile">
-          <End Role="Profile" Type="Self.Profile" Multiplicity="1" />
-          <End Role="Client" Type="Self.Client" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Profile">
-              <PropertyRef Name="ProfileID" />
-            </Principal>
-            <Dependent Role="Client">
-              <PropertyRef Name="ProfileID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Jobs_Client">
-          <End Role="Client" Type="Self.Client" Multiplicity="1" />
-          <End Role="Jobs" Type="Self.Job" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Client">
-              <PropertyRef Name="ClientID" />
-            </Principal>
-            <Dependent Role="Jobs">
-              <PropertyRef Name="ClientID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_EmailSettings_Profile">
-          <End Role="Profile" Type="Self.Profile" Multiplicity="1" />
-          <End Role="EmailSettings" Type="Self.EmailSetting" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Profile">
-              <PropertyRef Name="ProfileID" />
-            </Principal>
-            <Dependent Role="EmailSettings">
-              <PropertyRef Name="ProfileID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Expense_ExpenseCategory">
-          <End Role="ExpenseCategory" Type="Self.ExpenseCategory" Multiplicity="1" />
-          <End Role="Expense" Type="Self.Expense" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ExpenseCategory">
-              <PropertyRef Name="CategoryID" />
-            </Principal>
-            <Dependent Role="Expense">
-              <PropertyRef Name="CategoryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_GeneralExpense_Expense">
-          <End Role="Expense" Type="Self.Expense" Multiplicity="1" />
-          <End Role="GeneralExpense" Type="Self.GeneralExpense" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Expense">
-              <PropertyRef Name="ExpenseID" />
-            </Principal>
-            <Dependent Role="GeneralExpense">
-              <PropertyRef Name="ExpenseID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_JobExpense_Expense">
-          <End Role="Expense" Type="Self.Expense" Multiplicity="1" />
-          <End Role="JobExpense" Type="Self.JobExpense" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Expense">
-              <PropertyRef Name="ExpenseID" />
-            </Principal>
-            <Dependent Role="JobExpense">
-              <PropertyRef Name="ExpenseID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_GeneralExpense_Profile">
-          <End Role="Profile" Type="Self.Profile" Multiplicity="1" />
-          <End Role="GeneralExpense" Type="Self.GeneralExpense" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Profile">
-              <PropertyRef Name="ProfileID" />
-            </Principal>
-            <Dependent Role="GeneralExpense">
-              <PropertyRef Name="ProfileID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_JobExpense_Jobs">
-          <End Role="Jobs" Type="Self.Job" Multiplicity="1" />
-          <End Role="JobExpense" Type="Self.JobExpense" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Jobs">
-              <PropertyRef Name="JobID" />
-            </Principal>
-            <Dependent Role="JobExpense">
-              <PropertyRef Name="JobID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TaxConsultant_Profile">
-          <End Role="Profile" Type="Self.Profile" Multiplicity="1" />
-          <End Role="TaxConsultant" Type="Self.TaxConsultant" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Profile">
-              <PropertyRef Name="ProfileID" />
-            </Principal>
-            <Dependent Role="TaxConsultant">
-              <PropertyRef Name="ProfileID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="JobHours">
-          <End Role="Jobs" Type="Self.Job" Multiplicity="*" />
-          <End Role="Worklog" Type="Self.Worklog" Multiplicity="*" />
-        </Association>
-        <Association Name="JobInvoice">
-          <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
-          <End Role="Jobs" Type="Self.Job" Multiplicity="*" />
-        </Association>
-        <EntityContainer Name="TaxAppEntities1" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="TaxAppEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Businesses" EntityType="Self.Business" />
           <EntitySet Name="Clients" EntityType="Self.Client" />
           <EntitySet Name="EmailSettings" EntityType="Self.EmailSetting" />
           <EntitySet Name="Expenses" EntityType="Self.Expense" />
-          <EntitySet Name="ExpenseCategories" EntityType="Self.ExpenseCategory" />
           <EntitySet Name="GeneralExpenses" EntityType="Self.GeneralExpense" />
-          <EntitySet Name="Invoices" EntityType="Self.Invoice" />
           <EntitySet Name="JobExpenses" EntityType="Self.JobExpense" />
+          <EntitySet Name="JobHours" EntityType="Self.JobHour" />
+          <EntitySet Name="JobInvoices" EntityType="Self.JobInvoice" />
           <EntitySet Name="Jobs" EntityType="Self.Job" />
           <EntitySet Name="Profiles" EntityType="Self.Profile" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="TaxConsultants" EntityType="Self.TaxConsultant" />
+          <EntitySet Name="ExpenseCategories" EntityType="Self.ExpenseCategory" />
+          <EntitySet Name="Invoices" EntityType="Self.Invoice" />
           <EntitySet Name="Worklogs" EntityType="Self.Worklog" />
-          <AssociationSet Name="FK_Client_Profile" Association="Self.FK_Client_Profile">
-            <End Role="Profile" EntitySet="Profiles" />
-            <End Role="Client" EntitySet="Clients" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Jobs_Client" Association="Self.FK_Jobs_Client">
-            <End Role="Client" EntitySet="Clients" />
-            <End Role="Jobs" EntitySet="Jobs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EmailSettings_Profile" Association="Self.FK_EmailSettings_Profile">
-            <End Role="Profile" EntitySet="Profiles" />
-            <End Role="EmailSettings" EntitySet="EmailSettings" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Expense_ExpenseCategory" Association="Self.FK_Expense_ExpenseCategory">
-            <End Role="ExpenseCategory" EntitySet="ExpenseCategories" />
-            <End Role="Expense" EntitySet="Expenses" />
-          </AssociationSet>
-          <AssociationSet Name="FK_GeneralExpense_Expense" Association="Self.FK_GeneralExpense_Expense">
-            <End Role="Expense" EntitySet="Expenses" />
-            <End Role="GeneralExpense" EntitySet="GeneralExpenses" />
-          </AssociationSet>
-          <AssociationSet Name="FK_JobExpense_Expense" Association="Self.FK_JobExpense_Expense">
-            <End Role="Expense" EntitySet="Expenses" />
-            <End Role="JobExpense" EntitySet="JobExpenses" />
-          </AssociationSet>
-          <AssociationSet Name="FK_GeneralExpense_Profile" Association="Self.FK_GeneralExpense_Profile">
-            <End Role="Profile" EntitySet="Profiles" />
-            <End Role="GeneralExpense" EntitySet="GeneralExpenses" />
-          </AssociationSet>
-          <AssociationSet Name="FK_JobExpense_Jobs" Association="Self.FK_JobExpense_Jobs">
-            <End Role="Jobs" EntitySet="Jobs" />
-            <End Role="JobExpense" EntitySet="JobExpenses" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TaxConsultant_Profile" Association="Self.FK_TaxConsultant_Profile">
-            <End Role="Profile" EntitySet="Profiles" />
-            <End Role="TaxConsultant" EntitySet="TaxConsultants" />
-          </AssociationSet>
-          <AssociationSet Name="JobHours" Association="Self.JobHours">
-            <End Role="Jobs" EntitySet="Jobs" />
-            <End Role="Worklog" EntitySet="Worklogs" />
-          </AssociationSet>
-          <AssociationSet Name="JobInvoice" Association="Self.JobInvoice">
-            <End Role="Invoice" EntitySet="Invoices" />
-            <End Role="Jobs" EntitySet="Jobs" />
-          </AssociationSet>
+          <FunctionImport Name="SP_GetBussiness" ReturnType="Collection(TaxAppModel.SP_GetBussiness_Result)" />
         </EntityContainer>
+        <ComplexType Name="SP_GetBussiness_Result">
+          <Property Type="String" Name="BusinessID" Nullable="false" MaxLength="10" />
+          <Property Type="Decimal" Name="VATRate" Nullable="false" Precision="3" Scale="2" />
+          <Property Type="String" Name="SMSSid" Nullable="false" />
+          <Property Type="String" Name="SMSToken" Nullable="false" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="TaxAppModelStoreContainer" CdmEntityContainer="TaxAppEntities1">
+        <EntityContainerMapping StorageEntityContainer="TaxAppModelStoreContainer" CdmEntityContainer="TaxAppEntities">
           <EntitySetMapping Name="Businesses">
             <EntityTypeMapping TypeName="TaxAppModel.Business">
               <MappingFragment StoreEntitySet="Business">
@@ -791,15 +448,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ExpenseCategories">
-            <EntityTypeMapping TypeName="TaxAppModel.ExpenseCategory">
-              <MappingFragment StoreEntitySet="ExpenseCategory">
-                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="GeneralExpenses">
             <EntityTypeMapping TypeName="TaxAppModel.GeneralExpense">
               <MappingFragment StoreEntitySet="GeneralExpense">
@@ -812,17 +460,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Invoices">
-            <EntityTypeMapping TypeName="TaxAppModel.Invoice">
-              <MappingFragment StoreEntitySet="Invoice">
-                <ScalarProperty Name="InvoiceNum" ColumnName="InvoiceNum" />
-                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
-                <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
-                <ScalarProperty Name="VAT" ColumnName="VAT" />
-                <ScalarProperty Name="Paid" ColumnName="Paid" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="JobExpenses">
             <EntityTypeMapping TypeName="TaxAppModel.JobExpense">
               <MappingFragment StoreEntitySet="JobExpense">
@@ -831,6 +468,22 @@
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="Invoice_ReceiptCopy" ColumnName="Invoice/ReceiptCopy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JobHours">
+            <EntityTypeMapping TypeName="TaxAppModel.JobHour">
+              <MappingFragment StoreEntitySet="JobHours">
+                <ScalarProperty Name="JobID" ColumnName="JobID" />
+                <ScalarProperty Name="LogItemID" ColumnName="LogItemID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JobInvoices">
+            <EntityTypeMapping TypeName="TaxAppModel.JobInvoice">
+              <MappingFragment StoreEntitySet="JobInvoice">
+                <ScalarProperty Name="JobID" ColumnName="JobID" />
+                <ScalarProperty Name="InvoiceNum" ColumnName="InvoiceNum" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -867,23 +520,32 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="TaxAppModel.sysdiagram">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="TaxConsultants">
             <EntityTypeMapping TypeName="TaxAppModel.TaxConsultant">
               <MappingFragment StoreEntitySet="TaxConsultant">
                 <ScalarProperty Name="ProfileID" ColumnName="ProfileID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExpenseCategories">
+            <EntityTypeMapping TypeName="TaxAppModel.ExpenseCategory">
+              <MappingFragment StoreEntitySet="ExpenseCategory">
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Invoices">
+            <EntityTypeMapping TypeName="TaxAppModel.Invoice">
+              <MappingFragment StoreEntitySet="Invoice">
+                <ScalarProperty Name="InvoiceNum" ColumnName="InvoiceNum" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
+                <ScalarProperty Name="VAT" ColumnName="VAT" />
+                <ScalarProperty Name="Paid" ColumnName="Paid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -897,22 +559,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="JobHours" TypeName="TaxAppModel.JobHours" StoreEntitySet="JobHours">
-            <EndProperty Name="Jobs">
-              <ScalarProperty Name="JobID" ColumnName="JobID" />
-            </EndProperty>
-            <EndProperty Name="Worklog">
-              <ScalarProperty Name="LogItemID" ColumnName="LogItemID" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="JobInvoice" TypeName="TaxAppModel.JobInvoice" StoreEntitySet="JobInvoice">
-            <EndProperty Name="Invoice">
-              <ScalarProperty Name="InvoiceNum" ColumnName="InvoiceNum" />
-            </EndProperty>
-            <EndProperty Name="Jobs">
-              <ScalarProperty Name="JobID" ColumnName="JobID" />
-            </EndProperty>
-          </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="SP_GetBussiness" FunctionName="TaxAppModel.Store.SP_GetBussiness">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TaxAppModel.SP_GetBussiness_Result">
+                <ScalarProperty Name="BusinessID" ColumnName="BusinessID" />
+                <ScalarProperty Name="VATRate" ColumnName="VATRate" />
+                <ScalarProperty Name="SMSSid" ColumnName="SMSSid" />
+                <ScalarProperty Name="SMSToken" ColumnName="SMSToken" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

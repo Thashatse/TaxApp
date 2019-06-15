@@ -7,16 +7,17 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TaxApp.Models
+namespace Model
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Business
+    public partial class JobExpense
     {
-        public string BusinessID { get; set; }
-        public decimal VATRate { get; set; }
-        public string SMSSid { get; set; }
-        public string SMSToken { get; set; }
+        public string JobID { get; set; }
+        public string ExpenseID { get; set; }
+        public System.DateTime Date { get; set; }
+        public decimal Amount { get; set; }
+        public byte[] Invoice_ReceiptCopy { get; set; }
     }
 }

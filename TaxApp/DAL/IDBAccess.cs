@@ -8,6 +8,8 @@ namespace DAL
 {
     public interface IDBAccess
     {
-        TaxApp.Models.Business GetHomePageFeatures();
+        #region Bussiness
+        Model.Business GetBussiness();
+        #endregion
     }
 }

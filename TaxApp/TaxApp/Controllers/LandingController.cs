@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using BLL;
 
 namespace TaxApp.Controllers
 {
     public class LandingController : Controller
     {
+        IDBHandler handler = new DBHandler();
 
         // GET: Landing
         public ActionResult Welcome()
         {
+            //Model.Business business = handler.GetBussiness();
+            //ViewBag.Message = business.BusinessID.ToString() + " " + business.VATRate.ToString() + " " + business.SMSSid + " " + business.SMSToken;
             return View();
         }
 
@@ -85,14 +89,6 @@ namespace TaxApp.Controllers
             {
                 return View();
             }
-        }
-
-        // POST: Landing/Delete/5
-        [HttpPost]
-        public ActionResult getBussiness(int id, FormCollection collection)
-        {
-            Models.Business model = DAL.DBAcces
-            return View();
         }
     }
 }

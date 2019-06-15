@@ -11,9 +11,9 @@ namespace DAL
     public class DBAccess : IDBAccess
     {
         #region Bussiness
-        public TaxApp.Models.Business GetHomePageFeatures()
+        public Model.Business GetBussiness()
         {
-            TaxApp.Models.Business business = new TaxApp.Models.Business();
+            Model.Business business = new Model.Business();
 
             try
             {
@@ -22,10 +22,10 @@ namespace DAL
                 {
                         foreach (DataRow row in table.Rows)
                         {
-                        business.BusinessID = row["FeatureID"].ToString();
-                        business.VATRate = Convert.ToDecimal(row["ItemID"].ToString());
-                        business.SMSSid = row["ItemID"].ToString();
-                        business.SMSToken = row["ItemID"].ToString();
+                        business.BusinessID = row["BusinessID"].ToString();
+                        business.VATRate = Convert.ToDecimal(row["VATRate"].ToString());
+                        business.SMSSid = row["SMSSid"].ToString();
+                        business.SMSToken = row["SMSToken"].ToString();
                     }
                 }
                 return business;
@@ -35,5 +35,6 @@ namespace DAL
                 throw new ApplicationException(e.ToString());
             }
         }
+        #endregion
     }
 }                  

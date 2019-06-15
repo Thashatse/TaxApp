@@ -1,5 +1,4 @@
-﻿@model TaxApp.Models.Business
-@{
+﻿@{
     Layout = "";
 }
 
@@ -22,28 +21,30 @@
     <!-- Argon CSS -->
     <link type="text/css" href="../Theam/css/argon.css?v=1.0.0" rel="stylesheet">
 </head>
+
 <body class="bg-default">
     <div class="main-content">
-        <!-- Navbar -->
-        <nav class="navbar navbar-top navbar-horizontal navbar-expand-md navbar-dark">
-            <div class="container px-4">
-                <a class="navbar-brand" href="../index.html">
-                    <img src="../Theam/img/brand/white.png" />
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse-main" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            </div>
-        </nav>
-        <!-- Header -->
-        <div class="header bg-gradient-primary py-7 py-lg-8">
-            <div class="container">
-                <div class="header-body text-center mb-7">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-5 col-md-6">
-                            <h1 class="text-white">Welcome To Tax App!</h1>
-                            <p class="text-lead text-light">Login or create a new account to continue.</p>
-                        </div>
+            <!-- Navbar -->
+            <nav class="navbar navbar-top navbar-horizontal navbar-expand-md navbar-dark">
+                <div class="container px-4">
+                    <a class="navbar-brand" href="../index.html">
+                        <img src="../Theam/img/brand/white.png" />
+                    </a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse-main" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+            </nav>
+            <!-- Header -->
+            <div class="header bg-gradient-primary py-7 py-lg-8">
+                <div class="container">
+                    <div class="header-body text-center mb-7">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-5 col-md-6">
+                                <h1 class="text-white">Welcome To Tax App!</h1>
+                                <p class="text-lead text-light">Login or create a new account to continue.</p>
+                                <p>@ViewBag.Message</p>
+                            </div>
                     </div>
                 </div>
             </div>

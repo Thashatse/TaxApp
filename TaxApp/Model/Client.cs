@@ -7,19 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TaxApp.Models
+namespace Model
 {
     using System;
     using System.Collections.Generic;
     
     public partial class Client
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Client()
-        {
-            this.Jobs = new HashSet<Job>();
-        }
-    
         public string ClientID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -29,9 +23,5 @@ namespace TaxApp.Models
         public string PhysiclaAddress { get; set; }
         public string PreferedCommunicationChannel { get; set; }
         public string ProfileID { get; set; }
-    
-        public virtual Profile Profile { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Job> Jobs { get; set; }
     }
 }

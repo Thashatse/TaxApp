@@ -8,7 +8,9 @@ namespace BLL
 {
     public interface IDBHandler
     {
-        TaxApp.Models.Business GetHomePageFeatures();
+        #region Bussiness
+        Model.Business GetBussiness();
+            #endregion
     }
 }
 
