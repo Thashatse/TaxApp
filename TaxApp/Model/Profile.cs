@@ -14,7 +14,7 @@ namespace Model
     
     public partial class Profile
     {
-        public string ProfileID { get; set; }
+        public int ProfileID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string CompanyName { get; set; }
@@ -25,8 +25,8 @@ namespace Model
         public string VATNumber { get; set; }
         public decimal DefaultHourlyRate { get; set; }
         public bool Active { get; set; }
-        public byte[] Username { get; set; }
-        public byte[] Password { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
         public string PassRestCode { get; set; }
     }
 }
