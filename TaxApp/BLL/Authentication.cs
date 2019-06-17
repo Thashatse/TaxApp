@@ -7,7 +7,7 @@ using CryptSharp;
 
 namespace BLL
 {
-    class Authentication
+    public class Authentication
     {
         IDBHandler handler = new DBHandler();
 
@@ -50,15 +50,17 @@ namespace BLL
             {
                 Model.Profile profile = handler.getProfile(profileToCheck);
 
+                UserCookieDetails[1] = "N/A";
+
                 if (profile != null)
                 {
                     if (verifyPass(
                         password,
-                        profile.Password.ToString().Replace(" ", string.Empty)
+                        profile.Password
                         ) == true)
                     {
                             UserCookieDetails[0] = profile.ProfileID.ToString();
-                            UserCookieDetails[2] = profile.FirstName.ToString() + " " + profile.LastName.ToString();
+                            UserCookieDetails[1] = profile.FirstName.ToString() + " " + profile.LastName.ToString();
                     }
                     else
                     {
@@ -90,6 +92,7 @@ namespace BLL
             {
                 try
                 {
+                    user.Password = generatePassHash(user.Password);
                     handler.newprofile(user);
                 }
                 catch (ApplicationException e)

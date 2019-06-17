@@ -2091,6 +2091,7 @@
     <Content Include="Theam\vendor\nucleo\fonts\nucleo-icons.woff2" />
     <Content Include="Theam\vendor\prismjs\components.json" />
     <Content Include="Views\Landing\Welcome.cshtml" />
+    <Content Include="Views\Landing\NewProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -14,8 +14,11 @@ namespace DAL
         public bool newprofile(Model.Profile User)
         {
             bool Result = false;
-            SqlParameter[] pars = new SqlParameter[]
-                {
+            
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
             new SqlParameter("@FN", User.FirstName),
             new SqlParameter("@LN", User.LastName),
             new SqlParameter("@CN", User.CompanyName),
@@ -26,28 +29,17 @@ namespace DAL
             new SqlParameter("@DR", User.DefaultHourlyRate),
             new SqlParameter("@UN", User.Username),
             new SqlParameter("@Pass", User.Password)
-                };
+                   };
+                
+                Result = DBHelper.NonQuery("SP_NewProfile", CommandType.StoredProcedure, pars);
 
-            try
-            {
-                using (DataTable table = DBHelper.ParamSelect("SP_NewProfile",
-            CommandType.StoredProcedure, pars))
-                {
-                    if (table.Rows.Count == 1)
-                    {
-                        DataRow row = table.Rows[0];
-                        {
-                            Result = Convert.ToBoolean(row[0]);
-                        };
-
-                    }
-                    return Result;
-                }
             }
             catch (Exception e)
             {
                 throw new ApplicationException(e.ToString());
             }
+
+            return Result;
         }
 
 
@@ -71,8 +63,9 @@ namespace DAL
                     {
                         if(row != null)
                         {
-                            profile.ProfileID = Convert.ToInt32(row["ProfileID"].ToString());
-                            profile.FirstName = row["FirstName"].ToString();
+                            profile = new Model.Profile();
+                            profile.ProfileID = int.Parse(row[0].ToString());
+                            profile.FirstName = row[1].ToString();
                             profile.LastName = row["LastName"].ToString();
                             profile.CompanyName = row["CompanyName"].ToString();
                             profile.EmailAddress = row["EmailAddress"].ToString();

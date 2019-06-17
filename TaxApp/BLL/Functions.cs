@@ -16,7 +16,7 @@ namespace BLL
             try
             {
                 using (System.IO.StreamWriter file =
-                new System.IO.StreamWriter(@"" + AppDomain.CurrentDomain.BaseDirectory + "CheveuxErrorLog.txt", true))
+                new System.IO.StreamWriter(@"" + AppDomain.CurrentDomain.BaseDirectory + "TaxAppErrorLog.txt", true))
                 {
                     file.WriteLine();
                     file.WriteLine("TimeStamp: " + DateTime.Now);
