@@ -14,7 +14,7 @@ namespace Model
     
     public partial class Client
     {
-        public string ClientID { get; set; }
+        public int ClientID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public byte[] CompanyName { get; set; }

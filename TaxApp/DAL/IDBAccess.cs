@@ -17,5 +17,10 @@ namespace DAL
         #region Bussiness
         Model.Business GetBussiness();
         #endregion
+
+        #region Tax Consultanat
+        bool newConsultant(Model.TaxConsultant consultant);
+        Model.TaxConsultant getConsultant(Model.TaxConsultant consultant);
+        #endregion
     }
 }

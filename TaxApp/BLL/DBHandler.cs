@@ -33,5 +33,16 @@ namespace BLL
             return db.GetBussiness();
         }
         #endregion
+
+        #region Tax Consultanat
+        public bool newConsultant(Model.TaxConsultant consultant)
+        {
+            return db.newConsultant(consultant);
+        }
+        public Model.TaxConsultant getConsumtant(Model.TaxConsultant consultant)
+        {
+            return db.getConsultant(consultant);
+        }
+        #endregion
     }
 }

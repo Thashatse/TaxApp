@@ -14,7 +14,7 @@ namespace Model
     
     public partial class Business
     {
-        public string BusinessID { get; set; }
+        public int BusinessID { get; set; }
         public decimal VATRate { get; set; }
         public string SMSSid { get; set; }
         public string SMSToken { get; set; }

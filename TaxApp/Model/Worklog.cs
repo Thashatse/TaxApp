@@ -14,7 +14,7 @@ namespace Model
     
     public partial class Worklog
     {
-        public string LogItemID { get; set; }
+        public int LogItemID { get; set; }
         public string Description { get; set; }
         public System.DateTime StartTime { get; set; }
         public Nullable<System.DateTime> EndTime { get; set; }

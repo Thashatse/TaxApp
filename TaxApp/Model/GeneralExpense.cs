@@ -14,8 +14,8 @@ namespace Model
     
     public partial class GeneralExpense
     {
-        public string ProfileID { get; set; }
-        public string ExpenseID { get; set; }
+        public int ProfileID { get; set; }
+        public int ExpenseID { get; set; }
         public System.DateTime Date { get; set; }
         public decimal Amount { get; set; }
         public bool Repeat { get; set; }

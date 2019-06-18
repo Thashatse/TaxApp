@@ -14,7 +14,7 @@ namespace Model
     
     public partial class JobHour
     {
-        public string JobID { get; set; }
-        public string LogItemID { get; set; }
+        public int JobID { get; set; }
+        public int LogItemID { get; set; }
     }
 }

@@ -14,8 +14,8 @@ namespace Model
     
     public partial class Expense
     {
-        public string ExpenseID { get; set; }
-        public string CategoryID { get; set; }
+        public int ExpenseID { get; set; }
+        public int CategoryID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
     }

@@ -14,7 +14,7 @@ namespace Model
     
     public partial class EmailSetting
     {
-        public string ProfileID { get; set; }
+        public int ProfileID { get; set; }
         public string Address { get; set; }
         public byte[] Password { get; set; }
         public string Host { get; set; }

@@ -11,11 +11,14 @@ namespace Model
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class TaxConsultant
     {
-        public string ProfileID { get; set; }
+        public int ProfileID { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
         public string EmailAddress { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace Model
     
     public partial class JobInvoice
     {
-        public string JobID { get; set; }
+        public int JobID { get; set; }
         public string InvoiceNum { get; set; }
     }
 }

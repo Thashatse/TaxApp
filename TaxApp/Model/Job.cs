@@ -14,8 +14,8 @@ namespace Model
     
     public partial class Job
     {
-        public string JobID { get; set; }
-        public string ClientID { get; set; }
+        public int JobID { get; set; }
+        public int ClientID { get; set; }
         public string JobTitle { get; set; }
         public Nullable<decimal> HourlyRate { get; set; }
         public Nullable<decimal> Budget { get; set; }

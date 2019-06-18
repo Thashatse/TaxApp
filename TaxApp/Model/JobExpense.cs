@@ -14,8 +14,8 @@ namespace Model
     
     public partial class JobExpense
     {
-        public string JobID { get; set; }
-        public string ExpenseID { get; set; }
+        public int JobID { get; set; }
+        public int ExpenseID { get; set; }
         public System.DateTime Date { get; set; }
         public decimal Amount { get; set; }
         public byte[] Invoice_ReceiptCopy { get; set; }

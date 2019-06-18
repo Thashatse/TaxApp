@@ -41,10 +41,5 @@ namespace Model
         public virtual DbSet<ExpenseCategory> ExpenseCategories { get; set; }
         public virtual DbSet<Invoice> Invoices { get; set; }
         public virtual DbSet<Worklog> Worklogs { get; set; }
-    
-        public virtual ObjectResult<SP_GetBussiness_Result> SP_GetBussiness()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetBussiness_Result>("SP_GetBussiness");
-        }
     }
 }

@@ -102,13 +102,73 @@ namespace DAL
                 {
                         foreach (DataRow row in table.Rows)
                         {
-                        business.BusinessID = row["BusinessID"].ToString();
+                        business.BusinessID = int.Parse(row["BusinessID"].ToString());
                         business.VATRate = Convert.ToDecimal(row["VATRate"].ToString());
                         business.SMSSid = row["SMSSid"].ToString();
                         business.SMSToken = row["SMSToken"].ToString();
                     }
                 }
                 return business;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        #endregion
+
+        #region Tax Consultant
+        public bool newConsultant(Model.TaxConsultant consultant)
+        {
+            bool Result = false;
+
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@N", consultant.Name),
+                        new SqlParameter("@EA", consultant.EmailAddress),
+                        new SqlParameter("@PI", consultant.ProfileID)
+                   };
+
+                Result = DBHelper.NonQuery("SP_NewConsultant", CommandType.StoredProcedure, pars);
+
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return Result;
+        }
+
+
+        public Model.TaxConsultant getConsultant(Model.TaxConsultant Consultant)
+        {
+            Model.TaxConsultant consultant = null;
+
+            SqlParameter[] pars = new SqlParameter[]
+                {
+                        new SqlParameter("@PI", Consultant.ProfileID)
+                };
+
+            try
+            {
+                using (DataTable table = DBHelper.ParamSelect("SP_GetConsultant",
+            CommandType.StoredProcedure, pars))
+                {
+                    foreach (DataRow row in table.Rows)
+                    {
+                        if (row != null)
+                        {
+                            consultant = new Model.TaxConsultant();
+                            consultant.ProfileID = int.Parse(row[0].ToString());
+                            consultant.Name = row[1].ToString();
+                            consultant.EmailAddress = row[2].ToString();
+                        }
+                    }
+                }
+                return consultant;
             }
             catch (Exception e)
             {
