@@ -1,16 +1,17 @@
 ﻿@model Model.TaxConsultant
 
 @{
+    Layout = "";
     ViewBag.Title = "TaxConsultant";
 }
 
 <h2>Tax Consultant</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Add your Tax Consultant</h4>
         <hr />
@@ -41,7 +42,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Set Up Later", "Index")
 </div>
 
 @section Scripts {

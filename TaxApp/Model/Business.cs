@@ -11,10 +11,13 @@ namespace Model
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Business
     {
         public int BusinessID { get; set; }
+
+        [Required]
         public decimal VATRate { get; set; }
         public string SMSSid { get; set; }
         public string SMSToken { get; set; }

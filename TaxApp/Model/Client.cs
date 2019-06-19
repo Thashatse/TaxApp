@@ -11,17 +11,36 @@ namespace Model
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Client
     {
         public int ClientID { get; set; }
+
+        [Required]
         public string FirstName { get; set; }
+
         public string LastName { get; set; }
+
         public byte[] CompanyName { get; set; }
+
+        [Required(ErrorMessage = "Please Enter Mobile No")]
+        [Display(Name = "Mobile")]
+        [StringLength(10, ErrorMessage = "Please enter a valid phone number", MinimumLength = 10)]
         public string ContactNumber { get; set; }
+
+        [Required]
+        [Display(Name = "Email")]
+        [RegularExpression(@"^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$",
+        ErrorMessage = "Sorry, The email address entered is not in the correct format. The standard email address format is name@example.com")]
         public string EmailAddress { get; set; }
+
         public string PhysiclaAddress { get; set; }
+
+        [Required]
         public string PreferedCommunicationChannel { get; set; }
+
+        [Required]
         public string ProfileID { get; set; }
     }
 }

@@ -44,5 +44,16 @@ namespace BLL
             return db.getConsultant(consultant);
         }
         #endregion
+
+        #region Email Settings
+        public bool newEmailSettings(Model.EmailSetting Settings)
+        {
+            return db.newEmailSettings(Settings);
+        }
+        public Model.EmailSetting getEmailSettings(Model.EmailSetting Settings)
+        {
+            return db.getEmailSettings(Settings);
+        }
+        #endregion
     }
 }

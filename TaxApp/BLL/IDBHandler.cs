@@ -21,6 +21,11 @@ namespace BLL
         bool newConsultant(Model.TaxConsultant consultant);
         Model.TaxConsultant getConsumtant(Model.TaxConsultant consultant);
         #endregion
+
+        #region Email Settings
+        bool newEmailSettings(Model.EmailSetting Settings);
+        Model.EmailSetting getEmailSettings(Model.EmailSetting Settings);
+        #endregion
     }
 }
 

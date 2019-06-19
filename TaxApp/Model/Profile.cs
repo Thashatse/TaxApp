@@ -11,22 +11,69 @@ namespace Model
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+    using System.Web.Security;
+
     public partial class Profile
     {
         public int ProfileID { get; set; }
+
+        [Required]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
+
+        [Required]
+
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
+
+
+        [Display(Name = "Password")]
         public string CompanyName { get; set; }
+
+        [Required]
+        [Display(Name = "Email")]
+        [RegularExpression(@"^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$",
+        ErrorMessage = "Sorry, The email address entered is not in the correct format. The standard email address format is name@example.com")]
         public string EmailAddress { get; set; }
+
+        [Required(ErrorMessage = "Please Enter Mobile No")]
+        [Display(Name = "Contact Number")]
+        [StringLength(10, ErrorMessage = "Please enter a valid phone number", MinimumLength = 10)]
         public string ContactNumber { get; set; }
+
+
+        [Display(Name = "Address")]
         public string PhysicalAddress { get; set; }
+
+
         public byte[] ProfilePicture { get; set; }
+
+
+        [Display(Name = "VAT Number")]
         public string VATNumber { get; set; }
+
+        [Required]
+        [Display(Name = "Password")]
         public decimal DefaultHourlyRate { get; set; }
+
+
         public bool Active { get; set; }
+
+        [Required]
         public string Username { get; set; }
+
+        [Required]
+        [MembershipPassword(
+            MinRequiredNonAlphanumericCharacters = 1,
+            MinNonAlphanumericCharactersError = "Your password needs to contain at least one symbol (!, @, #, etc).",
+            ErrorMessage = "Your password must be 6 characters long and contain at least one symbol (!, @, #, etc).",
+            MinRequiredPasswordLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
         public string Password { get; set; }
+
+
         public string PassRestCode { get; set; }
     }
 }

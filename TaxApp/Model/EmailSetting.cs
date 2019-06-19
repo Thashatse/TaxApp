@@ -11,16 +11,34 @@ namespace Model
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class EmailSetting
     {
         public int ProfileID { get; set; }
+
+        [Required]
+        [Display(Name = "Email")]
+        [RegularExpression(@"^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$",
+        ErrorMessage = "Sorry, The email address entered is not in the correct format. The standard email address format is name@example.com")]
         public string Address { get; set; }
-        public byte[] Password { get; set; }
+
+        [Required]
+        public String Password { get; set; }
+
+        [Required]
         public string Host { get; set; }
+
+        [Required]
         public string Port { get; set; }
+
+        [Required]
         public bool EnableSsl { get; set; }
+
+        [Required]
         public string DeliveryMethod { get; set; }
+
+        [Required]
         public bool UseDefailtCredentials { get; set; }
     }
 }

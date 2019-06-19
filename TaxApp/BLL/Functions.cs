@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-    class Functions
+    public class Functions
     {
         public void logAnError(string Err)
         {

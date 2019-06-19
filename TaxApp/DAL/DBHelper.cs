@@ -46,6 +46,7 @@ namespace DAL
             return table;
         }
         #endregion ParamSelect()
+
         #region NonQuery()
         public static bool NonQuery(string commandName, CommandType cmdType,
             SqlParameter[] pars)
@@ -76,6 +77,7 @@ namespace DAL
             return result > 0;
         }
         #endregion NonQuery()
+
         #region Select()
         public static DataTable Select(string commandName, CommandType cmdType)
         {

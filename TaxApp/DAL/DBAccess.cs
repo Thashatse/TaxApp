@@ -176,5 +176,75 @@ namespace DAL
             }
         }
         #endregion
+
+        #region Email Settings
+        public bool newEmailSettings(Model.EmailSetting Settings)
+        {
+            bool Result = false;
+
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@PI", Settings.ProfileID),
+                        new SqlParameter("@A", Settings.Address),
+                        new SqlParameter("@Pass", Settings.Password),
+                        new SqlParameter("@H", Settings.Host),
+                        new SqlParameter("@P", Settings.Port),
+                        new SqlParameter("@ESsl", Settings.EnableSsl),
+                        new SqlParameter("@DM", Settings.DeliveryMethod),
+                        new SqlParameter("@UDC", Settings.UseDefailtCredentials)
+                   };
+
+                Result = DBHelper.NonQuery("SP_NewEmailSettings", CommandType.StoredProcedure, pars);
+
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return Result;
+        }
+
+
+        public Model.EmailSetting getEmailSettings(Model.EmailSetting Settings)
+        {
+            Model.EmailSetting settings = null;
+
+            SqlParameter[] pars = new SqlParameter[]
+                {
+                        new SqlParameter("@PI", Settings.ProfileID)
+                };
+
+            try
+            {
+                using (DataTable table = DBHelper.ParamSelect("SP_GetEmailSettings",
+            CommandType.StoredProcedure, pars))
+                {
+                    foreach (DataRow row in table.Rows)
+                    {
+                        if (row != null)
+                        {
+                            settings = new Model.EmailSetting();
+                            settings.ProfileID = int.Parse(row[0].ToString());
+                            settings.Address = row[1].ToString();
+                            settings.Password = row[2].ToString();
+                            settings.Host = row[3].ToString();
+                            settings.Port = row[4].ToString();
+                            settings.DeliveryMethod = row[6].ToString();
+                            settings.EnableSsl = Convert.ToBoolean(row[5].ToString());
+                            settings.UseDefailtCredentials = Convert.ToBoolean(row[7].ToString());
+                        }
+                    }
+                }
+                return settings;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        #endregion
     }
 }                  

@@ -12,10 +12,9 @@ namespace Model
     using System;
     using System.Collections.Generic;
     
-    public partial class JobExpense
+    public partial class JobExpense : Expense
     {
         public int JobID { get; set; }
-        public int ExpenseID { get; set; }
         public System.DateTime Date { get; set; }
         public decimal Amount { get; set; }
         public byte[] Invoice_ReceiptCopy { get; set; }

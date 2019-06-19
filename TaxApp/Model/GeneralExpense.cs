@@ -11,14 +11,21 @@ namespace Model
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class GeneralExpense
+    using System.ComponentModel.DataAnnotations;
+
+    public partial class GeneralExpense : Expense
     {
         public int ProfileID { get; set; }
-        public int ExpenseID { get; set; }
+
+        [Required]
         public System.DateTime Date { get; set; }
+
+        [Required]
         public decimal Amount { get; set; }
+
+        [Required]
         public bool Repeat { get; set; }
+
         public byte[] Invoice_ReceiptCopy { get; set; }
     }
 }

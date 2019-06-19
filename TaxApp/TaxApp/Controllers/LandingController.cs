@@ -12,6 +12,7 @@ namespace TaxApp.Controllers
         IDBHandler handler = new DBHandler();
         Authentication Auth = new Authentication();
         HttpCookie cookie;
+        Functions function = new Functions();
 
         // GET: Landing
         public ActionResult Welcome(string Err)
@@ -78,8 +79,10 @@ namespace TaxApp.Controllers
                 }
                 return Redirect("/Shared/Error");
             }
-            catch
+            catch (Exception e)
             {
+                function.logAnError(e.ToString() +
+                    "Error in welcome method of LandingControles");
                 return Redirect("/Shared/Error");
             }
         }
@@ -87,8 +90,13 @@ namespace TaxApp.Controllers
 
         #region New Profile
         // GET: Landing/NewProfile
-        public ActionResult NewProfile()
+        public ActionResult NewProfile(string Err)
         {
+            string err = Err;
+            if (err == "UserEmailEx")
+            {
+                ViewBag.Message = "Username or email already registered";
+            }
             return View();
         }
 
@@ -111,30 +119,40 @@ namespace TaxApp.Controllers
                 newProfile.Username = Request.Form["Username"];
                 newProfile.Password = Request.Form["Password"];
 
-                bool result = Auth.NewUser(newProfile);
+                Model.Profile profile = handler.getProfile(newProfile);
 
-                if(result == true)
+                if (profile == null)
                 {
-                    Model.Profile profile = handler.getProfile(newProfile);
-                    
-                    if(profile != null)
+                    bool result = Auth.NewUser(newProfile);
+
+                    if (result == true)
                     {
-                        createCookie(profile);
-                        return Redirect("/Landing/TaxConsultant?ID="+profile.ProfileID.ToString());
+                        profile = handler.getProfile(newProfile);
+
+                        if (profile != null)
+                        {
+                            createCookie(profile);
+                            return Redirect("/Landing/TaxConsultant?ID=" + profile.ProfileID.ToString());
+                        }
+                        else
+                        {
+                            return RedirectToAction("../Shared/Error");
+                        }
+
                     }
                     else
                     {
                         return RedirectToAction("../Shared/Error");
                     }
-                    
                 }
                 else
                 {
-                    return RedirectToAction("../Shared/Error");
+                    return Redirect("/Landing/NewProfile?ERR=UserEmailEx");
                 }
-            }
-            catch
+            }catch (Exception e)
             {
+                function.logAnError(e.ToString() +
+                    "Error in new profile method of LandingControles");
                 return View();
             }
         }
@@ -144,7 +162,7 @@ namespace TaxApp.Controllers
         public void createCookie(Model.Profile profile)
         {
             //log the user in by creating a cookie to manage their state
-            cookie = new HttpCookie("CheveuxUserID");
+            cookie = new HttpCookie("TaxAppUserID");
             // Set the user id in it.
             cookie["ID"] = profile.ProfileID.ToString();
             // Add it to the current web response.
@@ -183,8 +201,56 @@ namespace TaxApp.Controllers
                     return RedirectToAction("../Shared/Error");
                 }
             }
-            catch
+            catch (Exception e)
             {
+                function.logAnError(e.ToString() +
+                    "Error in tax consultant method of LandingControles");
+                return View();
+            }
+        }
+        #endregion
+
+        #region New Email Settings
+        // GET: Landing/NewProfile
+        public ActionResult EmailSettings()
+        {
+            return View();
+        }
+
+        // POST: Landing/NewProfile
+        [HttpPost]
+        public ActionResult EmailSettings(FormCollection collection, string ID)
+        {
+            string profileID = ID;
+            try
+            {
+                Model.EmailSetting newSettings = new Model.EmailSetting();
+
+                newSettings.ProfileID = int.Parse(profileID);
+                newSettings.Address = Request.Form["Address"];
+                newSettings.Password = Request.Form["Password"];
+                newSettings.Host = Request.Form["Host"];
+                newSettings.Port = Request.Form["Port"];
+                newSettings.DeliveryMethod = Request.Form["DeliveryMethod"];
+                _ = Request.Form[5].Split(',')[0];
+                newSettings.EnableSsl = Boolean.Parse(Request.Form[5].Split(',')[0]);
+                newSettings.UseDefailtCredentials = Boolean.Parse(Request.Form[7].Split(',')[0]);
+
+                bool result = handler.newEmailSettings(newSettings);
+
+                if (result == true)
+                {
+                    return Redirect("/Home/Index");
+                }
+                else
+                {
+                    return RedirectToAction("../Shared/Error");
+                }
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error in email settings method of LandingControles");
                 return View();
             }
         }

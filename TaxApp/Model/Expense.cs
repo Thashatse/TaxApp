@@ -11,11 +11,16 @@ namespace Model
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Expense
     {
         public int ExpenseID { get; set; }
+
+        [Required]
         public int CategoryID { get; set; }
+
+        [Required]
         public string Name { get; set; }
         public string Description { get; set; }
     }

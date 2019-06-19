@@ -11,13 +11,22 @@ namespace Model
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Invoice
     {
         public string InvoiceNum { get; set; }
+
+        [Required]
         public System.DateTime DateTime { get; set; }
+
+        [Required]
         public decimal SubTotal { get; set; }
+
+        [Required]
         public decimal VAT { get; set; }
+
+
         public bool Paid { get; set; }
     }
 }
