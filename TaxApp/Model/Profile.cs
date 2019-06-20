@@ -27,8 +27,6 @@ namespace Model
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-
-        [Display(Name = "Password")]
         public string CompanyName { get; set; }
 
         [Required]
@@ -38,7 +36,7 @@ namespace Model
         public string EmailAddress { get; set; }
 
         [Required(ErrorMessage = "Please Enter Mobile No")]
-        [Display(Name = "Contact Number")]
+        [Display(Name = "Contact No.")]
         [StringLength(10, ErrorMessage = "Please enter a valid phone number", MinimumLength = 10)]
         public string ContactNumber { get; set; }
 
@@ -72,6 +70,10 @@ namespace Model
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
+
+        [Compare("Password", ErrorMessage = "Passwords do not match, please try again!")]
+        [Display(Name = "Confirm password")]
+        public string PasswordConfirmation { get; set; }
 
 
         public string PassRestCode { get; set; }

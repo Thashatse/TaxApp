@@ -1,42 +1,9 @@
 ﻿@model Model.Profile
 
 @{
-    Layout = "";
+    Layout = "~/Views/Landing/_LayoutLanding.cshtml";
     ViewBag.Title = "NewProfile";
 }
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title></title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Favicon -->
-    <link href="../Theam/img/brand/favicon.png" rel="icon" type="image/png">
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
-    <!-- Icons -->
-    <link href="../Theam/vendor/nucleo/css/nucleo.css" rel="stylesheet">
-    <link href="../Theam/vendor/fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
-    <!-- Argon CSS -->
-    <link type="text/css" href="../Theam/css/argon.css?v=1.0.0" rel="stylesheet">
-</head>
-
-<body class="bg-default">
-    <div class="main-content">
-        <!-- Navbar -->
-        <nav class="navbar navbar-top navbar-horizontal navbar-expand-md navbar-dark">
-            <div class="container px-4">
-                <a class="navbar-brand" href="../index.html">
-                    <img src="../Theam/img/brand/white.png" />
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse-main" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            </div>
-        </nav>
         <!-- Header -->
         <div class="header bg-gradient-primary py-7 py-lg-8">
             <div class="container">
@@ -50,22 +17,20 @@
             </div>
         </div>
 
-        <!-- Page content -->
-        <div class="container mt--8 pb-5">
-            <div class="row justify-content-center">
-                <div class="col-lg-10 col-md-12">
-                    <div class="card bg-secondary shadow border-0">
-                        @using (Html.BeginForm())
-                        {
-                            @Html.AntiForgeryToken()
 
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+                <!-- Page content -->
+                <div class="container mt--8 pb-5">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-10 col-md-12">
+                            <div class="card bg-secondary shadow border-0">
 
-                            <div class="text-center text-muted mb-4">
-                                <p style="color:red;">@ViewBag.Message</p>
-                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                            </div>
-
-                            <form role="form">
+                                <div class="text-center text-muted mb-4">
+                                    <p style="color:red;">@ViewBag.Message</p>
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                </div>
 
                                 <div class="form-group">
                                     <div>
@@ -81,7 +46,6 @@
                                     </div>
                                 </div>
 
-
                                 <div class="form-group">
                                     <div>
                                         <div class="input-group-prepend">
@@ -95,7 +59,6 @@
                                         </div>
                                     </div>
                                 </div>
-
 
                                 <div class="form-group">
                                     <div class="">
@@ -111,7 +74,6 @@
                                     </div>
                                 </div>
 
-
                                 <div class="form-group">
                                     <div class="">
                                         <div class="input-group-prepend">
@@ -125,7 +87,6 @@
                                         </div>
                                     </div>
                                 </div>
-
 
                                 <div class="form-group">
                                     <div class="">
@@ -141,7 +102,6 @@
                                     </div>
                                 </div>
 
-
                                 <div class="form-group">
                                     <div class="">
                                         <div class="input-group-prepend">
@@ -155,7 +115,6 @@
                                         </div>
                                     </div>
                                 </div>
-
 
                                 <div class="form-group">
                                     <div class="">
@@ -171,7 +130,6 @@
                                     </div>
                                 </div>
 
-
                                 <div class="form-group">
                                     <div class="">
                                         <div class="input-group-prepend">
@@ -185,7 +143,6 @@
                                         </div>
                                     </div>
                                 </div>
-
 
                                 <div class="form-group">
                                     <div class="">
@@ -201,7 +158,6 @@
                                     </div>
                                 </div>
 
-
                                 <div class="form-group">
                                     <div class="">
                                         <div class="input-group-prepend">
@@ -216,43 +172,41 @@
                                     </div>
                                 </div>
 
-
                                 <div class="form-group">
                                     <div class="">
                                         <div class="input-group-prepend">
-                                            password confirmation
-                                            <div class="form-group">
-                                                <div class="col-md-12">
-                                                    password confirmation
-                                                </div>
+                                            @Html.LabelFor(model => model.PasswordConfirmation, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                @Html.PasswordFor(model => model.PasswordConfirmation, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.PasswordConfirmation, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                     </div>
+                                </div>
 
+                                <div class="form-group">
                                     <div class="text-center">
                                         <div class="form-group">
                                             <input type="submit" value="Next" class="btn btn-default" />
                                         </div>
                                     </div>
                                 </div>
-                            </form>
-                        }
-                    </div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-6">
-                        <div>
-                            @Html.ActionLink("Cancel", "Welcome")
+
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-6">
+                                <div>
+                                    @Html.ActionLink("Cancel", "Welcome")
+                                </div>
+                            </div>
+                            <div class="col-6 text-right"></div>
                         </div>
                     </div>
-                    <div class="col-6 text-right"></div>
                 </div>
-            </div>
-        </div>
-    </div>
-    </div>
-</body>
-</html>
+        }
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

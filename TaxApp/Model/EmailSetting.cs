@@ -33,12 +33,15 @@ namespace Model
         public string Port { get; set; }
 
         [Required]
+        [Display(Name = "Enable SSL")]
         public bool EnableSsl { get; set; }
 
         [Required]
+        [Display(Name = "Delivery Method")]
         public string DeliveryMethod { get; set; }
 
         [Required]
+        [Display(Name = "Use Defailt Credentials")]
         public bool UseDefailtCredentials { get; set; }
     }
 }

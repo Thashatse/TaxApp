@@ -14,26 +14,53 @@ namespace TaxApp.Controllers
         HttpCookie cookie;
         Functions function = new Functions();
 
+       
+
+        #region Login
         // GET: Landing
         public ActionResult Welcome(string Err)
         {
-            string err = Err;
-            if (err == "UserPassNA")
+            try
+
             {
-                ViewBag.Message = "Incorrect username or password";
+                //check if the user is loged in
+                cookie = Request.Cookies["TaxAppUserID"];
+
+                if (cookie != null)
+                {
+                    //show the nav tabs menue only for customers
+                    if (cookie["ID"] != null || cookie["ID"] != "")
+                    {
+                        Model.Profile checkProfile = new Model.Profile();
+
+                        checkProfile.ProfileID = int.Parse(cookie["ID"].ToString());
+                        checkProfile.EmailAddress = "";
+                        checkProfile.Username = "";
+
+                        if (handler.getProfile(checkProfile) != null)
+                        {
+                            return Redirect("/Home/index");
+                        }
+                        else
+                        {
+                            return View();
+                        }
+                    }
+                    else
+                    {
+                        return View();
+                    }
+                }
             }
-            else if (err == "PassNull")
+            catch (Exception e)
             {
-                ViewBag.Message = "please enter a password";
+                function.logAnError(e.ToString() +
+                    "Error in welcome method of LandingControles");
+                return Redirect("/Shared/Error");
             }
-            else if (err == "UserNull")
-            {
-                ViewBag.Message = "Please enter a valid email address or username";
-            }
+
             return View();
         }
-
-        #region Login
         // POST: Landing/Welcome
         [HttpPost]
         public ActionResult Welcome(FormCollection collection)
@@ -97,6 +124,10 @@ namespace TaxApp.Controllers
             {
                 ViewBag.Message = "Username or email already registered";
             }
+            else if (err == "PassMatch")
+            {
+                ViewBag.Message = "Passwords do not match, please try again!";
+            }
             return View();
         }
 
@@ -104,56 +135,64 @@ namespace TaxApp.Controllers
         [HttpPost]
         public ActionResult NewProfile(FormCollection collection)
         {
-            try
+            if (Request.Form["Password"] != Request.Form["PasswordConfirmation"])
             {
-                Model.Profile newProfile = new Model.Profile();
-
-                newProfile.FirstName = Request.Form["FirstName"];
-                newProfile.LastName = Request.Form["LastName"];
-                newProfile.CompanyName = Request.Form["CompanyName"];
-                newProfile.EmailAddress = Request.Form["EmailAddress"];
-                newProfile.ContactNumber = Request.Form["ContactNumber"];
-                newProfile.PhysicalAddress = Request.Form["PhysicalAddress"];
-                newProfile.VATNumber = Request.Form["VATNumber"];
-                newProfile.DefaultHourlyRate = Convert.ToDecimal(Request.Form["DefaultHourlyRate"]);
-                newProfile.Username = Request.Form["Username"];
-                newProfile.Password = Request.Form["Password"];
-
-                Model.Profile profile = handler.getProfile(newProfile);
-
-                if (profile == null)
+                return Redirect("/Landing/NewProfile?ERR=PassMatch");
+            }
+            else
+            {
+                try
                 {
-                    bool result = Auth.NewUser(newProfile);
+                    Model.Profile newProfile = new Model.Profile();
 
-                    if (result == true)
+                    newProfile.FirstName = Request.Form["FirstName"];
+                    newProfile.LastName = Request.Form["LastName"];
+                    newProfile.CompanyName = Request.Form["CompanyName"];
+                    newProfile.EmailAddress = Request.Form["EmailAddress"];
+                    newProfile.ContactNumber = Request.Form["ContactNumber"];
+                    newProfile.PhysicalAddress = Request.Form["PhysicalAddress"];
+                    newProfile.VATNumber = Request.Form["VATNumber"];
+                    newProfile.DefaultHourlyRate = Convert.ToDecimal(Request.Form["DefaultHourlyRate"]);
+                    newProfile.Username = Request.Form["Username"];
+                    newProfile.Password = Request.Form["Password"];
+
+                    Model.Profile profile = handler.getProfile(newProfile);
+
+                    if (profile == null)
                     {
-                        profile = handler.getProfile(newProfile);
+                        bool result = Auth.NewUser(newProfile);
 
-                        if (profile != null)
+                        if (result == true)
                         {
-                            createCookie(profile);
-                            return Redirect("/Landing/TaxConsultant?ID=" + profile.ProfileID.ToString());
+                            profile = handler.getProfile(newProfile);
+
+                            if (profile != null)
+                            {
+                                createCookie(profile);
+                                return Redirect("/Landing/TaxConsultant?ID=" + profile.ProfileID.ToString());
+                            }
+                            else
+                            {
+                                return RedirectToAction("../Shared/Error");
+                            }
+
                         }
                         else
                         {
                             return RedirectToAction("../Shared/Error");
                         }
-
                     }
                     else
                     {
-                        return RedirectToAction("../Shared/Error");
+                        return Redirect("/Landing/NewProfile?ERR=UserEmailEx");
                     }
                 }
-                else
+                catch (Exception e)
                 {
-                    return Redirect("/Landing/NewProfile?ERR=UserEmailEx");
+                    function.logAnError(e.ToString() +
+                        "Error in new profile method of LandingControles");
+                    return View();
                 }
-            }catch (Exception e)
-            {
-                function.logAnError(e.ToString() +
-                    "Error in new profile method of LandingControles");
-                return View();
             }
         }
         #endregion

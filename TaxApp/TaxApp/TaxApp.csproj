@@ -2094,6 +2094,7 @@
     <Content Include="Views\Landing\NewProfile.cshtml" />
     <Content Include="Views\Landing\TaxConsultant.cshtml" />
     <Content Include="Views\Landing\EmailSettings.cshtml" />
+    <Content Include="Views\Landing\_LayoutLanding.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
