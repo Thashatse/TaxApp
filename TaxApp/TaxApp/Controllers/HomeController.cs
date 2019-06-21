@@ -10,6 +10,7 @@ namespace TaxApp.Controllers
     {
         public ActionResult Index()
         {
+            ViewBag.Title = "Dashboard";
             return View();
         }
 
