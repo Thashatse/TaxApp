@@ -1,10 +1,11 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
+using Model;
 
 namespace DAL
 {
@@ -239,6 +240,74 @@ namespace DAL
                     }
                 }
                 return settings;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        #endregion
+
+        #region Job
+        public bool newJob(Job job)
+        {
+            bool Result = false;
+
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@CI", job.ClientID),
+                        new SqlParameter("@JT", job.JobTitle),
+                        new SqlParameter("@HR", job.HourlyRate),
+                        new SqlParameter("@B", job.Budget),
+                        new SqlParameter("@SD",job.StartDate),
+                   };
+
+                Result = DBHelper.NonQuery("SP_NewJob", CommandType.StoredProcedure, pars);
+
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return Result;
+        }
+
+        public Job getJob(Job Job)
+        {
+            Model.Job job = null;
+
+            SqlParameter[] pars = new SqlParameter[]
+                {
+                        new SqlParameter("@JID", Job.JobID)
+                };
+
+            try
+            {
+                using (DataTable table = DBHelper.ParamSelect("SP_GetJob",
+            CommandType.StoredProcedure, pars))
+                {
+                    foreach (DataRow row in table.Rows)
+                    {
+                        if (row != null)
+                        {
+                            job = new Model.Job();
+                            job.JobID = int.Parse(row[0].ToString());
+                            job.ClientID = int.Parse(row[1].ToString());
+                            job.JobTitle = row[2].ToString();
+                            job.StartDate = DateTime.Parse(row[5].ToString());
+                            if(row[6] != null)
+                            {
+                                job.EndDate = DateTime.Parse(row[6].ToString());
+                            }
+                            job.HourlyRate = decimal.Parse(row[3].ToString());
+                            job.Budget = decimal.Parse(row[4].ToString());
+                        }
+                    }
+                }
+                return job;
             }
             catch (Exception e)
             {

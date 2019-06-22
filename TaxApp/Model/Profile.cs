@@ -39,8 +39,7 @@ namespace Model
         [Display(Name = "Contact No.")]
         [StringLength(10, ErrorMessage = "Please enter a valid phone number", MinimumLength = 10)]
         public string ContactNumber { get; set; }
-
-
+        
         [Display(Name = "Address")]
         public string PhysicalAddress { get; set; }
 

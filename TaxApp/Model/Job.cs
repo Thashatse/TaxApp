@@ -18,18 +18,23 @@ namespace Model
         public int JobID { get; set; }
 
         [Required]
+        [Display(Name = "Client")]
         public int ClientID { get; set; }
 
         [Required]
+        [Display(Name = "Title")]
         public string JobTitle { get; set; }
 
 
+        [Display(Name = "Hourly Rate")]
         public Nullable<decimal> HourlyRate { get; set; }
         public Nullable<decimal> Budget { get; set; }
 
         [Required]
+        [Display(Name = "Start Date")]
         public System.DateTime StartDate { get; set; }
 
+                [Display(Name = "End Date")]
         public Nullable<System.DateTime> EndDate { get; set; }
     }
 }

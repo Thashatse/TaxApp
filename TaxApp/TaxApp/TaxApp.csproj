@@ -2099,6 +2099,7 @@
     <Content Include="Views\Landing\_LayoutLanding.cshtml" />
     <Content Include="Views\Job\Jobs.cshtml" />
     <Content Include="Views\Expense\Expenses.cshtml" />
+    <Content Include="Views\Job\NewJob.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

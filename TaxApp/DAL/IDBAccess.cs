@@ -27,5 +27,10 @@ namespace DAL
         bool newEmailSettings(Model.EmailSetting Settings);
         Model.EmailSetting getEmailSettings(Model.EmailSetting Settings);
         #endregion
+
+        #region Job
+        bool newJob(Model.Job job);
+        Model.Job getJob(Model.Job job);
+        #endregion
     }
 }

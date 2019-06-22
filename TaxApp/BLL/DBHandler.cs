@@ -55,5 +55,16 @@ namespace BLL
             return db.getEmailSettings(Settings);
         }
         #endregion
+        
+        #region Job
+        public bool newJob(Model.Job job)
+        {
+            return db.newJob(job);
+        }
+        public Model.Job getJob(Model.Job job)
+        {
+            return db.getJob(job);
+        }
+        #endregion
     }
 }
