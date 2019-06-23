@@ -22,7 +22,7 @@ namespace Model
 
         public string LastName { get; set; }
 
-        public byte[] CompanyName { get; set; }
+        public string CompanyName { get; set; }
 
         [Required(ErrorMessage = "Please Enter Mobile No")]
         [Display(Name = "Mobile")]
@@ -41,6 +41,6 @@ namespace Model
         public string PreferedCommunicationChannel { get; set; }
 
         [Required]
-        public string ProfileID { get; set; }
+        public int ProfileID { get; set; }
     }
 }

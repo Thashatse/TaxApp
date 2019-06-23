@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DAL;
+using Model;
 
 namespace BLL
 {
@@ -64,6 +65,21 @@ namespace BLL
         public Model.Job getJob(Model.Job job)
         {
             return db.getJob(job);
+        }
+        #endregion
+
+        #region Client
+        public bool newClient(Model.Client client)
+        {
+            return db.newClient(client);
+        }
+        public Model.Client getClient (Model.Client client)
+        {
+            return db.getClient(client);
+        }
+        public List<Client> getProfileClients(Client client)
+        {
+            return db.getProfileClients(client);
         }
         #endregion
     }

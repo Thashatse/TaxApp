@@ -128,6 +128,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ClientController.cs" />
     <Compile Include="Controllers\ExpenseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JobController.cs" />
@@ -2100,6 +2101,7 @@
     <Content Include="Views\Job\Jobs.cshtml" />
     <Content Include="Views\Expense\Expenses.cshtml" />
     <Content Include="Views\Job\NewJob.cshtml" />
+    <Content Include="Views\Client\NewClient.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

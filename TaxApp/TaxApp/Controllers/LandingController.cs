@@ -14,51 +14,10 @@ namespace TaxApp.Controllers
         HttpCookie cookie;
         Functions function = new Functions();
 
-       
-
         #region Login
         // GET: Landing
         public ActionResult Welcome(string Err)
         {
-            try
-
-            {
-                //check if the user is loged in
-                cookie = Request.Cookies["TaxAppUserID"];
-
-                if (cookie != null)
-                {
-                    //show the nav tabs menue only for customers
-                    if (cookie["ID"] != null || cookie["ID"] != "")
-                    {
-                        Model.Profile checkProfile = new Model.Profile();
-
-                        checkProfile.ProfileID = int.Parse(cookie["ID"].ToString());
-                        checkProfile.EmailAddress = "";
-                        checkProfile.Username = "";
-
-                        if (handler.getProfile(checkProfile) != null)
-                        {
-                            return Redirect("/Home/index");
-                        }
-                        else
-                        {
-                            return View();
-                        }
-                    }
-                    else
-                    {
-                        return View();
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                function.logAnError(e.ToString() +
-                    "Error in welcome method of LandingControles");
-                return Redirect("/Shared/Error");
-            }
-
             return View();
         }
         // POST: Landing/Welcome
