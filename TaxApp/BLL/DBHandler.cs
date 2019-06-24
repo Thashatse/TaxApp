@@ -66,6 +66,18 @@ namespace BLL
         {
             return db.getJob(job);
         }
+
+        public List<Job> getProfileJobs(Profile profile)
+        {
+            return db.getProfileJobs(profile);
+        }
+
+        #region WorkLog Item
+        public bool newWorkLogItem(Model.Worklog logItem, Model.Job job)
+        {
+            return db.newWorkLogItem(logItem, job);
+        }
+        #endregion
         #endregion
 
         #region Client

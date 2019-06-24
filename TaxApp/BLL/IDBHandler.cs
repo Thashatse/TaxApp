@@ -31,6 +31,11 @@ namespace BLL
         #region Job
         bool newJob(Model.Job job);
         Model.Job getJob(Model.Job job);
+        List<Job> getProfileJobs(Profile profile);
+
+        #region WorkLog Item
+        bool newWorkLogItem(Model.Worklog logItem, Model.Job job);
+        #endregion
         #endregion
 
         #region Client

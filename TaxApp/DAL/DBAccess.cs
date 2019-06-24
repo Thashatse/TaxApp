@@ -298,7 +298,7 @@ namespace DAL
                             job.ClientID = int.Parse(row[1].ToString());
                             job.JobTitle = row[2].ToString();
                             job.StartDate = DateTime.Parse(row[5].ToString());
-                            if(row[6] != null)
+                            if(row["EndDate"].ToString() != "" && row["EndDate"] != null)
                             {
                                 job.EndDate = DateTime.Parse(row[6].ToString());
                             }
@@ -314,6 +314,74 @@ namespace DAL
                 throw new ApplicationException(e.ToString());
             }
         }
+
+        public List<Job> getProfileJobs(Profile profile)
+        {
+            List<Job> Jobs = new List<Job>();
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profile.ProfileID)
+                    };
+
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetProfileJobs",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            Job job = new Model.Job();
+                            job.JobID = int.Parse(row["JobID"].ToString());
+                            job.ClientID = int.Parse(row["ClientID"].ToString());
+                            job.JobTitle = row["JobTitle"].ToString();
+                            job.StartDate = DateTime.Parse(row["StartDate"].ToString());
+                            if (row["EndDate"].ToString() != "" && row["EndDate"] != null)
+                            {
+                                job.EndDate = DateTime.Parse(row["EndDate"].ToString());
+                            }
+                            job.HourlyRate = decimal.Parse(row["HourlyRate"].ToString());
+                            job.Budget = decimal.Parse(row["Budget"].ToString());
+                            Jobs.Add(job);
+                        }
+                    }
+                }
+                return Jobs;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+
+        #region WorkLog Item
+        public bool newWorkLogItem(Model.Worklog logItem, Model.Job job)
+        {
+            bool Result = false;
+
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@JID", job.JobID),
+                        new SqlParameter("@D", logItem.Description),
+                        new SqlParameter("@ST", logItem.StartTime),
+                        new SqlParameter("@ET", logItem.EndTime)
+                   };
+
+                Result = DBHelper.NonQuery("SP_NewWorkLogItem", CommandType.StoredProcedure, pars);
+
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return Result;
+        }
+        #endregion
         #endregion
 
         #region Client
@@ -403,6 +471,7 @@ namespace DAL
                         foreach (DataRow row in table.Rows)
                         {
                             Model.Client NewClient = new Model.Client();
+                            NewClient.ClientID = int.Parse(row[0].ToString());
                             NewClient.FirstName = row[1].ToString();
                                 NewClient.LastName = row[2].ToString();
                                 NewClient.CompanyName = row[3].ToString();

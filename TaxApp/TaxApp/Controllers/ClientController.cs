@@ -54,18 +54,26 @@ namespace TaxApp.Controllers
             }
         }
 
+        #region View
         // GET: Client
-        public ActionResult Index()
+        public ActionResult Client()
         {
-            return View();
+            getCookie();
+            Model.Client getClients = new Model.Client();
+            getClients.ProfileID = int.Parse(cookie["ID"].ToString());
+            List<Model.Client> Clients = handler.getProfileClients(getClients);
+            return View(Clients);
         }
 
         // GET: Client/Details/5
-        public ActionResult Details(int id)
+        public ActionResult ClientDetails(int id)
         {
+            getCookie();
             return View();
         }
+        #endregion
 
+        #region new
         // GET: Client/Create
         public ActionResult NewClient()
         {
@@ -96,7 +104,7 @@ namespace TaxApp.Controllers
 
                 if (result == true)
                 {
-                    return Redirect("/Client/newClient");
+                    return Redirect("/Client/Client");
                 }
                 else
                 {
@@ -110,7 +118,9 @@ namespace TaxApp.Controllers
                 return View();
             }
         }
+        #endregion
 
+        #region edit
         // GET: Client/Edit/5
         public ActionResult Edit(int id)
         {
@@ -132,7 +142,9 @@ namespace TaxApp.Controllers
                 return View();
             }
         }
+        #endregion
 
+        #region Delete
         // GET: Client/Delete/5
         public ActionResult Delete(int id)
         {
@@ -154,5 +166,6 @@ namespace TaxApp.Controllers
                 return View();
             }
         }
+        #endregion
     }
 }

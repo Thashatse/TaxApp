@@ -18,6 +18,36 @@ namespace TaxApp.Controllers
         // GET: Landing
         public ActionResult Welcome(string Err)
         {
+            try
+            {
+                //check if the user is loged in
+                cookie = Request.Cookies["TaxAppUserID"];
+
+                if (cookie != null)
+                {
+                    //show the nav tabs menue only for customers
+                    if (cookie["ID"] != null || cookie["ID"] != "")
+                    {
+                        Model.Profile checkProfile = new Model.Profile();
+
+                        checkProfile.ProfileID = int.Parse(cookie["ID"].ToString());
+                        checkProfile.EmailAddress = "";
+                        checkProfile.Username = "";
+
+                        if (handler.getProfile(checkProfile) != null)
+                        {
+                            //Response.Redirect("/Home/Index");
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error in welcome method of LandingControles");
+                Redirect("/Shared/Error");
+            }
+
             return View();
         }
         // POST: Landing/Welcome
@@ -161,6 +191,7 @@ namespace TaxApp.Controllers
         {
             //log the user in by creating a cookie to manage their state
             cookie = new HttpCookie("TaxAppUserID");
+            cookie.Expires = DateTime.Now.AddDays(3);
             // Set the user id in it.
             cookie["ID"] = profile.ProfileID.ToString();
             // Add it to the current web response.
