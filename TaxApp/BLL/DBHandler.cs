@@ -94,5 +94,36 @@ namespace BLL
             return db.getProfileClients(client);
         }
         #endregion
+
+        #region Expense
+        public bool newJobExpense(SP_GetJobExpense_Result newJobExpense)
+        {
+            return db.newJobExpense(newJobExpense);
+        }
+        public SP_GetJobExpense_Result getJobExpense(Expense expenseID)
+        {
+            return db.getJobExpense(expenseID);
+        }
+        public List<SP_GetJobExpense_Result> getJobExpenses(Job jobID)
+        {
+            return db.getJobExpenses(jobID);
+        }
+        public bool newGeneralExpense(SP_GetGeneralExpense_Result newGeneralExpense)
+        {
+            return db.newGeneralExpense(newGeneralExpense);
+        }
+        public SP_GetGeneralExpense_Result getGeneralExpense(Expense expenseID)
+        {
+            return db.getGeneralExpense(expenseID);
+        }
+        public List<SP_GetGeneralExpense_Result> getGeneralExpenses(Profile profileID)
+        {
+            return db.getGeneralExpenses(profileID);
+        }
+        public List<ExpenseCategory> getExpenseCatagories()
+        {
+            return db.getExpenseCatagories();
+        }
+        #endregion
     }
 }

@@ -34,7 +34,7 @@ namespace Model
         [Display(Name = "Start Date")]
         public System.DateTime StartDate { get; set; }
 
-                [Display(Name = "End Date")]
+        [Display(Name = "End Date")]
         public Nullable<System.DateTime> EndDate { get; set; }
     }
 }

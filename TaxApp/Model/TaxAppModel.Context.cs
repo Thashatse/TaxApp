@@ -31,6 +31,7 @@ namespace Model
         public virtual DbSet<Client> Clients { get; set; }
         public virtual DbSet<EmailSetting> EmailSettings { get; set; }
         public virtual DbSet<Expense> Expenses { get; set; }
+        public virtual DbSet<ExpenseCategory> ExpenseCategories { get; set; }
         public virtual DbSet<GeneralExpense> GeneralExpenses { get; set; }
         public virtual DbSet<JobExpense> JobExpenses { get; set; }
         public virtual DbSet<JobHour> JobHours { get; set; }
@@ -38,8 +39,25 @@ namespace Model
         public virtual DbSet<Job> Jobs { get; set; }
         public virtual DbSet<Profile> Profiles { get; set; }
         public virtual DbSet<TaxConsultant> TaxConsultants { get; set; }
-        public virtual DbSet<ExpenseCategory> ExpenseCategories { get; set; }
-        public virtual DbSet<Invoice> Invoices { get; set; }
         public virtual DbSet<Worklog> Worklogs { get; set; }
+        public virtual DbSet<Invoice> Invoices { get; set; }
+    
+        public virtual ObjectResult<SP_GetGeneralExpense_Result> SP_GetGeneralExpense(Nullable<int> eID)
+        {
+            var eIDParameter = eID.HasValue ?
+                new ObjectParameter("EID", eID) :
+                new ObjectParameter("EID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetGeneralExpense_Result>("SP_GetGeneralExpense", eIDParameter);
+        }
+    
+        public virtual ObjectResult<SP_GetJobExpense_Result> SP_GetJobExpense(Nullable<int> eID)
+        {
+            var eIDParameter = eID.HasValue ?
+                new ObjectParameter("EID", eID) :
+                new ObjectParameter("EID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetJobExpense_Result>("SP_GetJobExpense", eIDParameter);
+        }
     }
 }

@@ -88,6 +88,12 @@
       <DependentUpon>TaxAppModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SP_GetGeneralExpense_Result.cs">
+      <DependentUpon>TaxAppModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_GetJobExpense_Result.cs">
+      <DependentUpon>TaxAppModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="TaxAppModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -111,17 +117,18 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="packages.config" />
     <EntityDeploy Include="TaxAppModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>TaxAppModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.Config" />
-    <None Include="packages.config" />
     <None Include="TaxAppModel.edmx.diagram">
       <DependentUpon>TaxAppModel.edmx</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="TaxAppModel.Context.tt">
@@ -134,9 +141,6 @@
       <DependentUpon>TaxAppModel.edmx</DependentUpon>
       <LastGenOutput>TaxAppModel.cs</LastGenOutput>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

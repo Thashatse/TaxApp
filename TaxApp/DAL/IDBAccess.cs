@@ -33,10 +33,10 @@ namespace DAL
         bool newJob(Model.Job job);
         Model.Job getJob(Model.Job job);
         List<Job> getProfileJobs(Profile profile);
-        
+        #endregion
+
         #region WorkLog Item
         bool newWorkLogItem(Model.Worklog logItem, Model.Job job);
-        #endregion
         #endregion
 
         #region Client
@@ -44,6 +44,16 @@ namespace DAL
         Model.Client getClient(Model.Client client);
 
         List<Client> getProfileClients(Client client);
+        #endregion
+
+        #region Expense
+        bool newJobExpense(SP_GetJobExpense_Result newJobExpense);
+        SP_GetJobExpense_Result getJobExpense(Expense expenseID);
+        List<SP_GetJobExpense_Result> getJobExpenses(Job jobID);
+        bool newGeneralExpense(SP_GetGeneralExpense_Result newGeneralExpense);
+        SP_GetGeneralExpense_Result getGeneralExpense(Expense expenseID);
+        List<SP_GetGeneralExpense_Result> getGeneralExpenses(Profile profileID);
+        List<ExpenseCategory> getExpenseCatagories();
         #endregion
     }
 }

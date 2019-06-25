@@ -7,10 +7,10 @@
       <Schema Namespace="TaxAppModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Business">
           <Key>
-            <PropertyRef Name="BusinessID" />
+            <PropertyRef Name="BussinessID" />
           </Key>
-          <Property Name="BusinessID" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="VATRate" Type="decimal" Precision="3" Scale="2" Nullable="false" />
+          <Property Name="BussinessID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VATRate" Type="decimal" Precision="4" Scale="2" Nullable="false" />
           <Property Name="SMSSid" Type="varchar(max)" Nullable="false" />
           <Property Name="SMSToken" Type="varchar(max)" Nullable="false" />
         </EntityType>
@@ -18,23 +18,23 @@
           <Key>
             <PropertyRef Name="ClientID" />
           </Key>
-          <Property Name="ClientID" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="ClientID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="CompanyName" Type="varbinary" MaxLength="50" Nullable="false" />
-          <Property Name="ContactNumber" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CompanyName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ContactNumber" Type="nchar" MaxLength="10" Nullable="false" />
           <Property Name="EmailAddress" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="PhysiclaAddress" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="PreferedCommunicationChannel" Type="nchar" MaxLength="3" Nullable="false" />
-          <Property Name="ProfileID" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="ProfileID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="EmailSettings">
           <Key>
             <PropertyRef Name="ProfileID" />
           </Key>
-          <Property Name="ProfileID" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="ProfileID" Type="int" Nullable="false" />
           <Property Name="Address" Type="varchar(max)" Nullable="false" />
-          <Property Name="Password" Type="varbinary" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar(max)" Nullable="false" />
           <Property Name="Host" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Port" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="EnableSsl" Type="bit" Nullable="false" />
@@ -45,30 +45,26 @@
           <Key>
             <PropertyRef Name="ExpenseID" />
           </Key>
-          <Property Name="ExpenseID" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="CategoryID" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="ExpenseID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryID" Type="int" Nullable="false" />
           <Property Name="Name" Type="varchar(max)" Nullable="false" />
           <Property Name="Description" Type="varchar(max)" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'TaxApp.dbo.ExpenseCategory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ExpenseCategory">
           <Key>
             <PropertyRef Name="CategoryID" />
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="Description" />
           </Key>
-          <Property Name="CategoryID" Type="nchar" MaxLength="10" Nullable="false" />
           <Property Name="Name" Type="varchar(max)" Nullable="false" />
           <Property Name="Description" Type="varchar(max)" Nullable="false" />
+          <Property Name="CategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="GeneralExpense">
           <Key>
             <PropertyRef Name="ProfileID" />
             <PropertyRef Name="ExpenseID" />
           </Key>
-          <Property Name="ProfileID" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="ExpenseID" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="ProfileID" Type="int" Nullable="false" />
+          <Property Name="ExpenseID" Type="int" Nullable="false" />
           <Property Name="Date" Type="datetime" Nullable="false" />
           <Property Name="Amount" Type="money" Nullable="false" />
           <Property Name="Repeat" Type="bit" Nullable="false" />
@@ -95,8 +91,8 @@ warning 6002: The table/view 'TaxApp.dbo.Invoice' does not have a primary key de
             <PropertyRef Name="JobID" />
             <PropertyRef Name="ExpenseID" />
           </Key>
-          <Property Name="JobID" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="ExpenseID" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="JobID" Type="int" Nullable="false" />
+          <Property Name="ExpenseID" Type="int" Nullable="false" />
           <Property Name="Date" Type="datetime" Nullable="false" />
           <Property Name="Amount" Type="money" Nullable="false" />
           <Property Name="Invoice/ReceiptCopy" Type="varbinary(max)" />
@@ -106,23 +102,23 @@ warning 6002: The table/view 'TaxApp.dbo.Invoice' does not have a primary key de
             <PropertyRef Name="JobID" />
             <PropertyRef Name="LogItemID" />
           </Key>
-          <Property Name="JobID" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="LogItemID" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="JobID" Type="int" Nullable="false" />
+          <Property Name="LogItemID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="JobInvoice">
           <Key>
             <PropertyRef Name="JobID" />
             <PropertyRef Name="InvoiceNum" />
           </Key>
-          <Property Name="JobID" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="JobID" Type="int" Nullable="false" />
           <Property Name="InvoiceNum" Type="nchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <EntityType Name="Jobs">
           <Key>
             <PropertyRef Name="JobID" />
           </Key>
-          <Property Name="JobID" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="ClientID" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="JobID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClientID" Type="int" Nullable="false" />
           <Property Name="JobTitle" Type="varchar(max)" Nullable="false" />
           <Property Name="HourlyRate" Type="money" />
           <Property Name="Budget" Type="money" />
@@ -133,48 +129,50 @@ warning 6002: The table/view 'TaxApp.dbo.Invoice' does not have a primary key de
           <Key>
             <PropertyRef Name="ProfileID" />
           </Key>
-          <Property Name="ProfileID" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="ProfileID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="CompanyName" Type="varchar" MaxLength="50" />
           <Property Name="EmailAddress" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ContactNumber" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="PhysicalAddress" Type="nchar" MaxLength="10" />
-          <Property Name="ProfilePicture" Type="varbinary(max)" Nullable="false" />
+          <Property Name="PhysicalAddress" Type="varchar" MaxLength="1000" />
+          <Property Name="ProfilePicture" Type="varbinary(max)" />
           <Property Name="VATNumber" Type="nchar" MaxLength="30" Nullable="false" />
           <Property Name="DefaultHourlyRate" Type="money" Nullable="false" />
           <Property Name="Active" Type="bit" Nullable="false" />
-          <Property Name="Username" Type="varbinary" MaxLength="50" Nullable="false" />
-          <Property Name="Password" Type="varbinary" MaxLength="50" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar(max)" Nullable="false" />
           <Property Name="PassRestCode" Type="varchar" MaxLength="30" />
         </EntityType>
         <EntityType Name="TaxConsultant">
           <Key>
             <PropertyRef Name="ProfileID" />
           </Key>
-          <Property Name="ProfileID" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="ProfileID" Type="int" Nullable="false" />
           <Property Name="Name" Type="varchar(max)" Nullable="false" />
           <Property Name="EmailAddress" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'TaxApp.dbo.Worklog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Worklog">
           <Key>
             <PropertyRef Name="LogItemID" />
-            <PropertyRef Name="Description" />
-            <PropertyRef Name="StartTime" />
           </Key>
-          <Property Name="LogItemID" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="LogItemID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Description" Type="varchar(max)" Nullable="false" />
           <Property Name="StartTime" Type="datetime" Nullable="false" />
           <Property Name="EndTime" Type="datetime" />
         </EntityType>
-        <Function Name="SP_GetBussiness" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_GetGeneralExpense" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_GetJobExpense" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EID" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="TaxAppModelStoreContainer">
           <EntitySet Name="Business" EntityType="Self.Business" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmailSettings" EntityType="Self.EmailSettings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Expense" EntityType="Self.Expense" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExpenseCategory" EntityType="Self.ExpenseCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GeneralExpense" EntityType="Self.GeneralExpense" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JobExpense" EntityType="Self.JobExpense" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JobHours" EntityType="Self.JobHours" Schema="dbo" store:Type="Tables" />
@@ -182,13 +180,7 @@ warning 6002: The table/view 'TaxApp.dbo.Worklog' does not have a primary key de
           <EntitySet Name="Jobs" EntityType="Self.Jobs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Profile" EntityType="Self.Profile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaxConsultant" EntityType="Self.TaxConsultant" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ExpenseCategory" EntityType="Self.ExpenseCategory" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [ExpenseCategory].[CategoryID] AS [CategoryID], 
-    [ExpenseCategory].[Name] AS [Name], 
-    [ExpenseCategory].[Description] AS [Description]
-    FROM [dbo].[ExpenseCategory] AS [ExpenseCategory]</DefiningQuery>
-          </EntitySet>
+          <EntitySet Name="Worklog" EntityType="Self.Worklog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Invoice" EntityType="Self.Invoice" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [Invoice].[InvoiceNum] AS [InvoiceNum], 
@@ -198,14 +190,6 @@ warning 6002: The table/view 'TaxApp.dbo.Worklog' does not have a primary key de
     [Invoice].[Paid] AS [Paid]
     FROM [dbo].[Invoice] AS [Invoice]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="Worklog" EntityType="Self.Worklog" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Worklog].[LogItemID] AS [LogItemID], 
-    [Worklog].[Description] AS [Description], 
-    [Worklog].[StartTime] AS [StartTime], 
-    [Worklog].[EndTime] AS [EndTime]
-    FROM [dbo].[Worklog] AS [Worklog]</DefiningQuery>
-          </EntitySet>
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
@@ -214,10 +198,10 @@ warning 6002: The table/view 'TaxApp.dbo.Worklog' does not have a primary key de
       <Schema Namespace="TaxAppModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Business">
           <Key>
-            <PropertyRef Name="BusinessID" />
+            <PropertyRef Name="BussinessID" />
           </Key>
-          <Property Name="BusinessID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="VATRate" Type="Decimal" Precision="3" Scale="2" Nullable="false" />
+          <Property Name="BussinessID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VATRate" Type="Decimal" Precision="4" Scale="2" Nullable="false" />
           <Property Name="SMSSid" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="SMSToken" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
@@ -225,23 +209,23 @@ warning 6002: The table/view 'TaxApp.dbo.Worklog' does not have a primary key de
           <Key>
             <PropertyRef Name="ClientID" />
           </Key>
-          <Property Name="ClientID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="ClientID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="CompanyName" Type="Binary" MaxLength="50" FixedLength="false" Nullable="false" />
-          <Property Name="ContactNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CompanyName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ContactNumber" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="EmailAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="PhysiclaAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="PreferedCommunicationChannel" Type="String" MaxLength="3" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="ProfileID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="ProfileID" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="EmailSetting">
           <Key>
             <PropertyRef Name="ProfileID" />
           </Key>
-          <Property Name="ProfileID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="ProfileID" Type="Int32" Nullable="false" />
           <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Password" Type="Binary" MaxLength="50" FixedLength="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Host" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Port" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="EnableSsl" Type="Boolean" Nullable="false" />
@@ -252,18 +236,26 @@ warning 6002: The table/view 'TaxApp.dbo.Worklog' does not have a primary key de
           <Key>
             <PropertyRef Name="ExpenseID" />
           </Key>
-          <Property Name="ExpenseID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="CategoryID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="ExpenseID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryID" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ExpenseCategory">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
         <EntityType Name="GeneralExpense">
           <Key>
             <PropertyRef Name="ProfileID" />
             <PropertyRef Name="ExpenseID" />
           </Key>
-          <Property Name="ProfileID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="ExpenseID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="ProfileID" Type="Int32" Nullable="false" />
+          <Property Name="ExpenseID" Type="Int32" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="Repeat" Type="Boolean" Nullable="false" />
@@ -274,8 +266,8 @@ warning 6002: The table/view 'TaxApp.dbo.Worklog' does not have a primary key de
             <PropertyRef Name="JobID" />
             <PropertyRef Name="ExpenseID" />
           </Key>
-          <Property Name="JobID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="ExpenseID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="JobID" Type="Int32" Nullable="false" />
+          <Property Name="ExpenseID" Type="Int32" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="Invoice_ReceiptCopy" Type="Binary" MaxLength="Max" FixedLength="false" />
@@ -285,23 +277,23 @@ warning 6002: The table/view 'TaxApp.dbo.Worklog' does not have a primary key de
             <PropertyRef Name="JobID" />
             <PropertyRef Name="LogItemID" />
           </Key>
-          <Property Name="JobID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="LogItemID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="JobID" Type="Int32" Nullable="false" />
+          <Property Name="LogItemID" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="JobInvoice">
           <Key>
             <PropertyRef Name="JobID" />
             <PropertyRef Name="InvoiceNum" />
           </Key>
-          <Property Name="JobID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="JobID" Type="Int32" Nullable="false" />
           <Property Name="InvoiceNum" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="Job">
           <Key>
             <PropertyRef Name="JobID" />
           </Key>
-          <Property Name="JobID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="ClientID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="JobID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClientID" Type="Int32" Nullable="false" />
           <Property Name="JobTitle" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="HourlyRate" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="Budget" Type="Decimal" Precision="19" Scale="4" />
@@ -312,38 +304,37 @@ warning 6002: The table/view 'TaxApp.dbo.Worklog' does not have a primary key de
           <Key>
             <PropertyRef Name="ProfileID" />
           </Key>
-          <Property Name="ProfileID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="ProfileID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CompanyName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="EmailAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ContactNumber" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="PhysicalAddress" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="ProfilePicture" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="PhysicalAddress" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="ProfilePicture" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="VATNumber" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="DefaultHourlyRate" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="Active" Type="Boolean" Nullable="false" />
-          <Property Name="Username" Type="Binary" MaxLength="50" FixedLength="false" Nullable="false" />
-          <Property Name="Password" Type="Binary" MaxLength="50" FixedLength="false" Nullable="false" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="PassRestCode" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="TaxConsultant">
           <Key>
             <PropertyRef Name="ProfileID" />
           </Key>
-          <Property Name="ProfileID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="ProfileID" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="EmailAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
-        <EntityType Name="ExpenseCategory">
+        <EntityType Name="Worklog">
           <Key>
-            <PropertyRef Name="CategoryID" />
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="Description" />
+            <PropertyRef Name="LogItemID" />
           </Key>
-          <Property Name="CategoryID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LogItemID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndTime" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="Invoice">
           <Key>
@@ -359,22 +350,12 @@ warning 6002: The table/view 'TaxApp.dbo.Worklog' does not have a primary key de
           <Property Name="VAT" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="Paid" Type="Boolean" Nullable="false" />
         </EntityType>
-        <EntityType Name="Worklog">
-          <Key>
-            <PropertyRef Name="LogItemID" />
-            <PropertyRef Name="Description" />
-            <PropertyRef Name="StartTime" />
-          </Key>
-          <Property Name="LogItemID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="EndTime" Type="DateTime" Precision="3" />
-        </EntityType>
         <EntityContainer Name="TaxAppEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Businesses" EntityType="Self.Business" />
           <EntitySet Name="Clients" EntityType="Self.Client" />
           <EntitySet Name="EmailSettings" EntityType="Self.EmailSetting" />
           <EntitySet Name="Expenses" EntityType="Self.Expense" />
+          <EntitySet Name="ExpenseCategories" EntityType="Self.ExpenseCategory" />
           <EntitySet Name="GeneralExpenses" EntityType="Self.GeneralExpense" />
           <EntitySet Name="JobExpenses" EntityType="Self.JobExpense" />
           <EntitySet Name="JobHours" EntityType="Self.JobHour" />
@@ -382,16 +363,39 @@ warning 6002: The table/view 'TaxApp.dbo.Worklog' does not have a primary key de
           <EntitySet Name="Jobs" EntityType="Self.Job" />
           <EntitySet Name="Profiles" EntityType="Self.Profile" />
           <EntitySet Name="TaxConsultants" EntityType="Self.TaxConsultant" />
-          <EntitySet Name="ExpenseCategories" EntityType="Self.ExpenseCategory" />
-          <EntitySet Name="Invoices" EntityType="Self.Invoice" />
           <EntitySet Name="Worklogs" EntityType="Self.Worklog" />
-          <FunctionImport Name="SP_GetBussiness" ReturnType="Collection(TaxAppModel.SP_GetBussiness_Result)" />
+          <EntitySet Name="Invoices" EntityType="Self.Invoice" />
+          <FunctionImport Name="SP_GetGeneralExpense" ReturnType="Collection(TaxAppModel.SP_GetGeneralExpense_Result)">
+            <Parameter Name="EID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GetJobExpense" ReturnType="Collection(TaxAppModel.SP_GetJobExpense_Result)">
+            <Parameter Name="EID" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
-        <ComplexType Name="SP_GetBussiness_Result">
-          <Property Type="String" Name="BusinessID" Nullable="false" MaxLength="10" />
-          <Property Type="Decimal" Name="VATRate" Nullable="false" Precision="3" Scale="2" />
-          <Property Type="String" Name="SMSSid" Nullable="false" />
-          <Property Type="String" Name="SMSToken" Nullable="false" />
+        <ComplexType Name="SP_GetGeneralExpense_Result">
+          <Property Type="Int32" Name="ExpenseID" Nullable="false" />
+          <Property Type="Int32" Name="CategoryID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="String" Name="Description" Nullable="false" />
+          <Property Type="Int32" Name="ProfileID" Nullable="false" />
+          <Property Type="DateTime" Name="Date" Nullable="false" Precision="23" />
+          <Property Type="Decimal" Name="Amount" Nullable="false" Precision="19" />
+          <Property Type="Boolean" Name="Repeat" Nullable="false" />
+          <Property Type="Binary" Name="Invoice_ReceiptCopy" Nullable="true" />
+          <Property Type="String" Name="Name1" Nullable="false" />
+          <Property Type="String" Name="Description1" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="SP_GetJobExpense_Result">
+          <Property Type="Int32" Name="ExpenseID" Nullable="false" />
+          <Property Type="Int32" Name="CategoryID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="String" Name="Description" Nullable="false" />
+          <Property Type="Int32" Name="JobID" Nullable="false" />
+          <Property Type="DateTime" Name="Date" Nullable="false" Precision="23" />
+          <Property Type="Decimal" Name="Amount" Nullable="false" Precision="19" />
+          <Property Type="Binary" Name="Invoice_ReceiptCopy" Nullable="true" />
+          <Property Type="String" Name="Name1" Nullable="false" />
+          <Property Type="String" Name="Description1" Nullable="false" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -402,7 +406,7 @@ warning 6002: The table/view 'TaxApp.dbo.Worklog' does not have a primary key de
           <EntitySetMapping Name="Businesses">
             <EntityTypeMapping TypeName="TaxAppModel.Business">
               <MappingFragment StoreEntitySet="Business">
-                <ScalarProperty Name="BusinessID" ColumnName="BusinessID" />
+                <ScalarProperty Name="BussinessID" ColumnName="BussinessID" />
                 <ScalarProperty Name="VATRate" ColumnName="VATRate" />
                 <ScalarProperty Name="SMSSid" ColumnName="SMSSid" />
                 <ScalarProperty Name="SMSToken" ColumnName="SMSToken" />
@@ -445,6 +449,15 @@ warning 6002: The table/view 'TaxApp.dbo.Worklog' does not have a primary key de
                 <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExpenseCategories">
+            <EntityTypeMapping TypeName="TaxAppModel.ExpenseCategory">
+              <MappingFragment StoreEntitySet="ExpenseCategory">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -529,12 +542,13 @@ warning 6002: The table/view 'TaxApp.dbo.Worklog' does not have a primary key de
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ExpenseCategories">
-            <EntityTypeMapping TypeName="TaxAppModel.ExpenseCategory">
-              <MappingFragment StoreEntitySet="ExpenseCategory">
-                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
+          <EntitySetMapping Name="Worklogs">
+            <EntityTypeMapping TypeName="TaxAppModel.Worklog">
+              <MappingFragment StoreEntitySet="Worklog">
+                <ScalarProperty Name="LogItemID" ColumnName="LogItemID" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -549,23 +563,36 @@ warning 6002: The table/view 'TaxApp.dbo.Worklog' does not have a primary key de
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Worklogs">
-            <EntityTypeMapping TypeName="TaxAppModel.Worklog">
-              <MappingFragment StoreEntitySet="Worklog">
-                <ScalarProperty Name="LogItemID" ColumnName="LogItemID" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
-                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="SP_GetBussiness" FunctionName="TaxAppModel.Store.SP_GetBussiness">
+          <FunctionImportMapping FunctionImportName="SP_GetGeneralExpense" FunctionName="TaxAppModel.Store.SP_GetGeneralExpense">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="TaxAppModel.SP_GetBussiness_Result">
-                <ScalarProperty Name="BusinessID" ColumnName="BusinessID" />
-                <ScalarProperty Name="VATRate" ColumnName="VATRate" />
-                <ScalarProperty Name="SMSSid" ColumnName="SMSSid" />
-                <ScalarProperty Name="SMSToken" ColumnName="SMSToken" />
+              <ComplexTypeMapping TypeName="TaxAppModel.SP_GetGeneralExpense_Result">
+                <ScalarProperty Name="ExpenseID" ColumnName="ExpenseID" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ProfileID" ColumnName="ProfileID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Repeat" ColumnName="Repeat" />
+                <ScalarProperty Name="Invoice_ReceiptCopy" ColumnName="Invoice/ReceiptCopy" />
+                <ScalarProperty Name="Name1" ColumnName="Name1" />
+                <ScalarProperty Name="Description1" ColumnName="Description1" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GetJobExpense" FunctionName="TaxAppModel.Store.SP_GetJobExpense">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TaxAppModel.SP_GetJobExpense_Result">
+                <ScalarProperty Name="ExpenseID" ColumnName="ExpenseID" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="JobID" ColumnName="JobID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Invoice_ReceiptCopy" ColumnName="Invoice/ReceiptCopy" />
+                <ScalarProperty Name="Name1" ColumnName="Name1" />
+                <ScalarProperty Name="Description1" ColumnName="Description1" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

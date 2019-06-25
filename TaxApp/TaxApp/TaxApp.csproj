@@ -2104,6 +2104,9 @@
     <Content Include="Views\Client\NewClient.cshtml" />
     <Content Include="Views\Client\Client.cshtml" />
     <Content Include="Views\Job\NewWorkLogItem.cshtml" />
+    <Content Include="Views\Expense\NewGeneralExpense.cshtml" />
+    <Content Include="Views\Expense\NewJobExpense.cshtml" />
+    <Content Include="Views\Expense\ExpenseCatagories.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

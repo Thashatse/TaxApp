@@ -11,7 +11,7 @@ namespace Model
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class JobExpense : Expense
     {
         public int JobID { get; set; }

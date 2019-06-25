@@ -492,5 +492,250 @@ namespace DAL
             }
         }
         #endregion
+
+        #region Expense
+        public bool newJobExpense(SP_GetJobExpense_Result newJobExpense)
+        {
+            bool Result = false;
+
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@CID", newJobExpense.CategoryID),
+                        new SqlParameter("@N", newJobExpense.Name),
+                        new SqlParameter("@D", newJobExpense.Description),
+                        new SqlParameter("@JID", newJobExpense.JobID),
+                        new SqlParameter("@Date", newJobExpense.Date),
+                        new SqlParameter("@A", newJobExpense.Amount),
+                        //new SqlParameter("@IRC", newJobExpense.Invoice_ReceiptCopy),
+                   };
+
+                Result = DBHelper.NonQuery("SP_NewJobExpense", CommandType.StoredProcedure, pars);
+
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return Result;
+        }
+        public SP_GetJobExpense_Result getJobExpense(Expense expenseID)
+        {
+            SP_GetJobExpense_Result expense = null;
+
+            SqlParameter[] pars = new SqlParameter[]
+                {
+                        new SqlParameter("@EID", expenseID.ExpenseID)
+                };
+
+            try
+            {
+                using (DataTable table = DBHelper.ParamSelect("SP_GetJobExpense",
+            CommandType.StoredProcedure, pars))
+                {
+                    foreach (DataRow row in table.Rows)
+                    {
+                        if (row != null)
+                        {
+                            expense = new SP_GetJobExpense_Result();
+                            expense.ExpenseID = int.Parse(row[0].ToString());
+                            expense.CategoryID = int.Parse(row[1].ToString());
+                            expense.Name = row[2].ToString();
+                            expense.Description = row[3].ToString();
+                            expense.JobID = int.Parse(row[4].ToString());
+                            expense.Date = DateTime.Parse(row[5].ToString());
+                            expense.Amount = decimal.Parse(row[6].ToString());
+                            //expense.Invoice_ReceiptCopy = row[7].ToString();
+                            expense.CatName = row[8].ToString();
+                            expense.CatDescription = row[9].ToString();
+                        }
+                    }
+                }
+                return expense;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        public List<SP_GetJobExpense_Result> getJobExpenses(Job jobID)
+        {
+            List<SP_GetJobExpense_Result> Expenses = new List<SP_GetJobExpense_Result>();
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@JID", jobID.JobID)
+                    };
+
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetProfileClients",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            SP_GetJobExpense_Result expense = new SP_GetJobExpense_Result();
+                            expense.ExpenseID = int.Parse(row[0].ToString());
+                            expense.CategoryID = int.Parse(row[1].ToString());
+                            expense.Name = row[2].ToString();
+                            expense.Description = row[3].ToString();
+                            expense.JobID = int.Parse(row[4].ToString());
+                            expense.Date = DateTime.Parse(row[5].ToString());
+                            expense.Amount = decimal.Parse(row[6].ToString());
+                            //expense.Invoice_ReceiptCopy = row[7].ToString();
+                            expense.CatName = row[8].ToString();
+                            expense.CatDescription = row[9].ToString();
+                            Expenses.Add(expense);
+                        }
+                    }
+                }
+                return Expenses;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        public bool newGeneralExpense(SP_GetGeneralExpense_Result newGeneralExpense)
+        {
+            bool Result = false;
+
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@CID", newGeneralExpense.CategoryID),
+                        new SqlParameter("@N", newGeneralExpense.Name),
+                        new SqlParameter("@D", newGeneralExpense.Description),
+                        new SqlParameter("@PID", newGeneralExpense.ProfileID),
+                        new SqlParameter("@Date", newGeneralExpense.Date),
+                        new SqlParameter("@A", newGeneralExpense.Amount),
+                        new SqlParameter("@R", newGeneralExpense.Repeat),
+                        //new SqlParameter("@IRC", newGeneralExpense.Invoice_ReceiptCopy),
+                   };
+
+                Result = DBHelper.NonQuery("SP_NewGeneralExpense", CommandType.StoredProcedure, pars);
+
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return Result;
+        }
+        public SP_GetGeneralExpense_Result getGeneralExpense(Expense expenseID)
+        {
+            SP_GetGeneralExpense_Result expense = null;
+
+            SqlParameter[] pars = new SqlParameter[]
+                {
+                        new SqlParameter("@EID", expenseID.ExpenseID)
+                };
+
+            try
+            {
+                using (DataTable table = DBHelper.ParamSelect("SP_GetGeneralExpense",
+            CommandType.StoredProcedure, pars))
+                {
+                    foreach (DataRow row in table.Rows)
+                    {
+                        if (row != null)
+                        {
+                            expense = new SP_GetGeneralExpense_Result();
+                            expense.ExpenseID = int.Parse(row[0].ToString());
+                            expense.CategoryID = int.Parse(row[1].ToString());
+                            expense.Name = row[2].ToString();
+                            expense.Description = row[3].ToString();
+                            expense.ProfileID = int.Parse(row[4].ToString());
+                            expense.Date = DateTime.Parse(row[5].ToString());
+                            expense.Amount = decimal.Parse(row[6].ToString());
+                            expense.Repeat = bool.Parse(row[7].ToString());
+                            //expense.Invoice_ReceiptCopy = row[8].ToString();
+                            expense.CatName = row[9].ToString();
+                            expense.CatDescription = row[10].ToString();
+                        }
+                    }
+                }
+                return expense;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        public List<SP_GetGeneralExpense_Result> getGeneralExpenses(Profile profileID)
+        {
+            List<SP_GetGeneralExpense_Result> Expenses = new List<SP_GetGeneralExpense_Result>();
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profileID.ProfileID)
+                    };
+
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetProfileClients",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            SP_GetGeneralExpense_Result expense = new SP_GetGeneralExpense_Result();
+                            expense.ExpenseID = int.Parse(row[0].ToString());
+                            expense.CategoryID = int.Parse(row[1].ToString());
+                            expense.Name = row[2].ToString();
+                            expense.Description = row[3].ToString();
+                            expense.ProfileID = int.Parse(row[4].ToString());
+                            expense.Date = DateTime.Parse(row[5].ToString());
+                            expense.Amount = decimal.Parse(row[6].ToString());
+                            expense.Repeat = bool.Parse(row[7].ToString());
+                            //expense.Invoice_ReceiptCopy = row[8].ToString();
+                            expense.CatName = row[9].ToString();
+                            expense.CatDescription = row[10].ToString();
+                            Expenses.Add(expense);
+                        }
+                    }
+                }
+                return Expenses;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        public List<ExpenseCategory> getExpenseCatagories()
+        {
+            List<ExpenseCategory> ExpensesCats = new List<ExpenseCategory>();
+            try
+            {
+                using (DataTable table = DBHelper.Select("SP_GetExpenseCategorys",
+            CommandType.StoredProcedure))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            ExpenseCategory cat = new ExpenseCategory();
+                            cat.CategoryID = int.Parse(row["CategoryID"].ToString());
+                            cat.Name = row["Name"].ToString();
+                            cat.Description = row["Description"].ToString();
+                            ExpensesCats.Add(cat);
+                        }
+                    }
+                }
+                return ExpensesCats;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        #endregion
     }
 }                  
