@@ -2107,6 +2107,7 @@
     <Content Include="Views\Expense\NewGeneralExpense.cshtml" />
     <Content Include="Views\Expense\NewJobExpense.cshtml" />
     <Content Include="Views\Expense\ExpenseCatagories.cshtml" />
+    <Content Include="Views\Job\Job.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

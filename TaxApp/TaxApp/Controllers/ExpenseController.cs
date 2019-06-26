@@ -88,7 +88,7 @@ namespace TaxApp.Controllers
                 newExpense.Description = Request.Form["Description"].ToString();
                 newExpense.ProfileID = int.Parse(cookie["ID"].ToString());
                 newExpense.Date = DateTime.Parse(Request.Form["Date"].ToString());
-                newExpense.Amount = Convert.ToDecimal(double.Parse(Request.Form["Amount"].ToString()));
+                newExpense.Amount = Decimal.Parse(Request.Form["Amount"].ToString());
                 newExpense.Repeat = bool.Parse(Request.Form["Repeat"].ToString().Split(',')[0]);
                 //newExpense.Invoice_ReceiptCopy = DBNull.Value;
 

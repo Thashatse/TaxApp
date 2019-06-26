@@ -10,15 +10,19 @@
 namespace Model
 {
     using System;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class SP_GetGeneralExpense_Result
     {
         public int ExpenseID { get; set; }
         public int CategoryID { get; set; }
+        [Required]
         public string Name { get; set; }
         public string Description { get; set; }
         public int ProfileID { get; set; }
+        [Required]
         public System.DateTime Date { get; set; }
+        [Required]
         public decimal Amount { get; set; }
         public bool Repeat { get; set; }
         public byte[] Invoice_ReceiptCopy { get; set; }

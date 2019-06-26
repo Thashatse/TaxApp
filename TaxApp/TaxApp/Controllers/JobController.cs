@@ -54,7 +54,7 @@ namespace TaxApp.Controllers
             }
         }
 
-        // GET: Job
+        // GET: Jobs
         public ActionResult Jobs()
         {
             getCookie();
@@ -63,7 +63,17 @@ namespace TaxApp.Controllers
             List<Model.Job> Jobs = handler.getProfileJobs(getJobs);
             return View(Jobs);
         }
-        
+
+        // GET: Jobs
+        public ActionResult Job(string ID)
+        {
+            getCookie();
+            Model.Job getJob = new Model.Job();
+            getJob.JobID = int.Parse(ID);
+            Model.Job Job = handler.getJob(getJob);
+            return View(Job);
+        }
+
         #region New Job
         // GET: Landing/NewProfile
         public ActionResult NewJob()

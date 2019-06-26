@@ -322,7 +322,10 @@ namespace DAL
             {
                 SqlParameter[] pars = new SqlParameter[]
                     {
-                        new SqlParameter("@PID", profile.ProfileID)
+                        new SqlParameter("@PID", profile.ProfileID),
+                        //***************************************//
+                        new SqlParameter("@CID", profile.ProfileID)
+                        //***************************************//
                     };
 
 
