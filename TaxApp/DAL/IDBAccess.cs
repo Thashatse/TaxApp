@@ -31,7 +31,7 @@ namespace DAL
 
         #region Job
         bool newJob(Model.Job job);
-        Model.Job getJob(Model.Job job);
+        Model.SP_GetJob_Result getJob(Model.Job job);
         List<Job> getProfileJobs(Profile profile);
         #endregion
 

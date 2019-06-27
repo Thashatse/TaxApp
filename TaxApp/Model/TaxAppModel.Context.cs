@@ -39,6 +39,8 @@ namespace Model
         public virtual DbSet<Job> Jobs { get; set; }
         public virtual DbSet<Profile> Profiles { get; set; }
         public virtual DbSet<TaxConsultant> TaxConsultants { get; set; }
+        public virtual DbSet<TravelLog> TravelLogs { get; set; }
+        public virtual DbSet<Vehicle> Vehicles { get; set; }
         public virtual DbSet<Worklog> Worklogs { get; set; }
         public virtual DbSet<Invoice> Invoices { get; set; }
     
@@ -49,6 +51,15 @@ namespace Model
                 new ObjectParameter("EID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetGeneralExpense_Result>("SP_GetGeneralExpense", eIDParameter);
+        }
+    
+        public virtual ObjectResult<SP_GetJob_Result> SP_GetJob(Nullable<int> jID)
+        {
+            var jIDParameter = jID.HasValue ?
+                new ObjectParameter("JID", jID) :
+                new ObjectParameter("JID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetJob_Result>("SP_GetJob", jIDParameter);
         }
     
         public virtual ObjectResult<SP_GetJobExpense_Result> SP_GetJobExpense(Nullable<int> eID)

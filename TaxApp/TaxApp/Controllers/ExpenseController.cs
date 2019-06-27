@@ -65,10 +65,18 @@ namespace TaxApp.Controllers
         // GET: Landing/NewProfile
         public ActionResult NewGeneralExpense()
         {
+            try { 
             getCookie();
             List<Model.ExpenseCategory> cats = handler.getExpenseCatagories();
             ViewBag.CategoryList = new SelectList(cats, "CategoryID", "Name");
             return View();
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loading new general expense");
+                return Redirect("/Expense/Expenses");
+            }
         }
 
         // POST: Landing/NewProfile
@@ -116,10 +124,18 @@ namespace TaxApp.Controllers
         // GET: Landing/NewProfile
         public ActionResult NewJobExpense()
         {
+            try { 
             getCookie();
             List<Model.ExpenseCategory> cats = handler.getExpenseCatagories();
             ViewBag.CategoryList = new SelectList(cats, "CategoryID", "Name");
             return View();
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loading new Job Expense");
+                return RedirectToAction("../Shared/Error");
+            }
         }
 
         // POST: Landing/NewProfile
@@ -165,10 +181,19 @@ namespace TaxApp.Controllers
         #region ExpenseCatagories
         public ActionResult ExpenseCatagories()
         {
-            getCookie();
+            try
+            {
+                getCookie();
             List<Model.ExpenseCategory> cats = handler.getExpenseCatagories();
             ViewBag.CategoryList = new SelectList(cats, "CategoryID", "Name");
             return View(cats);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loading expense catagories");
+                return Redirect("/Expense/Expenses");
+            }
         }
         #endregion
     }

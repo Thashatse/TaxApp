@@ -58,11 +58,19 @@ namespace TaxApp.Controllers
         // GET: Client
         public ActionResult Client()
         {
+            try { 
             getCookie();
             Model.Client getClients = new Model.Client();
             getClients.ProfileID = int.Parse(cookie["ID"].ToString());
             List<Model.Client> Clients = handler.getProfileClients(getClients);
             return View(Clients);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loading clients");
+                return RedirectToAction("../Shared/Error");
+            }
         }
 
         // GET: Client/Details/5

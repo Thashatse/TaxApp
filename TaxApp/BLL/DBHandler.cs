@@ -62,7 +62,7 @@ namespace BLL
         {
             return db.newJob(job);
         }
-        public Model.Job getJob(Model.Job job)
+        public SP_GetJob_Result getJob(Model.Job job)
         {
             return db.getJob(job);
         }

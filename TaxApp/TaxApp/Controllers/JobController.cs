@@ -57,33 +57,59 @@ namespace TaxApp.Controllers
         // GET: Jobs
         public ActionResult Jobs()
         {
-            getCookie();
+            try
+            {
+                getCookie();
             Model.Profile getJobs = new Model.Profile();
             getJobs.ProfileID = int.Parse(cookie["ID"].ToString());
             List<Model.Job> Jobs = handler.getProfileJobs(getJobs);
             return View(Jobs);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding job details");
+                return RedirectToAction("../Shared/Error");
+            }
         }
 
         // GET: Jobs
         public ActionResult Job(string ID)
         {
-            getCookie();
+            try
+            {
+                getCookie();
             Model.Job getJob = new Model.Job();
             getJob.JobID = int.Parse(ID);
-            Model.Job Job = handler.getJob(getJob);
+            Model.SP_GetJob_Result Job = handler.getJob(getJob);
             return View(Job);
         }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding job details");
+                return Redirect("/job/jobs");
+    }
+}
 
         #region New Job
         // GET: Landing/NewProfile
         public ActionResult NewJob()
         {
+            try { 
             getCookie();
             Model.Client getClients = new Model.Client();
             getClients.ProfileID = int.Parse(cookie["ID"].ToString());
             List<Model.Client> Clients = handler.getProfileClients(getClients);
             ViewBag.ClientList = new SelectList(Clients, "ClientID", "FirstName");
             return View();
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding new job");
+                return Redirect("/job/jobs");
+            }
         }
 
         // POST: Landing/NewProfile

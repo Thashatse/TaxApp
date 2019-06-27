@@ -152,6 +152,28 @@ warning 6002: The table/view 'TaxApp.dbo.Invoice' does not have a primary key de
           <Property Name="Name" Type="varchar(max)" Nullable="false" />
           <Property Name="EmailAddress" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="TravelLog">
+          <Key>
+            <PropertyRef Name="ExpenseID" />
+          </Key>
+          <Property Name="ExpenseID" Type="int" Nullable="false" />
+          <Property Name="From" Type="nchar" MaxLength="1000" Nullable="false" />
+          <Property Name="To" Type="nchar" MaxLength="1000" Nullable="false" />
+          <Property Name="Reason" Type="varchar(max)" />
+          <Property Name="OpeningKMs" Type="int" Nullable="false" />
+          <Property Name="ClosingKMs" Type="int" />
+          <Property Name="VehicleID" Type="int" Nullable="false" />
+          <Property Name="JobID" Type="int" />
+        </EntityType>
+        <EntityType Name="Vehicle">
+          <Key>
+            <PropertyRef Name="VehicleID" />
+          </Key>
+          <Property Name="VehicleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="30" Nullable="false" />
+          <Property Name="FuelCost" Type="money" Nullable="false" />
+          <Property Name="MaintenceCost" Type="money" Nullable="false" />
+        </EntityType>
         <EntityType Name="Worklog">
           <Key>
             <PropertyRef Name="LogItemID" />
@@ -163,6 +185,9 @@ warning 6002: The table/view 'TaxApp.dbo.Invoice' does not have a primary key de
         </EntityType>
         <Function Name="SP_GetGeneralExpense" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="EID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_GetJob" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="JID" Type="int" Mode="In" />
         </Function>
         <Function Name="SP_GetJobExpense" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="EID" Type="int" Mode="In" />
@@ -180,6 +205,8 @@ warning 6002: The table/view 'TaxApp.dbo.Invoice' does not have a primary key de
           <EntitySet Name="Jobs" EntityType="Self.Jobs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Profile" EntityType="Self.Profile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaxConsultant" EntityType="Self.TaxConsultant" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TravelLog" EntityType="Self.TravelLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vehicle" EntityType="Self.Vehicle" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Worklog" EntityType="Self.Worklog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Invoice" EntityType="Self.Invoice" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -327,6 +354,28 @@ warning 6002: The table/view 'TaxApp.dbo.Invoice' does not have a primary key de
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="EmailAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
+        <EntityType Name="TravelLog">
+          <Key>
+            <PropertyRef Name="ExpenseID" />
+          </Key>
+          <Property Name="ExpenseID" Type="Int32" Nullable="false" />
+          <Property Name="From" Type="String" MaxLength="1000" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="To" Type="String" MaxLength="1000" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="OpeningKMs" Type="Int32" Nullable="false" />
+          <Property Name="ClosingKMs" Type="Int32" />
+          <Property Name="VehicleID" Type="Int32" Nullable="false" />
+          <Property Name="JobID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Vehicle">
+          <Key>
+            <PropertyRef Name="VehicleID" />
+          </Key>
+          <Property Name="VehicleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="FuelCost" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="MaintenceCost" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+        </EntityType>
         <EntityType Name="Worklog">
           <Key>
             <PropertyRef Name="LogItemID" />
@@ -363,10 +412,15 @@ warning 6002: The table/view 'TaxApp.dbo.Invoice' does not have a primary key de
           <EntitySet Name="Jobs" EntityType="Self.Job" />
           <EntitySet Name="Profiles" EntityType="Self.Profile" />
           <EntitySet Name="TaxConsultants" EntityType="Self.TaxConsultant" />
+          <EntitySet Name="TravelLogs" EntityType="Self.TravelLog" />
+          <EntitySet Name="Vehicles" EntityType="Self.Vehicle" />
           <EntitySet Name="Worklogs" EntityType="Self.Worklog" />
           <EntitySet Name="Invoices" EntityType="Self.Invoice" />
           <FunctionImport Name="SP_GetGeneralExpense" ReturnType="Collection(TaxAppModel.SP_GetGeneralExpense_Result)">
             <Parameter Name="EID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GetJob" ReturnType="Collection(TaxAppModel.SP_GetJob_Result)">
+            <Parameter Name="JID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_GetJobExpense" ReturnType="Collection(TaxAppModel.SP_GetJobExpense_Result)">
             <Parameter Name="EID" Mode="In" Type="Int32" />
@@ -384,6 +438,21 @@ warning 6002: The table/view 'TaxApp.dbo.Invoice' does not have a primary key de
           <Property Type="Binary" Name="Invoice_ReceiptCopy" Nullable="true" />
           <Property Type="String" Name="Name1" Nullable="false" />
           <Property Type="String" Name="Description1" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="SP_GetJob_Result">
+          <Property Type="Int32" Name="JobID" Nullable="false" />
+          <Property Type="String" Name="JobTitle" Nullable="false" />
+          <Property Type="Decimal" Name="HourlyRate" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="Budget" Nullable="true" Precision="19" />
+          <Property Type="DateTime" Name="StartDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="EndDate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="ClientID" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="WorkLogHours" Nullable="true" />
+          <Property Type="Decimal" Name="ExpenseTotal" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="TotalPaid" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="TotalUnPaid" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="TravelLogCostTotal" Nullable="true" Precision="19" />
         </ComplexType>
         <ComplexType Name="SP_GetJobExpense_Result">
           <Property Type="Int32" Name="ExpenseID" Nullable="false" />
@@ -542,6 +611,30 @@ warning 6002: The table/view 'TaxApp.dbo.Invoice' does not have a primary key de
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="TravelLogs">
+            <EntityTypeMapping TypeName="TaxAppModel.TravelLog">
+              <MappingFragment StoreEntitySet="TravelLog">
+                <ScalarProperty Name="ExpenseID" ColumnName="ExpenseID" />
+                <ScalarProperty Name="From" ColumnName="From" />
+                <ScalarProperty Name="To" ColumnName="To" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="OpeningKMs" ColumnName="OpeningKMs" />
+                <ScalarProperty Name="ClosingKMs" ColumnName="ClosingKMs" />
+                <ScalarProperty Name="VehicleID" ColumnName="VehicleID" />
+                <ScalarProperty Name="JobID" ColumnName="JobID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vehicles">
+            <EntityTypeMapping TypeName="TaxAppModel.Vehicle">
+              <MappingFragment StoreEntitySet="Vehicle">
+                <ScalarProperty Name="VehicleID" ColumnName="VehicleID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="FuelCost" ColumnName="FuelCost" />
+                <ScalarProperty Name="MaintenceCost" ColumnName="MaintenceCost" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Worklogs">
             <EntityTypeMapping TypeName="TaxAppModel.Worklog">
               <MappingFragment StoreEntitySet="Worklog">
@@ -577,6 +670,25 @@ warning 6002: The table/view 'TaxApp.dbo.Invoice' does not have a primary key de
                 <ScalarProperty Name="Invoice_ReceiptCopy" ColumnName="Invoice/ReceiptCopy" />
                 <ScalarProperty Name="Name1" ColumnName="Name1" />
                 <ScalarProperty Name="Description1" ColumnName="Description1" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GetJob" FunctionName="TaxAppModel.Store.SP_GetJob">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TaxAppModel.SP_GetJob_Result">
+                <ScalarProperty Name="JobID" ColumnName="JobID" />
+                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+                <ScalarProperty Name="HourlyRate" ColumnName="HourlyRate" />
+                <ScalarProperty Name="Budget" ColumnName="Budget" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="WorkLogHours" ColumnName="WorkLogHours" />
+                <ScalarProperty Name="ExpenseTotal" ColumnName="ExpenseTotal" />
+                <ScalarProperty Name="TotalPaid" ColumnName="TotalPaid" />
+                <ScalarProperty Name="TotalUnPaid" ColumnName="TotalUnPaid" />
+                <ScalarProperty Name="TravelLogCostTotal" ColumnName="TravelLogCostTotal" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

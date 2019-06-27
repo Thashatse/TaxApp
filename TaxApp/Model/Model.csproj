@@ -94,6 +94,9 @@
     <Compile Include="SP_GetJobExpense_Result.cs">
       <DependentUpon>TaxAppModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="SP_GetJob_Result.cs">
+      <DependentUpon>TaxAppModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="TaxAppModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -110,6 +113,12 @@
       <DependentUpon>TaxAppModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="TaxConsultant.cs">
+      <DependentUpon>TaxAppModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TravelLog.cs">
+      <DependentUpon>TaxAppModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Vehicle.cs">
       <DependentUpon>TaxAppModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Worklog.cs">
