@@ -77,6 +77,14 @@ namespace BLL
         {
             return db.newWorkLogItem(logItem, job);
         }
+        public Worklog getLogItem(Model.Worklog logID)
+        {
+            return db.getLogItem(logID);
+        }
+        public List<Worklog> getJobHours(Job JobID)
+        {
+            return db.getJobHours(JobID);
+        }
         #endregion
         #endregion
 

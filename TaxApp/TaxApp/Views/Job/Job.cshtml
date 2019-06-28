@@ -69,7 +69,9 @@
                                     @Html.DisplayNameFor(model => model.ClientFirstName)
                                 </th>
                                 <td>
-                                    @Html.DisplayFor(model => model.ClientFirstName)
+                                    <a href='/Client/ClientDetails?ID=@Html.DisplayFor(model => model.ClientID)'>
+                                        @Html.DisplayFor(model => model.ClientFirstName)
+                                    </a>
                                 </td>
                             </tr>
                             <tr>
@@ -77,7 +79,9 @@
                                     @Html.DisplayNameFor(model => model.WorkLogHours)
                                 </th>
                                 <td>
-                                    @Html.DisplayFor(model => model.WorkLogHoursString)
+                                    <a href='/Job/JobHours?ID=@Html.DisplayFor(model => model.JobID)'>
+                                        @Html.DisplayFor(model => model.WorkLogHoursString)
+                                    </a>
                                 </td>
                             </tr>
                             <tr>
@@ -85,7 +89,9 @@
                                     @Html.DisplayNameFor(model => model.ExpenseTotal)
                                 </th>
                                 <td>
-                                    R  @Html.DisplayFor(model => model.ExpenseTotal)
+                                    <a href='/Expense/JobExpenses?ID=@Html.DisplayFor(model => model.JobID)'>
+                                        R  @Html.DisplayFor(model => model.ExpenseTotal)
+                                    </a>
                                 </td>
                             </tr>
                             <tr>
@@ -93,7 +99,9 @@
                                     @Html.DisplayNameFor(model => model.TravelLogCostTotal)
                                 </th>
                                 <td>
-                                    R @Html.DisplayFor(model => model.TravelLogCostTotal)
+                                    <a href='/Expense/JobTravleLog?ID=@Html.DisplayFor(model => model.JobID)'>
+                                        R @Html.DisplayFor(model => model.TravelLogCostTotal)
+                                    </a>
                                 </td>
                             </tr>
                             <tr>
@@ -101,7 +109,9 @@
                                     @Html.DisplayNameFor(model => model.TotalUnPaid)
                                 </th>
                                 <td>
-                                    R @Html.DisplayFor(model => model.TotalUnPaid)
+                                    <a href='/Invoice/JobInvoices?ID=@Html.DisplayFor(model => model.JobID)'>
+                                        R @Html.DisplayFor(model => model.TotalUnPaid)
+                                    </a>
                                 </td>
                             </tr>
                             <tr>
@@ -109,7 +119,9 @@
                                     @Html.DisplayNameFor(model => model.TotalPaid)
                                 </th>
                                 <td>
-                                    R @Html.DisplayFor(model => model.TotalPaid)
+                                    <a href='/Invoice/JobInvoices?ID=@Html.DisplayFor(model => model.JobID)'>
+                                        R @Html.DisplayFor(model => model.TotalPaid)
+                                    </a>
                                 </td>
                             </tr>
                             <tr>
@@ -119,8 +131,7 @@
                                         @Html.ActionLink("Back to List", "Index")
                                     </p>
                                 </th>
-                                <td>
-                                </td>
+                                <td></td>
                             </tr>
                         </tbody>
                     </table>

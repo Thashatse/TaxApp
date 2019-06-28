@@ -74,10 +74,22 @@ namespace TaxApp.Controllers
         }
 
         // GET: Client/Details/5
-        public ActionResult ClientDetails(int id)
+        public ActionResult ClientDetails(int ID)
         {
+            try
+            {
             getCookie();
-            return View();
+            Model.Client getClient = new Model.Client();
+            getClient.ClientID = ID;
+            Model.Client client = handler.getClient(getClient);
+            return View(client);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding client details");
+                return Redirect("/job/jobs");
+            }
         }
         #endregion
 

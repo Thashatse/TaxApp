@@ -37,6 +37,8 @@ namespace DAL
 
         #region WorkLog Item
         bool newWorkLogItem(Model.Worklog logItem, Model.Job job);
+        Worklog getLogItem(Model.Worklog logID);
+        List<Worklog> getJobHours(Job JobID);
         #endregion
 
         #region Client

@@ -443,6 +443,74 @@ namespace DAL
 
             return Result;
         }
+
+        public Worklog getLogItem(Model.Worklog logID)
+        {
+            Worklog logItem = null;
+
+            SqlParameter[] pars = new SqlParameter[]
+                {
+                        new SqlParameter("@LogID", logID.LogItemID)
+                };
+
+            try
+            {
+                using (DataTable table = DBHelper.ParamSelect("SP_GetLogItem",
+            CommandType.StoredProcedure, pars))
+                {
+                    foreach (DataRow row in table.Rows)
+                    {
+                        if (row != null)
+                        {
+                            logItem = new Worklog();
+                            logItem.LogItemID = int.Parse(row[0].ToString());
+                            logItem.Description = row[1].ToString();
+                            logItem.StartTime = DateTime.Parse(row[2].ToString());
+                            logItem.EndTime = DateTime.Parse(row[3].ToString());
+                        }
+                    }
+                }
+                return logItem;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        public List<Worklog> getJobHours(Job JobID)
+        {
+            List<Worklog> JobWorkLog = new List<Worklog>();
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@JobID", JobID.JobID)
+                    };
+
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetJobHours",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            Worklog logItem = new Worklog();
+                            logItem.LogItemID = int.Parse(row[0].ToString());
+                            logItem.Description = row[1].ToString();
+                            logItem.StartTime = DateTime.Parse(row[2].ToString());
+                            logItem.EndTime = DateTime.Parse(row[3].ToString());
+                            JobWorkLog.Add(logItem);
+                        }
+                    }
+                }
+                return JobWorkLog;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
         #endregion
         #endregion
 
@@ -503,10 +571,11 @@ namespace DAL
                             client.PreferedCommunicationChannel = row[7].ToString();
                             client.PhysiclaAddress = row[6].ToString();
                             client.ProfileID = int.Parse(row[8].ToString());
+                            client.ClientID = int.Parse(row[0].ToString());
                         }
                     }
                 }
-                return Client;
+                return client;
             }
             catch (Exception e)
             {

@@ -90,7 +90,44 @@ namespace TaxApp.Controllers
                     "Error loding job details");
                 return Redirect("/job/jobs");
     }
+
 }
+        #region Worklog Details and list
+        public ActionResult JobWorkLog(string ID)
+        {
+            try
+            {
+                getCookie();
+            Model.Job getJob = new Model.Job();
+            getJob.JobID = int.Parse(ID);
+            List<Model.Worklog> JobHours = handler.getJobHours(getJob);
+            return View(JobHours);
+        }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding job Hours List");
+                return Redirect("/job/jobs");
+    }
+}
+        public ActionResult JobWorkLogItem(string ID)
+        {
+            try
+            {
+                getCookie();
+            Model.Worklog LogID = new Model.Worklog();
+            LogID.LogItemID = int.Parse(ID);
+            Model.Worklog LogItem = handler.getLogItem(LogID);
+            return View(LogItem);
+        }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding Log Item Details");
+                return Redirect("/job/jobs");
+    }
+}
+        #endregion
 
         #region New Job
         // GET: Landing/NewProfile
