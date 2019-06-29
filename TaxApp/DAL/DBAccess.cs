@@ -466,7 +466,13 @@ namespace DAL
                             logItem.LogItemID = int.Parse(row[0].ToString());
                             logItem.Description = row[1].ToString();
                             logItem.StartTime = DateTime.Parse(row[2].ToString());
+                            logItem.StartTimeString = logItem.StartTime.ToString("hh:mm tt");
                             logItem.EndTime = DateTime.Parse(row[3].ToString());
+                            logItem.EndTimeString = logItem.EndTime.Value.ToString("hh:mm tt");
+                            logItem.DateString = logItem.StartTime.ToString("dddd, dd MMMM yyyy");
+                            int Hour = int.Parse(row["WorkLogHours"].ToString()) / 60;
+                            int Minute = int.Parse(row["WorkLogHours"].ToString()) % 60;
+                            logItem.WorkLogHoursString = Hour + ":" + Minute + " ";
                         }
                     }
                 }
@@ -500,6 +506,10 @@ namespace DAL
                             logItem.Description = row[1].ToString();
                             logItem.StartTime = DateTime.Parse(row[2].ToString());
                             logItem.EndTime = DateTime.Parse(row[3].ToString());
+                            logItem.DateString = logItem.StartTime.ToString("dddd, dd MMMM yyyy");
+                            int Hour = int.Parse(row["WorkLogHours"].ToString()) / 60;
+                            int Minute = int.Parse(row["WorkLogHours"].ToString()) % 60;
+                            logItem.WorkLogHoursString = Hour + ":" + Minute + " ";
                             JobWorkLog.Add(logItem);
                         }
                     }
@@ -675,8 +685,13 @@ namespace DAL
                             expense.CategoryID = int.Parse(row[1].ToString());
                             expense.Name = row[2].ToString();
                             expense.Description = row[3].ToString();
+                            if(expense.Description == "" || expense.Description == null)
+                            {
+                                expense.Description = "None";
+                            }
                             expense.JobID = int.Parse(row[4].ToString());
                             expense.Date = DateTime.Parse(row[5].ToString());
+                            expense.DateString = expense.Date.ToString("dddd, dd MMMM yyyy");
                             expense.Amount = decimal.Parse(row[6].ToString());
                             //expense.Invoice_ReceiptCopy = row[7].ToString();
                             expense.CatName = row[8].ToString();
@@ -702,7 +717,7 @@ namespace DAL
                     };
 
 
-                using (DataTable table = DBHelper.ParamSelect("SP_GetProfileClients",
+                using (DataTable table = DBHelper.ParamSelect("SP_GetJobExpenses",
             CommandType.StoredProcedure, pars))
                 {
                     if (table.Rows.Count > 0)
@@ -714,8 +729,13 @@ namespace DAL
                             expense.CategoryID = int.Parse(row[1].ToString());
                             expense.Name = row[2].ToString();
                             expense.Description = row[3].ToString();
+                            if (expense.Description == "" || expense.Description == null)
+                            {
+                                expense.Description = "None";
+                            }
                             expense.JobID = int.Parse(row[4].ToString());
                             expense.Date = DateTime.Parse(row[5].ToString());
+                            expense.DateString = expense.Date.ToString("dddd, dd MMMM yyyy");
                             expense.Amount = decimal.Parse(row[6].ToString());
                             //expense.Invoice_ReceiptCopy = row[7].ToString();
                             expense.CatName = row[8].ToString();

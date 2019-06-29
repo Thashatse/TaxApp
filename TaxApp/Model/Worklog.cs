@@ -11,12 +11,21 @@ namespace Model
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Worklog
     {
         public int LogItemID { get; set; }
         public string Description { get; set; }
+        [Display(Name = "Start Time")]
         public System.DateTime StartTime { get; set; }
+        public string StartTimeString { get; set; }
+        [Display(Name = "Date")]
+        public string DateString { get; set; }
+        [Display(Name = "End Time")]
         public Nullable<System.DateTime> EndTime { get; set; }
+        public string EndTimeString { get; set; }
+        [Display(Name = "Total Time")]
+        public String WorkLogHoursString { get; set; }
     }
 }

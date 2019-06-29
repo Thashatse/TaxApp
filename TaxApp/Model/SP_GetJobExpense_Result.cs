@@ -23,10 +23,15 @@ namespace Model
         public int JobID { get; set; }
         [Required]
         public System.DateTime Date { get; set; }
+        public String DateString { get; set; }
         [Required]
         public decimal Amount { get; set; }
         public byte[] Invoice_ReceiptCopy { get; set; }
+
+        [Display(Name = "Category")]
         public string CatName { get; set; }
+
+        [Display(Name = "Category Description")]
         public string CatDescription { get; set; }
     }
 }

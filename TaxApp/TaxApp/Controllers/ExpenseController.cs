@@ -196,5 +196,43 @@ namespace TaxApp.Controllers
             }
         }
         #endregion
+
+        #region Job Expense View
+
+        public ActionResult JobExpenses(string ID)
+        {
+            try
+            {
+                getCookie();
+                Model.Job getJob = new Model.Job();
+                getJob.JobID = int.Parse(ID);
+                List<Model.SP_GetJobExpense_Result> JobExpenses = handler.getJobExpenses(getJob);
+                return View(JobExpenses);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding job expense List");
+                return Redirect("/job/job?ID="+ID);
+            }
+        }
+        public ActionResult JobExpense(string ID)
+        {
+            try
+            {
+                getCookie();
+                Model.Expense getExpense = new Model.Expense();
+                getExpense.ExpenseID = int.Parse(ID);
+                Model.SP_GetJobExpense_Result JobExpense = handler.getJobExpense(getExpense);
+                return View(JobExpense);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding job expense Details");
+                return Redirect("/Expense/Expenses?ID=" + ID);
+            }
+        }
+        #endregion
     }
 }
