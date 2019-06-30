@@ -25,3 +25,30 @@ System.FormatException: Input string was not in a correct format.
    at System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
    at System.Int32.Parse(String s)
    at TaxApp.Controllers.JobController.Job(String ID) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\JobController.cs:line 83Error loding job details
+
+TimeStamp: 2019/06/30 15:01:26
+Machine Name: TEFO-NTSAKO-HAS
+OS Version: Microsoft Windows NT 10.0.17134.0
+Curent User: thash
+User Domain: TEFO-NTSAKO-HAS
+Curent Directory: C:\Program Files (x86)\IIS Express
+Error: 
+System.ArgumentNullException: Value cannot be null.
+Parameter name: String
+   at System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   at System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   at System.Int32.Parse(String s)
+   at TaxApp.Controllers.ExpenseController.JobExpenses(String ID) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\ExpenseController.cs:line 208Error loding job expense List
+
+TimeStamp: 2019/06/30 15:01:26
+Machine Name: TEFO-NTSAKO-HAS
+OS Version: Microsoft Windows NT 10.0.17134.0
+Curent User: thash
+User Domain: TEFO-NTSAKO-HAS
+Curent Directory: C:\Program Files (x86)\IIS Express
+Error: 
+System.FormatException: Input string was not in a correct format.
+   at System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   at System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   at System.Int32.Parse(String s)
+   at TaxApp.Controllers.JobController.Job(String ID) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\JobController.cs:line 83Error loding job details

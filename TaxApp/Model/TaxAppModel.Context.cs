@@ -33,6 +33,7 @@ namespace Model
         public virtual DbSet<Expense> Expenses { get; set; }
         public virtual DbSet<ExpenseCategory> ExpenseCategories { get; set; }
         public virtual DbSet<GeneralExpense> GeneralExpenses { get; set; }
+        public virtual DbSet<InvoiceLineItem> InvoiceLineItems { get; set; }
         public virtual DbSet<JobExpense> JobExpenses { get; set; }
         public virtual DbSet<JobHour> JobHours { get; set; }
         public virtual DbSet<JobInvoice> JobInvoices { get; set; }
@@ -53,13 +54,13 @@ namespace Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetGeneralExpense_Result>("SP_GetGeneralExpense", eIDParameter);
         }
     
-        public virtual ObjectResult<SP_GetJob_Result> SP_GetJob(Nullable<int> jID)
+        public virtual int SP_GetJob(Nullable<int> jID)
         {
             var jIDParameter = jID.HasValue ?
                 new ObjectParameter("JID", jID) :
                 new ObjectParameter("JID", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetJob_Result>("SP_GetJob", jIDParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_GetJob", jIDParameter);
         }
     
         public virtual ObjectResult<SP_GetJobExpense_Result> SP_GetJobExpense(Nullable<int> eID)
@@ -69,6 +70,15 @@ namespace Model
                 new ObjectParameter("EID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetJobExpense_Result>("SP_GetJobExpense", eIDParameter);
+        }
+    
+        public virtual ObjectResult<SP_GetJobIntemsToInvoice_Result> SP_GetJobIntemsToInvoice(Nullable<int> jID)
+        {
+            var jIDParameter = jID.HasValue ?
+                new ObjectParameter("JID", jID) :
+                new ObjectParameter("JID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetJobIntemsToInvoice_Result>("SP_GetJobIntemsToInvoice", jIDParameter);
         }
     }
 }

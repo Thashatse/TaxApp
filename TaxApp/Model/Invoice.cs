@@ -21,10 +21,7 @@ namespace Model
         public System.DateTime DateTime { get; set; }
 
         [Required]
-        public decimal SubTotal { get; set; }
-
-        [Required]
-        public decimal VAT { get; set; }
+        public decimal VATRate { get; set; }
 
 
         public bool Paid { get; set; }

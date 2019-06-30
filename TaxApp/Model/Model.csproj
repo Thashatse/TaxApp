@@ -72,6 +72,9 @@
     <Compile Include="Invoice.cs">
       <DependentUpon>TaxAppModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="InvoiceLineItem.cs">
+      <DependentUpon>TaxAppModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Job.cs">
       <DependentUpon>TaxAppModel.tt</DependentUpon>
     </Compile>
@@ -94,7 +97,7 @@
     <Compile Include="SP_GetJobExpense_Result.cs">
       <DependentUpon>TaxAppModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="SP_GetJob_Result.cs">
+    <Compile Include="SP_GetJobIntemsToInvoice_Result.cs">
       <DependentUpon>TaxAppModel.tt</DependentUpon>
     </Compile>
     <Compile Include="TaxAppModel.Context.cs">

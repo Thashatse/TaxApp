@@ -76,15 +76,23 @@ warning 6002: The table/view 'TaxApp.dbo.Invoice' does not have a primary key de
           <Key>
             <PropertyRef Name="InvoiceNum" />
             <PropertyRef Name="DateTime" />
-            <PropertyRef Name="SubTotal" />
-            <PropertyRef Name="VAT" />
+            <PropertyRef Name="VATRate" />
             <PropertyRef Name="Paid" />
           </Key>
-          <Property Name="InvoiceNum" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="InvoiceNum" Type="nchar" MaxLength="11" Nullable="false" />
           <Property Name="DateTime" Type="datetime" Nullable="false" />
-          <Property Name="SubTotal" Type="money" Nullable="false" />
-          <Property Name="VAT" Type="money" Nullable="false" />
+          <Property Name="VATRate" Type="decimal" Precision="4" Scale="2" Nullable="false" />
           <Property Name="Paid" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InvoiceLineItem">
+          <Key>
+            <PropertyRef Name="LineItemID" />
+          </Key>
+          <Property Name="LineItemID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InvoiceNum" Type="nchar" MaxLength="11" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="UnitCount" Type="int" Nullable="false" />
+          <Property Name="UnitCost" Type="money" Nullable="false" />
         </EntityType>
         <EntityType Name="JobExpense">
           <Key>
@@ -96,6 +104,7 @@ warning 6002: The table/view 'TaxApp.dbo.Invoice' does not have a primary key de
           <Property Name="Date" Type="datetime" Nullable="false" />
           <Property Name="Amount" Type="money" Nullable="false" />
           <Property Name="Invoice/ReceiptCopy" Type="varbinary(max)" />
+          <Property Name="Invoiced" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="JobHours">
           <Key>
@@ -111,7 +120,7 @@ warning 6002: The table/view 'TaxApp.dbo.Invoice' does not have a primary key de
             <PropertyRef Name="InvoiceNum" />
           </Key>
           <Property Name="JobID" Type="int" Nullable="false" />
-          <Property Name="InvoiceNum" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="InvoiceNum" Type="nchar" MaxLength="11" Nullable="false" />
         </EntityType>
         <EntityType Name="Jobs">
           <Key>
@@ -164,6 +173,7 @@ warning 6002: The table/view 'TaxApp.dbo.Invoice' does not have a primary key de
           <Property Name="ClosingKMs" Type="int" />
           <Property Name="VehicleID" Type="int" Nullable="false" />
           <Property Name="JobID" Type="int" />
+          <Property Name="Invoiced" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Vehicle">
           <Key>
@@ -182,6 +192,7 @@ warning 6002: The table/view 'TaxApp.dbo.Invoice' does not have a primary key de
           <Property Name="Description" Type="varchar(max)" Nullable="false" />
           <Property Name="StartTime" Type="datetime" Nullable="false" />
           <Property Name="EndTime" Type="datetime" />
+          <Property Name="Invoiced" Type="bit" Nullable="false" />
         </EntityType>
         <Function Name="SP_GetGeneralExpense" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="EID" Type="int" Mode="In" />
@@ -192,6 +203,9 @@ warning 6002: The table/view 'TaxApp.dbo.Invoice' does not have a primary key de
         <Function Name="SP_GetJobExpense" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="EID" Type="int" Mode="In" />
         </Function>
+        <Function Name="SP_GetJobIntemsToInvoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="JID" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="TaxAppModelStoreContainer">
           <EntitySet Name="Business" EntityType="Self.Business" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
@@ -199,6 +213,7 @@ warning 6002: The table/view 'TaxApp.dbo.Invoice' does not have a primary key de
           <EntitySet Name="Expense" EntityType="Self.Expense" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExpenseCategory" EntityType="Self.ExpenseCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GeneralExpense" EntityType="Self.GeneralExpense" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InvoiceLineItem" EntityType="Self.InvoiceLineItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JobExpense" EntityType="Self.JobExpense" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JobHours" EntityType="Self.JobHours" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JobInvoice" EntityType="Self.JobInvoice" Schema="dbo" store:Type="Tables" />
@@ -212,8 +227,7 @@ warning 6002: The table/view 'TaxApp.dbo.Invoice' does not have a primary key de
             <DefiningQuery>SELECT 
     [Invoice].[InvoiceNum] AS [InvoiceNum], 
     [Invoice].[DateTime] AS [DateTime], 
-    [Invoice].[SubTotal] AS [SubTotal], 
-    [Invoice].[VAT] AS [VAT], 
+    [Invoice].[VATRate] AS [VATRate], 
     [Invoice].[Paid] AS [Paid]
     FROM [dbo].[Invoice] AS [Invoice]</DefiningQuery>
           </EntitySet>
@@ -288,6 +302,16 @@ warning 6002: The table/view 'TaxApp.dbo.Invoice' does not have a primary key de
           <Property Name="Repeat" Type="Boolean" Nullable="false" />
           <Property Name="Invoice_ReceiptCopy" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
+        <EntityType Name="InvoiceLineItem">
+          <Key>
+            <PropertyRef Name="LineItemID" />
+          </Key>
+          <Property Name="LineItemID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InvoiceNum" Type="String" MaxLength="11" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="UnitCount" Type="Int32" Nullable="false" />
+          <Property Name="UnitCost" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+        </EntityType>
         <EntityType Name="JobExpense">
           <Key>
             <PropertyRef Name="JobID" />
@@ -298,6 +322,7 @@ warning 6002: The table/view 'TaxApp.dbo.Invoice' does not have a primary key de
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="Invoice_ReceiptCopy" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Invoiced" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="JobHour">
           <Key>
@@ -313,7 +338,7 @@ warning 6002: The table/view 'TaxApp.dbo.Invoice' does not have a primary key de
             <PropertyRef Name="InvoiceNum" />
           </Key>
           <Property Name="JobID" Type="Int32" Nullable="false" />
-          <Property Name="InvoiceNum" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="InvoiceNum" Type="String" MaxLength="11" FixedLength="true" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="Job">
           <Key>
@@ -366,6 +391,7 @@ warning 6002: The table/view 'TaxApp.dbo.Invoice' does not have a primary key de
           <Property Name="ClosingKMs" Type="Int32" />
           <Property Name="VehicleID" Type="Int32" Nullable="false" />
           <Property Name="JobID" Type="Int32" />
+          <Property Name="Invoiced" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Vehicle">
           <Key>
@@ -384,19 +410,18 @@ warning 6002: The table/view 'TaxApp.dbo.Invoice' does not have a primary key de
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="EndTime" Type="DateTime" Precision="3" />
+          <Property Name="Invoiced" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Invoice">
           <Key>
             <PropertyRef Name="InvoiceNum" />
             <PropertyRef Name="DateTime" />
-            <PropertyRef Name="SubTotal" />
-            <PropertyRef Name="VAT" />
+            <PropertyRef Name="VATRate" />
             <PropertyRef Name="Paid" />
           </Key>
-          <Property Name="InvoiceNum" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="InvoiceNum" Type="String" MaxLength="11" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="SubTotal" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <Property Name="VAT" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="VATRate" Type="Decimal" Precision="4" Scale="2" Nullable="false" />
           <Property Name="Paid" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityContainer Name="TaxAppEntities" annotation:LazyLoadingEnabled="true">
@@ -406,6 +431,7 @@ warning 6002: The table/view 'TaxApp.dbo.Invoice' does not have a primary key de
           <EntitySet Name="Expenses" EntityType="Self.Expense" />
           <EntitySet Name="ExpenseCategories" EntityType="Self.ExpenseCategory" />
           <EntitySet Name="GeneralExpenses" EntityType="Self.GeneralExpense" />
+          <EntitySet Name="InvoiceLineItems" EntityType="Self.InvoiceLineItem" />
           <EntitySet Name="JobExpenses" EntityType="Self.JobExpense" />
           <EntitySet Name="JobHours" EntityType="Self.JobHour" />
           <EntitySet Name="JobInvoices" EntityType="Self.JobInvoice" />
@@ -419,11 +445,14 @@ warning 6002: The table/view 'TaxApp.dbo.Invoice' does not have a primary key de
           <FunctionImport Name="SP_GetGeneralExpense" ReturnType="Collection(TaxAppModel.SP_GetGeneralExpense_Result)">
             <Parameter Name="EID" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="SP_GetJob" ReturnType="Collection(TaxAppModel.SP_GetJob_Result)">
+          <FunctionImport Name="SP_GetJob">
             <Parameter Name="JID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_GetJobExpense" ReturnType="Collection(TaxAppModel.SP_GetJobExpense_Result)">
             <Parameter Name="EID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GetJobIntemsToInvoice" ReturnType="Collection(TaxAppModel.SP_GetJobIntemsToInvoice_Result)">
+            <Parameter Name="JID" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="SP_GetGeneralExpense_Result">
@@ -439,21 +468,6 @@ warning 6002: The table/view 'TaxApp.dbo.Invoice' does not have a primary key de
           <Property Type="String" Name="Name1" Nullable="false" />
           <Property Type="String" Name="Description1" Nullable="false" />
         </ComplexType>
-        <ComplexType Name="SP_GetJob_Result">
-          <Property Type="Int32" Name="JobID" Nullable="false" />
-          <Property Type="String" Name="JobTitle" Nullable="false" />
-          <Property Type="Decimal" Name="HourlyRate" Nullable="true" Precision="19" />
-          <Property Type="Decimal" Name="Budget" Nullable="true" Precision="19" />
-          <Property Type="DateTime" Name="StartDate" Nullable="false" Precision="23" />
-          <Property Type="DateTime" Name="EndDate" Nullable="true" Precision="23" />
-          <Property Type="Int32" Name="ClientID" Nullable="false" />
-          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" />
-          <Property Type="Int32" Name="WorkLogHours" Nullable="true" />
-          <Property Type="Decimal" Name="ExpenseTotal" Nullable="true" Precision="19" />
-          <Property Type="Decimal" Name="TotalPaid" Nullable="true" Precision="19" />
-          <Property Type="Decimal" Name="TotalUnPaid" Nullable="true" Precision="19" />
-          <Property Type="Decimal" Name="TravelLogCostTotal" Nullable="true" Precision="19" />
-        </ComplexType>
         <ComplexType Name="SP_GetJobExpense_Result">
           <Property Type="Int32" Name="ExpenseID" Nullable="false" />
           <Property Type="Int32" Name="CategoryID" Nullable="false" />
@@ -465,6 +479,12 @@ warning 6002: The table/view 'TaxApp.dbo.Invoice' does not have a primary key de
           <Property Type="Binary" Name="Invoice_ReceiptCopy" Nullable="true" />
           <Property Type="String" Name="Name1" Nullable="false" />
           <Property Type="String" Name="Description1" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="SP_GetJobIntemsToInvoice_Result">
+          <Property Type="Int32" Name="LogItemID" Nullable="false" />
+          <Property Type="String" Name="Description" Nullable="false" />
+          <Property Type="Decimal" Name="HourlyRate" Nullable="true" Precision="19" />
+          <Property Type="Int32" Name="WorkLogHours" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -542,6 +562,17 @@ warning 6002: The table/view 'TaxApp.dbo.Invoice' does not have a primary key de
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="InvoiceLineItems">
+            <EntityTypeMapping TypeName="TaxAppModel.InvoiceLineItem">
+              <MappingFragment StoreEntitySet="InvoiceLineItem">
+                <ScalarProperty Name="LineItemID" ColumnName="LineItemID" />
+                <ScalarProperty Name="InvoiceNum" ColumnName="InvoiceNum" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="UnitCount" ColumnName="UnitCount" />
+                <ScalarProperty Name="UnitCost" ColumnName="UnitCost" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="JobExpenses">
             <EntityTypeMapping TypeName="TaxAppModel.JobExpense">
               <MappingFragment StoreEntitySet="JobExpense">
@@ -550,6 +581,7 @@ warning 6002: The table/view 'TaxApp.dbo.Invoice' does not have a primary key de
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="Invoice_ReceiptCopy" ColumnName="Invoice/ReceiptCopy" />
+                <ScalarProperty Name="Invoiced" ColumnName="Invoiced" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -622,6 +654,7 @@ warning 6002: The table/view 'TaxApp.dbo.Invoice' does not have a primary key de
                 <ScalarProperty Name="ClosingKMs" ColumnName="ClosingKMs" />
                 <ScalarProperty Name="VehicleID" ColumnName="VehicleID" />
                 <ScalarProperty Name="JobID" ColumnName="JobID" />
+                <ScalarProperty Name="Invoiced" ColumnName="Invoiced" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -642,6 +675,7 @@ warning 6002: The table/view 'TaxApp.dbo.Invoice' does not have a primary key de
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="StartTime" ColumnName="StartTime" />
                 <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="Invoiced" ColumnName="Invoiced" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -650,8 +684,7 @@ warning 6002: The table/view 'TaxApp.dbo.Invoice' does not have a primary key de
               <MappingFragment StoreEntitySet="Invoice">
                 <ScalarProperty Name="InvoiceNum" ColumnName="InvoiceNum" />
                 <ScalarProperty Name="DateTime" ColumnName="DateTime" />
-                <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
-                <ScalarProperty Name="VAT" ColumnName="VAT" />
+                <ScalarProperty Name="VATRate" ColumnName="VATRate" />
                 <ScalarProperty Name="Paid" ColumnName="Paid" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -673,25 +706,7 @@ warning 6002: The table/view 'TaxApp.dbo.Invoice' does not have a primary key de
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_GetJob" FunctionName="TaxAppModel.Store.SP_GetJob">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="TaxAppModel.SP_GetJob_Result">
-                <ScalarProperty Name="JobID" ColumnName="JobID" />
-                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
-                <ScalarProperty Name="HourlyRate" ColumnName="HourlyRate" />
-                <ScalarProperty Name="Budget" ColumnName="Budget" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="WorkLogHours" ColumnName="WorkLogHours" />
-                <ScalarProperty Name="ExpenseTotal" ColumnName="ExpenseTotal" />
-                <ScalarProperty Name="TotalPaid" ColumnName="TotalPaid" />
-                <ScalarProperty Name="TotalUnPaid" ColumnName="TotalUnPaid" />
-                <ScalarProperty Name="TravelLogCostTotal" ColumnName="TravelLogCostTotal" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GetJob" FunctionName="TaxAppModel.Store.SP_GetJob" />
           <FunctionImportMapping FunctionImportName="SP_GetJobExpense" FunctionName="TaxAppModel.Store.SP_GetJobExpense">
             <ResultMapping>
               <ComplexTypeMapping TypeName="TaxAppModel.SP_GetJobExpense_Result">
@@ -705,6 +720,16 @@ warning 6002: The table/view 'TaxApp.dbo.Invoice' does not have a primary key de
                 <ScalarProperty Name="Invoice_ReceiptCopy" ColumnName="Invoice/ReceiptCopy" />
                 <ScalarProperty Name="Name1" ColumnName="Name1" />
                 <ScalarProperty Name="Description1" ColumnName="Description1" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GetJobIntemsToInvoice" FunctionName="TaxAppModel.Store.SP_GetJobIntemsToInvoice">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TaxAppModel.SP_GetJobIntemsToInvoice_Result">
+                <ScalarProperty Name="LogItemID" ColumnName="LogItemID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="HourlyRate" ColumnName="HourlyRate" />
+                <ScalarProperty Name="WorkLogHours" ColumnName="WorkLogHours" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
