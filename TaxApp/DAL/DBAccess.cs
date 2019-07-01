@@ -888,5 +888,163 @@ namespace DAL
             }
         }
         #endregion
+
+        #region Invoice
+        public int getInvoiceTodaysCount()
+        {
+            int todaysCount = -1;
+
+            try
+            {
+                using (DataTable table = DBHelper.Select("SP_GetInvoiceCount",
+            CommandType.StoredProcedure))
+                {
+                    foreach (DataRow row in table.Rows)
+                    {
+                        if (row != null)
+                        {
+                            todaysCount = new int();
+                            todaysCount = int.Parse(row[0].ToString());
+                        }
+                    }
+                }
+                return todaysCount;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+
+        public List<List<SP_GetJobIntemsToInvoice_Result>> getJobItemsForInvoice(Job jobID)
+        {
+            List<SP_GetJobIntemsToInvoice_Result> Hours = new List<SP_GetJobIntemsToInvoice_Result>();
+            List<SP_GetJobIntemsToInvoice_Result> Travels = new List<SP_GetJobIntemsToInvoice_Result>();
+            List<SP_GetJobIntemsToInvoice_Result> Expenses = new List<SP_GetJobIntemsToInvoice_Result>();
+
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@JID", jobID.JobID)
+                    };
+
+                SqlParameter[] pars2 = new SqlParameter[]
+                    {
+                        new SqlParameter("@JID", jobID.JobID)
+                    };
+
+                SqlParameter[] pars3 = new SqlParameter[]
+                    {
+                        new SqlParameter("@JID", jobID.JobID)
+                    };
+
+
+                using (
+                    DataTable table = DBHelper.ParamSelect("SP_GetJobHoursForInvoice",
+            CommandType.StoredProcedure, pars))
+                {
+                        if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            SP_GetJobIntemsToInvoice_Result Hour = new SP_GetJobIntemsToInvoice_Result();
+                            Hour.ID = int.Parse(row[0].ToString());
+                            Hour.Description = row[1].ToString();
+                            Hour.UnitCost = decimal.Parse(row[2].ToString());
+                            Hour.UnitCount = decimal.Parse(row[3].ToString());
+                            Hours.Add(Hour);
+                        }
+                    }
+                }
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetJobTravelForInvoice",
+            CommandType.StoredProcedure, pars2))
+                {
+                        if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            SP_GetJobIntemsToInvoice_Result Travel = new SP_GetJobIntemsToInvoice_Result();
+                            Travel.ID = int.Parse(row[0].ToString());
+                            Travel.Description = row[1].ToString();
+                            Travel.UnitCost = decimal.Parse(row[3].ToString());
+                            Travel.UnitCount = decimal.Parse(row[2].ToString());
+                            Travels.Add(Travel);
+                        }
+                    }
+                }
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetJobExpenesForInvoice",
+            CommandType.StoredProcedure, pars3))
+                {
+                        if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            SP_GetJobIntemsToInvoice_Result Expense = new SP_GetJobIntemsToInvoice_Result();
+                            Expense.ID = int.Parse(row[0].ToString());
+                            Expense.Description = row[1].ToString();
+                            Expense.UnitCost = decimal.Parse(row[2].ToString());
+                            Expense.UnitCount = 1;
+                            Expenses.Add(Expense);
+                        }
+                    }
+                }
+
+                return new List<List<SP_GetJobIntemsToInvoice_Result>> { Hours, Travels, Expenses };
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        public bool newInvoiceDetailLine(InvoiceLineItem newInvoiceLineItem)
+        {
+            bool Result = false;
+
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@INum", newInvoiceLineItem.InvoiceNum),
+                        new SqlParameter("@Name", newInvoiceLineItem.Name),
+                        new SqlParameter("@UnitCount", newInvoiceLineItem.UnitCount),
+                        new SqlParameter("@UnitCost", newInvoiceLineItem.UnitCost)
+                   };
+
+                Result = DBHelper.NonQuery("SP_NewInvoiceDetailLine", CommandType.StoredProcedure, pars);
+
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return Result;
+        }
+        public bool newInvoice(Invoice newInvoice, Job jobID)
+        {
+            bool Result = false;
+
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@JID", jobID.JobID),
+                        new SqlParameter("@INum", newInvoice.InvoiceNum)
+                   };
+
+                Result = DBHelper.NonQuery("SP_NewInvoice", CommandType.StoredProcedure, pars);
+
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return Result;
+        }
+        #endregion
     }
 }                  

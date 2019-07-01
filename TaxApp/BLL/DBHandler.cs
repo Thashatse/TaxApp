@@ -133,5 +133,26 @@ namespace BLL
             return db.getExpenseCatagories();
         }
         #endregion
+
+        #region Invoice
+        public int getInvoiceTodaysCount()
+        {
+            return db.getInvoiceTodaysCount();
+        }
+
+        public List<List<SP_GetJobIntemsToInvoice_Result>> getJobItemsForInvoice(Job jobID)
+        {
+            return db.getJobItemsForInvoice(jobID);
+        }
+
+        public bool newInvoiceDetailLine(InvoiceLineItem newInvoiceLineItem)
+        {
+            return db.newInvoiceDetailLine(newInvoiceLineItem);
+        }
+        public bool newInvoice(Invoice newInvoice, Job jobID)
+        {
+            return db.newInvoice(newInvoice, jobID);
+        }
+        #endregion
     }
 }

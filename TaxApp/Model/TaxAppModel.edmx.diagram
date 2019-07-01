@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="144f8dd6445f4481af73b4a054dc999a" Name="Diagram1">
+      <Diagram DiagramId="8ffa11c395aa4e559bc09ade52a57cac" Name="Diagram1">
         <EntityTypeShape EntityType="TaxAppModel.Business" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TaxAppModel.Client" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TaxAppModel.EmailSetting" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />

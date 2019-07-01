@@ -57,5 +57,14 @@ namespace DAL
         List<SP_GetGeneralExpense_Result> getGeneralExpenses(Profile profileID);
         List<ExpenseCategory> getExpenseCatagories();
         #endregion
+
+        #region Invoice
+        int getInvoiceTodaysCount();
+
+        List<List<SP_GetJobIntemsToInvoice_Result>> getJobItemsForInvoice(Job jobID);
+
+        bool newInvoiceDetailLine(InvoiceLineItem newInvoiceLineItem);
+        bool newInvoice(Invoice newInvoice, Job jobID);
+        #endregion
     }
 }

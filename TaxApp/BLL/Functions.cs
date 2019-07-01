@@ -8,6 +8,7 @@ namespace BLL
 {
     public class Functions
     {
+        IDBHandler handler = new DBHandler();
         public void logAnError(string Err)
         {
             /*
@@ -33,6 +34,41 @@ namespace BLL
             {
 
             }
+        }
+
+        public string generateNewInvoiceNum()
+        {
+            try
+            {
+                string invoiceNum = DateTime.Now.ToString("yyyyMMdd");
+
+                int count = handler.getInvoiceTodaysCount();
+
+                if (count == -1)
+                {
+                    logAnError("Error generating invoice number");
+                    return null;
+                }
+                else if(count < 10)
+                {
+                    invoiceNum += "00" + count;
+                }
+                else if(count < 100)
+                {
+                    invoiceNum += "0" + count;
+                }
+                else
+                {
+                    invoiceNum += count;
+                }
+
+                return invoiceNum;
+            }
+            catch
+            {
+                logAnError("Error generating invoice number");
+            }
+            return null;
         }
     }
 }

@@ -13,16 +13,9 @@ namespace Model
     
     public partial class SP_GetJobIntemsToInvoice_Result
     {
-        public int LogItemID { get; set; }
+        public int ID { get; set; }
         public string Description { get; set; }
-        public Nullable<decimal> HourlyRate { get; set; }
-        public Nullable<int> WorkLogHours { get; set; }
-        public int TravelExpenseID { get; set; }
-        public string Reason { get; set; }
-        public int UnitKMs { get; set; }
-        public decimal CostPerKM { get; set; }
-        public int ExpenseID { get; set; }
-        public string Name { get; set; }
-        public decimal Amount { get; set; }
+        public decimal UnitCost { get; set; }
+        public decimal UnitCount { get; set; }
     }
 }
