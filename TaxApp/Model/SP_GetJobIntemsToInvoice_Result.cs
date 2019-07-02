@@ -15,6 +15,7 @@ namespace Model
     {
         public int ID { get; set; }
         public string Description { get; set; }
+        public string DisplayString { get; set; }
         public decimal UnitCost { get; set; }
         public decimal UnitCount { get; set; }
     }

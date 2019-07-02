@@ -54,6 +54,9 @@ namespace BLL
         SP_GetGeneralExpense_Result getGeneralExpense(Expense expenseID);
         List<SP_GetGeneralExpense_Result> getGeneralExpenses(Profile profileID);
         List<ExpenseCategory> getExpenseCatagories();
+        bool NewTravelExpense(TravelLog newTravelLogExpense);
+        bool newVehicle(Vehicle newVehicle);
+        List<Vehicle> getVehicles(Profile getProfileVehicles);
         #endregion
 
         #region Invoice

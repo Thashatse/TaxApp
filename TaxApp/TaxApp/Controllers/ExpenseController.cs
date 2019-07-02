@@ -234,5 +234,121 @@ namespace TaxApp.Controllers
             }
         }
         #endregion
+
+        #region New Travel Expense
+        // GET: 
+        public ActionResult NewTravelExpense()
+        {
+            try
+            {
+                getCookie();
+                Model.Profile getProfileVehicles = new Model.Profile();
+                getProfileVehicles.ProfileID = int.Parse(cookie["ID"]);
+                List<Model.Vehicle> Vehicles = handler.getVehicles(getProfileVehicles);
+                ViewBag.Vehicles = new SelectList(Vehicles, "VehicleID", "Name");
+                return View();
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loading new Travel Log Expense");
+                return RedirectToAction("../Shared/Error");
+            }
+        }
+
+        // POST:
+        [HttpPost]
+        public ActionResult NewTravelExpense(FormCollection collection, string ID)
+        {
+            try
+            {
+                getCookie();
+                Model.Profile getProfileVehicles = new Model.Profile();
+                getProfileVehicles.ProfileID = int.Parse(cookie["ID"]);
+                List<Model.Vehicle> Vehicles = handler.getVehicles(getProfileVehicles);
+                ViewBag.Vehicles = new SelectList(Vehicles, "VehicleID", "Name");
+
+                Model.TravelLog newTravelLogExpense = new Model.TravelLog();
+
+                newTravelLogExpense.From = Request.Form["From"].ToString();
+                newTravelLogExpense.To = Request.Form["To"].ToString();
+                newTravelLogExpense.Reason = Request.Form["Reason"].ToString();
+                newTravelLogExpense.OpeningKMs = double.Parse(Request.Form["OpeningKMs"].ToString());
+                newTravelLogExpense.ClosingKMs = double.Parse(Request.Form["ClosingKMs"].ToString());
+                newTravelLogExpense.VehicleID = int.Parse(Request.Form["VehicleList"].ToString());
+                newTravelLogExpense.JobID = int.Parse(ID);
+
+                bool result = handler.NewTravelExpense(newTravelLogExpense);
+
+                if (result == true)
+                {
+                    return Redirect("/Expense/JobExpenses?ID=" + ID);
+                }
+                else
+                {
+                    return RedirectToAction("../Shared/Error");
+                }
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error in new general expense of expense controler");
+                return View();
+            }
+        }
+        #endregion
+
+        #region New Travel Expense
+        // GET
+        public ActionResult NewVehicle()
+        {
+            try
+            {
+                getCookie();
+                return View();
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loading new Vehical");
+                return RedirectToAction("../Expense/NewTravelExpense");
+            }
+        }
+
+        // POST
+        [HttpPost]
+        public ActionResult NewVehicle(FormCollection collection)
+        {
+            try
+            {
+                getCookie();
+                Model.Vehicle newVehicle = new Model.Vehicle();
+
+                newVehicle.Name = Request.Form["Name"].ToString();
+                newVehicle.SARSFuelCost = decimal.Parse(Request.Form["SARSFuelCost"].ToString());
+                newVehicle.SARSMaintenceCost = decimal.Parse(Request.Form["SARSMaintenceCost"].ToString());
+                newVehicle.SARSFixedCost = decimal.Parse(Request.Form["SARSFixedCost"].ToString());
+                newVehicle.ClientCharge = decimal.Parse(Request.Form["ClientCharge"].ToString());
+                newVehicle.ProfielID = int.Parse(cookie["ID"]);
+                
+                bool result = handler.newVehicle(newVehicle);
+
+                if (result == true)
+                {
+                    return Redirect("/Expense/TravelExpenses");
+                }
+                else
+                {
+                    return RedirectToAction("../Shared/Error");
+                }
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error in new vehicle of expense controler");
+                return View();
+            }
+        }
+        #endregion
     }
 }

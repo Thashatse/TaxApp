@@ -887,6 +887,95 @@ namespace DAL
                 throw new ApplicationException(e.ToString());
             }
         }
+        public bool NewTravelExpense(TravelLog newTravelLogExpense)
+        {
+            bool Result = false;
+
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@F", newTravelLogExpense.From),
+                        new SqlParameter("@T", newTravelLogExpense.To),
+                        new SqlParameter("@R", newTravelLogExpense.Reason),
+                        new SqlParameter("@OKM", newTravelLogExpense.OpeningKMs),
+                        new SqlParameter("@CKM", newTravelLogExpense.ClosingKMs),
+                        new SqlParameter("@VID", newTravelLogExpense.VehicleID),
+                        new SqlParameter("@JID", newTravelLogExpense.JobID),
+                   };
+
+                Result = DBHelper.NonQuery("SP_NewTravelExpense", CommandType.StoredProcedure, pars);
+
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return Result;
+        }
+        public bool newVehicle(Vehicle newVehicle)
+        {
+            bool Result = false;
+
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@N", newVehicle.Name),
+                        new SqlParameter("@FC", newVehicle.SARSFuelCost),
+                        new SqlParameter("@CC", newVehicle.ClientCharge),
+                        new SqlParameter("@MC", newVehicle.SARSMaintenceCost),
+                        new SqlParameter("@FxC", newVehicle.SARSFixedCost),
+                        new SqlParameter("@PID", newVehicle.ProfielID),
+                   };
+
+                Result = DBHelper.NonQuery("SP_NewVehicle", CommandType.StoredProcedure, pars);
+
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return Result;
+        }
+        public List<Vehicle> getVehicles(Profile getProfileVehicles)
+        {
+            List<Vehicle> Vehicles = new List<Vehicle>();
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@PID", getProfileVehicles.ProfileID)
+                   };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetVehicles",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            Vehicle Vehicle = new Vehicle();
+                            Vehicle.VehicleID = int.Parse(row["VehicleID"].ToString());
+                            Vehicle.ProfielID = int.Parse(row["ProfileID"].ToString());
+                            Vehicle.SARSFixedCost = decimal.Parse(row["SARSFixedCost"].ToString());
+                            Vehicle.SARSFuelCost = decimal.Parse(row["SARSFuelCost"].ToString());
+                            Vehicle.SARSMaintenceCost = decimal.Parse(row["SARSMaintenceCost"].ToString());
+                            Vehicle.ClientCharge = decimal.Parse(row["ClientCharge"].ToString());
+                            Vehicle.Name = row["Name"].ToString();
+                            Vehicles.Add(Vehicle);
+                        }
+                    }
+                }
+                return Vehicles;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
         #endregion
 
         #region Invoice
@@ -953,6 +1042,10 @@ namespace DAL
                             Hour.Description = row[1].ToString();
                             Hour.UnitCost = decimal.Parse(row[2].ToString());
                             Hour.UnitCount = decimal.Parse(row[3].ToString());
+                            int WorkHours = int.Parse(row[3].ToString()) / 60;
+                            int Minutes = int.Parse(row[3].ToString()) % 60;
+                            Hour.DisplayString = WorkHours + ":" + Minutes + "h of " 
+                                + Hour.Description +" at R"+ Hour.UnitCost.ToString("0.##") + " per Hour";
                             Hours.Add(Hour);
                         }
                     }
@@ -970,6 +1063,8 @@ namespace DAL
                             Travel.Description = row[1].ToString();
                             Travel.UnitCost = decimal.Parse(row[3].ToString());
                             Travel.UnitCount = decimal.Parse(row[2].ToString());
+                            Travel.DisplayString = Travel.Description + " - "+ Travel.UnitCount.ToString("0.##") + "KM at R" 
+                                + Travel.UnitCost.ToString("0.##") + " Per KM";
                             Travels.Add(Travel);
                         }
                     }
@@ -987,6 +1082,8 @@ namespace DAL
                             Expense.Description = row[1].ToString();
                             Expense.UnitCost = decimal.Parse(row[2].ToString());
                             Expense.UnitCount = 1;
+                            Expense.DisplayString = Expense.UnitCount + "* "
+                                + Expense.Description + " at R" + Expense.UnitCost.ToString("0.##") + " each";
                             Expenses.Add(Expense);
                         }
                     }

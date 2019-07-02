@@ -11,12 +11,20 @@ namespace Model
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Vehicle
     {
         public int VehicleID { get; set; }
+        public int ProfielID { get; set; }
         public string Name { get; set; }
-        public decimal FuelCost { get; set; }
-        public decimal MaintenceCost { get; set; }
+        [Display(Name = "SARS Fixed Cost (R p.a.)")]
+        public decimal SARSFixedCost { get; set; }
+        [Display(Name = "SARS Fuel Cost (R/KM)")]
+        public decimal SARSFuelCost { get; set; }
+        [Display(Name = "SARS Maintence Cost (R/KM)")]
+        public decimal SARSMaintenceCost { get; set; }
+        [Display(Name = "Client Charge (R/KM)")]
+        public decimal ClientCharge { get; set; }
     }
 }

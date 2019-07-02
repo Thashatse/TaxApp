@@ -132,6 +132,18 @@ namespace BLL
         {
             return db.getExpenseCatagories();
         }
+        public bool NewTravelExpense(TravelLog newTravelLogExpense)
+        {
+            return db.NewTravelExpense(newTravelLogExpense);
+        }
+        public bool newVehicle(Vehicle newVehicle)
+        {
+            return db.newVehicle(newVehicle);
+        }
+        public List<Vehicle> getVehicles(Profile getProfileVehicles)
+        {
+            return db.getVehicles(getProfileVehicles);
+        }
         #endregion
 
         #region Invoice

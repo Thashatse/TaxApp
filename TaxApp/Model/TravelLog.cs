@@ -11,15 +11,17 @@ namespace Model
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class TravelLog
     {
         public int ExpenseID { get; set; }
         public string From { get; set; }
         public string To { get; set; }
         public string Reason { get; set; }
-        public int OpeningKMs { get; set; }
-        public Nullable<int> ClosingKMs { get; set; }
+        public double OpeningKMs { get; set; }
+        public Nullable<double> ClosingKMs { get; set; }
+        [Display(Name = "Vehicle")]
         public int VehicleID { get; set; }
         public Nullable<int> JobID { get; set; }
     }
