@@ -17,7 +17,7 @@ namespace Model
         public int LineItemID { get; set; }
         public string InvoiceNum { get; set; }
         public string Name { get; set; }
-        public int UnitCount { get; set; }
+        public decimal UnitCount { get; set; }
         public decimal UnitCost { get; set; }
     }
 }

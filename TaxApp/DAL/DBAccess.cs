@@ -1105,6 +1105,7 @@ namespace DAL
                 SqlParameter[] pars = new SqlParameter[]
                    {
                         new SqlParameter("@INum", newInvoiceLineItem.InvoiceNum),
+                        new SqlParameter("@ID", newInvoiceLineItem.LineItemID),
                         new SqlParameter("@Name", newInvoiceLineItem.Name),
                         new SqlParameter("@UnitCount", newInvoiceLineItem.UnitCount),
                         new SqlParameter("@UnitCost", newInvoiceLineItem.UnitCost)

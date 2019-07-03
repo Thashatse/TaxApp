@@ -28,15 +28,14 @@
                     @Html.AntiForgeryToken()
 
                     <div class="form-horizontal">
-                        <div>Add line items to the invoice: </div>
-                        <hr />
+                        Add line items to the invoice: <hr />
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <div class="form-group">
                         Work Log Hours:
                         <div class="col-md-10">
                             @foreach (var item in ViewBag.Hours)
                             {
-                                <input type="checkbox" name="@item.Description" value="@item.ID">
+                                <input type="checkbox" name="Hour+@item.ID" value="@item.ID">
                                 @item.DisplayString<br>
                             }
                         </div>
@@ -45,7 +44,7 @@
                         <div class="col-md-10">
                             @foreach (var item in ViewBag.Expenses)
                             {
-                                <input type="checkbox" name="@item.Description" value="@item.ID">
+                                <input type="checkbox" name="Expense+@item.ID" value="@item.ID">
                                 @item.DisplayString<br>
                             }
                         </div>
@@ -54,7 +53,7 @@
                         <div class="col-md-10">
                             @foreach (var item in ViewBag.Travelss)
                             {
-                                <input type="checkbox" name="@item.Description" value="@item.ID">
+                                <input type="checkbox" name="Travel+@item.ID" value="@item.ID">
                                 @item.DisplayString<br>
                             }
                         </div>

@@ -40,7 +40,7 @@ namespace BLL
         {
             try
             {
-                string invoiceNum = DateTime.Now.ToString("yyyyMMdd");
+                string invoiceNum = DateTime.Now.ToString("ddMMyyyy");
 
                 int count = handler.getInvoiceTodaysCount();
 
