@@ -2117,6 +2117,9 @@
     <Content Include="Views\Invoice\NewInvoice.cshtml" />
     <Content Include="Views\Expense\NewVehicle.cshtml" />
     <Content Include="Views\Expense\NewTravelExpense.cshtml" />
+    <Content Include="Views\Invoice\Invoice.cshtml" />
+    <Content Include="Views\Invoice\Invoices.cshtml" />
+    <Content Include="Views\Invoice\JobInvoices.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

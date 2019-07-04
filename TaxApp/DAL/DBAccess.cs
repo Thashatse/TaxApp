@@ -1004,7 +1004,6 @@ namespace DAL
                 throw new ApplicationException(e.ToString());
             }
         }
-
         public List<List<SP_GetJobIntemsToInvoice_Result>> getJobItemsForInvoice(Job jobID)
         {
             List<SP_GetJobIntemsToInvoice_Result> Hours = new List<SP_GetJobIntemsToInvoice_Result>();
@@ -1142,6 +1141,138 @@ namespace DAL
             }
 
             return Result;
+        }
+        public List<SP_GetInvoice_Result> getJobInvoices(Job jobID)
+        {
+            List<SP_GetInvoice_Result> JobInvoices = new List<SP_GetInvoice_Result>();
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@JID", jobID.JobID)
+                    };
+
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetJobInvoices",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            SP_GetInvoice_Result Invoice = new SP_GetInvoice_Result();
+                            Invoice.InvoiceNum = row[0].ToString();
+                            Invoice.DateTime = DateTime.Parse(row[1].ToString());
+                            Invoice.VATRate = decimal.Parse(row[2].ToString());
+                            Invoice.Paid = bool.Parse(row[3].ToString());
+                            Invoice.JobID = int.Parse(row[4].ToString());
+                            Invoice.JobTitle = row[5].ToString();
+                            Invoice.ClientID = int.Parse(row[6].ToString());
+                            Invoice.ClientName = row[7].ToString();
+                            Invoice.CompanyName = row[8].ToString();
+                            Invoice.EmailAddress = row[9].ToString();
+                            Invoice.PhysiclaAddress = row[10].ToString();
+                            Invoice.TotalCost = decimal.Parse(row["TotalCost"].ToString());
+                            Invoice.TotalCost = Invoice.TotalCost + ((Invoice.TotalCost / 100) * 15);
+                            JobInvoices.Add(Invoice);
+                        }
+                    }
+                }
+                return JobInvoices;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        public List<SP_GetInvoice_Result> getInvoices(Profile profileID)
+        {
+            List<SP_GetInvoice_Result> JobInvoices = new List<SP_GetInvoice_Result>();
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profileID.ProfileID)
+                    };
+
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetInvoices",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            SP_GetInvoice_Result Invoice = new SP_GetInvoice_Result();
+                            Invoice.InvoiceNum = row[0].ToString();
+                            Invoice.DateTime = DateTime.Parse(row[1].ToString());
+                            Invoice.VATRate = decimal.Parse(row[2].ToString());
+                            Invoice.Paid = bool.Parse(row[3].ToString());
+                            Invoice.JobID = int.Parse(row[4].ToString());
+                            Invoice.JobTitle = row[5].ToString();
+                            Invoice.ClientID = int.Parse(row[6].ToString());
+                            Invoice.ClientName = row[7].ToString();
+                            Invoice.CompanyName = row[8].ToString();
+                            Invoice.EmailAddress = row[9].ToString();
+                            Invoice.PhysiclaAddress = row[10].ToString();
+                            Invoice.TotalCost = decimal.Parse(row["TotalCost"].ToString());
+                            Invoice.TotalCost = Invoice.TotalCost + ((Invoice.TotalCost / 100) * 15);
+                            JobInvoices.Add(Invoice);
+                        }
+                    }
+                }
+                return JobInvoices;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        public List<SP_GetInvoice_Result> getInvoiceDetails(Invoice invoiceNum)
+        {
+            List<SP_GetInvoice_Result> InvoiceLineItems = new List<SP_GetInvoice_Result>();
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@IN", invoiceNum.InvoiceNum)
+                    };
+
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetInvoice",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            SP_GetInvoice_Result InvoiceLineItem = new SP_GetInvoice_Result();
+                            InvoiceLineItem.InvoiceNum = row[0].ToString();
+                            InvoiceLineItem.DateTime = DateTime.Parse(row[1].ToString());
+                            InvoiceLineItem.VATRate = decimal.Parse(row[2].ToString());
+                            InvoiceLineItem.Paid = bool.Parse(row[3].ToString());
+                            InvoiceLineItem.LineItemID = int.Parse(row[4].ToString());
+                            InvoiceLineItem.Name = row[5].ToString();
+                            InvoiceLineItem.UnitCount = int.Parse(row[6].ToString());
+                            InvoiceLineItem.UnitCost = decimal.Parse(row[7].ToString());
+                            InvoiceLineItem.TotalCost = decimal.Parse(row[8].ToString());
+                            InvoiceLineItem.JobID = int.Parse(row[9].ToString());
+                            InvoiceLineItem.JobTitle = row[10].ToString();
+                            InvoiceLineItem.ClientID = int.Parse(row[11].ToString());
+                            InvoiceLineItem.ClientName = row[12].ToString();
+                            InvoiceLineItem.CompanyName = row[13].ToString();
+                            InvoiceLineItem.EmailAddress = row[14].ToString();
+                            InvoiceLineItem.PhysiclaAddress = row[15].ToString();
+                            InvoiceLineItems.Add(InvoiceLineItem);
+                        }
+                    }
+                }
+                return InvoiceLineItems;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
         }
         #endregion
     }

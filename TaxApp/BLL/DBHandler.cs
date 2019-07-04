@@ -165,6 +165,18 @@ namespace BLL
         {
             return db.newInvoice(newInvoice, jobID);
         }
+        public List<SP_GetInvoice_Result> getJobInvoices(Job jobID)
+        {
+            return db.getJobInvoices(jobID);
+        }
+        public List<SP_GetInvoice_Result> getInvoices(Profile profileID)
+        {
+            return db.getInvoices(profileID);
+        }
+        public List<SP_GetInvoice_Result> getInvoiceDetails(Invoice invoiceNum)
+        {
+            return db.getInvoiceDetails(invoiceNum);
+        }
         #endregion
     }
 }

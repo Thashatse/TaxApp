@@ -66,6 +66,9 @@ namespace BLL
 
         bool newInvoiceDetailLine(InvoiceLineItem newInvoiceLineItem);
         bool newInvoice(Invoice newInvoice, Job jobID);
+        List<SP_GetInvoice_Result> getJobInvoices(Job jobID);
+        List<SP_GetInvoice_Result> getInvoices(Profile profileID);
+        List<SP_GetInvoice_Result> getInvoiceDetails(Invoice invoiceNum);
         #endregion
     }
 }

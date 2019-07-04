@@ -51,14 +51,17 @@ namespace BLL
                 }
                 else if(count < 10)
                 {
+                    count += 1;
                     invoiceNum += "00" + count;
                 }
                 else if(count < 100)
                 {
+                    count += 1;
                     invoiceNum += "0" + count;
                 }
                 else
                 {
+                    count += 1;
                     invoiceNum += count;
                 }
 

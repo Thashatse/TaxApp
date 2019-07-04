@@ -56,19 +56,73 @@ namespace TaxApp.Controllers
 
         #region View Invoice
         // GET: Invoice
-        public ActionResult Invoices()
+        public ActionResult Invoice(string ID)
         {
-            return View();
+            try
+            {
+                getCookie();
+
+                Invoice invoiceNum = new Invoice();
+                invoiceNum.InvoiceNum = ID;
+
+                List<SP_GetInvoice_Result> invoiceDetails = handler.getInvoiceDetails(invoiceNum);
+
+                return View(invoiceDetails[0]);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding invoice details");
+                return Redirect("Error");
+            }
         }
 
         // GET: Invoice/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Invoices()
         {
-            return View();
+            try
+            {
+                getCookie();
+
+                Profile profileID = new Model.Profile();
+                profileID.ProfileID = int.Parse(cookie["ID"]);
+
+                List<SP_GetInvoice_Result> invoiceDetails = handler.getInvoices(profileID);
+
+                return View(invoiceDetails);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding all invoices");
+                return Redirect("Error");
+            }
+        }
+        
+        // GET: Invoice/Details/5
+        public ActionResult JobInvoices(int id)
+        {
+            try
+            {
+                getCookie();
+
+                Job jobID = new Job();
+                jobID.JobID = id;
+
+                List<SP_GetInvoice_Result> invoiceDetails = handler.getJobInvoices(jobID);
+
+                return View(invoiceDetails);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding all job invoices");
+                return Redirect("Error");
+            }
         }
         #endregion
 
-        #region Invoice
+        #region NewInvoice
         // GET: Invoice/Create
         public ActionResult NewInvoice(string ID)
         {
@@ -156,7 +210,7 @@ namespace TaxApp.Controllers
                 bool result = false;
 
                 Job newInvoiceJobID = new Job();
-                newInvoiceJobID.JobID = int.Parse(cookie["ID"].ToString());
+                newInvoiceJobID.JobID = int.Parse(ID);
                 Invoice newInvoice = new Invoice();
                 newInvoice.InvoiceNum = function.generateNewInvoiceNum();
                 result = handler.newInvoice(newInvoice, newInvoiceJobID);

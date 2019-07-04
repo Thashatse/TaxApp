@@ -54,13 +54,22 @@ namespace Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetGeneralExpense_Result>("SP_GetGeneralExpense", eIDParameter);
         }
     
-        public virtual int SP_GetJob(Nullable<int> jID)
+        public virtual ObjectResult<SP_GetInvoice_Result> SP_GetInvoice(string iN)
+        {
+            var iNParameter = iN != null ?
+                new ObjectParameter("IN", iN) :
+                new ObjectParameter("IN", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetInvoice_Result>("SP_GetInvoice", iNParameter);
+        }
+    
+        public virtual ObjectResult<SP_GetJob_Result> SP_GetJob(Nullable<int> jID)
         {
             var jIDParameter = jID.HasValue ?
                 new ObjectParameter("JID", jID) :
                 new ObjectParameter("JID", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_GetJob", jIDParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetJob_Result>("SP_GetJob", jIDParameter);
         }
     
         public virtual ObjectResult<SP_GetJobExpense_Result> SP_GetJobExpense(Nullable<int> eID)
@@ -70,15 +79,6 @@ namespace Model
                 new ObjectParameter("EID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetJobExpense_Result>("SP_GetJobExpense", eIDParameter);
-        }
-    
-        public virtual ObjectResult<SP_GetJobIntemsToInvoice_Result> SP_GetJobIntemsToInvoice(Nullable<int> jID)
-        {
-            var jIDParameter = jID.HasValue ?
-                new ObjectParameter("JID", jID) :
-                new ObjectParameter("JID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetJobIntemsToInvoice_Result>("SP_GetJobIntemsToInvoice", jIDParameter);
         }
     }
 }
