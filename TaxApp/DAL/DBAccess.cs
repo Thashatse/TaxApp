@@ -42,8 +42,6 @@ namespace DAL
 
             return Result;
         }
-
-
         public Model.Profile getProfile(Model.Profile User)
         {
             Model.Profile profile = null;
@@ -1263,6 +1261,9 @@ namespace DAL
                             InvoiceLineItem.CompanyName = row[13].ToString();
                             InvoiceLineItem.EmailAddress = row[14].ToString();
                             InvoiceLineItem.PhysiclaAddress = row[15].ToString();
+                            InvoiceLineItem.UnitCostString = InvoiceLineItem.UnitCost.ToString("0.##");
+                            InvoiceLineItem.VATRateString = InvoiceLineItem.VATRate.ToString("0.##");
+                            InvoiceLineItem.TotalCostString = InvoiceLineItem.TotalCost.ToString("0.##");
                             InvoiceLineItems.Add(InvoiceLineItem);
                         }
                     }

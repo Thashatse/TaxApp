@@ -21,6 +21,7 @@ namespace Model
 
         [Display(Name = "VAT Rate")]
         public decimal VATRate { get; set; }
+        public String VATRateString { get; set; }
         public bool Paid { get; set; }
         public int LineItemID { get; set; }
         public string Name { get; set; }
@@ -29,9 +30,11 @@ namespace Model
 
         [Display(Name = "Unit Cost")]
         public decimal UnitCost { get; set; }
+        public String UnitCostString { get; set; }
 
         [Display(Name = "Total Cost")]
-        public Nullable<decimal> TotalCost { get; set; }
+        public decimal TotalCost { get; set; }
+        public String TotalCostString { get; set; }
         public int JobID { get; set; }
 
         [Display(Name = "Job Title")]

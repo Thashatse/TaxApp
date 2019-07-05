@@ -56,18 +56,44 @@ namespace TaxApp.Controllers
 
         #region View Invoice
         // GET: Invoice
-        public ActionResult Invoice(string ID)
+        public ActionResult Invoice(string id = "0")
         {
             try
             {
                 getCookie();
+                if (id == "0")
+                {
+                    function.logAnError("Error loding invoice details - No ID Supplied");
+                    return Redirect("error");
+                }
+                else
+                {
+                    Invoice invoiceNum = new Invoice();
+                    invoiceNum.InvoiceNum = id;
 
-                Invoice invoiceNum = new Invoice();
-                invoiceNum.InvoiceNum = ID;
+                    List<SP_GetInvoice_Result> invoiceDetails = handler.getInvoiceDetails(invoiceNum);
+                    ViewBag.InvoiceItems = invoiceDetails;
 
-                List<SP_GetInvoice_Result> invoiceDetails = handler.getInvoiceDetails(invoiceNum);
+                    decimal total = new decimal();
+                    foreach(SP_GetInvoice_Result item in invoiceDetails)
+                    {
+                        total += item.TotalCost;
+                    }
+                    ViewBag.TotalExcludingVAT = total.ToString("0.##");
+                    total = ((total / 100) * invoiceDetails[0].VATRate);
+                    ViewBag.VAT = total.ToString("0.##");
+                    total = ((total / 100) * invoiceDetails[0].VATRate) + total;
+                    ViewBag.TotalDue = total.ToString("0.##");
 
-                return View(invoiceDetails[0]);
+                    Profile getProfile = new Profile();
+                    getProfile.ProfileID = int.Parse(cookie["ID"]);
+                    getProfile.EmailAddress = "";
+                    getProfile.Username = "";
+                    getProfile = handler.getProfile(getProfile);
+                    ViewBag.VatNum = getProfile.VATNumber;
+
+                    return View(invoiceDetails[0]);
+                }
             }
             catch (Exception e)
             {
@@ -100,18 +126,29 @@ namespace TaxApp.Controllers
         }
         
         // GET: Invoice/Details/5
-        public ActionResult JobInvoices(int id)
+        public ActionResult JobInvoices(int id = 0)
         {
             try
             {
                 getCookie();
-
-                Job jobID = new Job();
+                if(id.ToString() == null || id.ToString() == "")
+                {
+                    function.logAnError("Error loding all job invoices - No ID Supplied");
+                    return Redirect("/job/jobs");
+                }
+                else
+                {
+                    Job jobID = new Job();
                 jobID.JobID = id;
+
+                Model.SP_GetJob_Result jobDetails = handler.getJob(jobID);
+                ViewBag.JobName = jobDetails.JobTitle;
 
                 List<SP_GetInvoice_Result> invoiceDetails = handler.getJobInvoices(jobID);
 
                 return View(invoiceDetails);
+                }
+                
             }
             catch (Exception e)
             {
