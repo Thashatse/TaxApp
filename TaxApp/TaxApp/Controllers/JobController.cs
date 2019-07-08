@@ -62,7 +62,7 @@ namespace TaxApp.Controllers
                 getCookie();
             Model.Profile getJobs = new Model.Profile();
             getJobs.ProfileID = int.Parse(cookie["ID"].ToString());
-            List<Model.Job> Jobs = handler.getProfileJobs(getJobs);
+            List<Model.SP_GetJob_Result> Jobs = handler.getProfileJobs(getJobs);
             return View(Jobs);
             }
             catch (Exception e)

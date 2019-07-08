@@ -2099,7 +2099,6 @@
     <Content Include="Views\Landing\TaxConsultant.cshtml" />
     <Content Include="Views\Landing\EmailSettings.cshtml" />
     <Content Include="Views\Landing\_LayoutLanding.cshtml" />
-    <Content Include="Views\Job\Jobs.cshtml" />
     <Content Include="Views\Expense\Expenses.cshtml" />
     <Content Include="Views\Job\NewJob.cshtml" />
     <Content Include="Views\Client\NewClient.cshtml" />
@@ -2120,6 +2119,8 @@
     <Content Include="Views\Invoice\Invoice.cshtml" />
     <Content Include="Views\Invoice\Invoices.cshtml" />
     <Content Include="Views\Invoice\JobInvoices.cshtml" />
+    <Content Include="Views\Job\Jobs.cshtml" />
+    <Content Include="Views\Expense\JobTravleLog.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

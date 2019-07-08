@@ -15,6 +15,8 @@ namespace Model
 
     public partial class SP_GetInvoice_Result
     {
+
+        [Display(Name = "Invoice Number:")]
         public string InvoiceNum { get; set; }
         [Display(Name = "Date & Time")]
         public System.DateTime DateTime { get; set; }

@@ -67,7 +67,7 @@ namespace BLL
             return db.getJob(job);
         }
 
-        public List<Job> getProfileJobs(Profile profile)
+        public List<SP_GetJob_Result> getProfileJobs(Profile profile)
         {
             return db.getProfileJobs(profile);
         }

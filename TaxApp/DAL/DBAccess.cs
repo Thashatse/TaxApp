@@ -324,7 +324,6 @@ namespace DAL
                             }
 
                             job.HourlyRate = decimal.Parse(row[2].ToString());
-                            job.Budget = decimal.Parse(row[3].ToString());
 
                             if (row[9].ToString() != "" && row[9] != null)
                             {
@@ -361,6 +360,20 @@ namespace DAL
                             {
                                 job.TravelLogCostTotal = 0;
                             }
+
+                            if (row[3].ToString() != "" || row[3].ToString() != null)
+                            {
+                                job.Budget = decimal.Parse(row[3].ToString());
+                                job.BudgetPercent = ((job.ExpenseTotal + job.TravelLogCostTotal + 
+                                    (job.WorkLogHours * job.HourlyRate)) / job.Budget) *100;
+                            }
+                            else
+                            {
+                                job.Budget = 0;
+                                job.BudgetPercent = 0;
+                            }
+
+                            job.AllExpenseTotal = job.ExpenseTotal + job.TravelLogCostTotal;
                         }
                     }
                 }
@@ -372,9 +385,9 @@ namespace DAL
             }
         }
 
-        public List<Job> getProfileJobs(Profile profile)
+        public List<SP_GetJob_Result> getProfileJobs(Profile profile)
         {
-            List<Job> Jobs = new List<Job>();
+            List<SP_GetJob_Result> Jobs = new List<SP_GetJob_Result>();
             try
             {
                 SqlParameter[] pars = new SqlParameter[]
@@ -393,18 +406,90 @@ namespace DAL
                     {
                         foreach (DataRow row in table.Rows)
                         {
-                            Job job = new Model.Job();
-                            job.JobID = int.Parse(row["JobID"].ToString());
-                            job.ClientID = int.Parse(row["ClientID"].ToString());
-                            job.JobTitle = row["JobTitle"].ToString();
-                            job.StartDate = DateTime.Parse(row["StartDate"].ToString());
+                            SP_GetJob_Result job = new Model.SP_GetJob_Result();
+                            job.JobID = int.Parse(row[0].ToString());
+                            job.ClientID = int.Parse(row[6].ToString());
+
+                            if (row[8].ToString() != "" && row[8] != null)
+                            {
+                                job.WorkLogHours = int.Parse(row[8].ToString());
+                                int Hour = int.Parse(row[8].ToString()) / 60;
+                                int Minute = int.Parse(row[8].ToString()) % 60;
+                                job.WorkLogHoursString = Hour + ":" + Minute + " ";
+                            }
+                            else
+                            {
+                                job.WorkLogHoursString = "None";
+                            }
+
+                            job.JobTitle = row[1].ToString();
+                            job.ClientFirstName = row[7].ToString();
+                            job.StartDate = DateTime.Parse(row[4].ToString());
+                            job.StartDateString = String.Format("{0:dddd, dd MMMM yyyy}", job.StartDate);
+
                             if (row["EndDate"].ToString() != "" && row["EndDate"] != null)
                             {
-                                job.EndDate = DateTime.Parse(row["EndDate"].ToString());
+                                job.EndDate = DateTime.Parse(row[6].ToString());
+                                job.EndDateString = String.Format("{0:dddd, dd MMMM yyyy}", job.EndDate);
+
                             }
-                            job.HourlyRate = decimal.Parse(row["HourlyRate"].ToString());
-                            job.Budget = decimal.Parse(row["Budget"].ToString());
+                            else
+                            {
+                                job.EndDateString = "Active";
+                            }
+
+                            job.HourlyRate = decimal.Parse(row[2].ToString());
+
+                            if (row[9].ToString() != "" && row[9] != null)
+                            {
+                                job.ExpenseTotal = decimal.Parse(row[9].ToString());
+                            }
+                            else
+                            {
+                                job.ExpenseTotal = 0;
+                            }
+
+                            if (row[10].ToString() != "" && row[10] != null)
+                            {
+                                job.TotalPaid = decimal.Parse(row[10].ToString());
+                            }
+                            else
+                            {
+                                job.TotalPaid = 0;
+                            }
+
+                            if (row[11].ToString() != "" && row[11] != null)
+                            {
+                                job.TotalUnPaid = decimal.Parse(row[11].ToString());
+                            }
+                            else
+                            {
+                                job.TotalUnPaid = 0;
+                            }
+
+                            if (row[12].ToString() != "" && row[12] != null)
+                            {
+                                job.TravelLogCostTotal = decimal.Parse(row[12].ToString());
+                            }
+                            else
+                            {
+                                job.TravelLogCostTotal = 0;
+                            }
                             Jobs.Add(job);
+
+                            if (row[3].ToString() != "" || row[3].ToString() != null)
+                            {
+                                job.Budget = decimal.Parse(row[3].ToString());
+                                job.BudgetPercent = ((job.ExpenseTotal + job.TravelLogCostTotal +
+                                    (job.WorkLogHours * job.HourlyRate)) / job.Budget) * 100;
+                            }
+                            else
+                            {
+                                job.Budget = 0;
+                                job.BudgetPercent = 0;
+                            }
+
+                            job.AllExpenseTotal = job.ExpenseTotal + job.TravelLogCostTotal;
                         }
                     }
                 }

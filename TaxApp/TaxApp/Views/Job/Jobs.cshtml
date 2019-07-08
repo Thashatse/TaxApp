@@ -1,301 +1,114 @@
-﻿@model Model.Job
+﻿@model IEnumerable<Model.SP_GetJob_Result>
 
 @{
     ViewBag.Title = "Jobs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
 <!-- Header -->
-<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
-    <div class="container-fluid">
-        <div class="header-body">
-
-            <div class="row">
-                <div class="col-xl-4">
-                    <div class="card shadow">
-                        <div class="card-header border-0">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <h3 class="mb-0">Job Title</h3>
-                                </div>
-                                <div class="col text-right">
-                                    <a href="#!" class="btn btn-sm btn-primary">Details</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="table-responsive">
-                            <!-- Projects table -->
-                            <table class="table align-items-center table-flush">
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">
-                                            Budget Used:
-                                        </th>
-                                        <td></td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <span class="mr-2">60%</span>
-                                                <div>
-                                                    <div class="progress">
-                                                        <div class="progress-bar bg-gradient-danger" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            Hours Worked:
-                                        </th>
-                                        <td></td>
-                                        <td>
-                                            5,480
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            Expenses:
-                                        </th>
-                                        <td></td>
-                                        <td>
-                                            5,480
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            Income:
-                                        </th>
-                                        <td></td>
-                                        <td>
-                                            5,480
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xl-4">
-                    <div class="card shadow">
-                        <div class="card-header border-0">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <h3 class="mb-0">Job Title</h3>
-                                </div>
-                                <div class="col text-right">
-                                    <a href="#!" class="btn btn-sm btn-primary">Details</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="table-responsive">
-                            <!-- Projects table -->
-                            <table class="table align-items-center table-flush">
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">
-                                            Budget Used:
-                                        </th>
-                                        <td></td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <span class="mr-2">60%</span>
-                                                <div>
-                                                    <div class="progress">
-                                                        <div class="progress-bar bg-gradient-danger" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            Hours Worked:
-                                        </th>
-                                        <td></td>
-                                        <td>
-                                            5,480
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            Expenses:
-                                        </th>
-                                        <td></td>
-                                        <td>
-                                            5,480
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            Income:
-                                        </th>
-                                        <td></td>
-                                        <td>
-                                            5,480
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xl-4">
-                    <div class="card shadow">
-                        <div class="card-header border-0">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <h3 class="mb-0">New Title</h3>
-                                </div>
-                                <div class="col text-right">
-                                    <a href="#!" class="btn btn-sm btn-primary">New Job</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<div class="header bg-gradient-primary py-7 py-lg-8">
+    <div class="container">
+        <div class="header-body text-center mb-7">
+            <div class="row justify-content-center">
+                <div class="col-lg-5 col-md-6">
+                    <h1 class="text-white">
+                        Jobs
+                    </h1>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="container-fluid mt--7">
+<!-- Page content -->
+<div class="container mt--8 pb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-12 col-md-12">
+            <div class="card bg-secondary shadow border-0">
 
-    <div class="row mt-5">
-        <div class="col-xl-4">
-            <div class="card shadow">
-                <div class="card-header border-0">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <h3 class="mb-0">Invoice Title</h3>
-                        </div>
-                        <div class="col text-right">
-                            <a href="#!" class="btn btn-sm btn-primary">Details</a>
-                        </div>
-                    </div>
+                <br />
+                <div class="col text-right">
+                    <a href="/Job/NewJob"
+                       class="btn btn-sm btn-primary">New Job</a>
                 </div>
-                <div class="table-responsive">
-                    <!-- Projects table -->
-                    <table class="table align-items-center table-flush">
-                        <tbody>
-                            <tr>
-                                <th scope="row">
-                                    Invoice Num:
-                                </th>
-                                <td></td>
-                                <td>
-                                    5,480
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    Client:
-                                </th>
-                                <td></td>
-                                <td>
-                                    5,480
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    Date:
-                                </th>
-                                <td></td>
-                                <td>
-                                    No
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    Price:
-                                </th>
-                                <td></td>
-                                <td>
-                                    No
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    Statuse:
-                                </th>
-                                <td></td>
-                                <td>
-                                    No
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+                <br />
 
-        <div class="col-xl-4">
-            <div class="card shadow">
-                <div class="card-header border-0">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <h3 class="mb-0">Invoice Title</h3>
-                        </div>
-                        <div class="col text-right">
-                            <a href="#!" class="btn btn-sm btn-primary">Details</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="table-responsive">
-                    <!-- Projects table -->
-                    <table class="table align-items-center table-flush">
-                        <tbody>
-                            <tr>
-                                <th scope="row">
-                                    Invoice Num:
-                                </th>
-                                <td></td>
-                                <td>
-                                    5,480
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    Client:
-                                </th>
-                                <td></td>
-                                <td>
-                                    5,480
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    Date:
-                                </th>
-                                <td></td>
-                                <td>
-                                    No
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    Price:
-                                </th>
-                                <td></td>
-                                <td>
-                                    No
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    Statuse:
-                                </th>
-                                <td></td>
-                                <td>
-                                    No
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <div class="col-xl-5">
+                            <div class="card shadow">
+                                <div class="card-header border-0">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <h3 class="mb-0">
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.JobTitle)
+                                                </td>
+                                            </h3>
+                                        </div>
+                                        <div class="col text-right">
+                                            <a href="/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)"
+                                               class="btn btn-sm btn-primary">Details</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <!-- Projects table -->
+                                    <table class="table align-items-center table-flush">
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">
+                                                    Hours Worked:
+                                                </th>
+                                                <td></td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.WorkLogHoursString)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                    Income:
+                                                </th>
+                                                <td></td>
+                                                <td>
+                                                R @Html.DisplayFor(modelItem => item.TotalPaid)</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                    Expenses:
+                                                </th>
+                                                <td></td>
+                                                <td>
+                                                    R @Html.DisplayFor(modelItem => item.ExpenseTotal)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                    Budget Used:
+                                                </th>
+                                                <td colspan="2">
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="mr-2">@Html.DisplayFor(modelItem => item.BudgetPercent)%</span>
+                                                        <div>
+                                                            <div class="progress">
+                                                                <div class="progress-bar bg-gradient-danger" role="progressbar" 
+                                                                     aria-valuenow="@Html.DisplayFor(modelItem => item.BudgetPercent)%" 
+                                                                     aria-valuemin="0" aria-valuemax="100" 
+                                                                     style="width: @Html.DisplayFor(modelItem => item.BudgetPercent)%"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                    </tr>
+                }
             </div>
         </div>
     </div>
-
-
-
+</div>

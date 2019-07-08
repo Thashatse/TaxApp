@@ -31,7 +31,7 @@ namespace BLL
         #region Job
         bool newJob(Model.Job job);
         SP_GetJob_Result getJob(Model.Job job);
-        List<Job> getProfileJobs(Profile profile);
+        List<SP_GetJob_Result> getProfileJobs(Profile profile);
 
         #region WorkLog Item
         bool newWorkLogItem(Model.Worklog logItem, Model.Job job);

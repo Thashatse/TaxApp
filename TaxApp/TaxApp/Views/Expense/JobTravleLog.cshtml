@@ -1,0 +1,83 @@
+﻿@model Model.TravelLog
+
+@{
+    ViewBag.Title = "JobTravleLog";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>JobTravleLog</h2>
+
+<div>
+    <h4>TravelLog</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ExpenseID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExpenseID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.From)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.From)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.To)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.To)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Reason)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Reason)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OpeningKMs)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OpeningKMs)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ClosingKMs)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClosingKMs)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VehicleID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VehicleID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.JobID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.JobID)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

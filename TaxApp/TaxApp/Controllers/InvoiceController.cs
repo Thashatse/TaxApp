@@ -80,9 +80,9 @@ namespace TaxApp.Controllers
                         total += item.TotalCost;
                     }
                     ViewBag.TotalExcludingVAT = total.ToString("0.##");
-                    total = ((total / 100) * invoiceDetails[0].VATRate);
-                    ViewBag.VAT = total.ToString("0.##");
-                    total = ((total / 100) * invoiceDetails[0].VATRate) + total;
+                    decimal totalVAT = ((total / 100) * invoiceDetails[0].VATRate);
+                    ViewBag.VAT = totalVAT.ToString("0.##");
+                    total = (totalVAT) + total;
                     ViewBag.TotalDue = total.ToString("0.##");
 
                     Profile getProfile = new Profile();
@@ -91,6 +91,9 @@ namespace TaxApp.Controllers
                     getProfile.Username = "";
                     getProfile = handler.getProfile(getProfile);
                     ViewBag.VatNum = getProfile.VATNumber;
+                    ViewBag.ProfileName = getProfile.FirstName + " " + getProfile.LastName;
+                    ViewBag.ProfileEmail = getProfile.EmailAddress;
+                    ViewBag.ProfileNo = getProfile.ContactNumber;
 
                     return View(invoiceDetails[0]);
                 }

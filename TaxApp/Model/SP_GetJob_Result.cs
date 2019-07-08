@@ -19,6 +19,7 @@ namespace Model
         [Display(Name = "Hourly Rate")]
         public Nullable<decimal> HourlyRate { get; set; }
         public Nullable<decimal> Budget { get; set; }
+        public Nullable<decimal> BudgetPercent { get; set; }
         [Display(Name = "Start Date")]
         public System.DateTime StartDate { get; set; }
         public String StartDateString { get; set; }
@@ -34,6 +35,7 @@ namespace Model
         public String WorkLogHoursString { get; set; }
 
         [Display(Name = "Total Expenses")]
+        public Nullable<decimal> AllExpenseTotal { get; set; }
         public Nullable<decimal> ExpenseTotal { get; set; }
         [Display(Name = "Totalt Travel Expenses")]
         public Nullable<decimal> TravelLogCostTotal { get; set; }
