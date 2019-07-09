@@ -2,12 +2,15 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE SP_GetJobTravleLog
+alter PROCEDURE SP_GetJobTravleLog
 	@JID int
 AS
 BEGIN
-	Select * 
-	From TravelLog
+	Select *, (TravelLog.ClosingKMs - TravelLog.OpeningKMs) as TotalKMs,
+			 (Vehicle.SARSFuelCost * (TravelLog.ClosingKMs - TravelLog.OpeningKMs)) as SARSFuelCost,
+			 (Vehicle.SARSMaintenceCost * (TravelLog.ClosingKMs - TravelLog.OpeningKMs)) as SARSMaintenceCost
+	From TravelLog, Vehicle
 	Where JobID = @JID
+		AND TravelLog.VehicleID = Vehicle.VehicleID
 END
 GO

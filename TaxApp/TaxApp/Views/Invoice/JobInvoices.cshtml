@@ -26,9 +26,14 @@
     <div class="row justify-content-center">
         <div class="col-lg-12 col-md-12">
             <div class="card bg-secondary shadow border-0">
-                <p class="col text-right">
-                    @Html.ActionLink("Create New", "Create")
-                </p>
+
+                <br />
+                <div class="col text-right">
+                    <a href="/Invoice/NewInvoice?ID=@ViewBag.JobID"
+                       class="btn btn-sm btn-primary">New Invoice</a>
+                </div>
+                <br />
+
                 <table class="table">
                     <tr>
                         <th>
@@ -81,7 +86,7 @@
                     }
 
                 </table>
-                </div>
+            </div>
             </div>
         </div>
     </div>

@@ -21,8 +21,14 @@ namespace Model
         public string Reason { get; set; }
         public double OpeningKMs { get; set; }
         public Nullable<double> ClosingKMs { get; set; }
+        public Nullable<double> TotalKMs { get; set; }
         [Display(Name = "Vehicle")]
         public int VehicleID { get; set; }
+        public bool Invoiced { get; set; }
+        public DateTime Date { get; set; }
+        public String DateString { get; set; }
         public Nullable<int> JobID { get; set; }
+        public decimal SARSFuelCost { get; set; }
+        public decimal SARSMaintenceCost { get; set; }
     }
 }

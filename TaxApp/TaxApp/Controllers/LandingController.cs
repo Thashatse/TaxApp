@@ -36,7 +36,7 @@ namespace TaxApp.Controllers
 
                         if (handler.getProfile(checkProfile) != null)
                         {
-                            //Response.Redirect("/Home/Index");
+                            Response.Redirect("/Home/Index");
                         }
                     }
                 }

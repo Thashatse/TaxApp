@@ -59,6 +59,8 @@ namespace DAL
         bool NewTravelExpense(TravelLog newTravelLogExpense);
         bool newVehicle(Vehicle newVehicle);
         List<Vehicle> getVehicles(Profile getProfileVehicles);
+        List<TravelLog> getProfileTravelLog(Profile getProfileTravelLog);
+        List<TravelLog> getJobTravelLog(Job getJobTravelLog);
         #endregion
 
         #region Invoice

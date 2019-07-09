@@ -10,6 +10,7 @@
             <div class="row justify-content-center">
                 <div class="col-lg-5 col-md-6">
                     <h1 class="text-white">Job Expenses</h1>
+                    <p class="text-white">For @ViewBag.JobTitle</p>
                 </div>
             </div>
         </div>
@@ -22,11 +23,13 @@
         <div class="col-lg-12 col-md-12">
             <div class="card bg-secondary shadow border-0">
 
+                <br />
                 <div class="col text-right">
-                    <p class="btn">
-                        @Html.ActionLink("Create New", "Create")
-                    </p>
+                    <a href="/Expense/NewJobExpense?ID=@ViewBag.JobID"
+                       class="btn btn-sm btn-primary">Add Expense</a>
                 </div>
+                <br />
+
                 <table class="table">
                     <tr>
                         <th>
@@ -69,7 +72,6 @@
                             </td>
                             <td>
                                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
                                 @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
                             </td>
                         </tr>

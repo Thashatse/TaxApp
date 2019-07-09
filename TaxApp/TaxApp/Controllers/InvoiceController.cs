@@ -95,6 +95,8 @@ namespace TaxApp.Controllers
                     ViewBag.ProfileEmail = getProfile.EmailAddress;
                     ViewBag.ProfileNo = getProfile.ContactNumber;
 
+                    ViewBag.JobID = id;
+
                     return View(invoiceDetails[0]);
                 }
             }

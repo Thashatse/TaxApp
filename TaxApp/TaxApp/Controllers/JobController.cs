@@ -102,7 +102,11 @@ namespace TaxApp.Controllers
             Model.Job getJob = new Model.Job();
             getJob.JobID = int.Parse(ID);
             List<Model.Worklog> JobHours = handler.getJobHours(getJob);
-            return View(JobHours);
+                ViewBag.JobID = ID;
+
+                Model.SP_GetJob_Result Job = handler.getJob(getJob);
+                ViewBag.JobTitle = Job.JobTitle;
+                return View(JobHours);
         }
             catch (Exception e)
             {
@@ -119,7 +123,8 @@ namespace TaxApp.Controllers
             Model.Worklog LogID = new Model.Worklog();
             LogID.LogItemID = int.Parse(ID);
             Model.Worklog LogItem = handler.getLogItem(LogID);
-            return View(LogItem);
+                ViewBag.JobID = ID;
+                return View(LogItem);
         }
             catch (Exception e)
             {
@@ -194,12 +199,13 @@ namespace TaxApp.Controllers
 
         // POST: Landing/NewProfile
         [HttpPost]
-        public ActionResult NewWorkLogItem(FormCollection collection, string JobID)
+        public ActionResult NewWorkLogItem(FormCollection collection, string ID)
         {
             try
             {
+                if(ID != null) {
                 Model.Job jobID = new Model.Job();
-                jobID.JobID = int.Parse(JobID);
+                jobID.JobID = int.Parse(ID);
 
                 Model.Worklog logItem = new Model.Worklog();
                 logItem.Description = Request.Form["Description"].ToString();
@@ -210,7 +216,12 @@ namespace TaxApp.Controllers
 
                 if (result == true)
                 {
-                    return Redirect("/job/jobs");
+                    return Redirect("/job/JobWorkLog?ID=" + ID);
+                }
+                else
+                {
+                    return RedirectToAction("../Shared/Error");
+                }
                 }
                 else
                 {

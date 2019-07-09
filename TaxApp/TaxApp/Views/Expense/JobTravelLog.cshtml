@@ -1,0 +1,116 @@
+﻿@model IEnumerable<Model.TravelLog>
+
+@{
+    ViewBag.Title = "JobTravelLog";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- Header -->
+<div class="header bg-gradient-primary py-7 py-lg-8">
+    <div class="container">
+        <div class="header-body text-center mb-7">
+            <div class="row justify-content-center">
+                <div class="col-lg-5 col-md-6">
+                    <h1 class="text-white">
+                        Job Travle Log
+                    </h1>
+                    <p class="text-white">For @ViewBag.JobTitle</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt--8 pb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-12 col-md-12">
+            <div class="card bg-secondary shadow border-0">
+
+                <br />
+                <div class="col text-right">
+                    <a href="Expense/NewTravelExpense.cshtml"
+                       class="btn btn-sm btn-primary">New Log Item</a>
+                </div>
+                <br />
+
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Date)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.OpeningKMs)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ClosingKMs)
+                        </th>
+                        <th>
+                            Toral Business KMs
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.From)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.To)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Reason)
+                        </th>
+                        <th>
+                            Fule Cost
+                        </th>
+                        <th>
+                            Maintenence Cost
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Invoiced)
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DateString)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.OpeningKMs)
+                                KMs
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ClosingKMs)
+                                KMs
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TotalKMs) KMs
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.From)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.To)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Reason)
+                            </td>
+                            <td>
+                                R @Html.DisplayFor(modelItem => item.SARSFuelCost)
+                            </td>
+                            <td>
+                                R @Html.DisplayFor(modelItem => item.SARSMaintenceCost)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Invoiced)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

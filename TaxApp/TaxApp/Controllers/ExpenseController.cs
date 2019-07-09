@@ -198,7 +198,6 @@ namespace TaxApp.Controllers
         #endregion
 
         #region Job Expense View
-
         public ActionResult JobExpenses(string ID)
         {
             try
@@ -207,6 +206,11 @@ namespace TaxApp.Controllers
                 Model.Job getJob = new Model.Job();
                 getJob.JobID = int.Parse(ID);
                 List<Model.SP_GetJobExpense_Result> JobExpenses = handler.getJobExpenses(getJob);
+
+                Model.SP_GetJob_Result Job = handler.getJob(getJob);
+                ViewBag.JobTitle = Job.JobTitle;
+                ViewBag.JobID = Job.JobID;
+
                 return View(JobExpenses);
             }
             catch (Exception e)
@@ -224,6 +228,8 @@ namespace TaxApp.Controllers
                 Model.Expense getExpense = new Model.Expense();
                 getExpense.ExpenseID = int.Parse(ID);
                 Model.SP_GetJobExpense_Result JobExpense = handler.getJobExpense(getExpense);
+
+
                 return View(JobExpense);
             }
             catch (Exception e)
@@ -347,6 +353,46 @@ namespace TaxApp.Controllers
                 function.logAnError(e.ToString() +
                     "Error in new vehicle of expense controler");
                 return View();
+            }
+        }
+        #endregion
+
+        #region Job Expense View
+        public ActionResult JobTravelLog(string ID)
+        {
+            try
+            {
+                getCookie();
+                Model.Job getJob = new Model.Job();
+                getJob.JobID = int.Parse(ID);
+                List <Model.TravelLog> JobTravelLog = handler.getJobTravelLog(getJob);
+
+                Model.SP_GetJob_Result Job = handler.getJob(getJob);
+                ViewBag.JobTitle = Job.JobTitle;
+                return View(JobTravelLog);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding job travel log List");
+                return Redirect("/job/job?ID=" + ID);
+            }
+        }
+        public ActionResult TravleLog()
+        {
+            try
+            {
+                getCookie();
+                Model.Profile getProfile = new Model.Profile();
+                getProfile.ProfileID = int.Parse(cookie["ID"].ToString());
+                List <Model.TravelLog> ProfileTravelLog = handler.getProfileTravelLog(getProfile);
+                return View(ProfileTravelLog);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding Profile travel log List");
+                return Redirect("/Expense/Expenses");
             }
         }
         #endregion

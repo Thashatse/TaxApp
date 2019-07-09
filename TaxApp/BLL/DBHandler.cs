@@ -144,6 +144,14 @@ namespace BLL
         {
             return db.getVehicles(getProfileVehicles);
         }
+        public List<TravelLog> getProfileTravelLog(Profile getProfileTravelLog)
+        {
+            return db.getProfileTravelLog(getProfileTravelLog);
+        }
+        public List<TravelLog> getJobTravelLog(Job getJobTravelLog)
+        {
+            return db.getJobTravelLog(getJobTravelLog);
+        }
         #endregion
 
         #region Invoice

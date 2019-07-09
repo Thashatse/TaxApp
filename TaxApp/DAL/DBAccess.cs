@@ -1059,6 +1059,92 @@ namespace DAL
                 throw new ApplicationException(e.ToString());
             }
         }
+        public List<TravelLog> getProfileTravelLog(Profile getProfileTravelLog)
+        {
+            List<TravelLog> TravelLog = new List<TravelLog>();
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@PID", getProfileTravelLog.ProfileID)
+                   };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetTravleLog",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            TravelLog travelLogItem = new TravelLog();
+                            travelLogItem.JobID = int.Parse(row["JobID"].ToString());
+                            travelLogItem.ExpenseID = int.Parse(row["ExpenseID"].ToString());
+                            travelLogItem.VehicleID = int.Parse(row["VehicleID"].ToString());
+                            travelLogItem.From = row["From"].ToString();
+                            travelLogItem.To = row["To"].ToString();
+                            travelLogItem.Reason = row["Reason"].ToString();
+                            travelLogItem.OpeningKMs = double.Parse(row["OpeningKMs"].ToString());
+                            travelLogItem.ClosingKMs = double.Parse(row["ClosingKMs"].ToString());
+                            travelLogItem.TotalKMs = double.Parse(row["TotalKMs"].ToString());
+                            travelLogItem.SARSFuelCost = decimal.Parse(row["SARSFuelCost"].ToString());
+                            travelLogItem.SARSMaintenceCost = decimal.Parse(row["SARSMaintenceCost"].ToString());
+                            travelLogItem.Date = DateTime.Parse(row["Date"].ToString());
+                            travelLogItem.DateString = travelLogItem.Date.ToString("dddd, dd MMMM yyyy");
+                            travelLogItem.Invoiced = bool.Parse(row["Invoiced"].ToString());
+                            TravelLog.Add(travelLogItem);
+                        }
+                    }
+                }
+                return TravelLog;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        public List<TravelLog> getJobTravelLog(Job getJobTravelLog)
+        {
+            List<TravelLog> TravelLog = new List<TravelLog>();
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@JID", getJobTravelLog.JobID)
+                   };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetJobTravleLog",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            TravelLog travelLogItem = new TravelLog();
+                            travelLogItem.JobID = int.Parse(row["JobID"].ToString());
+                            travelLogItem.ExpenseID = int.Parse(row["ExpenseID"].ToString());
+                            travelLogItem.VehicleID = int.Parse(row["VehicleID"].ToString());
+                            travelLogItem.From = row["From"].ToString();
+                            travelLogItem.To = row["To"].ToString();
+                            travelLogItem.Reason = row["Reason"].ToString();
+                            travelLogItem.OpeningKMs = double.Parse(row["OpeningKMs"].ToString());
+                            travelLogItem.ClosingKMs = double.Parse(row["ClosingKMs"].ToString());
+                            travelLogItem.Invoiced = bool.Parse(row["Invoiced"].ToString());
+                            travelLogItem.Date = DateTime.Parse(row["Date"].ToString());
+                            travelLogItem.DateString = travelLogItem.Date.ToString("dddd, dd MMMM yyyy");
+                            travelLogItem.TotalKMs = double.Parse(row["TotalKMs"].ToString());
+                            travelLogItem.SARSFuelCost = decimal.Parse(row["SARSFuelCost"].ToString());
+                            travelLogItem.SARSMaintenceCost = decimal.Parse(row["SARSMaintenceCost"].ToString());
+                            TravelLog.Add(travelLogItem);
+                        }
+                    }
+                }
+                return TravelLog;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
         #endregion
 
         #region Invoice
