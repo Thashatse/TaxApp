@@ -99,6 +99,7 @@
     <Compile Include="JobInvoice.cs">
       <DependentUpon>TaxAppModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="JobViewModel.cs" />
     <Compile Include="Profile.cs">
       <DependentUpon>TaxAppModel.tt</DependentUpon>
     </Compile>

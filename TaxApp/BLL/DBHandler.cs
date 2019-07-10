@@ -71,6 +71,10 @@ namespace BLL
         {
             return db.getProfileJobs(profile);
         }
+        public List<SP_GetJob_Result> getProfileJobsPast(Profile profile)
+        {
+            return db.getProfileJobsPast(profile);
+        }
 
         #region WorkLog Item
         public bool newWorkLogItem(Model.Worklog logItem, Model.Job job)

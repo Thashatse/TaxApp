@@ -229,6 +229,10 @@ namespace TaxApp.Controllers
                 getExpense.ExpenseID = int.Parse(ID);
                 Model.SP_GetJobExpense_Result JobExpense = handler.getJobExpense(getExpense);
 
+                Model.Job getJob = new Model.Job();
+                getJob.JobID = JobExpense.JobID;
+                Model.SP_GetJob_Result Job = handler.getJob(getJob);
+                ViewBag.JobTitle = Job.JobTitle;
 
                 return View(JobExpense);
             }

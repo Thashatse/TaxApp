@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Model.Worklog>
 
 @{
-    ViewBag.Title = "JobWorkLog";
+    ViewBag.Title = "Work Log";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="header bg-gradient-primary py-7 py-lg-8">
@@ -47,17 +47,17 @@
                     {
                         <tr>
                             <td>
-                                <a href='/Job/JobWorkLogItem?ID=@Html.DisplayFor(model => item.LogItemID)'>
+                                <a href='/Job/JobWorkLogItem?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID'>
                                     @Html.DisplayFor(modelItem => item.Description)
                                 </a>
                             </td>
                             <td>
-                                <a href='/Job/JobWorkLogItem?ID=@Html.DisplayFor(model => item.LogItemID)'>
+                                <a href='/Job/JobWorkLogItem?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID'>
                                     @Html.DisplayFor(modelItem => item.WorkLogHoursString)
                                 </a>
                             </td>
                             <td>
-                                <a href='/Job/JobWorkLogItem?ID=@Html.DisplayFor(model => item.LogItemID)'>
+                                <a href='/Job/JobWorkLogItem?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID'>
                                     @Html.DisplayFor(modelItem => item.DateString)
                                 </a>
                             </td>

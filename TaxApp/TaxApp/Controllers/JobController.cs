@@ -62,8 +62,14 @@ namespace TaxApp.Controllers
                 getCookie();
             Model.Profile getJobs = new Model.Profile();
             getJobs.ProfileID = int.Parse(cookie["ID"].ToString());
-            List<Model.SP_GetJob_Result> Jobs = handler.getProfileJobs(getJobs);
-            return View(Jobs);
+            List<Model.SP_GetJob_Result> currentJobs = handler.getProfileJobs(getJobs);
+            List<Model.SP_GetJob_Result> pastJobs = handler.getProfileJobs(getJobs);
+
+                var viewModel = new Model.JobViewModel();
+                viewModel.curentJobs = currentJobs;
+                viewModel.pastJobs = pastJobs;
+
+                return View(viewModel);
             }
             catch (Exception e)
             {
@@ -82,7 +88,8 @@ namespace TaxApp.Controllers
             Model.Job getJob = new Model.Job();
             getJob.JobID = int.Parse(ID);
             Model.SP_GetJob_Result Job = handler.getJob(getJob);
-            return View(Job);
+
+                return View(Job);
         }
             catch (Exception e)
             {
@@ -92,6 +99,7 @@ namespace TaxApp.Controllers
     }
 
 }
+        
 
         #region Worklog Details and list
         public ActionResult JobWorkLog(string ID)
@@ -106,6 +114,8 @@ namespace TaxApp.Controllers
 
                 Model.SP_GetJob_Result Job = handler.getJob(getJob);
                 ViewBag.JobTitle = Job.JobTitle;
+                ViewBag.JobID = Job.JobID;
+
                 return View(JobHours);
         }
             catch (Exception e)
@@ -115,7 +125,7 @@ namespace TaxApp.Controllers
                 return Redirect("/job/jobs");
     }
 }
-        public ActionResult JobWorkLogItem(string ID)
+        public ActionResult JobWorkLogItem(string ID, string JobID)
         {
             try
             {
@@ -124,6 +134,12 @@ namespace TaxApp.Controllers
             LogID.LogItemID = int.Parse(ID);
             Model.Worklog LogItem = handler.getLogItem(LogID);
                 ViewBag.JobID = ID;
+
+                Model.Job getJob = new Model.Job();
+                getJob.JobID = int.Parse(JobID);
+                Model.SP_GetJob_Result Job = handler.getJob(getJob);
+                ViewBag.JobTitle = Job.JobTitle;
+
                 return View(LogItem);
         }
             catch (Exception e)
