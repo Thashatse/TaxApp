@@ -17,6 +17,13 @@ namespace BLL
             db = new DBAccess();
         }
 
+        #region Dashboard Details
+        public DashboardIncomeExpense getDashboardIncomeExpense(Profile profile)
+        {
+            return db.getDashboardIncomeExpense(profile);
+        }
+        #endregion
+
         #region Profile
         public bool newprofile(Model.Profile user)
         {
@@ -74,6 +81,10 @@ namespace BLL
         public List<SP_GetJob_Result> getProfileJobsPast(Profile profile)
         {
             return db.getProfileJobsPast(profile);
+        }
+        public List<SP_GetJob_Result> getProfileJobsDashboard(Profile profile)
+        {
+            return db.getProfileJobsDashboard(profile);
         }
 
         #region WorkLog Item

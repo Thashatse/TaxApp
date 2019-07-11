@@ -11,6 +11,126 @@ namespace DAL
 {
     public class DBAccess : IDBAccess
     {
+        #region Dashboard Details
+        public DashboardIncomeExpense getDashboardIncomeExpense(Profile profile)
+        {
+            DashboardIncomeExpense dashboardIncomeExpense = null;
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profile.ProfileID)
+                    };
+
+
+                using (DataTable table = DBHelper.ParamSelect("SP_DashboardIncomeExpense",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            dashboardIncomeExpense = new Model.DashboardIncomeExpense();
+
+                            if (row["TotalIncomePast30Days"].ToString() != "")
+                            {
+                                dashboardIncomeExpense.IncomePast30Days = decimal.Parse(row["TotalIncomePast30Days"].ToString());
+                            }
+                            else
+                            {
+                                dashboardIncomeExpense.IncomePast30Days = 0;
+                            }
+
+                            if (row["TotalIncomePast60To30Days"].ToString() != "")
+                            {
+                                dashboardIncomeExpense.IncomePast60to30DaysPercent = decimal.Parse(row["TotalIncomePast60To30Days"].ToString());
+                            }
+                            else
+                            {
+                                dashboardIncomeExpense.IncomePast60to30DaysPercent = 0;
+                            }
+
+                            if (dashboardIncomeExpense.IncomePast30Days == 0
+                                && dashboardIncomeExpense.IncomePast60to30DaysPercent == 0)
+                            {
+                                dashboardIncomeExpense.IncomePast60to30DaysUporDown = 'U';
+                            }
+                            else if (dashboardIncomeExpense.IncomePast30Days > dashboardIncomeExpense.IncomePast60to30DaysPercent
+                                && dashboardIncomeExpense.IncomePast60to30DaysPercent != 0)
+                            {
+                                dashboardIncomeExpense.IncomePast60to30DaysUporDown = 'U';
+                                dashboardIncomeExpense.IncomePast60to30DaysPercent =
+                                    (dashboardIncomeExpense.IncomePast30Days / dashboardIncomeExpense.IncomePast60to30DaysPercent) * 100;
+                            }
+                            else if (dashboardIncomeExpense.IncomePast30Days < dashboardIncomeExpense.IncomePast60to30DaysPercent)
+                            {
+                                dashboardIncomeExpense.IncomePast60to30DaysUporDown = 'D';
+                                dashboardIncomeExpense.IncomePast60to30DaysPercent =
+                                    (dashboardIncomeExpense.IncomePast60to30DaysPercent / dashboardIncomeExpense.IncomePast30Days) * 100;
+                            }
+                            else
+                            {
+                                dashboardIncomeExpense.IncomePast60to30DaysUporDown = 'U';
+                                dashboardIncomeExpense.IncomePast60to30DaysPercent = -999999999;
+                            }
+
+
+                            if (row["TotalExpensePast30Days"].ToString() != "")
+                            {
+                                dashboardIncomeExpense.ExpensePast30Days = decimal.Parse(row["TotalExpensePast30Days"].ToString());
+                            }
+                            else
+                            {
+                                dashboardIncomeExpense.ExpensePast30Days = 0;
+                            }
+
+                            if (row["TotalExpensePast60To30Days"].ToString() != "")
+                            {
+                                dashboardIncomeExpense.ExpensePast60to30DaysPercent = decimal.Parse(row["TotalExpensePast60To30Days"].ToString());
+                            }
+                            else
+                            {
+                                dashboardIncomeExpense.ExpensePast60to30DaysPercent = 0;
+                            }
+
+                            if(dashboardIncomeExpense.ExpensePast30Days ==0 
+                                && dashboardIncomeExpense.ExpensePast60to30DaysPercent ==0)
+                                {
+                                dashboardIncomeExpense.ExpensePast60to30DaysUporDown = 'U';
+                            }
+                        else if(dashboardIncomeExpense.ExpensePast30Days > dashboardIncomeExpense.ExpensePast60to30DaysPercent
+                                && dashboardIncomeExpense.ExpensePast60to30DaysPercent != 0)
+                            {
+                                dashboardIncomeExpense.ExpensePast60to30DaysUporDown = 'U';
+                                dashboardIncomeExpense.ExpensePast60to30DaysPercent = 
+                                    (dashboardIncomeExpense.ExpensePast30Days / dashboardIncomeExpense.ExpensePast60to30DaysPercent) * 100;
+                            }
+                            else if (dashboardIncomeExpense.ExpensePast30Days < dashboardIncomeExpense.ExpensePast60to30DaysPercent)
+                            {
+                                dashboardIncomeExpense.ExpensePast60to30DaysUporDown = 'D';
+                                dashboardIncomeExpense.ExpensePast60to30DaysPercent =
+                                    (dashboardIncomeExpense.ExpensePast60to30DaysPercent / dashboardIncomeExpense.ExpensePast60to30DaysPercent)*100;
+                            }
+                            else
+                            {
+                                dashboardIncomeExpense.ExpensePast60to30DaysUporDown = 'U';
+                                dashboardIncomeExpense.ExpensePast60to30DaysPercent = -999999999;
+                                    }
+
+                            dashboardIncomeExpense.IncomePast30DaysString = dashboardIncomeExpense.IncomePast30Days.ToString("0.##"); ;
+                            dashboardIncomeExpense.ExpensePast30DaysString = dashboardIncomeExpense.ExpensePast30Days.ToString("0.##"); ;
+                        }
+                    }
+                }
+                return dashboardIncomeExpense;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        #endregion
+
         #region Profile
         public bool newprofile(Model.Profile User)
         {
@@ -515,6 +635,121 @@ namespace DAL
 
 
                 using (DataTable table = DBHelper.ParamSelect("SP_GetProfileJobsPast",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            SP_GetJob_Result job = new Model.SP_GetJob_Result();
+                            job.JobID = int.Parse(row[0].ToString());
+                            job.ClientID = int.Parse(row[6].ToString());
+
+                            if (row[8].ToString() != "" && row[8] != null)
+                            {
+                                job.WorkLogHours = int.Parse(row[8].ToString());
+                                int Hour = int.Parse(row[8].ToString()) / 60;
+                                int Minute = int.Parse(row[8].ToString()) % 60;
+                                job.WorkLogHoursString = Hour + ":" + Minute + " ";
+                            }
+                            else
+                            {
+                                job.WorkLogHoursString = "None";
+                            }
+
+                            job.JobTitle = row[1].ToString();
+                            job.ClientFirstName = row[7].ToString();
+                            job.StartDate = DateTime.Parse(row[4].ToString());
+                            job.StartDateString = String.Format("{0:dddd, dd MMMM yyyy}", job.StartDate);
+
+                            if (row["EndDate"].ToString() != "" && row["EndDate"] != null)
+                            {
+                                job.EndDate = DateTime.Parse(row[6].ToString());
+                                job.EndDateString = String.Format("{0:dddd, dd MMMM yyyy}", job.EndDate);
+
+                            }
+                            else
+                            {
+                                job.EndDateString = "Active";
+                            }
+
+                            job.HourlyRate = decimal.Parse(row[2].ToString());
+
+                            if (row[9].ToString() != "" && row[9] != null)
+                            {
+                                job.ExpenseTotal = decimal.Parse(row[9].ToString());
+                            }
+                            else
+                            {
+                                job.ExpenseTotal = 0;
+                            }
+
+                            if (row[10].ToString() != "" && row[10] != null)
+                            {
+                                job.TotalPaid = decimal.Parse(row[10].ToString());
+                            }
+                            else
+                            {
+                                job.TotalPaid = 0;
+                            }
+
+                            if (row[11].ToString() != "" && row[11] != null)
+                            {
+                                job.TotalUnPaid = decimal.Parse(row[11].ToString());
+                            }
+                            else
+                            {
+                                job.TotalUnPaid = 0;
+                            }
+
+                            if (row[12].ToString() != "" && row[12] != null)
+                            {
+                                job.TravelLogCostTotal = decimal.Parse(row[12].ToString());
+                            }
+                            else
+                            {
+                                job.TravelLogCostTotal = 0;
+                            }
+                            Jobs.Add(job);
+
+                            if (row[3].ToString() != "" || row[3].ToString() != null)
+                            {
+                                job.Budget = decimal.Parse(row[3].ToString());
+                                job.BudgetPercent = ((job.ExpenseTotal + job.TravelLogCostTotal +
+                                    (job.WorkLogHours * job.HourlyRate)) / job.Budget) * 100;
+                            }
+                            else
+                            {
+                                job.Budget = 0;
+                                job.BudgetPercent = 0;
+                            }
+
+                            job.AllExpenseTotal = job.ExpenseTotal + job.TravelLogCostTotal;
+                        }
+                    }
+                }
+                return Jobs;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        public List<SP_GetJob_Result> getProfileJobsDashboard(Profile profile)
+        {
+            List<SP_GetJob_Result> Jobs = new List<SP_GetJob_Result>();
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profile.ProfileID),
+                        //***************************************//
+                        new SqlParameter("@CID", profile.ProfileID)
+                        //***************************************//
+                    };
+
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetProfileJobsDashboard",
             CommandType.StoredProcedure, pars))
                 {
                     if (table.Rows.Count > 0)

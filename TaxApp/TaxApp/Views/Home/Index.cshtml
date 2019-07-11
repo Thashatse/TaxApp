@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Model.homeViewModel
+
+@{
     ViewBag.Title = "Home Page";
 }
 
@@ -13,14 +15,39 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
-                                    <h5 class="card-title text-uppercase text-muted mb-0">Income</h5>
-                                    <span class="h2 font-weight-bold mb-0">350,897</span>
+                                    <h5 class="card-title text-uppercase text-muted mb-0">Income (Past 30 Days)</h5>
+                                    <span class="h2 font-weight-bold mb-0">R @Model.DashboardIncomeExpense.IncomePast30DaysString</span>
                                 </div>
                             </div>
-                            <p class="mt-3 mb-0 text-muted text-sm">
-                                <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                                <span class="text-nowrap">Since last month</span>
-                            </p>
+                            @if (@Model.DashboardIncomeExpense.IncomePast60to30DaysPercent == -999999999)
+                            {
+                                <p class="mt-3 mb-0 text-muted text-sm">
+                                    <span class="text-success mr-2">
+                                        <i class="fa fa-arrow-up"></i>
+                                        UP
+                                    </span>
+                                    <span class="text-nowrap">Since last month</span>
+                                </p>
+                            }
+                            else if (@Model.DashboardIncomeExpense.IncomePast60to30DaysUporDown == 'U')
+                            {
+                                <p class="mt-3 mb-0 text-muted text-sm">
+                                    <span class="text-success mr-2">
+                                        <i class="fa fa-arrow-up"></i>
+                                        UP @Model.DashboardIncomeExpense.IncomePast60to30DaysPercent %
+                                    </span>
+                                    <span class="text-nowrap">Since last month</span>
+                                </p>
+                            }
+                            else if (@Model.DashboardIncomeExpense.IncomePast60to30DaysUporDown == 'D')
+                            {
+                                <p class="mt-3 mb-0 text-muted text-sm">
+                                    <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i>
+                                        DOWN @Model.DashboardIncomeExpense.IncomePast60to30DaysPercent %
+                                    </span>
+                                    <span class="text-nowrap">Since last month</span>
+                                </p>
+                            }
                         </div>
                     </div>
                 </div>
@@ -30,14 +57,40 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
-                                    <h5 class="card-title text-uppercase text-muted mb-0">Expenses</h5>
-                                    <span class="h2 font-weight-bold mb-0">2,356</span>
+                                    <h5 class="card-title text-uppercase text-muted mb-0">Expenses (Past 30 Days)</h5>
+                                    <span class="h2 font-weight-bold mb-0">R @Model.DashboardIncomeExpense.ExpensePast30DaysString</span>
                                 </div>
                             </div>
-                            <p class="mt-3 mb-0 text-muted text-sm">
-                                <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> 3.48%</span>
-                                <span class="text-nowrap">Since last Month</span>
-                            </p>
+                            @if (@Model.DashboardIncomeExpense.ExpensePast60to30DaysPercent == -999999999)
+                            {
+                                <p class="mt-3 mb-0 text-muted text-sm">
+                                    <span class="text-success mr-2">
+                                        <i class="fa fa-arrow-up"></i>
+                                        UP
+                                    </span>
+                                    <span class="text-nowrap">Since last month</span>
+                                </p>
+                            }
+                            else if (@Model.DashboardIncomeExpense.ExpensePast60to30DaysUporDown == 'U')
+                            {
+                                <p class="mt-3 mb-0 text-muted text-sm">
+                                    <span class="text-success mr-2">
+                                        <i class="fa fa-arrow-up"></i>
+                                        UP @Model.DashboardIncomeExpense.ExpensePast60to30DaysPercent %
+                                    </span>
+                                    <span class="text-nowrap">Since last month</span>
+                                </p>
+                            }
+                            else if (@Model.DashboardIncomeExpense.ExpensePast60to30DaysUporDown == 'D')
+                            {
+                                <p class="mt-3 mb-0 text-muted text-sm">
+                                    <span class="text-danger mr-2">
+                                        <i class="fas fa-arrow-down"></i>
+                                        Down @Model.DashboardIncomeExpense.ExpensePast60to30DaysPercent %
+                                    </span>
+                                    <span class="text-nowrap">Since last month</span>
+                                </p>
+                            }
                         </div>
                     </div>
                 </div>
@@ -48,150 +101,88 @@
 
 <div class="container-fluid mt--7">
     <div class="row">
-        <div class="col-xl-4">
-            <div class="card shadow">
-                <div class="card-header border-0">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <h3 class="mb-0">Job Title</h3>
-                        </div>
-                        <div class="col text-right">
-                            <a href="#!" class="btn btn-sm btn-primary">Details</a>
+        @foreach (var item in Model.Jobs)
+        {
+            <div class="col-xl-4">
+                <div class="card shadow">
+                    <div class="card-header border-0">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h3 class="mb-0">
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.JobTitle)
+                                    </td>
+                                </h3>
+                            </div>
+                            <div class="col text-right">
+                                <a href="/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)"
+                                   class="btn btn-sm btn-primary">Details</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="table-responsive">
-                    <!-- Projects table -->
-                    <table class="table align-items-center table-flush">
-                        <tbody>
-                            <tr>
-                                <th scope="row">
-                                    Budget Used:
-                                </th>
-                                <td></td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <span class="mr-2">60%</span>
-                                        <div>
-                                            <div class="progress">
-                                                <div class="progress-bar bg-gradient-danger" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
-                                            </div>
+                    <div class="table-responsive">
+                        <!-- Projects table -->
+                        <table class="table align-items-center table-flush">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">
+                                        Hours Worked:
+                                    </th>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.WorkLogHoursString)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        Income:
+                                    </th>
+                                    <td>
+                                        R @Html.DisplayFor(modelItem => item.TotalPaid)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        Expenses:
+                                    </th>
+                                    <td>
+                                        R @Html.DisplayFor(modelItem => item.ExpenseTotal)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        Budget Used:
+                                    </th>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <span class="mr-2">@Html.DisplayFor(modelItem => item.BudgetPercent)%</span>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    Hours Worked:
-                                </th>
-                                <td></td>
-                                <td>
-                                    5,480
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    Expenses:
-                                </th>
-                                <td></td>
-                                <td>
-                                    5,480
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    Income:
-                                </th>
-                                <td></td>
-                                <td>
-                                    5,480
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-4">
-            <div class="card shadow">
-                <div class="card-header border-0">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <h3 class="mb-0">Job Title</h3>
-                        </div>
-                        <div class="col text-right">
-                            <a href="#!" class="btn btn-sm btn-primary">Details</a>
-                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                <div class="table-responsive">
-                    <!-- Projects table -->
-                    <table class="table align-items-center table-flush">
-                        <tbody>
-                            <tr>
-                                <th scope="row">
-                                    Budget Used:
-                                </th>
-                                <td></td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <span class="mr-2">60%</span>
-                                        <div>
-                                            <div class="progress">
-                                                <div class="progress-bar bg-gradient-danger" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    Hours Worked:
-                                </th>
-                                <td></td>
-                                <td>
-                                    5,480
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    Expenses:
-                                </th>
-                                <td></td>
-                                <td>
-                                    5,480
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    Income:
-                                </th>
-                                <td></td>
-                                <td>
-                                    5,480
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <br />
             </div>
-        </div>
+        }
 
-        <div class="col-xl-4">
-            <div class="card shadow">
-                <div class="card-header border-0">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <h3 class="mb-0">New Title</h3>
-                        </div>
-                        <div class="col text-right">
-                            <a href="#!" class="btn btn-sm btn-primary">New Job</a>
+        @if (Model.Jobs.Count < 3)
+        {
+            <div class="col-xl-4">
+                <div class="card shadow">
+                    <div class="card-header border-0">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h3 class="mb-0">Start A New Job</h3>
+                            </div>
+                            <div class="col text-right">
+                                <a href="/Job/NewJob" class="btn btn-sm btn-primary">New Job</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        }
     </div>
 
     <div class="row mt-5">

@@ -9,6 +9,10 @@ namespace DAL
 {
     public interface IDBAccess
     {
+        #region Dashboard Details
+        DashboardIncomeExpense getDashboardIncomeExpense(Profile profile);
+        #endregion
+
         #region Profile
         bool newprofile(Model.Profile user);
 
@@ -34,6 +38,7 @@ namespace DAL
         Model.SP_GetJob_Result getJob(Model.Job job);
         List<SP_GetJob_Result> getProfileJobs(Profile profile);
         List<SP_GetJob_Result> getProfileJobsPast(Profile profile);
+        List<SP_GetJob_Result> getProfileJobsDashboard(Profile profile);
         #endregion
 
         #region WorkLog Item

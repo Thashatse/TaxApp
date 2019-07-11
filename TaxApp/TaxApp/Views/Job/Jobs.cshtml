@@ -16,6 +16,11 @@
                         Jobs
                     </h1>
                     <br />
+                    @if (Model.curentJobs == null)
+                    {
+                        <div class="text-white"> No Jobs</div>
+                    }
+                    <br />
                     <div>
                         <a href="/Job/NewJob"
                            class="btn btn-sm btn-white">New Job</a>
@@ -29,155 +34,169 @@
 <!-- Page content -->
 <div class="container-fluid mt--7">
     <div class="row">
-        @foreach (var item in Model.curentJobs)
+        @if (Model.curentJobs != null)
         {
-            <div class="col-xl-4">
-                <div class="card shadow">
-                    <div class="card-header border-0">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <h3 class="mb-0">
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.JobTitle)
-                                    </td>
-                                </h3>
-                            </div>
-                            <div class="col text-right">
-                                <a href="/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)"
-                                   class="btn btn-sm btn-primary">Details</a>
+            foreach (var item in Model.curentJobs)
+            {
+                <div class="col-xl-4">
+                    <div class="card shadow">
+                        <div class="card-header border-0">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h3 class="mb-0">
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.JobTitle)
+                                        </td>
+                                    </h3>
+                                </div>
+                                <div class="col text-right">
+                                    <a href="/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)"
+                                       class="btn btn-sm btn-primary">Details</a>
+                                </div>
                             </div>
                         </div>
+                        <div class="table-responsive">
+                            <!-- Projects table -->
+                            <table class="table align-items-center table-flush">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">
+                                            Hours Worked:
+                                        </th>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.WorkLogHoursString)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            Income:
+                                        </th>
+                                        <td>
+                                            R @Html.DisplayFor(modelItem => item.TotalPaid)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            Expenses:
+                                        </th>
+                                        <td>
+                                            R @Html.DisplayFor(modelItem => item.ExpenseTotal)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            Budget Used:
+                                        </th>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <span class="mr-2">@Html.DisplayFor(modelItem => item.BudgetPercent)%</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <div class="table-responsive">
-                        <!-- Projects table -->
-                        <table class="table align-items-center table-flush">
-                            <tbody>
-                                <tr>
-                                    <th scope="row">
-                                        Hours Worked:
-                                    </th>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.WorkLogHoursString)
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        Income:
-                                    </th>
-                                    <td>
-                                        R @Html.DisplayFor(modelItem => item.TotalPaid)
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        Expenses:
-                                    </th>
-                                    <td>
-                                        R @Html.DisplayFor(modelItem => item.ExpenseTotal)
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        Budget Used:
-                                    </th>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <span class="mr-2">@Html.DisplayFor(modelItem => item.BudgetPercent)%</span>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    <br />
                 </div>
-                <br />
-            </div>
+            }
         }
     </div>
 </div>
 
 <br />
 
-<!-- Header 2 -->
-<div class="header">
-    <div class="container">
-        <div class="header-body text-center mb-7">
-            <div class="row justify-content-center">
-                <div class="col-lg-5 col-md-6">
-                    <h1>
-                        Past Jobs
-                    </h1><br />
+@if (Model.curentJobs != null && Model.pastJobs != null)
+{
+    <!-- Header 2 -->
+    <div class="header">
+        <div class="container">
+            <div class="header-body text-center mb-7">
+                <div class="row justify-content-center">
+                    <div class="col-lg-5 col-md-6">
+                        <h1>
+                            Past Jobs
+                        </h1>
+                        @if (Model.pastJobs == null)
+                        {
+                            <th> No Past Jobs</th>
+                        }
+                        <br />
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="container-fluid mt--7">
-    <div class="row mt-5">
-        @foreach (var item in Model.pastJobs)
-        {
-            <div class="col-xl-4">
-                <div class="card shadow">
-                    <div class="card-header border-0">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <h3 class="mb-0">
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.JobTitle)
-                                    </td>
-                                </h3>
+    <div class="container-fluid mt--7">
+        <div class="row mt-5">
+            @if (Model.pastJobs != null)
+            {
+                foreach (var item in Model.pastJobs)
+                {
+                    <div class="col-xl-4">
+                        <div class="card shadow">
+                            <div class="card-header border-0">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <h3 class="mb-0">
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.JobTitle)
+                                            </td>
+                                        </h3>
+                                    </div>
+                                    <div class="col text-right">
+                                        <a href="/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)"
+                                           class="btn btn-sm btn-primary">Details</a>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col text-right">
-                                <a href="/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)"
-                                   class="btn btn-sm btn-primary">Details</a>
+                            <div class="table-responsive">
+                                <!-- Projects table -->
+                                <table class="table align-items-center table-flush">
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">
+                                                Hours Worked:
+                                            </th>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.WorkLogHoursString)
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">
+                                                Income:
+                                            </th>
+                                            <td>
+                                                R @Html.DisplayFor(modelItem => item.TotalPaid)
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">
+                                                Expenses:
+                                            </th>
+                                            <td>
+                                                R @Html.DisplayFor(modelItem => item.ExpenseTotal)
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">
+                                                Budget Used:
+                                            </th>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="mr-2">@Html.DisplayFor(modelItem => item.BudgetPercent)%</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
+                        <br />
                     </div>
-                    <div class="table-responsive">
-                        <!-- Projects table -->
-                        <table class="table align-items-center table-flush">
-                            <tbody>
-                                <tr>
-                                    <th scope="row">
-                                        Hours Worked:
-                                    </th>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.WorkLogHoursString)
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        Income:
-                                    </th>
-                                    <td>
-                                        R @Html.DisplayFor(modelItem => item.TotalPaid)
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        Expenses:
-                                    </th>
-                                    <td>
-                                        R @Html.DisplayFor(modelItem => item.ExpenseTotal)
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        Budget Used:
-                                    </th>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <span class="mr-2">@Html.DisplayFor(modelItem => item.BudgetPercent)%</span>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <br />
-            </div>
-        }
+                }
+            }
+        </div>
     </div>
-</div>
+}

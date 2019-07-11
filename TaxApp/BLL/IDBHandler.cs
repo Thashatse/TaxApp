@@ -9,6 +9,10 @@ namespace BLL
 {
     public interface IDBHandler
     {
+        #region Dashboard Details
+        DashboardIncomeExpense getDashboardIncomeExpense(Profile profile);
+        #endregion
+
         #region Profile
         bool newprofile(Model.Profile user);
         Model.Profile getProfile(Model.Profile User);
@@ -33,6 +37,7 @@ namespace BLL
         SP_GetJob_Result getJob(Model.Job job);
         List<SP_GetJob_Result> getProfileJobs(Profile profile);
         List<SP_GetJob_Result> getProfileJobsPast(Profile profile);
+        List<SP_GetJob_Result> getProfileJobsDashboard(Profile profile);
 
         #region WorkLog Item
         bool newWorkLogItem(Model.Worklog logItem, Model.Job job);

@@ -63,7 +63,17 @@ namespace TaxApp.Controllers
             Model.Profile getJobs = new Model.Profile();
             getJobs.ProfileID = int.Parse(cookie["ID"].ToString());
             List<Model.SP_GetJob_Result> currentJobs = handler.getProfileJobs(getJobs);
-            List<Model.SP_GetJob_Result> pastJobs = handler.getProfileJobs(getJobs);
+            List<Model.SP_GetJob_Result> pastJobs = handler.getProfileJobsPast(getJobs);
+
+                if(pastJobs.Count == 0)
+                {
+                    pastJobs = null;
+                }
+
+                if (currentJobs.Count == 0)
+                {
+                    currentJobs = null;
+                }
 
                 var viewModel = new Model.JobViewModel();
                 viewModel.curentJobs = currentJobs;
