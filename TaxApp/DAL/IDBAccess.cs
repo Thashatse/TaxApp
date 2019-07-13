@@ -58,6 +58,7 @@ namespace DAL
         bool newJobExpense(SP_GetJobExpense_Result newJobExpense);
         SP_GetJobExpense_Result getJobExpense(Expense expenseID);
         List<SP_GetJobExpense_Result> getJobExpenses(Job jobID);
+        List<SP_GetJobExpense_Result> getAllJobExpense(Profile profileID);
         bool newGeneralExpense(SP_GetGeneralExpense_Result newGeneralExpense);
         SP_GetGeneralExpense_Result getGeneralExpense(Expense expenseID);
         List<SP_GetGeneralExpense_Result> getGeneralExpenses(Profile profileID);

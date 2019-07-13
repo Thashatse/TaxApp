@@ -22,6 +22,7 @@ namespace Model
         public int ProfileID { get; set; }
         [Required]
         public System.DateTime Date { get; set; }
+        public string DateString { get; set; }
         [Required]
         public decimal Amount { get; set; }
         public bool Repeat { get; set; }

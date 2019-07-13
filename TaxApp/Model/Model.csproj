@@ -79,6 +79,7 @@
     <Compile Include="ExpenseCategory.cs">
       <DependentUpon>TaxAppModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="ExpenseViewModel.cs" />
     <Compile Include="GeneralExpense.cs">
       <DependentUpon>TaxAppModel.tt</DependentUpon>
     </Compile>

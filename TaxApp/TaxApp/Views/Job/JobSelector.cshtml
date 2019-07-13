@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Model.SP_GetJob_Result>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="header bg-gradient-primary py-7 py-lg-8">
+        <div class="container">
+            <div class="header-body text-center mb-7">
+                <div class="row justify-content-center">
+                    <div class="col-lg-5 col-md-6">
+                        <h1 class="text-white">Select Job</h1>
+                        <br />
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.DropDownList("JobList", Model as SelectList)
+                            <br />
+                            <br />
+                            <input type="submit" value="Next" class="btn btn-default" />
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

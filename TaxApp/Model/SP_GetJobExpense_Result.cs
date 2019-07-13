@@ -33,5 +33,6 @@ namespace Model
 
         [Display(Name = "Category Description")]
         public string CatDescription { get; set; }
+        public string JobTitle { get; set; }
     }
 }

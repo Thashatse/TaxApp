@@ -30,5 +30,6 @@ namespace Model
         public Nullable<int> JobID { get; set; }
         public decimal SARSFuelCost { get; set; }
         public decimal SARSMaintenceCost { get; set; }
+        public decimal ClientCharge { get; set; }
     }
 }

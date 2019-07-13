@@ -1173,6 +1173,52 @@ namespace DAL
                             //expense.Invoice_ReceiptCopy = row[7].ToString();
                             expense.CatName = row[8].ToString();
                             expense.CatDescription = row[9].ToString();
+                            expense.JobTitle = row["JobTitle"].ToString();
+                            Expenses.Add(expense);
+                        }
+                    }
+                }
+                return Expenses;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        public List<SP_GetJobExpense_Result> getAllJobExpense(Profile profileID)
+        {
+            List<SP_GetJobExpense_Result> Expenses = new List<SP_GetJobExpense_Result>();
+            SqlParameter[] pars = new SqlParameter[]
+                {
+                        new SqlParameter("@PID", profileID.ProfileID)
+                };
+
+            try
+            {
+                using (DataTable table = DBHelper.ParamSelect("SP_GetJobExpensesAllProfile",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            SP_GetJobExpense_Result expense = new SP_GetJobExpense_Result();
+                            expense.ExpenseID = int.Parse(row[0].ToString());
+                            expense.CategoryID = int.Parse(row[1].ToString());
+                            expense.Name = row[2].ToString();
+                            expense.Description = row[3].ToString();
+                            if (expense.Description == "" || expense.Description == null)
+                            {
+                                expense.Description = "None";
+                            }
+                            expense.JobID = int.Parse(row[4].ToString());
+                            expense.Date = DateTime.Parse(row[5].ToString());
+                            expense.DateString = expense.Date.ToString("dddd, dd MMMM yyyy");
+                            expense.Amount = decimal.Parse(row[6].ToString());
+                            //expense.Invoice_ReceiptCopy = row[7].ToString();
+                            expense.CatName = row[8].ToString();
+                            expense.CatDescription = row[9].ToString();
+                            expense.JobTitle = row["JobTitle"].ToString();
                             Expenses.Add(expense);
                         }
                     }
@@ -1263,7 +1309,7 @@ namespace DAL
                     };
 
 
-                using (DataTable table = DBHelper.ParamSelect("SP_GetProfileClients",
+                using (DataTable table = DBHelper.ParamSelect("SP_GetGeneralExpenses",
             CommandType.StoredProcedure, pars))
                 {
                     if (table.Rows.Count > 0)
@@ -1272,7 +1318,7 @@ namespace DAL
                         {
                             SP_GetGeneralExpense_Result expense = new SP_GetGeneralExpense_Result();
                             expense.ExpenseID = int.Parse(row[0].ToString());
-                            expense.CategoryID = int.Parse(row[1].ToString());
+                            expense.CategoryID = int.Parse(row["CategoryID"].ToString());
                             expense.Name = row[2].ToString();
                             expense.Description = row[3].ToString();
                             expense.ProfileID = int.Parse(row[4].ToString());
@@ -1282,6 +1328,7 @@ namespace DAL
                             //expense.Invoice_ReceiptCopy = row[8].ToString();
                             expense.CatName = row[9].ToString();
                             expense.CatDescription = row[10].ToString();
+                            expense.DateString = expense.Date.ToString("dddd, dd MMMM yyyy");
                             Expenses.Add(expense);
                         }
                     }
@@ -1438,6 +1485,7 @@ namespace DAL
                             travelLogItem.TotalKMs = double.Parse(row["TotalKMs"].ToString());
                             travelLogItem.SARSFuelCost = decimal.Parse(row["SARSFuelCost"].ToString());
                             travelLogItem.SARSMaintenceCost = decimal.Parse(row["SARSMaintenceCost"].ToString());
+                            travelLogItem.ClientCharge = decimal.Parse(row["ClientCharge"].ToString());
                             travelLogItem.Date = DateTime.Parse(row["Date"].ToString());
                             travelLogItem.DateString = travelLogItem.Date.ToString("dddd, dd MMMM yyyy");
                             travelLogItem.Invoiced = bool.Parse(row["Invoiced"].ToString());

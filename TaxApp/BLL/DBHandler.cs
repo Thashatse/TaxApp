@@ -127,6 +127,10 @@ namespace BLL
         {
             return db.getJobExpense(expenseID);
         }
+        public List<SP_GetJobExpense_Result> getAllJobExpense(Profile profileID)
+        {
+            return db.getAllJobExpense(profileID);
+        }
         public List<SP_GetJobExpense_Result> getJobExpenses(Job jobID)
         {
             return db.getJobExpenses(jobID);

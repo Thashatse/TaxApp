@@ -262,5 +262,66 @@ namespace TaxApp.Controllers
             }
         }
         #endregion
+
+        #region Job Selector
+        public ActionResult JobSelector(string Dest)
+        {
+            getCookie();
+
+            try
+            {
+                ViewBag.Title = "Job For "+Dest.Replace('*', ' ');
+
+                Model.Profile getJobs = new Model.Profile();
+                getJobs.ProfileID = int.Parse(cookie["ID"].ToString());
+
+                List<Model.SP_GetJob_Result> currentJobs = handler.getProfileJobs(getJobs);
+                
+                ViewBag.JobList = new SelectList(currentJobs, "JobID", "JobTitle");
+
+                return View(currentJobs);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding job on Job selector");
+                return RedirectToAction("../Shared/Error");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult JobSelector(FormCollection collection, string Dest)
+        {
+            getCookie();
+
+            try
+            {
+                Model.Profile getJobs = new Model.Profile();
+                getJobs.ProfileID = int.Parse(cookie["ID"].ToString());
+
+                List<Model.SP_GetJob_Result> currentJobs = handler.getProfileJobs(getJobs);
+
+                ViewBag.JobList = new SelectList(currentJobs, "JobID", "JobTitle");
+
+                if (Dest == "New*Job*Expense")
+                {
+                    Response.Redirect("../Expense/NewJobExpense?ID="+ Request.Form["JobList"].ToString());
+                }
+                else if (Dest == "New*Travel*Expense")
+                {
+                    Response.Redirect("../Expense/NewTravelExpense?ID=" + Request.Form["JobList"].ToString());
+                }
+
+                    function.logAnError("selecting job. Dest Value: '" + Dest + "'. In Job controler");
+                    return View("../Shared/Error");
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "selecting job. Dest Value: '"+Dest+"'. In Job controler");
+                return View("../Shared/Error");
+            }
+        }
+        #endregion
     }
 }

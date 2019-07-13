@@ -58,7 +58,32 @@ namespace TaxApp.Controllers
         public ActionResult Expenses()
         {
             getCookie();
-            return View();
+
+            try
+            {
+                getCookie();
+
+                Model.Profile getProfile = new Model.Profile();
+                getProfile.ProfileID = int.Parse(cookie["ID"].ToString());
+
+                List<Model.TravelLog> ProfileTravelLog = handler.getProfileTravelLog(getProfile);
+                List<Model.SP_GetJobExpense_Result> ProfileJobExpenses = handler.getAllJobExpense(getProfile);
+                List<Model.SP_GetGeneralExpense_Result> ProfileGeneralExpenses = handler.getGeneralExpenses(getProfile);
+
+                Model.ExpenseViewModel viewModel = new Model.ExpenseViewModel();
+                viewModel.GExpense = ProfileGeneralExpenses;
+                viewModel.JExpense = ProfileJobExpenses;
+                viewModel.TExpense = ProfileTravelLog;
+
+
+                return View(viewModel);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding Expese Page");
+                return Redirect("Home/index");
+            }
         }
 
         #region New General Expense
@@ -308,7 +333,7 @@ namespace TaxApp.Controllers
         }
         #endregion
 
-        #region New Travel Expense
+        #region New Vehicale Expense
         // GET
         public ActionResult NewVehicle()
         {
@@ -361,7 +386,7 @@ namespace TaxApp.Controllers
         }
         #endregion
 
-        #region Job Expense View
+        #region Travel Loge View
         public ActionResult JobTravelLog(string ID)
         {
             try

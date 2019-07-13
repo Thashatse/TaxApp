@@ -4,7 +4,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-Create PROCEDURE [dbo].[SP_GetGeneralExpenses]
+alter PROCEDURE [dbo].[SP_GetGeneralExpenses]
 	@PID INT
 AS
 BEGIN
@@ -15,4 +15,5 @@ BEGIN
     WHERE  GeneralExpense.ProfileID = @PID
 			AND Expense.ExpenseID = GeneralExpense.ExpenseID
 			AND Expense.CategoryID = ExpenseCategory.CategoryID
+	Order by GeneralExpense.[Date] desc
 END 
