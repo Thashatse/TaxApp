@@ -68,6 +68,7 @@ namespace DAL
         List<Vehicle> getVehicles(Profile getProfileVehicles);
         List<TravelLog> getProfileTravelLog(Profile getProfileTravelLog);
         List<TravelLog> getJobTravelLog(Job getJobTravelLog);
+        TravelLog getTravelLogItem(TravelLog getTravelLogItem);
         #endregion
 
         #region Invoice

@@ -270,6 +270,27 @@ namespace TaxApp.Controllers
         }
         #endregion
 
+        #region General Expense View
+        public ActionResult GeneralExpense(string ID)
+        {
+            try
+            {
+                getCookie();
+                Model.Expense getExpense = new Model.Expense();
+                getExpense.ExpenseID = int.Parse(ID);
+                Model.SP_GetGeneralExpense_Result GeneralExpense = handler.getGeneralExpense(getExpense);
+
+                return View(GeneralExpense);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding job expense Details");
+                return Redirect("/Expense/Expenses?ID=" + ID);
+            }
+        }
+        #endregion
+
         #region New Travel Expense
         // GET: 
         public ActionResult NewTravelExpense()
@@ -422,6 +443,25 @@ namespace TaxApp.Controllers
                 function.logAnError(e.ToString() +
                     "Error loding Profile travel log List");
                 return Redirect("/Expense/Expenses");
+            }
+        }
+        public ActionResult TravleLogItem(string ID)
+        {
+            try
+            {
+                getCookie();
+
+                Model.TravelLog getTravelLogItem = new Model.TravelLog();
+                getTravelLogItem.ExpenseID = int.Parse(ID);
+                Model.TravelLog travelLogItem = handler.getTravelLogItem(getTravelLogItem);
+
+                return View(travelLogItem);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding Travle Log Item Details");
+                return Redirect("/Expense/Expenses?ID=" + ID);
             }
         }
         #endregion

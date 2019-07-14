@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Home Page";
+    int i = 0;
 }
 
 <!-- Header -->
@@ -101,203 +102,150 @@
 
 <div class="container-fluid mt--7">
     <div class="row">
-        @foreach (var item in Model.Jobs)
+        @if (Model.Jobs.Count > 0 && Model.Jobs != null)
         {
-            <div class="col-xl-4">
-                <div class="card shadow">
-                    <div class="card-header border-0">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <h3 class="mb-0">
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.JobTitle)
-                                    </td>
-                                </h3>
-                            </div>
-                            <div class="col text-right">
-                                <a href="/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)"
-                                   class="btn btn-sm btn-primary">Details</a>
+            foreach (var item in Model.Jobs)
+            {
+                <div class="col-xl-4">
+                    <div class="card shadow">
+                        <div class="card-header border-0">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h3 class="mb-0">
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.JobTitle)
+                                        </td>
+                                    </h3>
+                                </div>
+                                <div class="col text-right">
+                                    <a href="/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)"
+                                       class="btn btn-sm btn-primary">Details</a>
+                                </div>
                             </div>
                         </div>
+                        <div class="table-responsive">
+                            <!-- Projects table -->
+                            <table class="table align-items-center table-flush">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">
+                                            Hours Worked:
+                                        </th>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.WorkLogHoursString)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            Income:
+                                        </th>
+                                        <td>
+                                            R @Html.DisplayFor(modelItem => item.TotalPaid)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            Expenses:
+                                        </th>
+                                        <td>
+                                            R @Html.DisplayFor(modelItem => item.ExpenseTotal)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            Budget Used:
+                                        </th>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <span class="mr-2">@Html.DisplayFor(modelItem => item.BudgetPercent)%</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <div class="table-responsive">
-                        <!-- Projects table -->
-                        <table class="table align-items-center table-flush">
-                            <tbody>
-                                <tr>
-                                    <th scope="row">
-                                        Hours Worked:
-                                    </th>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.WorkLogHoursString)
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        Income:
-                                    </th>
-                                    <td>
-                                        R @Html.DisplayFor(modelItem => item.TotalPaid)
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        Expenses:
-                                    </th>
-                                    <td>
-                                        R @Html.DisplayFor(modelItem => item.ExpenseTotal)
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        Budget Used:
-                                    </th>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <span class="mr-2">@Html.DisplayFor(modelItem => item.BudgetPercent)%</span>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    <br />
                 </div>
-                <br />
-            </div>
+            }
         }
 
-        @if (Model.Jobs.Count < 3)
-        {
-            <div class="col-xl-4">
-                <div class="card shadow">
-                    <div class="card-header border-0">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <h3 class="mb-0">Start A New Job</h3>
-                            </div>
-                            <div class="col text-right">
-                                <a href="/Job/NewJob" class="btn btn-sm btn-primary">New Job</a>
+            @if (Model.Jobs.Count < 3)
+            {
+                <div class="col-xl-4">
+                    <div class="card shadow">
+                        <div class="card-header border-0">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h3 class="mb-0">Start A New Job</h3>
+                                </div>
+                                <div class="col text-right">
+                                    <a href="/Job/NewJob" class="btn btn-sm btn-primary">New Job</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        }
-    </div>
+            }
+        </div>
 
     <div class="row mt-5">
-        <div class="col-xl-4">
-            <div class="card shadow">
-                <div class="card-header border-0">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <h3 class="mb-0">Expenses Title</h3>
-                        </div>
-                        <div class="col text-right">
-                            <a href="#!" class="btn btn-sm btn-primary">Details</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="table-responsive">
-                    <!-- Projects table -->
-                    <table class="table align-items-center table-flush">
-                        <tbody>
-                            <tr>
-                                <th scope="row">
-                                    Date:
-                                </th>
-                                <td></td>
-                                <td>
-                                    5,480
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    Price:
-                                </th>
-                                <td></td>
-                                <td>
-                                    5,480
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    Recuring:
-                                </th>
-                                <td></td>
-                                <td>
-                                    No
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-4">
-            <div class="card shadow">
-                <div class="card-header border-0">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <h3 class="mb-0">Expenses Title</h3>
-                        </div>
-                        <div class="col text-right">
-                            <a href="#!" class="btn btn-sm btn-primary">Details</a>
+        @{if (Model.Expenses != null)
+            {
+                foreach (var item in Model.Expenses)
+                {
+                    if (i < 3)
+                    {
+                    <div class="col-xl-4">
+                        <div class="card shadow">
+                            <div class="card-header border-0">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                                <h3 class="mb-0">@Html.DisplayFor(modelItem => item.name)</h3>
+                                    </div>
+                                    <div class="col text-right">
+                                        <a href="@Html.DisplayFor(modelItem => item.URL)" class="btn btn-sm btn-primary">Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <!-- Projects table -->
+                                <table class="table align-items-center table-flush">
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">
+                                                Date:
+                                            </th>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.date)
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">
+                                                @Html.DisplayFor(modelItem => item.amountTital)
+                                            </th>
+                                            <td>
+                                                R @Html.DisplayFor(modelItem => item.amount)
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">
+                                                @Html.DisplayFor(modelItem => item.deatilTitle)
+                                            </th>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.deatil)
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="table-responsive">
-                    <!-- Projects table -->
-                    <table class="table align-items-center table-flush">
-                        <tbody>
-                            <tr>
-                                <th scope="row">
-                                    Date:
-                                </th>
-                                <td></td>
-                                <td>
-                                    5,480
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    Price:
-                                </th>
-                                <td></td>
-                                <td>
-                                    5,480
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    Job Title:
-                                </th>
-                                <td></td>
-                                <td>
-                                    Job Title
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-4">
-            <div class="card shadow">
-                <div class="card-header border-0">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <h3 class="mb-0">New Expense</h3>
-                        </div>
-                        <div class="col text-right">
-                            <a href="#!" class="btn btn-sm btn-primary">New expense</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                            i = i + 1;
+                        }
+                    }
+                }
+            }
     </div>
 
 

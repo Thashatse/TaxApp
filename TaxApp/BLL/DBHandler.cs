@@ -171,6 +171,10 @@ namespace BLL
         {
             return db.getJobTravelLog(getJobTravelLog);
         }
+        public TravelLog getTravelLogItem(TravelLog getTravelLogItem)
+        {
+            return db.getTravelLogItem(getTravelLogItem);
+        }
         #endregion
 
         #region Invoice

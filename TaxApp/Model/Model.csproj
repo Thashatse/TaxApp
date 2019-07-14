@@ -69,6 +69,7 @@
     <Compile Include="Client.cs">
       <DependentUpon>TaxAppModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DashboardExpense.cs" />
     <Compile Include="DashboardIncomeExpense.cs" />
     <Compile Include="EmailSetting.cs">
       <DependentUpon>TaxAppModel.tt</DependentUpon>

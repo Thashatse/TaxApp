@@ -69,9 +69,61 @@ namespace TaxApp.Controllers
 
                 Model.DashboardIncomeExpense dashboardIncomeExpense = handler.getDashboardIncomeExpense(profile);
 
+                List<Model.DashboardExpense> dashboardExpenses = new List<Model.DashboardExpense>();
+                List<Model.TravelLog> ProfileTravelLog = handler.getProfileTravelLog(profile);
+                List<Model.SP_GetJobExpense_Result> ProfileJobExpenses = handler.getAllJobExpense(profile);
+                List<Model.SP_GetGeneralExpense_Result> ProfileGeneralExpenses = handler.getGeneralExpenses(profile);
+                foreach(Model.TravelLog item in ProfileTravelLog)
+                {
+                    Model.DashboardExpense expense = new Model.DashboardExpense();
+
+                    expense.name = item.Reason;
+                    expense.date = item.DateString;
+                    expense.dateSort = item.Date;
+                    expense.deatil = item.TotalKMs.ToString();
+                    expense.deatilTitle = "Total Km's:";
+                    expense.amountTital = "Cost to Customer:";
+                    expense.amount = item.ClientCharge;
+                    expense.URL = "../Expense/TravleLogItem?ID=" + item.ExpenseID;
+
+                    dashboardExpenses.Add(expense);
+                }
+                foreach (Model.SP_GetJobExpense_Result item in ProfileJobExpenses)
+                {
+                    Model.DashboardExpense expense = new Model.DashboardExpense();
+
+                    expense.name = item.Name;
+                    expense.date = item.DateString;
+                    expense.dateSort = item.Date;
+                    expense.deatil = item.JobTitle;
+                    expense.deatilTitle = "Job:";
+                    expense.amountTital = "Price:";
+                    expense.amount = item.Amount;
+                    expense.URL = "../Expense/JobExpense?ID="+item.ExpenseID;
+
+                    dashboardExpenses.Add(expense);
+                }
+                foreach (Model.SP_GetGeneralExpense_Result item in ProfileGeneralExpenses)
+                {
+                    Model.DashboardExpense expense = new Model.DashboardExpense();
+
+                    expense.name = item.Name;
+                    expense.date = item.DateString;
+                    expense.dateSort = item.Date;
+                    expense.deatil = item.Repeat.ToString();
+                    expense.deatilTitle = "Recuring:";
+                    expense.amountTital = "Price:";
+                    expense.amount = item.Amount;
+                    expense.URL = "../Expense/GeneralExpense?ID=" + item.ExpenseID;
+
+                    dashboardExpenses.Add(expense);
+                }
+                dashboardExpenses = dashboardExpenses.OrderBy(x => x.dateSort).ToList();
+
                 var viewModel = new Model.homeViewModel();
                 viewModel.Jobs = jobs;
                 viewModel.DashboardIncomeExpense = dashboardIncomeExpense;
+                viewModel.Expenses = dashboardExpenses;
 
                 return View(viewModel);
             }

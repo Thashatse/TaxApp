@@ -19,6 +19,8 @@ namespace Model
         public string From { get; set; }
         public string To { get; set; }
         public string Reason { get; set; }
+        public string JobTitle { get; set; }
+        public string VehicleName { get; set; }
         public double OpeningKMs { get; set; }
         public Nullable<double> ClosingKMs { get; set; }
         public Nullable<double> TotalKMs { get; set; }
@@ -28,8 +30,11 @@ namespace Model
         public DateTime Date { get; set; }
         public String DateString { get; set; }
         public Nullable<int> JobID { get; set; }
+        [Display(Name = "SARS Fuel Cost")]
         public decimal SARSFuelCost { get; set; }
+        [Display(Name = "SARS Maintence Cost")]
         public decimal SARSMaintenceCost { get; set; }
+        [Display(Name = "Client Charge")]
         public decimal ClientCharge { get; set; }
     }
 }

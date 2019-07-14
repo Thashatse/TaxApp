@@ -1288,6 +1288,7 @@ namespace DAL
                             //expense.Invoice_ReceiptCopy = row[8].ToString();
                             expense.CatName = row[9].ToString();
                             expense.CatDescription = row[10].ToString();
+                            expense.DateString = expense.Date.ToString("dddd, dd MMMM yyyy");
                         }
                     }
                 }
@@ -1500,6 +1501,51 @@ namespace DAL
                 throw new ApplicationException(e.ToString());
             }
         }
+        public TravelLog getTravelLogItem(TravelLog getTravelLogItem)
+        {
+                            TravelLog travelLogItem = null;
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@EID", getTravelLogItem.ExpenseID)
+                   };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetTravleLogItem",
+            CommandType.StoredProcedure, pars))
+                {
+                    foreach (DataRow row in table.Rows)
+                    {
+                        if (row != null)
+                        {
+                            travelLogItem = new TravelLog();
+                            travelLogItem.JobID = int.Parse(row["JobID"].ToString());
+                            travelLogItem.ExpenseID = int.Parse(row["ExpenseID"].ToString());
+                            travelLogItem.VehicleID = int.Parse(row["VehicleID"].ToString());
+                            travelLogItem.From = row["From"].ToString();
+                            travelLogItem.To = row["To"].ToString();
+                            travelLogItem.Reason = row["Reason"].ToString();
+                            travelLogItem.OpeningKMs = double.Parse(row["OpeningKMs"].ToString());
+                            travelLogItem.ClosingKMs = double.Parse(row["ClosingKMs"].ToString());
+                            travelLogItem.Invoiced = bool.Parse(row["Invoiced"].ToString());
+                            travelLogItem.Date = DateTime.Parse(row["Date"].ToString());
+                            travelLogItem.DateString = travelLogItem.Date.ToString("dddd, dd MMMM yyyy");
+                            travelLogItem.TotalKMs = double.Parse(row["TotalKMs"].ToString());
+                            travelLogItem.SARSFuelCost = decimal.Parse(row["SARSFuelCost"].ToString());
+                            travelLogItem.SARSMaintenceCost = decimal.Parse(row["SARSMaintenceCost"].ToString());
+                            travelLogItem.ClientCharge = decimal.Parse(row["ClientCharge"].ToString());
+                            travelLogItem.VehicleName = row["Name"].ToString();
+                            travelLogItem.JobTitle = row["JobTitle"].ToString();
+                        }
+                    }
+                }
+                return travelLogItem;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
         public List<TravelLog> getJobTravelLog(Job getJobTravelLog)
         {
             List<TravelLog> TravelLog = new List<TravelLog>();
@@ -1510,7 +1556,7 @@ namespace DAL
                         new SqlParameter("@JID", getJobTravelLog.JobID)
                    };
 
-                using (DataTable table = DBHelper.ParamSelect("SP_GetJobTravleLog",
+                using (DataTable table = DBHelper.ParamSelect("SP_GetTravleLogItem",
             CommandType.StoredProcedure, pars))
                 {
                     if (table.Rows.Count > 0)
