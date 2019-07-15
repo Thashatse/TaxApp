@@ -111,6 +111,7 @@
                         <div class="card-header border-0">
                             <div class="row align-items-center">
                                 <div class="col">
+                                    <h6 class="text-uppercase ls-1 mb-1">Job</h6>
                                     <h3 class="mb-0">
                                         <td>
                                             @Html.DisplayFor(modelItem => item.JobTitle)
@@ -170,86 +171,85 @@
             }
         }
 
-            @if (Model.Jobs.Count < 3)
-            {
-                <div class="col-xl-4">
-                    <div class="card shadow">
-                        <div class="card-header border-0">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <h3 class="mb-0">Start A New Job</h3>
-                                </div>
-                                <div class="col text-right">
-                                    <a href="/Job/NewJob" class="btn btn-sm btn-primary">New Job</a>
-                                </div>
+        @if (Model.Jobs.Count < 3)
+        {
+            <div class="col-xl-4">
+                <div class="card shadow">
+                    <div class="card-header border-0">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h3 class="mb-0">Start A New Job</h3>
+                            </div>
+                            <div class="col text-right">
+                                <a href="/Job/NewJob" class="btn btn-sm btn-primary">New Job</a>
                             </div>
                         </div>
                     </div>
                 </div>
-            }
-        </div>
+            </div>
+        }
+    </div>
 
-    <div class="row mt-5">
+    <div class="row">
         @{if (Model.Expenses != null)
             {
                 foreach (var item in Model.Expenses)
                 {
                     if (i < 3)
                     {
-                    <div class="col-xl-4">
-                        <div class="card shadow">
-                            <div class="card-header border-0">
-                                <div class="row align-items-center">
-                                    <div class="col">
-                                                <h3 class="mb-0">@Html.DisplayFor(modelItem => item.name)</h3>
-                                    </div>
-                                    <div class="col text-right">
-                                        <a href="@Html.DisplayFor(modelItem => item.URL)" class="btn btn-sm btn-primary">Details</a>
+                        <div class="col-xl-4">
+                            <div class="card shadow">
+                                <div class="card-header border-0">
+                                    <div class="row align-items-center">
+                                                <div class="col">
+                                                            <h6 class="text-uppercase ls-1 mb-1">@Html.DisplayFor(modelItem => item.expenseType) Expense</h6>
+                                                    <h3 class="mb-0">@Html.DisplayFor(modelItem => item.name)</h3>
+                                                </div>
+                                        <div class="col text-right">
+                                            <a href="@Html.DisplayFor(modelItem => item.URL)" class="btn btn-sm btn-primary">Details</a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="table-responsive">
-                                <!-- Projects table -->
-                                <table class="table align-items-center table-flush">
-                                    <tbody>
-                                        <tr>
-                                            <th scope="row">
-                                                Date:
-                                            </th>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.date)
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">
-                                                @Html.DisplayFor(modelItem => item.amountTital)
-                                            </th>
-                                            <td>
-                                                R @Html.DisplayFor(modelItem => item.amount)
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">
-                                                @Html.DisplayFor(modelItem => item.deatilTitle)
-                                            </th>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.deatil)
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <div class="table-responsive">
+                                    <!-- Projects table -->
+                                    <table class="table align-items-center table-flush">
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">
+                                                    Date:
+                                                </th>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.date)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                    @Html.DisplayFor(modelItem => item.amountTital)
+                                                </th>
+                                                <td>
+                                                    R @Html.DisplayFor(modelItem => item.amount)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                    @Html.DisplayFor(modelItem => item.deatilTitle)
+                                                </th>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.deatil)
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                            i = i + 1;
-                        }
+                        i = i + 1;
                     }
                 }
             }
+        }
     </div>
 
-
-    <!-- Table -->
     <div class="row mt-5">
         <div class="col-6">
             <div class="card shadow">

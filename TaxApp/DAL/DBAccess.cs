@@ -424,6 +424,7 @@ namespace DAL
                             }
                             else
                             {
+                                job.WorkLogHours = 0;
                                 job.WorkLogHoursString = "None";
                             }
 
@@ -539,6 +540,7 @@ namespace DAL
                             }
                             else
                             {
+                                job.WorkLogHours = 0;
                                 job.WorkLogHoursString = "None";
                             }
 
@@ -654,6 +656,7 @@ namespace DAL
                             }
                             else
                             {
+                                job.WorkLogHours = 0;
                                 job.WorkLogHoursString = "None";
                             }
 
@@ -769,6 +772,8 @@ namespace DAL
                             }
                             else
                             {
+
+                                job.WorkLogHours = 0;
                                 job.WorkLogHoursString = "None";
                             }
 
@@ -1556,7 +1561,7 @@ namespace DAL
                         new SqlParameter("@JID", getJobTravelLog.JobID)
                    };
 
-                using (DataTable table = DBHelper.ParamSelect("SP_GetTravleLogItem",
+                using (DataTable table = DBHelper.ParamSelect("SP_GetJobTravleLog",
             CommandType.StoredProcedure, pars))
                 {
                     if (table.Rows.Count > 0)

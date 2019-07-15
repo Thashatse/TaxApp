@@ -17,16 +17,17 @@
     </div>
 </div>
 
-<!-- Page content -->
-<div class="container mt--8 pb-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-12 col-md-12">
-            <div class="card bg-secondary shadow border-0">
+<div class="container-fluid mt--7">
+    <!-- Page content -->
+    <div class="container mt--8 pb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-12 col-md-12">
+                <div class="card bg-secondary shadow border-0">
 
-                <div class="col text-right">
-                    <p class="btn">
-                        @Html.ActionLink("Create New", "NewClient")
-                    </p>
+                    <div class="col text-right">
+                        <p class="btn">
+                            @Html.ActionLink("Create New", "NewClient")
+                        </p>
                     </div>
                     <table class="table">
                         <tr>
@@ -74,7 +75,7 @@
                                 </td>
                                 <td>
                                     @Html.ActionLink("Edit", "Edit", new { id = item.ClientID }) |
-                                    @Html.ActionLink("Details", "Details", new { id = item.ClientID }) |
+                                    @Html.ActionLink("Details", "ClientDetails", new { id = item.ClientID }) |
                                     @Html.ActionLink("Delete", "Delete", new { id = item.ClientID })
                                 </td>
                             </tr>
@@ -83,5 +84,5 @@
                     </table>
                 </div>
             </div>
+        </div>
     </div>
-</div>

@@ -1,6 +1,7 @@
 ﻿using BLL;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -147,13 +148,20 @@ namespace TaxApp.Controllers
 
         #region New Job Expense
         // GET: Landing/NewProfile
-        public ActionResult NewJobExpense()
+        public ActionResult NewJobExpense(string ID)
         {
             try { 
             getCookie();
             List<Model.ExpenseCategory> cats = handler.getExpenseCatagories();
             ViewBag.CategoryList = new SelectList(cats, "CategoryID", "Name");
-            return View();
+
+                Model.Job getJob = new Model.Job();
+                getJob.JobID = int.Parse(ID);
+                Model.SP_GetJob_Result Job = handler.getJob(getJob);
+                ViewBag.JobTitle = Job.JobTitle;
+                ViewBag.JobID = Job.JobID;
+
+                return View();
             }
             catch (Exception e)
             {
@@ -180,14 +188,14 @@ namespace TaxApp.Controllers
                 newExpense.Description = Request.Form["Description"].ToString();
                 newExpense.JobID = int.Parse(ID);
                 newExpense.Date = DateTime.Parse(Request.Form["Date"].ToString());
-                newExpense.Amount = Convert.ToDecimal(double.Parse(Request.Form["Amount"].ToString()));
+                newExpense.Amount = Convert.ToDecimal(Request.Form["Amount"], CultureInfo.CurrentCulture);
                 //newExpense.Invoice_ReceiptCopy = DBNull.Value;
 
                 bool result = handler.newJobExpense(newExpense);
 
                 if (result == true)
                 {
-                    return Redirect("/Job/Job?ID="+ID);
+                    return Redirect("/Expense/JobExpenses?ID=" + ID);
                 }
                 else
                 {

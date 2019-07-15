@@ -54,6 +54,7 @@ namespace TaxApp.Controllers
             }
         }
 
+        #region View Jobs (List/Details)
         // GET: Jobs
         public ActionResult Jobs()
         {
@@ -89,7 +90,7 @@ namespace TaxApp.Controllers
             }
         }
 
-        // GET: Jobs
+        // GET: Job
         public ActionResult Job(string ID)
         {
             try
@@ -97,7 +98,11 @@ namespace TaxApp.Controllers
                 getCookie();
             Model.Job getJob = new Model.Job();
             getJob.JobID = int.Parse(ID);
-            Model.SP_GetJob_Result Job = handler.getJob(getJob);
+
+                Model.SP_GetJob_Result Job = handler.getJob(getJob);
+
+                ViewBag.JobTitle = Job.JobTitle;
+                ViewBag.JobID = Job.JobID;
 
                 return View(Job);
         }
@@ -109,7 +114,7 @@ namespace TaxApp.Controllers
     }
 
 }
-        
+        #endregion
 
         #region Worklog Details and list
         public ActionResult JobWorkLog(string ID)
@@ -193,7 +198,7 @@ namespace TaxApp.Controllers
                 newJob.JobTitle = Request.Form["JobTitle"].ToString();
                 newJob.HourlyRate = decimal.Parse(Request.Form["HourlyRate"].ToString());
                 newJob.Budget = decimal.Parse(Request.Form["Budget"].ToString());
-                newJob.StartDate = DateTime.Parse(Request.Form["StartDate"].ToString());
+                newJob.StartDate = DateTime.Parse(Request.Form["StartDate"]);
 
                 bool result = handler.newJob(newJob);
 
@@ -217,9 +222,16 @@ namespace TaxApp.Controllers
         
         #region New Work Log
         // GET: Landing/NewProfile
-        public ActionResult NewWorkLogItem()
+        public ActionResult NewWorkLogItem(string ID)
         {
             getCookie();
+
+            Model.Job getJob = new Model.Job();
+            getJob.JobID = int.Parse(ID);
+            Model.SP_GetJob_Result Job = handler.getJob(getJob);
+            ViewBag.JobTitle = Job.JobTitle;
+            ViewBag.JobID = Job.JobID;
+
             return View();
         }
 
@@ -235,8 +247,8 @@ namespace TaxApp.Controllers
 
                 Model.Worklog logItem = new Model.Worklog();
                 logItem.Description = Request.Form["Description"].ToString();
-                logItem.StartTime = DateTime.Parse(Request.Form["StartTime"].ToString());
-                logItem.EndTime = DateTime.Parse(Request.Form["EndTime"].ToString());
+                logItem.StartTime = DateTime.Parse(Request.Form["startTimeDate"].ToString() + " " + Request.Form["startTime"].ToString());
+                logItem.EndTime = DateTime.Parse(Request.Form["endTimeDate"].ToString() + " " + Request.Form["endTime"].ToString());
 
                 bool result = handler.newWorkLogItem(logItem, jobID);
 

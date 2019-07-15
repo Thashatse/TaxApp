@@ -10,6 +10,7 @@ namespace Model
     {
         public string name { get; set; }
         public string amountTital { get; set; }
+        public string expenseType { get; set; }
         public decimal amount { get; set; }
         public string deatilTitle { get; set; }
         public string deatil { get; set; }

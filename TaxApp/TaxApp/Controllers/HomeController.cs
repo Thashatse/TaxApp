@@ -85,6 +85,7 @@ namespace TaxApp.Controllers
                     expense.amountTital = "Cost to Customer:";
                     expense.amount = item.ClientCharge;
                     expense.URL = "../Expense/TravleLogItem?ID=" + item.ExpenseID;
+                    expense.expenseType = "Travel";
 
                     dashboardExpenses.Add(expense);
                 }
@@ -100,6 +101,7 @@ namespace TaxApp.Controllers
                     expense.amountTital = "Price:";
                     expense.amount = item.Amount;
                     expense.URL = "../Expense/JobExpense?ID="+item.ExpenseID;
+                    expense.expenseType = "Job";
 
                     dashboardExpenses.Add(expense);
                 }
@@ -115,6 +117,7 @@ namespace TaxApp.Controllers
                     expense.amountTital = "Price:";
                     expense.amount = item.Amount;
                     expense.URL = "../Expense/GeneralExpense?ID=" + item.ExpenseID;
+                    expense.expenseType = "General";
 
                     dashboardExpenses.Add(expense);
                 }

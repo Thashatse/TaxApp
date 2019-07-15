@@ -104,6 +104,35 @@ namespace TaxApp.Controllers
         }
         #endregion
 
+        #region Logout
+        // GET: Landing
+        public ActionResult Logout(string Err)
+        {
+            try
+            {
+                //check if the user is loged in
+                cookie = Request.Cookies["TaxAppUserID"];
+
+                if (cookie != null)
+                {
+                    cookie = new HttpCookie("TaxAppUserID");
+                    cookie.Expires = DateTime.Now.AddDays(-1d);
+                    Response.Cookies.Add(cookie);
+                }
+
+                Response.Redirect("/Home/Index");
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error in welcome method of LandingControles");
+                Redirect("/Shared/Error");
+            }
+
+            return View();
+        }
+        #endregion
+
         #region New Profile
         // GET: Landing/NewProfile
         public ActionResult NewProfile(string Err)
