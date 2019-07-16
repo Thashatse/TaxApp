@@ -155,6 +155,14 @@ namespace BLL
         {
             return db.NewTravelExpense(newTravelLogExpense);
         }
+        public bool DeleteTravelExpense(TravelLog TravelLogExpense)
+        {
+            return db.DeleteTravelExpense(TravelLogExpense);
+        }
+        public bool EditTravelExpense(TravelLog TravelLogExpense)
+        {
+            return db.EditTravelExpense(TravelLogExpense);
+        }
         public bool newVehicle(Vehicle newVehicle)
         {
             return db.newVehicle(newVehicle);

@@ -36,8 +36,9 @@ namespace Model
 
         [Display(Name = "Total Expenses")]
         public Nullable<decimal> AllExpenseTotal { get; set; }
+        [Display(Name = "Total Expenses")]
         public Nullable<decimal> ExpenseTotal { get; set; }
-        [Display(Name = "Totalt Travel Expenses")]
+        [Display(Name = "Total Travel Expenses")]
         public Nullable<decimal> TravelLogCostTotal { get; set; }
         [Display(Name = "Total Income Outstanding")]
         public Nullable<decimal> TotalUnPaid { get; set; }

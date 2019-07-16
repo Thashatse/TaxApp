@@ -62,6 +62,8 @@ namespace BLL
         List<SP_GetGeneralExpense_Result> getGeneralExpenses(Profile profileID);
         List<ExpenseCategory> getExpenseCatagories();
         bool NewTravelExpense(TravelLog newTravelLogExpense);
+        bool DeleteTravelExpense(TravelLog TravelLogExpense);
+        bool EditTravelExpense(TravelLog newTravelLogExpense);
         bool newVehicle(Vehicle newVehicle);
         List<Vehicle> getVehicles(Profile getProfileVehicles);
         List<TravelLog> getProfileTravelLog(Profile getProfileTravelLog);

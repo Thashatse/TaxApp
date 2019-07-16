@@ -190,6 +190,8 @@
         }
     </div>
 
+    <br />
+
     <div class="row">
         @{if (Model.Expenses != null)
             {
@@ -197,61 +199,66 @@
                 {
                     if (i < 3)
                     {
-                        <div class="col-xl-4">
-                            <div class="card shadow">
-                                <div class="card-header border-0">
-                                    <div class="row align-items-center">
-                                                <div class="col">
-                                                            <h6 class="text-uppercase ls-1 mb-1">@Html.DisplayFor(modelItem => item.expenseType) Expense</h6>
-                                                    <h3 class="mb-0">@Html.DisplayFor(modelItem => item.name)</h3>
-                                                </div>
-                                        <div class="col text-right">
-                                            <a href="@Html.DisplayFor(modelItem => item.URL)" class="btn btn-sm btn-primary">Details</a>
-                                        </div>
-                                    </div>
+                <div class="col-xl-4">
+                    <div class="card shadow">
+                        <div class="card-header border-0">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h6 class="text-uppercase ls-1 mb-1">@Html.DisplayFor(modelItem => item.expenseType) Expense</h6>
+                                    <h3 class="mb-0">@Html.DisplayFor(modelItem => item.name)</h3>
                                 </div>
-                                <div class="table-responsive">
-                                    <!-- Projects table -->
-                                    <table class="table align-items-center table-flush">
-                                        <tbody>
-                                            <tr>
-                                                <th scope="row">
-                                                    Date:
-                                                </th>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.date)
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">
-                                                    @Html.DisplayFor(modelItem => item.amountTital)
-                                                </th>
-                                                <td>
-                                                    R @Html.DisplayFor(modelItem => item.amount)
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">
-                                                    @Html.DisplayFor(modelItem => item.deatilTitle)
-                                                </th>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.deatil)
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                <div class="col text-right">
+                                    <a href="@Html.DisplayFor(modelItem => item.URL)" class="btn btn-sm btn-primary">Details</a>
                                 </div>
                             </div>
                         </div>
+                        <div class="table-responsive">
+                            <!-- Projects table -->
+                            <table class="table align-items-center table-flush">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">
+                                            Date:
+                                        </th>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.date)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            @Html.DisplayFor(modelItem => item.amountTital)
+                                        </th>
+                                        <td>
+                                            R @Html.DisplayFor(modelItem => item.amount)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            @Html.DisplayFor(modelItem => item.deatilTitle)
+                                        </th>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.deatil)
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <br />
+                </div>
                         i = i + 1;
                     }
+
                 }
             }
         }
     </div>
 
-    <div class="row mt-5">
-        <div class="col-6">
+    <br />
+
+    <div class="row">
+        <div class="col-xl-6">
             <div class="card shadow">
                 <div class="card-header border-0">
                     <div class="row align-items-center">
@@ -392,7 +399,7 @@
             </div>
         </div>
 
-        <div class="col-6">
+        <div class="col-xl-6">
             <div class="card shadow">
                 <div class="card-header border-0">
                     <div class="row align-items-center">

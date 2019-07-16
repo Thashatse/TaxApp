@@ -17,7 +17,9 @@ namespace Model
     {
         public int ExpenseID { get; set; }
         public string From { get; set; }
+        public string FromGoogleURL { get; set; }
         public string To { get; set; }
+        public string ToGoogleURL { get; set; }
         public string Reason { get; set; }
         public string JobTitle { get; set; }
         public string VehicleName { get; set; }

@@ -14,143 +14,139 @@
                     <h1 class="text-white">
                         @Html.DisplayFor(model => model.Reason)
                     </h1>
+                    <p class="text-white">For @Html.DisplayFor(model => model.JobTitle)</p>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Page content -->
-<div class="container mt--8 pb-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-12 col-md-12">
-            <div class="card bg-secondary shadow border-0">
+<div class="container-fluid mt--7">
+    <div class="container mt--8 pb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-12 col-md-12">
+                <div class="card bg-secondary shadow border-0">
 
-                <div>
-                    <table class="table align-items-center table-flush">
-                        <tbody>
-                            <tr>
-                                <th scope="row">
-                                    @Html.DisplayNameFor(model => model.From)
+                    <div>
+                        <table class="table align-items-center table-flush">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">
 
-
-                                </th>
-                                <td>
-                                    @Html.DisplayFor(model => model.From)
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    @Html.DisplayNameFor(model => model.To)
-
-
-                                </th>
-                                <td>
-                                    @Html.DisplayFor(model => model.To)
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    @Html.DisplayNameFor(model => model.OpeningKMs)
-
-
-                                </th>
-                                <td>
-                                    @Html.DisplayFor(model => model.OpeningKMs)
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    @Html.DisplayNameFor(model => model.ClosingKMs)
+                                        @Html.DisplayNameFor(model => model.From)
+                                    </th>
+                                    <td>
+                                        <a target="_blank" href='https://www.google.com/maps/search/?api=1&@Html.DisplayFor(modelItem => Model.FromGoogleURL)'>
+                                            @Html.DisplayFor(model => model.From)
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        @Html.DisplayNameFor(model => model.To)
+                                    </th>
+                                    <td>
+                                        <a target="_blank" href='https://www.google.com/maps/search/?api=1&@Html.DisplayFor(modelItem => Model.ToGoogleURL)'>
+                                            @Html.DisplayFor(model => model.To)
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        @Html.DisplayNameFor(model => model.OpeningKMs)
 
 
-                                </th>
-                                <td>
-                                    @Html.DisplayFor(model => model.ClosingKMs)
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    @Html.DisplayNameFor(model => model.TotalKMs)
+                                    </th>
+                                    <td>
+                                        @Html.DisplayFor(model => model.OpeningKMs)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        @Html.DisplayNameFor(model => model.ClosingKMs)
 
 
-                                </th>
-                                <td>
-                                    @Html.DisplayFor(model => model.TotalKMs)
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    @Html.DisplayNameFor(model => model.VehicleID)
+                                    </th>
+                                    <td>
+                                        @Html.DisplayFor(model => model.ClosingKMs)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        @Html.DisplayNameFor(model => model.TotalKMs)
 
 
-                                </th>
-                                <td>
-                                    @Html.DisplayFor(model => model.VehicleName)
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    @Html.DisplayNameFor(model => model.Date)
+                                    </th>
+                                    <td>
+                                        @Html.DisplayFor(model => model.TotalKMs)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        @Html.DisplayNameFor(model => model.VehicleID)
 
 
-                                </th>
-                                <td>
-                                    @Html.DisplayFor(model => model.DateString)
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    @Html.DisplayNameFor(model => model.JobTitle)
+                                    </th>
+                                    <td>
+                                        @Html.DisplayFor(model => model.VehicleName)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        @Html.DisplayNameFor(model => model.Date)
 
 
-                                </th>
-                                <td>
-                                    @Html.DisplayFor(model => model.JobTitle)
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    @Html.DisplayNameFor(model => model.SARSFuelCost)
+                                    </th>
+                                    <td>
+                                        @Html.DisplayFor(model => model.DateString)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        @Html.DisplayNameFor(model => model.SARSFuelCost)
 
 
-                                </th>
-                                <td>
-                                    R @Html.DisplayFor(model => model.SARSFuelCost)
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    @Html.DisplayNameFor(model => model.SARSMaintenceCost)
+                                    </th>
+                                    <td>
+                                        R @Html.DisplayFor(model => model.SARSFuelCost)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        @Html.DisplayNameFor(model => model.SARSMaintenceCost)
 
 
-                                </th>
-                                <td>
-                                    R @Html.DisplayFor(model => model.SARSMaintenceCost)
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    @Html.DisplayNameFor(model => model.ClientCharge)
+                                    </th>
+                                    <td>
+                                        R @Html.DisplayFor(model => model.SARSMaintenceCost)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        @Html.DisplayNameFor(model => model.ClientCharge)
 
 
-                                </th>
-                                <td>
-                                    R @Html.DisplayFor(model => model.ClientCharge)
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <p>
-                                        @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-                                        @Html.ActionLink("Back to List", "Index")
-                                    </p>
-                                </th>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                    </th>
+                                    <td>
+                                        R @Html.DisplayFor(model => model.ClientCharge)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        <p>
+                                            @if (Model.Invoiced.Equals(false))
+                                            {
+                                                <a href='./JobTravelLog?ID=@Html.DisplayFor(modelItem => Model.JobID)'> Job Travel Log | </a>
+                                                <a href='./EditTravleLogItem?ID=@Html.DisplayFor(modelItem => Model.ExpenseID)'> Edit | </a>
+                                                <a href='./DeleteTravleLogItem?ID=@Html.DisplayFor(modelItem => Model.ExpenseID)'>Delete</a>
+                                            }
+                                        </p>
+                                    </th>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>

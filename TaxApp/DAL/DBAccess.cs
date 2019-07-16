@@ -1388,9 +1388,59 @@ namespace DAL
                         new SqlParameter("@CKM", newTravelLogExpense.ClosingKMs),
                         new SqlParameter("@VID", newTravelLogExpense.VehicleID),
                         new SqlParameter("@JID", newTravelLogExpense.JobID),
+                        new SqlParameter("@D", newTravelLogExpense.Date),
                    };
 
                 Result = DBHelper.NonQuery("SP_NewTravelExpense", CommandType.StoredProcedure, pars);
+
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return Result;
+        }
+        public bool EditTravelExpense(TravelLog newTravelLogExpense)
+        {
+            bool Result = false;
+
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@F", newTravelLogExpense.From),
+                        new SqlParameter("@T", newTravelLogExpense.To),
+                        new SqlParameter("@R", newTravelLogExpense.Reason),
+                        new SqlParameter("@OKM", newTravelLogExpense.OpeningKMs),
+                        new SqlParameter("@CKM", newTravelLogExpense.ClosingKMs),
+                        new SqlParameter("@VID", newTravelLogExpense.VehicleID),
+                        new SqlParameter("@D", newTravelLogExpense.Date),
+                        new SqlParameter("@EID", newTravelLogExpense.ExpenseID),
+                   };
+
+                Result = DBHelper.NonQuery("SP_EditTravelExpense", CommandType.StoredProcedure, pars);
+
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return Result;
+        }
+        public bool DeleteTravelExpense(TravelLog TravelLogExpense)
+        {
+            bool Result = false;
+
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@EID", TravelLogExpense.ExpenseID)
+                   };
+
+                Result = DBHelper.NonQuery("SP_DeleteTravelLogItem", CommandType.StoredProcedure, pars);
 
             }
             catch (Exception e)
@@ -1528,7 +1578,10 @@ namespace DAL
                             travelLogItem.ExpenseID = int.Parse(row["ExpenseID"].ToString());
                             travelLogItem.VehicleID = int.Parse(row["VehicleID"].ToString());
                             travelLogItem.From = row["From"].ToString();
+                            travelLogItem.FromGoogleURL = travelLogItem.From.Replace(" ", "%2C+'");
                             travelLogItem.To = row["To"].ToString();
+                            travelLogItem.ToGoogleURL = travelLogItem.To.Replace(" ", "%2C+'");
+                            travelLogItem.ToGoogleURL = travelLogItem.ToGoogleURL.Replace(",", "");
                             travelLogItem.Reason = row["Reason"].ToString();
                             travelLogItem.OpeningKMs = double.Parse(row["OpeningKMs"].ToString());
                             travelLogItem.ClosingKMs = double.Parse(row["ClosingKMs"].ToString());

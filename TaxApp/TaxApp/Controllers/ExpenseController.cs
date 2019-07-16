@@ -301,7 +301,7 @@ namespace TaxApp.Controllers
 
         #region New Travel Expense
         // GET: 
-        public ActionResult NewTravelExpense()
+        public ActionResult NewTravelExpense(string ID)
         {
             try
             {
@@ -310,6 +310,12 @@ namespace TaxApp.Controllers
                 getProfileVehicles.ProfileID = int.Parse(cookie["ID"]);
                 List<Model.Vehicle> Vehicles = handler.getVehicles(getProfileVehicles);
                 ViewBag.Vehicles = new SelectList(Vehicles, "VehicleID", "Name");
+
+                Model.Job getJob = new Model.Job();
+                getJob.JobID = int.Parse(ID);
+                Model.SP_GetJob_Result Job = handler.getJob(getJob);
+                ViewBag.JobTitle = Job.JobTitle;
+
                 return View();
             }
             catch (Exception e)
@@ -334,6 +340,7 @@ namespace TaxApp.Controllers
 
                 Model.TravelLog newTravelLogExpense = new Model.TravelLog();
 
+                newTravelLogExpense.Date = DateTime.Parse(Request.Form["Date"]);
                 newTravelLogExpense.From = Request.Form["From"].ToString();
                 newTravelLogExpense.To = Request.Form["To"].ToString();
                 newTravelLogExpense.Reason = Request.Form["Reason"].ToString();
@@ -346,7 +353,7 @@ namespace TaxApp.Controllers
 
                 if (result == true)
                 {
-                    return Redirect("/Expense/JobExpenses?ID=" + ID);
+                    return Redirect("/Expense/JobTravelLog?ID=" + ID);
                 }
                 else
                 {
@@ -358,6 +365,138 @@ namespace TaxApp.Controllers
                 function.logAnError(e.ToString() +
                     "Error in new general expense of expense controler");
                 return View();
+            }
+        }
+        #endregion
+        
+        #region Delete Travel Expense
+        // GET: 
+        public ActionResult DeleteTravleLogItem(string ID)
+        {
+            try
+            {
+                getCookie();
+
+                Model.TravelLog getTravelLogItem = new Model.TravelLog();
+                getTravelLogItem.ExpenseID = int.Parse(ID);
+                Model.TravelLog travelLogItem = handler.getTravelLogItem(getTravelLogItem);
+
+                return View(travelLogItem);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loading new Travel Log Expense");
+                return RedirectToAction("../Shared/Error");
+            }
+        }
+
+        // POST:
+        [HttpPost]
+        public ActionResult DeleteTravleLogItem(FormCollection collection, string ID)
+        {
+            try
+            {
+                getCookie();
+
+                Model.TravelLog TravelLogExpense = new Model.TravelLog();
+
+                TravelLogExpense.ExpenseID = int.Parse(ID);
+
+                Model.TravelLog travelLogItem = handler.getTravelLogItem(TravelLogExpense);
+
+                bool result = handler.DeleteTravelExpense(TravelLogExpense);
+
+                if (result == true)
+                {
+                    return Redirect("/Expense/JobTravelLog?ID=" + travelLogItem.JobID);
+                }
+                else
+                {
+                    return RedirectToAction("../Shared/Error");
+                }
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error in new general expense of expense controler");
+                return View();
+            }
+        }
+        #endregion
+
+        #region Edit Travel Expense
+        // GET: 
+        public ActionResult EditTravleLogItem(string ID)
+        {
+            try
+            {
+                getCookie();
+
+                Model.TravelLog getTravelLogItem = new Model.TravelLog();
+                getTravelLogItem.ExpenseID = int.Parse(ID);
+                Model.TravelLog travelLogItem = handler.getTravelLogItem(getTravelLogItem);
+
+                Model.Profile getProfileVehicles = new Model.Profile();
+                getProfileVehicles.ProfileID = int.Parse(cookie["ID"]);
+                List<Model.Vehicle> Vehicles = handler.getVehicles(getProfileVehicles);
+                ViewBag.Vehicles = new SelectList(Vehicles, "VehicleID", "Name");
+
+                ViewBag.JobTitle = travelLogItem.JobTitle;
+                ViewBag.JobID = travelLogItem.JobID;
+
+                ViewBag.Date = travelLogItem.Date.ToString("yyyy-MM-dd");
+
+                return View(travelLogItem);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loading new Travel Log Expense");
+                return RedirectToAction("../Shared/Error");
+            }
+        }
+
+        // POST:
+        [HttpPost]
+        public ActionResult EditTravleLogItem(FormCollection collection, string ID)
+        {
+            try
+            {
+                getCookie();
+
+                Model.Profile getProfileVehicles = new Model.Profile();
+                getProfileVehicles.ProfileID = int.Parse(cookie["ID"]);
+                List<Model.Vehicle> Vehicles = handler.getVehicles(getProfileVehicles);
+                ViewBag.Vehicles = new SelectList(Vehicles, "VehicleID", "Name");
+
+                Model.TravelLog newTravelLogExpense = new Model.TravelLog();
+
+                newTravelLogExpense.ExpenseID = int.Parse(ID);
+                newTravelLogExpense.Date = DateTime.Parse(Request.Form["Date"]);
+                newTravelLogExpense.From = Request.Form["From"].ToString();
+                newTravelLogExpense.To = Request.Form["To"].ToString();
+                newTravelLogExpense.Reason = Request.Form["Reason"].ToString();
+                newTravelLogExpense.OpeningKMs = double.Parse(Request.Form["OpeningKMs"].ToString());
+                newTravelLogExpense.ClosingKMs = double.Parse(Request.Form["ClosingKMs"].ToString());
+                newTravelLogExpense.VehicleID = int.Parse(Request.Form["VehicleList"].ToString());
+
+                bool result = handler.EditTravelExpense(newTravelLogExpense);
+
+                if (result == true)
+                {
+                    return Redirect("/Expense/TravleLogItem?ID=" + ID);
+                }
+                else
+                {
+                    return RedirectToAction("../Shared/Error");
+                }
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error in new esit travel expense of expense controler");
+                return RedirectToAction("../Shared/Error");
             }
         }
         #endregion
@@ -427,6 +566,7 @@ namespace TaxApp.Controllers
 
                 Model.SP_GetJob_Result Job = handler.getJob(getJob);
                 ViewBag.JobTitle = Job.JobTitle;
+                ViewBag.JobID = Job.JobID;
                 return View(JobTravelLog);
             }
             catch (Exception e)

@@ -37,31 +37,10 @@
                             @Html.DisplayNameFor(model => model.Date)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.OpeningKMs)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.ClosingKMs)
-                        </th>
-                        <th>
                             Toral Business KMs
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.From)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.To)
-                        </th>
-                        <th>
                             @Html.DisplayNameFor(model => model.Reason)
-                        </th>
-                        <th>
-                            Fule Cost
-                        </th>
-                        <th>
-                            Maintenence Cost
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Invoiced)
                         </th>
                         <th></th>
                     </tr>
@@ -70,40 +49,26 @@
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => item.DateString)
+                                <a href='./TravleLogItem?ID=@Html.DisplayFor(modelItem => item.ExpenseID)'>
+                                    @Html.DisplayFor(modelItem => item.DateString)
+                                </a>
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.OpeningKMs)
-                                KMs
+                                <a href='./TravleLogItem?ID=@Html.DisplayFor(modelItem => item.ExpenseID)'>
+                                    @Html.DisplayFor(modelItem => item.TotalKMs) KMs
+                                    </a>
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.ClosingKMs)
-                                KMs
+                                <a href='./TravleLogItem?ID=@Html.DisplayFor(modelItem => item.ExpenseID)'>
+                                    @Html.DisplayFor(modelItem => item.Reason)
+                                    </a>
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.TotalKMs) KMs
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.From)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.To)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Reason)
-                            </td>
-                            <td>
-                                R @Html.DisplayFor(modelItem => item.SARSFuelCost)
-                            </td>
-                            <td>
-                                R @Html.DisplayFor(modelItem => item.SARSMaintenceCost)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Invoiced)
-                            </td>
-                            <td>
-                                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                                @if (item.Invoiced.Equals(false))
+                                {
+                                    <a href='./EditTravleLogItem?ID=@Html.DisplayFor(modelItem => item.ExpenseID)'> Edit | </a>
+                                    <a href='./DeleteTravleLogItem?ID=@Html.DisplayFor(modelItem => item.ExpenseID)'>Delete</a>
+                                }
                             </td>
                         </tr>
                     }
