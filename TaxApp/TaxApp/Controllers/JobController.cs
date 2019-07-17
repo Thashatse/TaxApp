@@ -31,10 +31,14 @@ namespace TaxApp.Controllers
                         checkProfile.EmailAddress = "";
                         checkProfile.Username = "";
 
-                        if (handler.getProfile(checkProfile) == null)
+                        checkProfile = handler.getProfile(checkProfile);
+
+                        if (checkProfile == null)
                         {
                             Response.Redirect("/Landing/Welcome");
                         }
+
+                        ViewBag.ProfileName = checkProfile.FirstName + " " + checkProfile.LastName;
                     }
                     else
                     {

@@ -31,10 +31,14 @@ namespace TaxApp.Controllers
                         checkProfile.EmailAddress = "";
                         checkProfile.Username = "";
 
-                        if (handler.getProfile(checkProfile) == null)
+                        checkProfile = handler.getProfile(checkProfile);
+
+                        if (checkProfile == null)
                         {
                             Response.Redirect("/Landing/Welcome");
                         }
+
+                        ViewBag.ProfileName = checkProfile.FirstName + " " + checkProfile.LastName;
                     }
                     else
                     {
@@ -43,14 +47,14 @@ namespace TaxApp.Controllers
                 }
                 else
                 {
-                   Response.Redirect("/Landing/Welcome");
+                    Response.Redirect("/Landing/Welcome");
                 }
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error in welcome method of LandingControles");
-                 Redirect("/Shared/Error");
+                Redirect("/Shared/Error");
             }
         }
 

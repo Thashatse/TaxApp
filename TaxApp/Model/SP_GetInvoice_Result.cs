@@ -28,11 +28,12 @@ namespace Model
         public int LineItemID { get; set; }
         public string Name { get; set; }
         [Display(Name = "Unit Count")]
-        public int UnitCount { get; set; }
+        public decimal UnitCount { get; set; }
+        public string UnitCountString { get; set; }
 
         [Display(Name = "Unit Cost")]
         public decimal UnitCost { get; set; }
-        public String UnitCostString { get; set; }
+        public string UnitCostString { get; set; }
 
         [Display(Name = "Total Cost")]
         public decimal TotalCost { get; set; }
@@ -53,5 +54,6 @@ namespace Model
 
         [Display(Name = "Physical Address")]
         public string PhysiclaAddress { get; set; }
+        public char Type { get; set; }
     }
 }

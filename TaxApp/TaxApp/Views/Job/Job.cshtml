@@ -52,6 +52,15 @@
                                 </tr>
                                 <tr>
                                     <th scope="row">
+                                        Budget Used:
+                                    </th>
+                                    <td>
+                                        @Html.DisplayFor(model => model.BudgetPercent) %
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
                                         @Html.DisplayNameFor(model => model.StartDate)
 
                                     </th>
@@ -91,7 +100,7 @@
                                     </td>
                                     <td>
                                         <a href="/Job/NewWorkLogItem?ID=@ViewBag.JobID"
-                                        class="btn btn-sm btn-secondary">Add Hours</a>
+                                           class="btn btn-sm btn-secondary">Add Hours</a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -103,8 +112,10 @@
                                             R  @Html.DisplayFor(model => model.ExpenseTotal)
                                         </a>
                                     </td>
-                                    <td><a href="/Expense/NewJobExpense?ID=@ViewBag.JobID"
-   class="btn btn-sm btn-secondary">Add Expense</a></td>
+                                    <td>
+                                        <a href="/Expense/NewJobExpense?ID=@ViewBag.JobID"
+                                           class="btn btn-sm btn-secondary">Add Expense</a>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th scope="row">
@@ -115,8 +126,10 @@
                                             R @Html.DisplayFor(model => model.TravelLogCostTotal)
                                         </a>
                                     </td>
-                                    <td><a href="../Expense/NewTravelExpense?ID=@ViewBag.JobID"
-   class="btn btn-sm btn-secondary">New Log Item</a></td>
+                                    <td>
+                                        <a href="../Expense/NewTravelExpense?ID=@ViewBag.JobID"
+                                           class="btn btn-sm btn-secondary">New Log Item</a>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th scope="row">
@@ -127,7 +140,10 @@
                                             R @Html.DisplayFor(model => model.TotalUnPaid)
                                         </a>
                                     </td>
-                                    <td></td>
+                                    <td>
+                                        <a href="/Invoice/NewInvoice?ID=@ViewBag.JobID"
+                                           class="btn btn-sm btn-secondary">New Invoice</a>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th scope="row">
@@ -138,7 +154,10 @@
                                             R @Html.DisplayFor(model => model.TotalPaid)
                                         </a>
                                     </td>
-                                    <td></td>
+                                    <td>
+                                        <a href="/Invoice/NewInvoice?ID=@ViewBag.JobID"
+                                           class="btn btn-sm btn-secondary">Mark Invoice as Paid</a>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th scope="row">

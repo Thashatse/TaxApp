@@ -8,15 +8,16 @@ alter PROCEDURE [dbo].[SP_NewInvoiceDetailLine]
 	@INum nchar(11),
 	@ID int,
 	@Name nchar(50),
-	@UnitCount int,
-	@UnitCost int
+	@UnitCount decimal(18, 2),
+	@UnitCost decimal(18, 2),
+	@T char
 AS
 BEGIN
     BEGIN TRY
         BEGIN TRANSACTION;
 
-        INSERT  INTO [InvoiceLineItem] (InvoiceNum, [Name], UnitCount, UnitCost)
-        VALUES       (@INum, @Name, @UnitCount, @UnitCost);
+        INSERT  INTO [InvoiceLineItem] (InvoiceNum, [Name], UnitCount, UnitCost, [Type])
+        VALUES       (@INum, @Name, @UnitCount, @UnitCost, @T);
 
 		Update [JobExpense]
 		Set invoiced = 1

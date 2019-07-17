@@ -6,7 +6,7 @@ alter PROCEDURE SP_GetInvoice
 	@IN nchar(11)
 AS
 BEGIN
-	select Invoice.InvoiceNum, [DateTime], VATRate, Paid,
+	select Invoice.InvoiceNum, [DateTime], VATRate, Paid, [Type],
 	   LineItemID, [Name], UnitCount, UnitCost, (UnitCount*UnitCost) as TotalCost,
 	   Jobs.JobID, Jobs.JobTitle,
 	   Client.ClientID, Client.FirstName +' '+ Client.LastName as [ClientName], Client.CompanyName,

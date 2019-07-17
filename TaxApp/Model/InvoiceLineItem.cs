@@ -19,5 +19,6 @@ namespace Model
         public string Name { get; set; }
         public decimal UnitCount { get; set; }
         public decimal UnitCost { get; set; }
+        public char Type { get; set; }
     }
 }

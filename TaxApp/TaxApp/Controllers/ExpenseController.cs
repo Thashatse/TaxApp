@@ -32,10 +32,14 @@ namespace TaxApp.Controllers
                         checkProfile.EmailAddress = "";
                         checkProfile.Username = "";
 
-                        if (handler.getProfile(checkProfile) == null)
+                        checkProfile = handler.getProfile(checkProfile);
+
+                        if (checkProfile == null)
                         {
                             Response.Redirect("/Landing/Welcome");
                         }
+
+                        ViewBag.ProfileName = checkProfile.FirstName + " " + checkProfile.LastName;
                     }
                     else
                     {
@@ -315,6 +319,7 @@ namespace TaxApp.Controllers
                 getJob.JobID = int.Parse(ID);
                 Model.SP_GetJob_Result Job = handler.getJob(getJob);
                 ViewBag.JobTitle = Job.JobTitle;
+                ViewBag.JobID = Job.JobID;
 
                 return View();
             }
@@ -440,7 +445,19 @@ namespace TaxApp.Controllers
                 Model.Profile getProfileVehicles = new Model.Profile();
                 getProfileVehicles.ProfileID = int.Parse(cookie["ID"]);
                 List<Model.Vehicle> Vehicles = handler.getVehicles(getProfileVehicles);
-                ViewBag.Vehicles = new SelectList(Vehicles, "VehicleID", "Name");
+                SelectList VehiclesList = new SelectList(Vehicles, "VehicleID", "Name");
+                Model.Vehicle selectedVehicle = new Model.Vehicle();
+                selectedVehicle.VehicleID = travelLogItem.VehicleID;
+                selectedVehicle.Name = travelLogItem.VehicleName;
+                foreach (var item in VehiclesList)
+                {
+                    if (item.Value == selectedVehicle.VehicleID.ToString())
+                    {
+                        item.Selected = true;
+                        break;
+                    }
+                }
+                ViewBag.Vehicles = VehiclesList;
 
                 ViewBag.JobTitle = travelLogItem.JobTitle;
                 ViewBag.JobID = travelLogItem.JobID;
@@ -567,6 +584,7 @@ namespace TaxApp.Controllers
                 Model.SP_GetJob_Result Job = handler.getJob(getJob);
                 ViewBag.JobTitle = Job.JobTitle;
                 ViewBag.JobID = Job.JobID;
+
                 return View(JobTravelLog);
             }
             catch (Exception e)

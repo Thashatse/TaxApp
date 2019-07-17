@@ -464,9 +464,9 @@ namespace DAL
                                 job.TotalPaid = 0;
                             }
 
-                            if (row[11].ToString() != "" && row[11] != null)
+                            if (row["TotalUnPaid"].ToString() != "" && row["TotalUnPaid"] != null)
                             {
-                                job.TotalUnPaid = decimal.Parse(row[11].ToString());
+                                job.TotalUnPaid = decimal.Parse(row["TotalUnPaid"].ToString());
                             }
                             else
                             {
@@ -1778,7 +1778,8 @@ namespace DAL
                         new SqlParameter("@ID", newInvoiceLineItem.LineItemID),
                         new SqlParameter("@Name", newInvoiceLineItem.Name),
                         new SqlParameter("@UnitCount", newInvoiceLineItem.UnitCount),
-                        new SqlParameter("@UnitCost", newInvoiceLineItem.UnitCost)
+                        new SqlParameter("@UnitCost", newInvoiceLineItem.UnitCost),
+                        new SqlParameter("@T", newInvoiceLineItem.Type)
                    };
 
                 Result = DBHelper.NonQuery("SP_NewInvoiceDetailLine", CommandType.StoredProcedure, pars);
@@ -1918,23 +1919,33 @@ namespace DAL
                         foreach (DataRow row in table.Rows)
                         {
                             SP_GetInvoice_Result InvoiceLineItem = new SP_GetInvoice_Result();
-                            InvoiceLineItem.InvoiceNum = row[0].ToString();
-                            InvoiceLineItem.DateTime = DateTime.Parse(row[1].ToString());
-                            InvoiceLineItem.VATRate = decimal.Parse(row[2].ToString());
-                            InvoiceLineItem.Paid = bool.Parse(row[3].ToString());
-                            InvoiceLineItem.LineItemID = int.Parse(row[4].ToString());
-                            InvoiceLineItem.Name = row[5].ToString();
-                            InvoiceLineItem.UnitCount = int.Parse(row[6].ToString());
-                            InvoiceLineItem.UnitCost = decimal.Parse(row[7].ToString());
-                            InvoiceLineItem.TotalCost = decimal.Parse(row[8].ToString());
-                            InvoiceLineItem.JobID = int.Parse(row[9].ToString());
-                            InvoiceLineItem.JobTitle = row[10].ToString();
-                            InvoiceLineItem.ClientID = int.Parse(row[11].ToString());
-                            InvoiceLineItem.ClientName = row[12].ToString();
-                            InvoiceLineItem.CompanyName = row[13].ToString();
-                            InvoiceLineItem.EmailAddress = row[14].ToString();
-                            InvoiceLineItem.PhysiclaAddress = row[15].ToString();
-                            InvoiceLineItem.UnitCostString = InvoiceLineItem.UnitCost.ToString("0.##");
+                            InvoiceLineItem.InvoiceNum = row["InvoiceNum"].ToString();
+                            InvoiceLineItem.Type = row["Type"].ToString()[0];
+                            InvoiceLineItem.DateTime = DateTime.Parse(row["DateTime"].ToString());
+                            InvoiceLineItem.VATRate = decimal.Parse(row["VATRate"].ToString());
+                            InvoiceLineItem.Paid = bool.Parse(row["Paid"].ToString());
+                            InvoiceLineItem.LineItemID = int.Parse(row["LineItemID"].ToString());
+                            InvoiceLineItem.Name = row["Name"].ToString();
+                            InvoiceLineItem.UnitCount = decimal.Parse(row["UnitCount"].ToString());
+                            InvoiceLineItem.UnitCountString = row["UnitCount"].ToString();
+                            InvoiceLineItem.UnitCost = decimal.Parse(row["UnitCost"].ToString());
+                            InvoiceLineItem.TotalCost = decimal.Parse(row["TotalCost"].ToString());
+                            InvoiceLineItem.JobID = int.Parse(row["JobID"].ToString());
+                            InvoiceLineItem.JobTitle = row["JobTitle"].ToString();
+                            InvoiceLineItem.ClientID = int.Parse(row["ClientID"].ToString());
+                            InvoiceLineItem.ClientName = row["ClientName"].ToString();
+                            InvoiceLineItem.CompanyName = row["CompanyName"].ToString();
+                            InvoiceLineItem.EmailAddress = row["EmailAddress"].ToString();
+                            InvoiceLineItem.PhysiclaAddress = row["PhysiclaAddress"].ToString();
+                            InvoiceLineItem.UnitCostString = InvoiceLineItem.UnitCost.ToString("#.##");
+                            if(InvoiceLineItem.Type == 'H')
+                            {
+                                InvoiceLineItem.UnitCountString += " h";
+                            }
+                            else if (InvoiceLineItem.Type == 'T')
+                            {
+                                InvoiceLineItem.UnitCountString += " KMs";
+                            }
                             InvoiceLineItem.VATRateString = InvoiceLineItem.VATRate.ToString("0.##");
                             InvoiceLineItem.TotalCostString = InvoiceLineItem.TotalCost.ToString("0.##");
                             InvoiceLineItems.Add(InvoiceLineItem);
