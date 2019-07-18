@@ -216,6 +216,10 @@ namespace BLL
         {
             return db.getInvoiceDetails(invoiceNum);
         }
+        public bool MarkInvoiceAsPaid(Invoice invoice)
+        {
+            return db.MarkInvoiceAsPaid(invoice);
+        }
         #endregion
     }
 }

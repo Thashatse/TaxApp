@@ -804,9 +804,9 @@ namespace DAL
                                 job.ExpenseTotal = 0;
                             }
 
-                            if (row[10].ToString() != "" && row[10] != null)
+                            if (row["TotalPaid"].ToString() != "" && row["TotalPaid"] != null)
                             {
-                                job.TotalPaid = decimal.Parse(row[10].ToString());
+                                job.TotalPaid = decimal.Parse(row["TotalPaid"].ToString());
                             }
                             else
                             {
@@ -1958,6 +1958,27 @@ namespace DAL
             {
                 throw new ApplicationException(e.ToString());
             }
+        }
+        public bool MarkInvoiceAsPaid(Invoice invoice)
+        {
+            bool Result = false;
+
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@INum", invoice.InvoiceNum)
+                   };
+
+                Result = DBHelper.NonQuery("SP_MarkInvoiceAsPaid", CommandType.StoredProcedure, pars);
+
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return Result;
         }
         #endregion
     }

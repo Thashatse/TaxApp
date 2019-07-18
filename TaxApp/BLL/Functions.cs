@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -73,5 +75,64 @@ namespace BLL
             }
             return null;
         }
+
+        public bool sendEmail(string receverAddress, string reciverName, string subject, string body, string senderName, int ProfileID)
+        {
+            bool success = false;
+            try
+            {
+                Model.EmailSetting getSettings = new Model.EmailSetting();
+                getSettings.ProfileID = ProfileID;
+                Model.EmailSetting settings = handler.getEmailSettings(getSettings);
+
+                if(settings != null)
+                {
+                    if (settings.Address == null)
+                    {
+                        getSettings = new Model.EmailSetting();
+                        getSettings.ProfileID = 0;
+                        settings = handler.getEmailSettings(getSettings);
+                    }
+                }
+                else
+                {
+                    getSettings = new Model.EmailSetting();
+                    getSettings.ProfileID = 0;
+                    settings = handler.getEmailSettings(getSettings);
+                }
+
+                var fromAddress = new MailAddress(settings.Address, senderName);
+                var toAddress = new MailAddress(receverAddress, reciverName);
+                string fromPassword = settings.Password.ToString();
+
+                var smtp = new SmtpClient
+                {
+                    Host = settings.Host,
+                    Port = int.Parse(settings.Port),
+                    EnableSsl = settings.EnableSsl,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = settings.UseDefailtCredentials,
+                    Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+                };
+                using (var message = new MailMessage(fromAddress, toAddress)
+                {
+                    Subject = subject,
+                    Body = body
+                })
+                {
+                    smtp.Send(message);
+                }
+                success = true;
+            }
+            catch (Exception err)
+            {
+                logAnError("Error sending email To: " + receverAddress
+                    + "Subject: " + subject
+                    + " Error:" + err);
+                success = false;
+            }
+            return success;
+        }
+
     }
 }

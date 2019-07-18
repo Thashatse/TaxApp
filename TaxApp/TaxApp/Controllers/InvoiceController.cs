@@ -58,6 +58,70 @@ namespace TaxApp.Controllers
             }
         }
 
+        #region Print Invoice
+        // GET: Invoice
+        public ActionResult Print(string id = "0")
+        {
+            try
+            {
+                getCookie();
+                if (id == "0")
+                {
+                    function.logAnError("Error loding Print invoice details - No ID Supplied");
+                    return Redirect("error");
+                }
+                else
+                {
+                    Invoice invoiceNum = new Invoice();
+                    invoiceNum.InvoiceNum = id;
+
+                    List<SP_GetInvoice_Result> invoiceDetails = handler.getInvoiceDetails(invoiceNum);
+                    ViewBag.InvoiceItems = invoiceDetails;
+
+                    decimal total = new decimal();
+                    foreach (SP_GetInvoice_Result item in invoiceDetails)
+                    {
+                        total += item.TotalCost;
+                    }
+                    ViewBag.TotalExcludingVAT = total.ToString("0.##");
+                    decimal totalVAT = ((total / 100) * invoiceDetails[0].VATRate);
+                    ViewBag.VAT = totalVAT.ToString("0.##");
+                    total = (totalVAT) + total;
+                    ViewBag.TotalDue = total.ToString("0.##");
+
+                    Profile getProfile = new Profile();
+                    getProfile.ProfileID = int.Parse(cookie["ID"]);
+                    getProfile.EmailAddress = "";
+                    getProfile.Username = "";
+                    getProfile = handler.getProfile(getProfile);
+                    ViewBag.VatNum = getProfile.VATNumber;
+                    ViewBag.ProfileName = getProfile.FirstName + " " + getProfile.LastName;
+                    ViewBag.ProfileEmail = getProfile.EmailAddress;
+                    ViewBag.ProfileNo = getProfile.ContactNumber;
+
+                    ViewBag.JobID = id;
+
+                    if (invoiceDetails[0].Paid == true)
+                    {
+                        ViewBag.Paid = "Paid";
+                    }
+                    else
+                    {
+                        ViewBag.Paid = "Unpaid";
+                    }
+
+                    return View(invoiceDetails[0]);
+                }
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding invoice details for Print");
+                return Redirect("Error");
+            }
+        }
+        #endregion
+
         #region View Invoice
         // GET: Invoice
         public ActionResult Invoice(string id = "0")
@@ -100,6 +164,15 @@ namespace TaxApp.Controllers
                     ViewBag.ProfileNo = getProfile.ContactNumber;
 
                     ViewBag.JobID = id;
+                    
+                    if(invoiceDetails[0].Paid == true)
+                    {
+                        ViewBag.Paid = "Paid";
+                    }
+                    else
+                    {
+                        ViewBag.Paid = "Unpaid";
+                    }
 
                     return View(invoiceDetails[0]);
                 }
@@ -165,6 +238,259 @@ namespace TaxApp.Controllers
                 function.logAnError(e.ToString() +
                     "Error loding all job invoices");
                 return Redirect("Error");
+            }
+        }
+        #endregion
+
+        #region Email Invoice
+        // GET: Invoice
+        public ActionResult EmailToCustomer(string id = "0")
+        {
+            try
+            {
+                getCookie();
+                if (id == "0")
+                {
+                    function.logAnError("Error loding Print invoice details - No ID Supplied");
+                    return Redirect("error");
+                }
+                else
+                {
+                    Invoice invoiceNum = new Invoice();
+                    invoiceNum.InvoiceNum = id;
+
+                    List<SP_GetInvoice_Result> invoiceDetails = handler.getInvoiceDetails(invoiceNum);
+                    ViewBag.InvoiceItems = invoiceDetails;
+
+                    decimal total = new decimal();
+                    foreach (SP_GetInvoice_Result item in invoiceDetails)
+                    {
+                        total += item.TotalCost;
+                    }
+                    ViewBag.TotalExcludingVAT = total.ToString("0.##");
+                    decimal totalVAT = ((total / 100) * invoiceDetails[0].VATRate);
+                    ViewBag.VAT = totalVAT.ToString("0.##");
+                    total = (totalVAT) + total;
+                    ViewBag.TotalDue = total.ToString("0.##");
+
+                    Profile getProfile = new Profile();
+                    getProfile.ProfileID = int.Parse(cookie["ID"]);
+                    getProfile.EmailAddress = "";
+                    getProfile.Username = "";
+                    getProfile = handler.getProfile(getProfile);
+                    ViewBag.VatNum = getProfile.VATNumber;
+                    ViewBag.ProfileName = getProfile.FirstName + " " + getProfile.LastName;
+                    ViewBag.ProfileEmail = getProfile.EmailAddress;
+                    ViewBag.ProfileNo = getProfile.ContactNumber;
+
+                    ViewBag.JobID = id;
+
+                    if (invoiceDetails[0].Paid == true)
+                    {
+                        ViewBag.Paid = "Paid";
+                    }
+                    else
+                    {
+                        ViewBag.Paid = "Unpaid";
+                    }
+
+                    return View(invoiceDetails[0]);
+                }
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding invoice details for Print");
+                return Redirect("Error");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EmailToCustomer(FormCollection collection, string ID)
+        {
+            try
+            {
+                getCookie();
+
+                Model.Job job = new Model.Job();
+                job.JobID = int.Parse(ID);
+
+                Model.SP_GetJob_Result jobDetails = handler.getJob(job);
+                ViewBag.JobName = jobDetails.JobTitle;
+
+                List<List<SP_GetJobIntemsToInvoice_Result>> JobItemsForInvoice = handler.getJobItemsForInvoice(job);
+                ViewBag.Hours = JobItemsForInvoice.ElementAt(0);
+                ViewBag.Travelss = JobItemsForInvoice.ElementAt(1);
+                ViewBag.Expenses = JobItemsForInvoice.ElementAt(2);
+
+                List<SP_GetJobIntemsToInvoice_Result> HoursResults = new List<SP_GetJobIntemsToInvoice_Result>();
+                List<SP_GetJobIntemsToInvoice_Result> ExpensesResults = new List<SP_GetJobIntemsToInvoice_Result>();
+                List<SP_GetJobIntemsToInvoice_Result> TravelsResults = new List<SP_GetJobIntemsToInvoice_Result>();
+
+                foreach (SP_GetJobIntemsToInvoice_Result item in JobItemsForInvoice.ElementAt(0))
+                {
+                    if (Request.Form["Hour+" + item.ID.ToString()] != null)
+                    {
+                        if (Request.Form["Hour+" + item.ID.ToString()] == item.ID.ToString())
+                        {
+                            HoursResults.Add(item);
+                        }
+                    }
+                }
+
+                foreach (SP_GetJobIntemsToInvoice_Result item in JobItemsForInvoice.ElementAt(2))
+                {
+                    if (Request.Form["Expense+" + item.ID.ToString()] != null)
+                    {
+                        if (Request.Form["Expense+" + item.ID.ToString()] == item.ID.ToString())
+                        {
+                            ExpensesResults.Add(item);
+                        }
+                    }
+                }
+
+                foreach (SP_GetJobIntemsToInvoice_Result item in JobItemsForInvoice.ElementAt(1))
+                {
+                    if (Request.Form["Travel+" + item.ID.ToString()] != null)
+                    {
+                        if (Request.Form["Travel+" + item.ID.ToString()] == item.ID.ToString())
+                        {
+                            TravelsResults.Add(item);
+                        }
+                    }
+                }
+
+                bool result = false;
+
+                Job newInvoiceJobID = new Job();
+                newInvoiceJobID.JobID = int.Parse(ID);
+                Invoice newInvoice = new Invoice();
+                newInvoice.InvoiceNum = function.generateNewInvoiceNum();
+                result = handler.newInvoice(newInvoice, newInvoiceJobID);
+
+                if (result == true)
+                {
+                    InvoiceLineItem newDeatilLine = new InvoiceLineItem();
+                    newDeatilLine.InvoiceNum = newInvoice.InvoiceNum;
+
+                    if (Request.Form["AllCheck"] == "True")
+                    {
+                        foreach (SP_GetJobIntemsToInvoice_Result item in JobItemsForInvoice.ElementAt(0))
+                        {
+                            newDeatilLine.LineItemID = item.ID;
+                            newDeatilLine.Name = item.Description;
+                            newDeatilLine.UnitCost = item.UnitCost;
+                            newDeatilLine.UnitCount = item.UnitCount / 60;
+                            newDeatilLine.Type = 'H';
+
+                            result = handler.newInvoiceDetailLine(newDeatilLine);
+
+                            if (result == false)
+                            {
+                                function.logAnError("Error creating new invoice detale line Hours");
+                                Redirect("/Shared/Error");
+                            }
+                        }
+
+                        foreach (SP_GetJobIntemsToInvoice_Result item in JobItemsForInvoice.ElementAt(1))
+                        {
+                            newDeatilLine.LineItemID = item.ID;
+                            newDeatilLine.Name = item.Description;
+                            newDeatilLine.UnitCost = item.UnitCost;
+                            newDeatilLine.UnitCount = item.UnitCount;
+                            newDeatilLine.Type = 'T';
+
+                            result = handler.newInvoiceDetailLine(newDeatilLine);
+
+                            if (result == false)
+                            {
+                                function.logAnError("Error creating new invoice detale line Expenses");
+                                Redirect("/Shared/Error");
+                            }
+                        }
+
+                        foreach (SP_GetJobIntemsToInvoice_Result item in JobItemsForInvoice.ElementAt(2))
+                        {
+                            newDeatilLine.LineItemID = item.ID;
+                            newDeatilLine.Name = item.Description;
+                            newDeatilLine.UnitCost = item.UnitCost;
+                            newDeatilLine.UnitCount = item.UnitCount;
+                            newDeatilLine.Type = 'E';
+
+                            result = handler.newInvoiceDetailLine(newDeatilLine);
+
+                            if (result == false)
+                            {
+                                function.logAnError("Error creating new invoice detale line Travel");
+                                Redirect("/Shared/Error");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (SP_GetJobIntemsToInvoice_Result item in HoursResults)
+                        {
+                            newDeatilLine.LineItemID = item.ID;
+                            newDeatilLine.Name = item.Description;
+                            newDeatilLine.UnitCost = item.UnitCost;
+                            newDeatilLine.UnitCount = item.UnitCount / 60;
+
+                            result = handler.newInvoiceDetailLine(newDeatilLine);
+
+                            if (result == false)
+                            {
+                                function.logAnError("Error creating new invoice detale line Hours");
+                                Redirect("/Shared/Error");
+                            }
+                        }
+
+                        foreach (SP_GetJobIntemsToInvoice_Result item in ExpensesResults)
+                        {
+                            newDeatilLine.LineItemID = item.ID;
+                            newDeatilLine.Name = item.Description;
+                            newDeatilLine.UnitCost = item.UnitCost;
+                            newDeatilLine.UnitCount = item.UnitCount;
+
+                            result = handler.newInvoiceDetailLine(newDeatilLine);
+
+                            if (result == false)
+                            {
+                                function.logAnError("Error creating new invoice detale line Expenses");
+                                Redirect("/Shared/Error");
+                            }
+                        }
+
+                        foreach (SP_GetJobIntemsToInvoice_Result item in TravelsResults)
+                        {
+                            newDeatilLine.LineItemID = item.ID;
+                            newDeatilLine.Name = item.Description;
+                            newDeatilLine.UnitCost = item.UnitCost;
+                            newDeatilLine.UnitCount = item.UnitCount;
+
+                            result = handler.newInvoiceDetailLine(newDeatilLine);
+
+                            if (result == false)
+                            {
+                                function.logAnError("Error creating new invoice detale line Travel");
+                                Redirect("/Shared/Error");
+                            }
+                        }
+                    }
+                    Response.Redirect("../Invoice/Invoice?ID=" + newInvoice.InvoiceNum);
+                }
+                else
+                {
+                    function.logAnError("Error creating new invoice");
+                    Redirect("../Shared/Error");
+                }
+
+                return RedirectToAction("/Shared/Error");
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error in post new invoice of invoice controler");
+                return View();
             }
         }
         #endregion
@@ -386,6 +712,47 @@ namespace TaxApp.Controllers
                 function.logAnError(e.ToString() +
                     "Error in post new invoice of invoice controler");
                 return View();
+            }
+        }
+        #endregion
+        
+        #region Mark Invoice As Paid
+        // GET: Invoice/Create
+        public ActionResult MarkAsPaid(string ID = "0")
+        {
+            try
+            {
+                getCookie();
+
+                if(ID != "0")
+                {
+                    Invoice invoice = new Invoice();
+                    invoice.InvoiceNum = ID;
+                    bool result = handler.MarkInvoiceAsPaid(invoice);
+
+                    if(result == true)
+                    {
+                        Response.Redirect("/Invoice/Invoice?ID="+ID);
+                    }
+                    else
+                    {
+                        function.logAnError("Error marking invoice as paid invoice controller - no invoice number supplied");
+                        Response.Redirect("/Shared/Error?Err=Error marking invoice as paid");
+                    }
+                }
+                else
+                {
+                    function.logAnError("Error marking invoice as paid invoice controller - no invoice number supplied");
+                    Response.Redirect("/Shared/Error?Err=Error marking invoice as paid");
+                }
+
+            return View();
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error marking invoice as paid invoice controller");
+                return Redirect("/job/job?ID=" + ID);
             }
         }
         #endregion

@@ -20,65 +20,66 @@
     </div>
 </div>
 
-<!-- Page content -->
-<div class="container mt--8 pb-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-12 col-md-12">
-            <div class="card bg-secondary shadow border-0">
-                <p class="col text-right">
-                    @Html.ActionLink("Create New", "Create")
-                </p>
-                <table class="table">
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.DateTime)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.TotalCost)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Paid)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.JobTitle)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.ClientName)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.CompanyName)
-                        </th>
-                        <th></th>
-                    </tr>
-
-                    @foreach (var item in Model)
-                    {
+<div class="container-fluid mt--7">
+    <!-- Page content -->
+    <div class="container mt--8 pb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-12 col-md-12">
+                <div class="card bg-secondary shadow border-0">
+                    <p class="col text-right">
+                        @Html.ActionLink("Create New", "Create")
+                    </p>
+                    <table class="table">
                         <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.DateTime)
-                            </td>
-                            <td>
-                                R @Html.DisplayFor(modelItem => item.TotalCost)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Paid)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.JobTitle)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ClientName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.CompanyName)
-                            </td>
-                            <td>
-                                <a href="Invoice?ID=@Html.DisplayFor(modelItem => item.InvoiceNum)">View</a>
-                            </td>
+                            <th>
+                                @Html.DisplayNameFor(model => model.DateTime)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.TotalCost)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Paid)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.JobTitle)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ClientName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CompanyName)
+                            </th>
+                            <th></th>
                         </tr>
-                    }
 
-                </table>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DateTime)
+                                </td>
+                                <td>
+                                    R @Html.DisplayFor(modelItem => item.TotalCost)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Paid)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.JobTitle)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ClientName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CompanyName)
+                                </td>
+                                <td>
+                                    <a href="Invoice?ID=@Html.DisplayFor(modelItem => item.InvoiceNum)">View</a>
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
 
                 </div>
             </div>

@@ -1,0 +1,13 @@
+
+TimeStamp: 7/18/2019 3:38:57 PM
+Machine Name: TEFO-NTSAKO-HAS
+OS Version: Microsoft Windows NT 10.0.17134.0
+Curent User: thash
+User Domain: TEFO-NTSAKO-HAS
+Curent Directory: C:\Program Files (x86)\IIS Express
+Error: 
+System.Exception: StaticRenderHTMLFileAsPdf - File not found: ../Invoice/Print
+   at IronPdf.HtmlToPdf.StaticRenderHTMLFileAsPdf(String FilePath, PdfPrintOptions PrintOptions)
+   at IronPdf.HtmlToPdf.RenderHTMLFileAsPdf(String FilePath)
+   at TaxApp.Controllers.InvoiceController.HtmlFileToPdfExample() in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\InvoiceController.cs:line 148
+   at TaxApp.Controllers.InvoiceController.Print(String id) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\InvoiceController.cs:line 113Error loding invoice details for Print

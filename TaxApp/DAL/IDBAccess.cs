@@ -81,6 +81,7 @@ namespace DAL
         List<SP_GetInvoice_Result> getJobInvoices (Job jobID);
         List<SP_GetInvoice_Result> getInvoices (Profile profileID);
         List<SP_GetInvoice_Result> getInvoiceDetails (Invoice invoiceNum);
+        bool MarkInvoiceAsPaid(Invoice invoice);
         #endregion
     }
 }
