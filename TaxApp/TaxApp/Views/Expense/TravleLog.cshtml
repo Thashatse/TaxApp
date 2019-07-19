@@ -26,9 +26,12 @@
 
                 <br />
                 <div class="col text-right">
-                    <a href="Expense/NewTravelExpense.cshtml"
-                       class="btn btn-sm btn-primary">New Log Item</a>
-                </div>
+                    @if (ViewBag.Complete == "NotDone")
+                    {
+                        <a href="Expense/NewTravelExpense.cshtml"
+                           class="btn btn-sm btn-primary">New Log Item</a>
+                    }
+                    </div>
                 <br />
 
                 <table class="table">

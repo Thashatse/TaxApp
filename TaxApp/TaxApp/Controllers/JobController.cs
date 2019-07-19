@@ -108,13 +108,22 @@ namespace TaxApp.Controllers
                 ViewBag.JobTitle = Job.JobTitle;
                 ViewBag.JobID = Job.JobID;
 
+                if(Job.EndDate != null)
+                {
+                    ViewBag.Complete = "Done";
+                }
+                else
+                {
+                    ViewBag.Complete = "NotDone";
+                }
+
                 return View(Job);
         }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error loding job details");
-                return Redirect("/job/jobs");
+                return Redirect("../Shared/Error?Err=Error Loading Job");
     }
 
 }
@@ -134,6 +143,15 @@ namespace TaxApp.Controllers
                 Model.SP_GetJob_Result Job = handler.getJob(getJob);
                 ViewBag.JobTitle = Job.JobTitle;
                 ViewBag.JobID = Job.JobID;
+
+                if (Job.EndDate != null)
+                {
+                    ViewBag.Complete = "Done";
+                }
+                else
+                {
+                    ViewBag.Complete = "NotDone";
+                }
 
                 return View(JobHours);
         }
@@ -158,6 +176,17 @@ namespace TaxApp.Controllers
                 getJob.JobID = int.Parse(JobID);
                 Model.SP_GetJob_Result Job = handler.getJob(getJob);
                 ViewBag.JobTitle = Job.JobTitle;
+                ViewBag.JobID = Job.JobID;
+
+                if (Job.EndDate != null)
+                {
+                    ViewBag.Complete = "Done";
+                }
+                else
+                {
+                    ViewBag.Complete = "NotDone";
+                }
+
 
                 return View(LogItem);
         }
@@ -336,6 +365,47 @@ namespace TaxApp.Controllers
                 function.logAnError(e.ToString() +
                     "selecting job. Dest Value: '"+Dest+"'. In Job controler");
                 return View("../Shared/Error");
+            }
+        }
+        #endregion
+
+        #region Mark Job As Complete
+        // GET: Invoice/Create
+        public ActionResult MarkAsComplete(string ID = "0")
+        {
+            try
+            {
+                getCookie();
+
+                if (ID != "0")
+                {
+                    Model.Job job = new Model.Job();
+                    job.JobID = int.Parse(ID);
+                    bool result = handler.MarkJobAsComplete(job);
+
+                    if (result == true)
+                    {
+                        Response.Redirect("/Job/Job?ID=" + ID);
+                    }
+                    else
+                    {
+                        function.logAnError("Error marking Job As Complete Job controller");
+                        Response.Redirect("../Shared/Error?Err=Error marking invoice as paid");
+                    }
+                }
+                else
+                {
+                    function.logAnError("Error marking Job As Complete Job controller - no JobID supplied");
+                    Response.Redirect("../Shared/Error?Err=Error marking Job as Complete");
+                }
+
+                return View();
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error marking Job As Complete Job controller");
+                return Redirect("/job/job?ID=" + ID);
             }
         }
         #endregion

@@ -13,6 +13,13 @@
                     <h1 class="text-white">
                         @Html.DisplayFor(model => model.Description)
                     </h1>
+                    <br />
+                    <div>
+                        @if (ViewBag.Complete == "NotDone")
+                        {
+                                       <a>Edit</a>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
@@ -60,16 +67,7 @@
                                     @Html.DisplayFor(model => model.EndTimeString)
                                 </td>
                             </tr>
-                            <tr>
-                                <th scope="row">
-                                    <p>
-                                        @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-                                        @Html.ActionLink("Back to List", "Index")
-                                    </p>
-                                </th>
-                                <td></td>
-                            </tr>
-                        </tbody>
+                            </tbody>
                     </table>
                 </div>
             </div>

@@ -81,6 +81,7 @@ namespace BLL
             bool success = false;
             try
             {
+
                 Model.EmailSetting getSettings = new Model.EmailSetting();
                 getSettings.ProfileID = ProfileID;
                 Model.EmailSetting settings = handler.getEmailSettings(getSettings);
@@ -133,6 +134,5 @@ namespace BLL
             }
             return success;
         }
-
     }
 }

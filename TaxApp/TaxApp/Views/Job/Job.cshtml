@@ -13,8 +13,18 @@
                     <h1 class="text-white">
                         @Html.DisplayFor(model => model.JobTitle)
                     </h1>
+                    <br />
+                    <div>
+                        @if (ViewBag.Complete == "NotDone")
+                        {
+                            <a href="/Job/MarkAsComplete?ID=@Html.DisplayFor(model => model.JobID)"
+                               class="btn btn-sm btn-white">Mark Job As Comlete</a>
+                            <a href="/Job/EditJob?ID=@Html.DisplayFor(model => model.JobID)"
+                               class="btn btn-sm btn-white">Edit</a>
+                        }
+                    </div>
+                    </div>
                 </div>
-            </div>
         </div>
     </div>
 </div>
@@ -99,9 +109,12 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <a href="/Job/NewWorkLogItem?ID=@ViewBag.JobID"
-                                           class="btn btn-sm btn-secondary">Add Hours</a>
-                                    </td>
+                                        @if (ViewBag.Complete == "NotDone")
+                                        {
+                                            <a href="/Job/NewWorkLogItem?ID=@ViewBag.JobID"
+                                               class="btn btn-sm btn-secondary">Add Hours</a>
+                                        }
+                                        </td>
                                 </tr>
                                 <tr>
                                     <th scope="row">
@@ -113,9 +126,12 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <a href="/Expense/NewJobExpense?ID=@ViewBag.JobID"
-                                           class="btn btn-sm btn-secondary">Add Expense</a>
-                                    </td>
+                                        @if (ViewBag.Complete == "NotDone")
+                                        {
+                                            <a href="/Expense/NewJobExpense?ID=@ViewBag.JobID"
+                                               class="btn btn-sm btn-secondary">Add Expense</a>
+                                        }
+                                        </td>
                                 </tr>
                                 <tr>
                                     <th scope="row">
@@ -127,9 +143,12 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <a href="../Expense/NewTravelExpense?ID=@ViewBag.JobID"
-                                           class="btn btn-sm btn-secondary">New Log Item</a>
-                                    </td>
+                                        @if (ViewBag.Complete == "NotDone")
+                                        {
+                                            <a href="../Expense/NewTravelExpense?ID=@ViewBag.JobID"
+                                               class="btn btn-sm btn-secondary">New Log Item</a>
+                                        }
+                                        </td>
                                 </tr>
                                 <tr>
                                     <th scope="row">
@@ -141,9 +160,12 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <a href="/Invoice/NewInvoice?ID=@ViewBag.JobID"
-                                           class="btn btn-sm btn-secondary">New Invoice</a>
-                                    </td>
+                                        @if (ViewBag.Complete == "NotDone")
+                                        {
+                                            <a href="/Invoice/NewInvoice?ID=@ViewBag.JobID"
+                                               class="btn btn-sm btn-secondary">New Invoice</a>
+                                        }
+                                        </td>
                                 </tr>
                                 <tr>
                                     <th scope="row">
@@ -159,9 +181,7 @@
                                 <tr>
                                     <th scope="row">
                                         <p>
-                                            @Html.ActionLink("All Jobs", "Jobs") |
-                                            @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ })
-                                        </p>
+                                            @Html.ActionLink("All Jobs", "Jobs")</p>
                                     </th>
                                     <td></td>
                                     <td></td>

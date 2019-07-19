@@ -326,7 +326,6 @@ namespace DAL
             return Result;
         }
 
-
         public Model.EmailSetting getEmailSettings(Model.EmailSetting Settings)
         {
             Model.EmailSetting settings = null;
@@ -435,7 +434,7 @@ namespace DAL
 
                             if (row["EndDate"].ToString() != "" && row["EndDate"] != null)
                             {
-                                job.EndDate = DateTime.Parse(row[6].ToString());
+                                job.EndDate = DateTime.Parse(row["EndDate"].ToString());
                                 job.EndDateString = String.Format("{0:dddd, dd MMMM yyyy}", job.EndDate);
                                 
                             }
@@ -551,7 +550,7 @@ namespace DAL
 
                             if (row["EndDate"].ToString() != "" && row["EndDate"] != null)
                             {
-                                job.EndDate = DateTime.Parse(row[6].ToString());
+                                job.EndDate = DateTime.Parse(row["EndDate"].ToString());
                                 job.EndDateString = String.Format("{0:dddd, dd MMMM yyyy}", job.EndDate);
 
                             }
@@ -667,7 +666,7 @@ namespace DAL
 
                             if (row["EndDate"].ToString() != "" && row["EndDate"] != null)
                             {
-                                job.EndDate = DateTime.Parse(row[6].ToString());
+                                job.EndDate = DateTime.Parse(row["EndDate"].ToString());
                                 job.EndDateString = String.Format("{0:dddd, dd MMMM yyyy}", job.EndDate);
 
                             }
@@ -854,6 +853,27 @@ namespace DAL
             {
                 throw new ApplicationException(e.ToString());
             }
+        }
+        public bool MarkJobAsComplete(Job job)
+        {
+            bool Result = false;
+
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@JID", job.JobID)
+                   };
+
+                Result = DBHelper.NonQuery("SP_MarkJobAsComplete", CommandType.StoredProcedure, pars);
+
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return Result;
         }
 
         #region WorkLog Item

@@ -86,6 +86,10 @@ namespace BLL
         {
             return db.getProfileJobsDashboard(profile);
         }
+        public bool MarkJobAsComplete(Job job)
+        {
+            return db.MarkJobAsComplete(job);
+        }
 
         #region WorkLog Item
         public bool newWorkLogItem(Model.Worklog logItem, Model.Job job)

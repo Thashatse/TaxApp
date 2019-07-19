@@ -248,6 +248,15 @@ namespace TaxApp.Controllers
                 ViewBag.JobTitle = Job.JobTitle;
                 ViewBag.JobID = Job.JobID;
 
+                if (Job.EndDate != null)
+                {
+                    ViewBag.Complete = "Done";
+                }
+                else
+                {
+                    ViewBag.Complete = "NotDone";
+                }
+
                 return View(JobExpenses);
             }
             catch (Exception e)
@@ -270,6 +279,15 @@ namespace TaxApp.Controllers
                 getJob.JobID = JobExpense.JobID;
                 Model.SP_GetJob_Result Job = handler.getJob(getJob);
                 ViewBag.JobTitle = Job.JobTitle;
+
+                if (Job.EndDate != null)
+                {
+                    ViewBag.Complete = "Done";
+                }
+                else
+                {
+                    ViewBag.Complete = "NotDone";
+                }
 
                 return View(JobExpense);
             }
@@ -585,6 +603,14 @@ namespace TaxApp.Controllers
                 ViewBag.JobTitle = Job.JobTitle;
                 ViewBag.JobID = Job.JobID;
 
+                if (Job.EndDate != null)
+                {
+                    ViewBag.Complete = "Done";
+                }
+                else
+                {
+                    ViewBag.Complete = "NotDone";
+                }
                 return View(JobTravelLog);
             }
             catch (Exception e)

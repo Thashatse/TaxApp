@@ -30,9 +30,13 @@
 
                     <br />
                     <div class="col text-right">
-                        <a href="/Invoice/NewInvoice?ID=@ViewBag.JobID"
-                           class="btn btn-sm btn-primary">New Invoice</a>
-                    </div>
+                        @if (ViewBag.Complete == "NotDone")
+                        {
+
+                            <a href="/Invoice/NewInvoice?ID=@ViewBag.JobID"
+                               class="btn btn-sm btn-primary">New Invoice</a>
+                        }
+                        </div>
                     <br />
 
                     <table class="table">

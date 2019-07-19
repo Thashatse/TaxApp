@@ -136,6 +136,7 @@
     <Compile Include="Controllers\InvoiceController.cs" />
     <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\LandingController.cs" />
+    <Compile Include="Controllers\SharedController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

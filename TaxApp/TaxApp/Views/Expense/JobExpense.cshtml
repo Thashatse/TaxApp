@@ -13,6 +13,13 @@
                     <h1 class="text-white">
                         @Html.DisplayFor(model => model.Name)
                     </h1>
+                    <br />
+                    <div>
+                        @if (ViewBag.Complete == "NotDone")
+                        {
+                            <a>Edit</a>
+                        }
+                        </div>
                 </div>
             </div>
         </div>
@@ -67,16 +74,6 @@
                                 <td>
                                     @Html.DisplayFor(model => model.CatDescription)
                                 </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-
-                                    <p>
-                                        @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-                                        @Html.ActionLink("Back to List", "Index")
-                                    </p>
-                                </th>
-                                <td></td>
                             </tr>
                         </tbody>
                     </table>

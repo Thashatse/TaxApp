@@ -38,6 +38,7 @@ namespace BLL
         List<SP_GetJob_Result> getProfileJobs(Profile profile);
         List<SP_GetJob_Result> getProfileJobsPast(Profile profile);
         List<SP_GetJob_Result> getProfileJobsDashboard(Profile profile);
+        bool MarkJobAsComplete(Job job);
 
         #region WorkLog Item
         bool newWorkLogItem(Model.Worklog logItem, Model.Job job);

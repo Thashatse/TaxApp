@@ -14,6 +14,12 @@
                         @Html.DisplayFor(model => model.FirstName)
                         @Html.DisplayFor(model => model.LastName)
                     </h1>
+                    <br />
+                    <div>
+                        <a class="btn btn-sm btn-white" href='/Client/Edit?ID=@Html.DisplayFor(model => model.ClientID)'>
+                            Edit
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -66,14 +72,6 @@
                                         @Html.DisplayFor(model => model.PhysiclaAddress)
                                         </a>
                                 </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <p>
-                                        @Html.ActionLink("Edit", "Edit", new { id = Model.ClientID })
-                                    </p>
-                                </th>
-                                <td></td>
                             </tr>
                         </tbody>
                     </table>

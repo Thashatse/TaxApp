@@ -26,9 +26,12 @@
 
                     <br />
                     <div class="col text-right">
-                        <a href="/Expense/NewJobExpense?ID=@ViewBag.JobID"
-                           class="btn btn-sm btn-primary">Add Expense</a>
-                    </div>
+                        @if (ViewBag.Complete == "NotDone")
+                        {
+                            <a href="/Expense/NewJobExpense?ID=@ViewBag.JobID"
+                               class="btn btn-sm btn-primary">Add Expense</a>
+                        }
+                        </div>
                     <br />
 
                     <table class="table">
@@ -45,37 +48,43 @@
                             <th>
                                 @Html.DisplayNameFor(model => model.CatName)
                             </th>
-                            <th></th>
-                        </tr>
+                            @if (ViewBag.Complete == "NotDone")
+                            {
+                                <th></th>
+                            }
+                            </tr>
 
                         @foreach (var item in Model)
                         {
-                            <tr>
-                                <td>
-                                    <a href='/Expense/JobExpense?ID=@Html.DisplayFor(model => item.ExpenseID)'>
-                                        @Html.DisplayFor(modelItem => item.Name)
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href='/Expense/JobExpense?ID=@Html.DisplayFor(model => item.ExpenseID)'>
-                                        @Html.DisplayFor(modelItem => item.DateString)
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href='/Expense/JobExpense?ID=@Html.DisplayFor(model => item.ExpenseID)'>
-                                        R @Html.DisplayFor(modelItem => item.Amount)
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href='/Expense/JobExpense?ID=@Html.DisplayFor(model => item.ExpenseID)'>
-                                        @Html.DisplayFor(modelItem => item.CatName)
-                                    </a>
-                                </td>
-                                <td>
-                                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                                </td>
-                            </tr>
+                    <tr>
+                        <td>
+                            <a href='/Expense/JobExpense?ID=@Html.DisplayFor(model => item.ExpenseID)'>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </a>
+                        </td>
+                        <td>
+                            <a href='/Expense/JobExpense?ID=@Html.DisplayFor(model => item.ExpenseID)'>
+                                @Html.DisplayFor(modelItem => item.DateString)
+                            </a>
+                        </td>
+                        <td>
+                            <a href='/Expense/JobExpense?ID=@Html.DisplayFor(model => item.ExpenseID)'>
+                                R @Html.DisplayFor(modelItem => item.Amount)
+                            </a>
+                        </td>
+                        <td>
+                            <a href='/Expense/JobExpense?ID=@Html.DisplayFor(model => item.ExpenseID)'>
+                                @Html.DisplayFor(modelItem => item.CatName)
+                            </a>
+                        </td>
+                        @if (ViewBag.Complete == "NotDone")
+                        {
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                            </td>
+                        }
+                        </tr>
                         }
 
                     </table>

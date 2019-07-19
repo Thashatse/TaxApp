@@ -42,40 +42,44 @@
     <div class="row justify-content-center">
         <div class="col-lg-12 col-md-12">
             <div class="card bg-secondary shadow border-0">
-                <div class="form-group">
-                    <div class="col-md-10">
-                        <dt>
-                            To:
-                        </dt>
-                        @Html.DisplayFor(model => model.ClientName) - @Html.DisplayFor(model => model.EmailAddress)
-                    </div>
-                </div>
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
 
-                <div class="form-group">
-                    <div class="col-md-10">
-                        <dt>
-                            Subject:
-                        </dt>
-                        <input size="100" type="text" name="subject" value="Infvoice for work on @Html.DisplayFor(model => model.JobTitle)">
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <dt>
+                                To:
+                            </dt>
+                            @Html.DisplayFor(model => model.ClientName) - @Html.DisplayFor(model => model.EmailAddress)
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <div class="col-md-10">
-                        <dt>
-                            Message:
-                        </dt>
-                        <textarea rows="4" cols="100" name="Message">
-                        </textarea>
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <dt>
+                                Subject:
+                            </dt>
+                            <input size="100" type="text" name="subject" value="Invoice for work on @Html.DisplayFor(model => model.JobTitle)">
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Send" class="btn btn-default" /> |
-                        <input type="button" value="Cancel" class="btn btn-sm btn-white" onclick="self.close()">
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <dt>
+                                Body:
+                            </dt>
+                            <textarea rows="4" cols="100" name="Message"></textarea>
+                        </div>
                     </div>
-                </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Send" class="btn btn-default" /> |
+                            <input type="button" value="Cancel" class="btn btn-sm btn-white" onclick="self.close()">
+                        </div>
+                    </div>
+                }
             </div>
         </div>
     </div>
