@@ -27,15 +27,26 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-5 col-md-6">
                         <h1 class="text-white">Error.</h1>
-                        <h2 class="text-white">An error occurred while processing your request.</h2>
-                        <p class="text-white">@ViewBag.Details</p>
+
+                        @if (ViewBag.Details == null || ViewBag.Details == "")
+                        {
+                            <h2 class="text-white">
+                                An error occurred while processing your request.
+                            </h2>
+                        }
+                        else
+                        {
+                            <h2 class="text-white">
+                                @ViewBag.Details
+                            </h2>
+                        }
                         <a href="../Home/Index"
-   class="btn btn-sm btn-white">Return Home</a>
+                           class="btn btn-sm btn-white">Return Home</a>
                     </div>
                 </div>
             </div>
         </div>
-        </div>
+    </div>
 </body>
 </html>
 

@@ -8,7 +8,8 @@ AS
 BEGIN
 	Select *, (TravelLog.ClosingKMs - TravelLog.OpeningKMs) as TotalKMs,
 			 (Vehicle.SARSFuelCost * (TravelLog.ClosingKMs - TravelLog.OpeningKMs)) as SARSFuelCost,
-			 (Vehicle.SARSMaintenceCost * (TravelLog.ClosingKMs - TravelLog.OpeningKMs)) as SARSMaintenceCost
+			 (Vehicle.SARSMaintenceCost * (TravelLog.ClosingKMs - TravelLog.OpeningKMs)) as SARSMaintenceCost,
+			 (Vehicle.ClientCharge * (TravelLog.ClosingKMs - TravelLog.OpeningKMs)) as ClientCharge
 	From TravelLog, Vehicle
 	Where JobID = @JID
 		AND TravelLog.VehicleID = Vehicle.VehicleID

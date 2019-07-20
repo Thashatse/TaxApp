@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Threading;
 
 namespace TaxApp.Controllers
 {
@@ -60,6 +61,9 @@ namespace TaxApp.Controllers
         
         public ActionResult Index()
         {
+            Thread zero = new Thread(function.repeatExpense);
+            zero.Start();
+
             ViewBag.Title = "Dashboard";
 
             try

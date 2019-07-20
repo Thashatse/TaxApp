@@ -25,6 +25,7 @@ namespace Model
         public string DateString { get; set; }
         [Required]
         public decimal Amount { get; set; }
+        [Display(Name = "Repeat Monthy")]
         public bool Repeat { get; set; }
         public byte[] Invoice_ReceiptCopy { get; set; }
         public string CatName { get; set; }

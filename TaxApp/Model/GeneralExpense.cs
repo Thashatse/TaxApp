@@ -24,6 +24,7 @@ namespace Model
         public decimal Amount { get; set; }
 
         [Required]
+        [Display(Name = "Repeat Monthy")]
         public bool Repeat { get; set; }
 
         public byte[] Invoice_ReceiptCopy { get; set; }

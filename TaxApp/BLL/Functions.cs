@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -133,6 +134,48 @@ namespace BLL
                 success = false;
             }
             return success;
+        }
+
+        public void repeatExpense()
+        {
+            try
+            {
+                List<SP_GetGeneralExpense_Result> expenses = handler.getRepeatGeneralExpenses();
+
+                if (expenses != null && expenses.Count > 0)
+                {
+                    foreach (SP_GetGeneralExpense_Result expense in expenses)
+                    {
+                        if (expense != null && expense.Name != null)
+                        {
+                            Model.SP_GetGeneralExpense_Result newExpense = expense;
+
+                            newExpense.Date = DateTime.Now;
+                            newExpense.Repeat = true;
+
+                            bool result = handler.newGeneralExpense(newExpense);
+
+                            if (result == true)
+                            {
+                                handler.UpdateGeneralExpenseRepeate(newExpense);
+                            }
+                            else
+                            {
+                                logAnError("Error repeting general expense in functions - Expese ID: "+expense.ExpenseID);
+                            }
+                        }
+                        else
+                        {
+                            logAnError("Error running repeatExpense in functions");
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                logAnError(e.ToString() +
+                    "Error running repeatExpense in functions");
+            }
         }
     }
 }

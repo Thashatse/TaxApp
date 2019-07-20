@@ -1366,6 +1366,63 @@ namespace DAL
                 throw new ApplicationException(e.ToString());
             }
         }
+        public List<SP_GetGeneralExpense_Result> getRepeatGeneralExpenses()
+        {
+            List<SP_GetGeneralExpense_Result> Expenses = new List<SP_GetGeneralExpense_Result>();
+            try
+            {
+                using (DataTable table = DBHelper.Select("SP_GetRepeatGeneralExpenses",
+            CommandType.StoredProcedure))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            SP_GetGeneralExpense_Result expense = new SP_GetGeneralExpense_Result();
+                            expense.ExpenseID = int.Parse(row[0].ToString());
+                            expense.CategoryID = int.Parse(row["CategoryID"].ToString());
+                            expense.Name = row[2].ToString();
+                            expense.Description = row[3].ToString();
+                            expense.ProfileID = int.Parse(row[4].ToString());
+                            expense.Date = DateTime.Parse(row[5].ToString());
+                            expense.Amount = decimal.Parse(row[6].ToString());
+                            expense.Repeat = bool.Parse(row[7].ToString());
+                            expense.Invoice_ReceiptCopy = null;
+                            expense.CatName = row[9].ToString();
+                            expense.CatDescription = row[10].ToString();
+                            expense.DateString = expense.Date.ToString("dddd, dd MMMM yyyy");
+                            Expenses.Add(expense);
+                        }
+                    }
+                }
+                return Expenses;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        public bool UpdateGeneralExpenseRepeate(SP_GetGeneralExpense_Result expense)
+        {
+            bool Result = false;
+
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@EID", expense.ExpenseID)
+                   };
+
+                Result = DBHelper.NonQuery("SP_UpdateGeneralExpenseRepeate", CommandType.StoredProcedure, pars);
+
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return Result;
+        }
         public List<ExpenseCategory> getExpenseCatagories()
         {
             List<ExpenseCategory> ExpensesCats = new List<ExpenseCategory>();
@@ -1565,6 +1622,7 @@ namespace DAL
                             travelLogItem.Date = DateTime.Parse(row["Date"].ToString());
                             travelLogItem.DateString = travelLogItem.Date.ToString("dddd, dd MMMM yyyy");
                             travelLogItem.Invoiced = bool.Parse(row["Invoiced"].ToString());
+                            travelLogItem.JobTitle = row["JobTitle"].ToString();
                             TravelLog.Add(travelLogItem);
                         }
                     }
@@ -1656,6 +1714,7 @@ namespace DAL
                             travelLogItem.TotalKMs = double.Parse(row["TotalKMs"].ToString());
                             travelLogItem.SARSFuelCost = decimal.Parse(row["SARSFuelCost"].ToString());
                             travelLogItem.SARSMaintenceCost = decimal.Parse(row["SARSMaintenceCost"].ToString());
+                            travelLogItem.ClientCharge = decimal.Parse(row["ClientCharge"].ToString());
                             TravelLog.Add(travelLogItem);
                         }
                     }

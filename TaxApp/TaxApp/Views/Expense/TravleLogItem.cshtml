@@ -15,6 +15,15 @@
                         @Html.DisplayFor(model => model.Reason)
                     </h1>
                     <p class="text-white">For @Html.DisplayFor(model => model.JobTitle)</p>
+                    <br />
+                    <div>
+                        @if (Model.Invoiced.Equals(false))
+                        {
+                            <a class="btn btn-sm btn-white" href='./EditTravleLogItem?ID=@Html.DisplayFor(modelItem => Model.ExpenseID)'> Edit</a>
+                            <a class="btn btn-sm btn-white" href='./DeleteTravleLogItem?ID=@Html.DisplayFor(modelItem => Model.ExpenseID)'>Delete</a>
+                            <a class="btn btn-sm btn-white" href='./JobTravelLog?ID=@Html.DisplayFor(modelItem => Model.JobID)'> Job Travel Log</a>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
@@ -130,19 +139,6 @@
                                     <td>
                                         R @Html.DisplayFor(model => model.ClientCharge)
                                     </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        <p>
-                                            @if (Model.Invoiced.Equals(false))
-                                            {
-                                                <a href='./JobTravelLog?ID=@Html.DisplayFor(modelItem => Model.JobID)'> Job Travel Log | </a>
-                                                <a href='./EditTravleLogItem?ID=@Html.DisplayFor(modelItem => Model.ExpenseID)'> Edit | </a>
-                                                <a href='./DeleteTravleLogItem?ID=@Html.DisplayFor(modelItem => Model.ExpenseID)'>Delete</a>
-                                            }
-                                        </p>
-                                    </th>
-                                    <td></td>
                                 </tr>
                             </tbody>
                         </table>

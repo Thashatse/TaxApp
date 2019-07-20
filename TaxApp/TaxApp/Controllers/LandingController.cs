@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BLL;
+using System.Threading;
 
 namespace TaxApp.Controllers
 {
@@ -18,6 +19,9 @@ namespace TaxApp.Controllers
         // GET: Landing
         public ActionResult Welcome(string Err)
         {
+            Thread zero = new Thread(function.repeatExpense);
+            zero.Start();
+
             try
             {
                 //check if the user is loged in

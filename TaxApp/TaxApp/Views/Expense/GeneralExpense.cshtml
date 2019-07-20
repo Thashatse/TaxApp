@@ -13,6 +13,15 @@
                     <h1 class="text-white">
                         @Html.DisplayFor(model => model.Name)
                     </h1>
+                    <br />
+                    <div>
+                            <a href="../expense/editexpense?ID=@Html.DisplayFor(model => model.ExpenseID)"
+                               class="btn btn-sm btn-white">Edit</a>
+                            <a href="../expense/reapetexpense?ID=@Html.DisplayFor(model => model.ExpenseID)"
+                               class="btn btn-sm btn-white">Reapet Expense now</a>
+                            <a href="../expense/GeneralExpenses"
+                               class="btn btn-sm btn-white">View All General Expenses</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -90,16 +99,6 @@
                                 <td>
                                     @Html.DisplayFor(model => model.CatDescription)
                                 </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <p>
-                                        @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-                                        Reapet |
-                                        @Html.ActionLink("Back to List", "Index")
-                                    </p>
-                                </th>
-                                <td></td>
                             </tr>
                         </tbody>
                     </table>

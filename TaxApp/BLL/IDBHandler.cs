@@ -70,6 +70,8 @@ namespace BLL
         List<TravelLog> getProfileTravelLog(Profile getProfileTravelLog);
         List<TravelLog> getJobTravelLog(Job getJobTravelLog);
         TravelLog getTravelLogItem(TravelLog getTravelLogItem);
+        bool UpdateGeneralExpenseRepeate(SP_GetGeneralExpense_Result expense);
+        List<SP_GetGeneralExpense_Result> getRepeatGeneralExpenses();
         #endregion
 
         #region Invoice

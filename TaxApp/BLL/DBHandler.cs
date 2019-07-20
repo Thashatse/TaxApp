@@ -187,6 +187,14 @@ namespace BLL
         {
             return db.getTravelLogItem(getTravelLogItem);
         }
+        public bool UpdateGeneralExpenseRepeate(SP_GetGeneralExpense_Result expense)
+        {
+            return db.UpdateGeneralExpenseRepeate(expense);
+        }
+        public List<SP_GetGeneralExpense_Result> getRepeatGeneralExpenses()
+        {
+            return db.getRepeatGeneralExpenses();
+        }
         #endregion
 
         #region Invoice

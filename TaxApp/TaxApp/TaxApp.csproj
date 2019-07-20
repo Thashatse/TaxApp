@@ -2180,6 +2180,8 @@
     <Content Include="Views\Expense\EditTravleLogItem.cshtml" />
     <Content Include="Views\Invoice\Print.cshtml" />
     <Content Include="Views\Invoice\EmailToCustomer.cshtml" />
+    <Content Include="Views\Expense\GeneralExpenses.cshtml" />
+    <Content Include="Views\Expense\EditJobExpense.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

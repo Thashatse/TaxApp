@@ -134,7 +134,7 @@ namespace TaxApp.Controllers
 
                 if (result == true)
                 {
-                    return Redirect("/Expense/Expenses");
+                    return Redirect("/Expense/GeneralExpense");
                 }
                 else
                 {
@@ -178,6 +178,65 @@ namespace TaxApp.Controllers
         // POST: Landing/NewProfile
         [HttpPost]
         public ActionResult NewJobExpense(FormCollection collection, string ID)
+        {
+            try
+            {
+                getCookie();
+                List<Model.ExpenseCategory> cats = handler.getExpenseCatagories();
+                ViewBag.CategoryList = new SelectList(cats, "CategoryID", "Name");
+
+                Model.SP_GetJobExpense_Result newExpense = new Model.SP_GetJobExpense_Result();
+
+                newExpense.CategoryID = int.Parse(Request.Form["CategoryList"].ToString());
+                newExpense.Name = Request.Form["Name"].ToString();
+                newExpense.Description = Request.Form["Description"].ToString();
+                newExpense.JobID = int.Parse(ID);
+                newExpense.Date = DateTime.Parse(Request.Form["Date"].ToString());
+                newExpense.Amount = Convert.ToDecimal(Request.Form["Amount"], CultureInfo.CurrentCulture);
+                //newExpense.Invoice_ReceiptCopy = DBNull.Value;
+
+                bool result = handler.newJobExpense(newExpense);
+
+                if (result == true)
+                {
+                    return Redirect("/Expense/JobExpenses?ID=" + ID);
+                }
+                else
+                {
+                    return RedirectToAction("../Shared/Error");
+                }
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error in new general expense of expense controler");
+                return View();
+            }
+        }
+        #endregion
+        
+        #region Edit Job Expense
+        public ActionResult EditJobExpense(string ID)
+        {
+            try { 
+            getCookie();
+
+                Model.Job getJob = new Model.Job();
+                getJob.JobID = int.Parse(ID);
+                List<Model.SP_GetJobExpense_Result> JobExpenses = handler.getJobExpenses(getJob);
+
+                return View(JobExpenses);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loading edit Job Expense");
+                return RedirectToAction("../Shared/Error");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditJobExpense(FormCollection collection, string ID)
         {
             try
             {
@@ -317,6 +376,75 @@ namespace TaxApp.Controllers
                 function.logAnError(e.ToString() +
                     "Error loding job expense Details");
                 return Redirect("/Expense/Expenses?ID=" + ID);
+            }
+        }
+
+        public ActionResult GeneralExpenses()
+        {
+            getCookie();
+
+            try
+            {
+                getCookie();
+
+                Model.Profile getProfile = new Model.Profile();
+                getProfile.ProfileID = int.Parse(cookie["ID"].ToString());
+
+                List<Model.SP_GetGeneralExpense_Result> ProfileGeneralExpenses = handler.getGeneralExpenses(getProfile);
+
+                return View(ProfileGeneralExpenses);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding General Expese Page");
+                return Redirect("../Shared/error?Err=An error occurred loading all general expenses");
+            }
+        }
+        #endregion
+        
+        #region Reapet General Expense
+        public ActionResult reapetexpense(string ID)
+        {
+            try
+            {
+                getCookie();
+                Model.Expense getExpense = new Model.Expense();
+                getExpense.ExpenseID = int.Parse(ID);
+                Model.SP_GetGeneralExpense_Result GeneralExpense = handler.getGeneralExpense(getExpense);
+
+                if(GeneralExpense != null)
+                {
+                    Model.SP_GetGeneralExpense_Result newExpense = GeneralExpense;
+
+                    newExpense.Date = DateTime.Now;
+                    newExpense.Repeat = false;
+
+                    bool result = handler.newGeneralExpense(newExpense);
+
+                    if (result == true)
+                    {
+                        Response.Redirect("/Expense/GeneralExpenses");
+                    }
+                    else
+                    {
+                        function.logAnError("Error reapeteing general expense");
+                        return Redirect("../Shared/error?Err=Error Reapeting Expense");
+                    }
+                }
+                else
+                {
+                    function.logAnError("Error reapeteing general expense");
+                    return Redirect("../Shared/error?Err=Error Reapeting Expense");
+                }
+
+                return View();
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error reapeteing general expense");
+                return Redirect("../Shared/error?Err=Error Reapeting Expense");
             }
         }
         #endregion

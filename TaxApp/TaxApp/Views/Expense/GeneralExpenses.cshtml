@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Model.SP_GetGeneralExpense_Result>
+
+@{
+    ViewBag.Title = "GeneralExpenses";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="header bg-gradient-primary py-7 py-lg-8">
+    <div class="container">
+        <div class="header-body text-center mb-7">
+            <div class="row justify-content-center">
+                <div class="col-lg-5 col-md-6">
+                    <h1 class="text-white">
+                        General Expenses
+                    </h1>
+                    <br />
+                    <div>
+                        <a href="/Expense/NewGeneralExpense"
+                           class="btn btn-sm btn-white">New General Expense</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt--7">
+    <div class="row mt-5">
+        @{
+            foreach (var item in Model)
+            {
+                <div class="col-xl-4">
+                    <div class="card shadow">
+                        <div class="card-header border-0">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h3 class="mb-0">@Html.DisplayFor(modelItem => item.Name)</h3>
+                                </div>
+                                <div class="col text-right">
+                                    <a href="GeneralExpense?ID=@Html.DisplayFor(modelItem => item.ExpenseID)" class="btn btn-sm btn-primary">Details</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <!-- Projects table -->
+                            <table class="table align-items-center table-flush">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">
+                                            Date:
+                                        </th>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DateString)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            Price:
+                                        </th>
+                                        <td>
+                                            R @Html.DisplayFor(modelItem => item.Amount)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            Recuring:
+                                        </th>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Repeat)
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <br />
+                </div>
+            }
+        }
+    </div>

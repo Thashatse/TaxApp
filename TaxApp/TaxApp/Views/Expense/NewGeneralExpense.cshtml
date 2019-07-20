@@ -1,7 +1,7 @@
 ﻿@model Model.SP_GetGeneralExpense_Result
 
 @{
-    ViewBag.Title = "NewGeneralExpense";
+    ViewBag.Title = "New General Expense";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -53,8 +53,8 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                                <input class="datefield" data-val="true" data-val-required="Date is required"
+                                       id="ReleaseDate" name="Date" type="date" value="DateTime.Now" />
                             </div>
                         </div>
 
@@ -78,15 +78,12 @@
 
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" value="Create" class="btn btn-default" />
+                                <input type="submit" value="Create" class="btn btn-default" />|
+                                <a href="../Expense/GeneralExpenses">Cancel</a>
                             </div>
                         </div>
                     </div>
                 }
-
-                <div>
-                    @Html.ActionLink("Back to List", "Index")
-                </div>
 
                 @section Scripts {
                     @Scripts.Render("~/bundles/jqueryval")
