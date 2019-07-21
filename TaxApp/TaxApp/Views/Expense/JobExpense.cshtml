@@ -17,7 +17,8 @@
                     <div>
                         @if (ViewBag.Complete == "NotDone")
                         {
-                            <a href="../Expense/EditJobExpense" class="btn btn-sm btn-secondary">Edit</a>
+                            <a href="../Expense/EditJobExpense?ID=@Html.DisplayFor(model => model.ExpenseID)" 
+                               class="btn btn-sm btn-secondary">Edit</a>
                         }
                         </div>
                 </div>

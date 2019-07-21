@@ -1,14 +1,5 @@
 
-TimeStamp: 7/20/2019 4:04:52 PM
-Machine Name: TEFO-NTSAKO-HAS
-OS Version: Microsoft Windows NT 10.0.17134.0
-Curent User: thash
-User Domain: TEFO-NTSAKO-HAS
-Curent Directory: C:\Program Files (x86)\IIS Express
-Error: 
-selecting job. Dest Value: 'New*Travel*Expense'. In Job controler
-
-TimeStamp: 7/20/2019 4:17:03 PM
+TimeStamp: 7/21/2019 3:17:43 PM
 Machine Name: TEFO-NTSAKO-HAS
 OS Version: Microsoft Windows NT 10.0.17134.0
 Curent User: thash
@@ -20,27 +11,9 @@ Parameter name: String
    at System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
    at System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
    at System.Int32.Parse(String s)
-   at TaxApp.Controllers.ExpenseController.EditTravleLogItem(String ID) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\ExpenseController.cs:line 529Error loading new Travel Log Expense
+   at TaxApp.Controllers.ExpenseController.JobExpense(String ID) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\ExpenseController.cs:line 334Error loding job expense Details
 
-TimeStamp: 7/20/2019 4:20:59 PM
-Machine Name: TEFO-NTSAKO-HAS
-OS Version: Microsoft Windows NT 10.0.17134.0
-Curent User: thash
-User Domain: TEFO-NTSAKO-HAS
-Curent Directory: C:\Program Files (x86)\IIS Express
-Error: 
-selecting job. Dest Value: 'New*Job*Expense'. In Job controler
-
-TimeStamp: 7/20/2019 4:22:01 PM
-Machine Name: TEFO-NTSAKO-HAS
-OS Version: Microsoft Windows NT 10.0.17134.0
-Curent User: thash
-User Domain: TEFO-NTSAKO-HAS
-Curent Directory: C:\Program Files (x86)\IIS Express
-Error: 
-selecting job. Dest Value: 'New*Job*Expense'. In Job controler
-
-TimeStamp: 7/20/2019 4:38:23 PM
+TimeStamp: 7/21/2019 3:20:47 PM
 Machine Name: TEFO-NTSAKO-HAS
 OS Version: Microsoft Windows NT 10.0.17134.0
 Curent User: thash
@@ -52,4 +25,4 @@ Parameter name: String
    at System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
    at System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
    at System.Int32.Parse(String s)
-   at TaxApp.Controllers.ExpenseController.EditJobExpense(String ID) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\ExpenseController.cs:line 226Error loading new Job Expense
+   at TaxApp.Controllers.ExpenseController.EditJobExpense(String ID) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\ExpenseController.cs:line 225Error loading edit Job Expense

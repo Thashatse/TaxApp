@@ -18,7 +18,8 @@ namespace Model
         public string JobTitle { get; set; }
         [Display(Name = "Hourly Rate")]
         public Nullable<decimal> HourlyRate { get; set; }
-        public Nullable<decimal> Budget { get; set; }
+        public decimal Budget { get; set; }
+        public string BudgetString { get; set; }
         public Nullable<decimal> BudgetPercent { get; set; }
         [Display(Name = "Start Date")]
         public System.DateTime StartDate { get; set; }
@@ -35,14 +36,19 @@ namespace Model
         public String WorkLogHoursString { get; set; }
 
         [Display(Name = "Total Expenses")]
-        public Nullable<decimal> AllExpenseTotal { get; set; }
+        public decimal AllExpenseTotal { get; set; }
+        public string AllExpenseTotalString { get; set; }
         [Display(Name = "Total Expenses")]
-        public Nullable<decimal> ExpenseTotal { get; set; }
+        public decimal ExpenseTotal { get; set; }
+        public string ExpenseTotalString { get; set; }
         [Display(Name = "Total Travel Expenses")]
-        public Nullable<decimal> TravelLogCostTotal { get; set; }
+        public decimal TravelLogCostTotal { get; set; }
+        public string TravelLogCostTotalString { get; set; }
         [Display(Name = "Total Income Outstanding")]
-        public Nullable<decimal> TotalUnPaid { get; set; }
+        public decimal TotalUnPaid { get; set; }
+        public string TotalUnPaidString { get; set; }
         [Display(Name = "Total Income Recived")]
-        public Nullable<decimal> TotalPaid { get; set; }
+        public decimal TotalPaid { get; set; }
+        public string TotalPaidString { get; set; }
     }
 }

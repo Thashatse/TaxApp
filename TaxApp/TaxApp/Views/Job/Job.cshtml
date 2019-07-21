@@ -56,7 +56,7 @@
 
                                     </th>
                                     <td>
-                                        R @Html.DisplayFor(model => model.Budget)
+                                        R @Html.DisplayFor(model => model.BudgetString)
                                     </td>
                                     <td></td>
                                 </tr>
@@ -122,7 +122,7 @@
                                     </th>
                                     <td>
                                         <a href='/Expense/JobExpenses?ID=@Html.DisplayFor(model => model.JobID)'>
-                                            R  @Html.DisplayFor(model => model.ExpenseTotal)
+                                            R  @Html.DisplayFor(model => model.AllExpenseTotalString)
                                         </a>
                                     </td>
                                     <td>
@@ -139,7 +139,7 @@
                                     </th>
                                     <td>
                                         <a href='/Expense/JobTravelLog?ID=@Html.DisplayFor(model => model.JobID)'>
-                                            R @Html.DisplayFor(model => model.TravelLogCostTotal)
+                                            R @Html.DisplayFor(model => model.TravelLogCostTotalString)
                                         </a>
                                     </td>
                                     <td>
@@ -156,7 +156,7 @@
                                     </th>
                                     <td>
                                         <a href='/Invoice/JobInvoices?ID=@Html.DisplayFor(model => model.JobID)'>
-                                            R @Html.DisplayFor(model => model.TotalUnPaid)
+                                            R @Html.DisplayFor(model => model.TotalUnPaidString)
                                         </a>
                                     </td>
                                     <td>
@@ -173,7 +173,7 @@
                                     </th>
                                     <td>
                                         <a href='/Invoice/JobInvoices?ID=@Html.DisplayFor(model => model.JobID)'>
-                                            R @Html.DisplayFor(model => model.TotalPaid)
+                                            R @Html.DisplayFor(model => model.TotalPaidString)
                                         </a>
                                     </td>
                                     <td></td>

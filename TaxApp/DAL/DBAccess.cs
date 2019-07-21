@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
 using Model;
+using System.Globalization;
 
 namespace DAL
 {
@@ -117,8 +118,10 @@ namespace DAL
                                 dashboardIncomeExpense.ExpensePast60to30DaysPercent = -999999999;
                                     }
 
-                            dashboardIncomeExpense.IncomePast30DaysString = dashboardIncomeExpense.IncomePast30Days.ToString("0.##"); ;
-                            dashboardIncomeExpense.ExpensePast30DaysString = dashboardIncomeExpense.ExpensePast30Days.ToString("0.##"); ;
+                            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                            nfi.NumberGroupSeparator = " ";
+                            dashboardIncomeExpense.IncomePast30DaysString = dashboardIncomeExpense.IncomePast30Days.ToString("#,0.##", nfi);
+                            dashboardIncomeExpense.ExpensePast30DaysString = dashboardIncomeExpense.ExpensePast30Days.ToString("#,0.##", nfi);
                         }
                     }
                 }
@@ -391,7 +394,6 @@ namespace DAL
 
             return Result;
         }
-
         public SP_GetJob_Result getJob(Job Job)
         {
             SP_GetJob_Result job = null;
@@ -494,6 +496,14 @@ namespace DAL
                             }
 
                             job.AllExpenseTotal = job.ExpenseTotal + job.TravelLogCostTotal;
+
+                            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                            nfi.NumberGroupSeparator = " ";
+                            job.AllExpenseTotalString = job.AllExpenseTotal.ToString("#,0.##", nfi);
+                            job.TotalPaidString = job.TotalPaid.ToString("#,0.##", nfi);
+                            job.BudgetString = job.Budget.ToString("#,0.##", nfi);
+                            job.TravelLogCostTotalString = job.TravelLogCostTotal.ToString("#,0.##", nfi);
+                            job.TotalUnPaidString = job.TotalUnPaid.ToString("#,0.##", nfi);
                         }
                     }
                 }
@@ -504,7 +514,6 @@ namespace DAL
                 throw new ApplicationException(e.ToString());
             }
         }
-
         public List<SP_GetJob_Result> getProfileJobs(Profile profile)
         {
             List<SP_GetJob_Result> Jobs = new List<SP_GetJob_Result>();
@@ -611,6 +620,14 @@ namespace DAL
                             }
 
                             job.AllExpenseTotal = job.ExpenseTotal + job.TravelLogCostTotal;
+
+                            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                            nfi.NumberGroupSeparator = " ";
+                            job.AllExpenseTotalString = job.AllExpenseTotal.ToString("#,0.##", nfi);
+                            job.TotalPaidString = job.TotalPaid.ToString("#,0.##", nfi);
+                            job.BudgetString = job.Budget.ToString("#,0.##", nfi);
+                            job.TravelLogCostTotalString = job.TravelLogCostTotal.ToString("#,0.##", nfi);
+                            job.TotalUnPaidString = job.TotalUnPaid.ToString("#,0.##", nfi);
                         }
                     }
                 }
@@ -727,6 +744,14 @@ namespace DAL
                             }
 
                             job.AllExpenseTotal = job.ExpenseTotal + job.TravelLogCostTotal;
+
+                            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                            nfi.NumberGroupSeparator = " ";
+                            job.AllExpenseTotalString = job.AllExpenseTotal.ToString("#,0.##", nfi);
+                            job.TotalPaidString = job.TotalPaid.ToString("#,0.##", nfi);
+                            job.BudgetString = job.Budget.ToString("#,0.##", nfi);
+                            job.TravelLogCostTotalString = job.TravelLogCostTotal.ToString("#,0.##", nfi);
+                            job.TotalUnPaidString = job.TotalUnPaid.ToString("#,0.##", nfi);
                         }
                     }
                 }
@@ -844,6 +869,14 @@ namespace DAL
                             }
 
                             job.AllExpenseTotal = job.ExpenseTotal + job.TravelLogCostTotal;
+
+                            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                            nfi.NumberGroupSeparator = " ";
+                            job.AllExpenseTotalString = job.AllExpenseTotal.ToString("#,0.##", nfi);
+                            job.TotalPaidString = job.TotalPaid.ToString("#,0.##", nfi);
+                            job.BudgetString = job.Budget.ToString("#,0.##", nfi);
+                            job.TravelLogCostTotalString = job.TravelLogCostTotal.ToString("#,0.##", nfi);
+                            job.TotalUnPaidString = job.TotalUnPaid.ToString("#,0.##", nfi);
                         }
                     }
                 }
@@ -1777,6 +1810,8 @@ namespace DAL
                         new SqlParameter("@JID", jobID.JobID)
                     };
 
+                var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                nfi.NumberGroupSeparator = " ";
 
                 using (
                     DataTable table = DBHelper.ParamSelect("SP_GetJobHoursForInvoice",
@@ -1794,7 +1829,7 @@ namespace DAL
                             int WorkHours = int.Parse(row[3].ToString()) / 60;
                             int Minutes = int.Parse(row[3].ToString()) % 60;
                             Hour.DisplayString = WorkHours + ":" + Minutes + "h of " 
-                                + Hour.Description +" at R"+ Hour.UnitCost.ToString("0.##") + " per Hour";
+                                + Hour.Description +" at R"+ Hour.UnitCost.ToString("#,0.##", nfi) + " per Hour";
                             Hours.Add(Hour);
                         }
                     }
@@ -1813,7 +1848,7 @@ namespace DAL
                             Travel.UnitCost = decimal.Parse(row[3].ToString());
                             Travel.UnitCount = decimal.Parse(row[2].ToString());
                             Travel.DisplayString = Travel.Description + " - "+ Travel.UnitCount.ToString("0.##") + "KM at R" 
-                                + Travel.UnitCost.ToString("0.##") + " Per KM";
+                                + Travel.UnitCost.ToString("#,0.##", nfi) + " Per KM";
                             Travels.Add(Travel);
                         }
                     }
@@ -1832,7 +1867,7 @@ namespace DAL
                             Expense.UnitCost = decimal.Parse(row[2].ToString());
                             Expense.UnitCount = 1;
                             Expense.DisplayString = Expense.UnitCount + "* "
-                                + Expense.Description + " at R" + Expense.UnitCost.ToString("0.##") + " each";
+                                + Expense.Description + " at R" + Expense.UnitCost.ToString("#,0.##", nfi) + " each";
                             Expenses.Add(Expense);
                         }
                     }
@@ -2025,8 +2060,11 @@ namespace DAL
                             {
                                 InvoiceLineItem.UnitCountString += " KMs";
                             }
-                            InvoiceLineItem.VATRateString = InvoiceLineItem.VATRate.ToString("0.##");
-                            InvoiceLineItem.TotalCostString = InvoiceLineItem.TotalCost.ToString("0.##");
+
+                            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                            nfi.NumberGroupSeparator = " ";
+                            InvoiceLineItem.VATRateString = InvoiceLineItem.VATRate.ToString("#,0.##", nfi);
+                            InvoiceLineItem.TotalCostString = InvoiceLineItem.TotalCost.ToString("#,0.##", nfi);
                             InvoiceLineItems.Add(InvoiceLineItem);
                         }
                     }

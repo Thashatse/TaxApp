@@ -219,13 +219,13 @@ namespace TaxApp.Controllers
         public ActionResult EditJobExpense(string ID)
         {
             try { 
-            getCookie();
+                getCookie();
 
-                Model.Job getJob = new Model.Job();
-                getJob.JobID = int.Parse(ID);
-                List<Model.SP_GetJobExpense_Result> JobExpenses = handler.getJobExpenses(getJob);
+                    Model.Expense getExpense = new Model.Expense();
+                    getExpense.ExpenseID = int.Parse(ID);
+                    Model.SP_GetJobExpense_Result JobExpense = handler.getJobExpense(getExpense);
 
-                return View(JobExpenses);
+                return View(JobExpense);
             }
             catch (Exception e)
             {
