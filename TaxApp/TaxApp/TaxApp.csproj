@@ -137,6 +137,8 @@
     <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\LandingController.cs" />
     <Compile Include="Controllers\SharedController.cs" />
+    <Compile Include="Controllers\TaxController.cs" />
+    <Compile Include="Controllers\VatController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -2158,7 +2160,6 @@
     <Content Include="Views\Expense\NewVehicle.cshtml" />
     <Content Include="Views\Expense\NewTravelExpense.cshtml" />
     <Content Include="Views\Invoice\Invoice.cshtml" />
-    <Content Include="Views\Invoice\Invoices.cshtml" />
     <Content Include="Views\Invoice\JobInvoices.cshtml" />
     <Content Include="Views\Job\Jobs.cshtml" />
     <Content Include="Views\Expense\TravleLog.cshtml" />
@@ -2182,6 +2183,9 @@
     <Content Include="Views\Invoice\EmailToCustomer.cshtml" />
     <Content Include="Views\Expense\GeneralExpenses.cshtml" />
     <Content Include="Views\Expense\EditJobExpense.cshtml" />
+    <Content Include="Views\Invoice\Income.cshtml" />
+    <Content Include="Views\Tax\TaxCenter.cshtml" />
+    <Content Include="Views\Vat\VatCenter.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -130,11 +130,13 @@ namespace TaxApp.Controllers
                     dashboardExpenses.Add(expense);
                 }
                 dashboardExpenses = dashboardExpenses.OrderBy(x => x.dateSort).ToList();
+                List<Model.SP_GetInvoice_Result> OutinvoiceDetails = handler.getInvoicesOutsatanding(profile);
 
                 var viewModel = new Model.homeViewModel();
                 viewModel.Jobs = jobs;
                 viewModel.DashboardIncomeExpense = dashboardIncomeExpense;
                 viewModel.Expenses = dashboardExpenses;
+                viewModel.OutInvoices = OutinvoiceDetails;
 
                 return View(viewModel);
             }

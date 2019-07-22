@@ -1949,6 +1949,95 @@ namespace DAL
                             SP_GetInvoice_Result Invoice = new SP_GetInvoice_Result();
                             Invoice.InvoiceNum = row[0].ToString();
                             Invoice.DateTime = DateTime.Parse(row[1].ToString());
+                            Invoice.DateTimeString = Invoice.DateTime.ToString("hh:mm dd MMM yyyy");
+                            Invoice.VATRate = decimal.Parse(row[2].ToString());
+                            Invoice.Paid = bool.Parse(row[3].ToString());
+                            Invoice.JobID = int.Parse(row[4].ToString());
+                            Invoice.JobTitle = row[5].ToString();
+                            Invoice.ClientID = int.Parse(row[6].ToString());
+                            Invoice.ClientName = row[7].ToString();
+                            Invoice.CompanyName = row[8].ToString();
+                            Invoice.EmailAddress = row[9].ToString();
+                            Invoice.PhysiclaAddress = row[10].ToString();
+                            Invoice.TotalCost = decimal.Parse(row["TotalCost"].ToString());
+                            Invoice.TotalCost = Invoice.TotalCost + ((Invoice.TotalCost / 100) * 15);
+                            JobInvoices.Add(Invoice);
+                        }
+                    }
+                }
+                return JobInvoices;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        public List<SP_GetInvoice_Result> getInvoicesOutsatanding(Profile profileID)
+        {
+            List<SP_GetInvoice_Result> JobInvoices = new List<SP_GetInvoice_Result>();
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profileID.ProfileID)
+                    };
+
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetInvoicesOutstanding",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            SP_GetInvoice_Result Invoice = new SP_GetInvoice_Result();
+                            Invoice.InvoiceNum = row[0].ToString();
+                            Invoice.DateTime = DateTime.Parse(row[1].ToString());
+                            Invoice.DateTimeString = Invoice.DateTime.ToString("hh:mm dd MMM yyyy");
+                            Invoice.VATRate = decimal.Parse(row[2].ToString());
+                            Invoice.Paid = bool.Parse(row[3].ToString());
+                            Invoice.JobID = int.Parse(row[4].ToString());
+                            Invoice.JobTitle = row[5].ToString();
+                            Invoice.ClientID = int.Parse(row[6].ToString());
+                            Invoice.ClientName = row[7].ToString();
+                            Invoice.CompanyName = row[8].ToString();
+                            Invoice.EmailAddress = row[9].ToString();
+                            Invoice.PhysiclaAddress = row[10].ToString();
+                            Invoice.TotalCost = decimal.Parse(row["TotalCost"].ToString());
+                            Invoice.TotalCost = Invoice.TotalCost + ((Invoice.TotalCost / 100) * 15);
+                            JobInvoices.Add(Invoice);
+                        }
+                    }
+                }
+                return JobInvoices;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        public List<SP_GetInvoice_Result> getInvoicesPast(Profile profileID)
+        {
+            List<SP_GetInvoice_Result> JobInvoices = new List<SP_GetInvoice_Result>();
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profileID.ProfileID)
+                    };
+
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetInvoicesPaid",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            SP_GetInvoice_Result Invoice = new SP_GetInvoice_Result();
+                            Invoice.InvoiceNum = row[0].ToString();
+                            Invoice.DateTime = DateTime.Parse(row[1].ToString());
+                            Invoice.DateTimeString = Invoice.DateTime.ToString("hh:mm dd MMM yyyy");
                             Invoice.VATRate = decimal.Parse(row[2].ToString());
                             Invoice.Paid = bool.Parse(row[3].ToString());
                             Invoice.JobID = int.Parse(row[4].ToString());
@@ -2096,6 +2185,96 @@ namespace DAL
             }
 
             return Result;
+        }
+        #endregion
+
+        #region Income Dashboard
+
+        public DashboardIncome getIncomeDashboard(Profile profile)
+        {
+            DashboardIncome dashboardIncome = null;
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profile.ProfileID)
+                    };
+
+
+                using (DataTable table = DBHelper.ParamSelect("SP_IncomeDashboard",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            dashboardIncome = new Model.DashboardIncome();
+
+                            if (row["TotalIncomePast30Days"].ToString() != "")
+                            {
+                                dashboardIncome.IncomePast30Days = decimal.Parse(row["TotalIncomePast30Days"].ToString());
+                            }
+                            else
+                            {
+                                dashboardIncome.IncomePast30Days = 0;
+                            }
+
+                            if (row["TotalIncomePast60To30Days"].ToString() != "")
+                            {
+                                dashboardIncome.IncomePast60to30DaysPercent = decimal.Parse(row["TotalIncomePast60To30Days"].ToString());
+                            }
+                            else
+                            {
+                                dashboardIncome.IncomePast60to30DaysPercent = 0;
+                            }
+
+                            if (dashboardIncome.IncomePast30Days == 0
+                                && dashboardIncome.IncomePast60to30DaysPercent == 0)
+                            {
+                                dashboardIncome.IncomePast60to30DaysUporDown = 'U';
+                            }
+                            else if (dashboardIncome.IncomePast30Days > dashboardIncome.IncomePast60to30DaysPercent
+                                && dashboardIncome.IncomePast60to30DaysPercent != 0)
+                            {
+                                dashboardIncome.IncomePast60to30DaysUporDown = 'U';
+                                dashboardIncome.IncomePast60to30DaysPercent =
+                                    (dashboardIncome.IncomePast30Days / dashboardIncome.IncomePast60to30DaysPercent) * 100;
+                            }
+                            else if (dashboardIncome.IncomePast30Days < dashboardIncome.IncomePast60to30DaysPercent)
+                            {
+                                dashboardIncome.IncomePast60to30DaysUporDown = 'D';
+                                dashboardIncome.IncomePast60to30DaysPercent =
+                                    (dashboardIncome.IncomePast60to30DaysPercent / dashboardIncome.IncomePast30Days) * 100;
+                            }
+                            else
+                            {
+                                dashboardIncome.IncomePast60to30DaysUporDown = 'U';
+                                dashboardIncome.IncomePast60to30DaysPercent = -999999999;
+                            }
+
+
+                            if (row["TotalOutIncome"].ToString() != "")
+                            {
+                                dashboardIncome.TotalOutIncome = decimal.Parse(row["TotalOutIncome"].ToString());
+                            }
+                            else
+                            {
+                                dashboardIncome.TotalOutIncome = 0;
+                            }
+
+                            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                            nfi.NumberGroupSeparator = " ";
+                            dashboardIncome.IncomePast30DaysString = dashboardIncome.IncomePast30Days.ToString("#,0.##", nfi);
+                            dashboardIncome.TotalOutIncomeString = dashboardIncome.TotalOutIncome.ToString("#,0.##", nfi);
+                        }
+                    }
+                }
+                return dashboardIncome;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
         }
         #endregion
     }

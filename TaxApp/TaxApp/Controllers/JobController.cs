@@ -356,6 +356,10 @@ namespace TaxApp.Controllers
                 {
                     Response.Redirect("../Expense/NewTravelExpense?ID=" + Request.Form["JobList"].ToString());
                 }
+                else if (Dest == "New*Invoice")
+                {
+                    Response.Redirect("../Invoice/NewInvoice?ID=" + Request.Form["JobList"].ToString());
+                }
 
                     function.logAnError("selecting job. Dest Value: '" + Dest + "'. In Job controler");
                     return View("../Shared/Error");

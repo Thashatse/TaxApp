@@ -189,28 +189,6 @@ namespace TaxApp.Controllers
                 return Redirect("../Shared/Error");
             }
         }
-
-        // GET: Invoice/Details/5
-        public ActionResult Invoices()
-        {
-            try
-            {
-                getCookie();
-
-                Profile profileID = new Model.Profile();
-                profileID.ProfileID = int.Parse(cookie["ID"]);
-
-                List<SP_GetInvoice_Result> invoiceDetails = handler.getInvoices(profileID);
-
-                return View(invoiceDetails);
-            }
-            catch (Exception e)
-            {
-                function.logAnError(e.ToString() +
-                    "Error loding all invoices");
-                return Redirect("../Shared/Error");
-            }
-        }
         
         // GET: Invoice/Details/5
         public ActionResult JobInvoices(int id = 0)
@@ -254,6 +232,36 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding all job invoices");
+                return Redirect("../Shared/Error");
+            }
+        }
+        #endregion
+
+        #region View Income Page
+        public ActionResult Income()
+        {
+            try
+            {
+                getCookie();
+
+                Profile profileID = new Model.Profile();
+                profileID.ProfileID = int.Parse(cookie["ID"]);
+
+                List<SP_GetInvoice_Result> OutinvoiceDetails = handler.getInvoicesOutsatanding(profileID);
+                List<SP_GetInvoice_Result> PastinvoiceDetails = handler.getInvoicesPast(profileID);
+                Model.DashboardIncome IncomeDashboard = handler.getIncomeDashboard(profileID);
+
+                var viewModel = new Model.incomeViewModel();
+                viewModel.OutInvoices = OutinvoiceDetails;
+                viewModel.PastInvoices = PastinvoiceDetails;
+                viewModel.DashboardIncome = IncomeDashboard;
+
+                return View(viewModel);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding income Page");
                 return Redirect("../Shared/Error");
             }
         }

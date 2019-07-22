@@ -20,6 +20,7 @@ namespace Model
         public string InvoiceNum { get; set; }
         [Display(Name = "Date & Time")]
         public System.DateTime DateTime { get; set; }
+        public string DateTimeString { get; set; }
 
         [Display(Name = "VAT Rate")]
         public decimal VATRate { get; set; }

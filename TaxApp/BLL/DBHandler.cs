@@ -223,6 +223,13 @@ namespace BLL
         public List<SP_GetInvoice_Result> getInvoices(Profile profileID)
         {
             return db.getInvoices(profileID);
+        }public List<SP_GetInvoice_Result> getInvoicesOutsatanding(Profile profileID)
+        {
+            return db.getInvoicesOutsatanding(profileID);
+        }
+        public List<SP_GetInvoice_Result> getInvoicesPast(Profile profileID)
+        {
+            return db.getInvoicesPast(profileID);
         }
         public List<SP_GetInvoice_Result> getInvoiceDetails(Invoice invoiceNum)
         {
@@ -231,6 +238,10 @@ namespace BLL
         public bool MarkInvoiceAsPaid(Invoice invoice)
         {
             return db.MarkInvoiceAsPaid(invoice);
+        }
+        public DashboardIncome getIncomeDashboard(Profile profile)
+        {
+            return db.getIncomeDashboard(profile);
         }
         #endregion
     }
