@@ -123,6 +123,7 @@
     <Compile Include="SP_GetJob_Result.cs">
       <DependentUpon>TaxAppModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="TaxAndVatPeriods.cs" />
     <Compile Include="TaxAppModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

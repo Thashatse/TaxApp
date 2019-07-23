@@ -90,5 +90,10 @@ namespace DAL
 
         DashboardIncome getIncomeDashboard(Profile profile);
         #endregion
+
+        #region TaxAndVatPeriods
+        List<TaxAndVatPeriods> getTaxOrVatPeriodForProfile(Profile profileID, char type);
+        bool newTaxOrVatPeriod(TaxAndVatPeriods newPeriod);
+        #endregion
     }
 }

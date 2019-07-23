@@ -244,5 +244,16 @@ namespace BLL
             return db.getIncomeDashboard(profile);
         }
         #endregion
+        
+        #region TaxAndVatPeriods
+        public List<TaxAndVatPeriods> getTaxOrVatPeriodForProfile(Profile profileID, char type)
+        {
+            return db.getTaxOrVatPeriodForProfile(profileID, type);
+        }
+        public bool newTaxOrVatPeriod(TaxAndVatPeriods newPeriod)
+        {
+            return db.newTaxOrVatPeriod(newPeriod);
+        }
+        #endregion
     }
 }

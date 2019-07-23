@@ -2277,5 +2277,69 @@ namespace DAL
             }
         }
         #endregion
+
+        #region TaxAndVatPeriods
+        public List<TaxAndVatPeriods> getTaxOrVatPeriodForProfile(Profile profileID, char type)
+        {
+            List<TaxAndVatPeriods> Periods = new List<TaxAndVatPeriods>();
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profileID.ProfileID),
+                        new SqlParameter("@T", type)
+                    };
+
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetProfileTaxAndVatPeriods",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            TaxAndVatPeriods Period = new TaxAndVatPeriods();
+                            Period.ProfileID = int.Parse(row["ProfileID"].ToString());
+                            Period.PeriodID = int.Parse(row["PeriodID"].ToString());
+                            Period.StartDate = DateTime.Parse(row["StartDate"].ToString());
+                            Period.EndDate = DateTime.Parse(row["EndDate"].ToString());
+                            Period.Type = row["Type"].ToString()[0];
+                            Period.PeriodString = Period.StartDate.ToString("dd MMM yyyy") + " - " + Period.EndDate.ToString("dd MMM yyyy");
+                            Periods.Add(Period);
+                        }
+                    }
+                }
+                return Periods;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        public bool newTaxOrVatPeriod(TaxAndVatPeriods newPeriod)
+        {
+            bool Result = false;
+
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@PID", newPeriod.ProfileID),
+                        new SqlParameter("@SD", newPeriod.StartDate),
+                        new SqlParameter("@ED", newPeriod.EndDate),
+                        new SqlParameter("@T", newPeriod.Type)
+                   };
+
+                Result = DBHelper.NonQuery("SP_NewTaxOrVatPeriod", CommandType.StoredProcedure, pars);
+
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return Result;
+        }
+        #endregion
     }
 }                  
