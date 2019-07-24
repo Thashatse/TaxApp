@@ -95,5 +95,10 @@ namespace DAL
         List<TaxAndVatPeriods> getTaxOrVatPeriodForProfile(Profile profileID, char type);
         bool newTaxOrVatPeriod(TaxAndVatPeriods newPeriod);
         #endregion
+
+        #region VAT Center
+        VATDashboard getVatCenterDashboard(Profile profile, DateTime StartDate, DateTime EndDate);
+        List<VATRecivedList> getVATRecivedList(Profile profile, DateTime StartDate, DateTime EndDate);
+        #endregion
     }
 }

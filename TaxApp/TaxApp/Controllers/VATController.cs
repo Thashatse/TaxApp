@@ -59,12 +59,15 @@ namespace TaxApp.Controllers
         }
 
         // GET: VAT
-        public ActionResult VatCenter(string view)
+        public ActionResult VatCenter(string view, string period)
         {
             getCookie();
 
             try
             {
+                VATDashboard dashboard = null;
+                List<VATRecivedList> VATRecived = null;
+
                 Profile profileID = new Profile();
                 profileID.ProfileID = int.Parse(cookie["ID"]);
 
@@ -78,8 +81,34 @@ namespace TaxApp.Controllers
                 {
                     ViewBag.VatPeriodList = new SelectList(vatPeriod, "PeriodID", "PeriodString");
                     ViewBag.View = view;
-                    ViewBag.VatPeriod = vatPeriod[0].PeriodString;
-                    return View();
+
+                    ViewBag.VatPeriod = null;
+
+                    if (period == null || period == "")
+                    {
+                        Response.Redirect("../Vat/VatCenter?period="+ vatPeriod[0].PeriodID + "&view="+ view);
+                    }
+
+                    foreach(TaxAndVatPeriods item in vatPeriod)
+                    {
+                        if(item.PeriodID.ToString() == period)
+                        {
+                            ViewBag.VatPeriod = item.PeriodString;
+                            dashboard = handler.getVatCenterDashboard(profileID, item.StartDate, item.EndDate);
+                            VATRecived = handler.getVATRecivedList(profileID, item.StartDate, item.EndDate);
+                        }
+                    }
+
+                    if(ViewBag.VatPeriod == null)
+                    {
+                        Response.Redirect("../Shared/Error?Err=An error occurred loading data for vat period");
+                    }
+
+                    VatCenter viewModel = new VatCenter();
+                    viewModel.VATDashboard = dashboard;
+                    viewModel.VATRecivedList = VATRecived;
+
+                    return View(viewModel);
                 }
 
                 return Redirect("../Shared/Error");
@@ -87,9 +116,9 @@ namespace TaxApp.Controllers
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
-                    "Error loding Expese Page");
-                return Redirect("Home/index");
-    }
-}
+                    "Error loding Vat Center");
+                return Redirect("../Shared/Error?Err=An error occurred loading the vat center");
+            }
+        }
     }
 }

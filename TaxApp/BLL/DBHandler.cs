@@ -255,5 +255,16 @@ namespace BLL
             return db.newTaxOrVatPeriod(newPeriod);
         }
         #endregion
+
+        #region VAT Center
+        public VATDashboard getVatCenterDashboard(Profile profile, DateTime StartDate, DateTime EndDate)
+        {
+            return db.getVatCenterDashboard(profile, StartDate, EndDate);
+        }
+        public List<VATRecivedList> getVATRecivedList(Profile profile, DateTime StartDate, DateTime EndDate)
+        {
+            return db.getVATRecivedList(profile, StartDate, EndDate);
+        }
+        #endregion
     }
 }

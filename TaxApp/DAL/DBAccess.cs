@@ -2341,5 +2341,204 @@ namespace DAL
             return Result;
         }
         #endregion
+
+        #region VAT Center
+        public VATDashboard getVatCenterDashboard(Profile profile, DateTime StartDate, DateTime EndDate)
+        {
+            VATDashboard dashboard = null;
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profile.ProfileID),
+                        new SqlParameter("@SD", StartDate),
+                        new SqlParameter("@ED", EndDate)
+                    };
+
+
+                using (DataTable table = DBHelper.ParamSelect("SP_getVatCenterDashboard",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            dashboard = new VATDashboard();
+
+                            if (row["VATRECEIVED"].ToString() != "")
+                            {
+                                dashboard.VATRECEIVED = decimal.Parse(row["VATRECEIVED"].ToString());
+                            }
+                            else
+                            {
+                                dashboard.VATRECEIVED = 0;
+                            }
+
+                            if (row["VATRECEIVEDPastPeriod"].ToString() != "")
+                            {
+                                dashboard.VATRECEIVEDPercent = decimal.Parse(row["VATRECEIVEDPastPeriod"].ToString());
+                            }
+                            else
+                            {
+                                dashboard.VATRECEIVEDPercent = 0;
+                            }
+
+                            if (row["VATPAID"].ToString() != "")
+                            {
+                                dashboard.VATPAID = decimal.Parse(row["VATPAID"].ToString());
+                            }
+                            else
+                            {
+                                dashboard.VATPAID = 0;
+                            }
+
+                            if (row["VATPAIDPreviousPeriod"].ToString() != "")
+                            {
+                                dashboard.VATRECEIVEDPercent = decimal.Parse(row["VATPAIDPreviousPeriod"].ToString());
+                            }
+                            else
+                            {
+                                dashboard.VATRECEIVEDPercent = 0;
+                            }
+
+                            dashboard.VATPAIDOutstandingEst = dashboard.VATRECEIVED - dashboard.VATPAID;
+                            dashboard.VATPAIDOutstandingEstPercent = dashboard.VATRECEIVEDPercent - dashboard.VATPAIDPercent;
+
+                            if (dashboard.VATRECEIVED == 0
+                                && dashboard.VATRECEIVEDPercent == 0)
+                            {
+                                dashboard.VATRECEIVEDUporDown = 'U';
+                            }
+                            else if (dashboard.VATRECEIVED > dashboard.VATRECEIVEDPercent
+                                && dashboard.VATRECEIVEDPercent != 0)
+                            {
+                                dashboard.VATRECEIVEDUporDown = 'U';
+                                dashboard.VATRECEIVEDPercent =
+                                    (dashboard.VATRECEIVED / dashboard.VATRECEIVEDPercent) * 100;
+                            }
+                            else if (dashboard.VATRECEIVED < dashboard.VATRECEIVEDPercent)
+                            {
+                                dashboard.VATRECEIVEDUporDown = 'D';
+                                dashboard.VATRECEIVEDPercent =
+                                    (dashboard.VATRECEIVEDPercent / dashboard.VATRECEIVED) * 100;
+                            }
+                            else
+                            {
+                                dashboard.VATRECEIVEDUporDown = 'U';
+                                dashboard.VATRECEIVEDPercent = -999999999;
+                            }
+
+                            if (dashboard.VATPAID == 0
+                                && dashboard.VATPAIDPercent == 0)
+                            {
+                                dashboard.VATPAIDUporDown = 'U';
+                            }
+                            else if (dashboard.VATPAID > dashboard.VATPAIDPercent
+                                && dashboard.VATPAIDPercent != 0)
+                            {
+                                dashboard.VATPAIDUporDown = 'U';
+                                dashboard.VATPAIDPercent =
+                                    (dashboard.VATPAID / dashboard.VATPAIDPercent) * 100;
+                            }
+                            else if (dashboard.VATPAID < dashboard.VATPAIDPercent)
+                            {
+                                dashboard.VATPAIDUporDown = 'D';
+                                dashboard.VATPAIDPercent =
+                                    (dashboard.VATPAIDPercent / dashboard.VATPAID) * 100;
+                            }
+                            else
+                            {
+                                dashboard.VATPAIDUporDown = 'U';
+                                dashboard.VATPAIDPercent = -999999999;
+                            }
+
+                            if (dashboard.VATPAIDOutstandingEst == 0
+                                && dashboard.VATPAIDOutstandingEstPercent == 0)
+                            {
+                                dashboard.VATPAIDOutstandingEstUporDown = 'U';
+                            }
+                            else if (dashboard.VATPAIDOutstandingEst > dashboard.VATPAIDOutstandingEstPercent
+                                && dashboard.VATPAIDOutstandingEstPercent != 0)
+                            {
+                                dashboard.VATPAIDOutstandingEstUporDown = 'U';
+                                dashboard.VATPAIDOutstandingEstPercent =
+                                    (dashboard.VATPAIDOutstandingEst / dashboard.VATPAIDOutstandingEstPercent) * 100;
+                            }
+                            else if (dashboard.VATPAIDOutstandingEst < dashboard.VATPAIDOutstandingEstPercent)
+                            {
+                                dashboard.VATPAIDOutstandingEstUporDown = 'D';
+                                dashboard.VATPAIDOutstandingEstPercent =
+                                    (dashboard.VATPAIDOutstandingEstPercent / dashboard.VATPAIDOutstandingEst) * 100;
+                            }
+                            else
+                            {
+                                dashboard.VATPAIDOutstandingEstUporDown = 'U';
+                                dashboard.VATPAIDOutstandingEstPercent = -999999999;
+                            }
+
+                            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                            nfi.NumberGroupSeparator = " ";
+                            dashboard.VATPAIDString = dashboard.VATPAID.ToString("#,0.##", nfi);
+                            dashboard.VATRECEIVEDString = dashboard.VATRECEIVED.ToString("#,0.##", nfi);
+                            dashboard.VATPAIDOutstandingEstString = dashboard.VATPAIDOutstandingEst.ToString("#,0.##", nfi);
+                            dashboard.VATPAIDPercentString = dashboard.VATPAIDPercent.ToString("#,0.##", nfi);
+                            dashboard.VATRECEIVEDPercentString = dashboard.VATRECEIVEDPercent.ToString("#,0.##", nfi);
+                            dashboard.VATPAIDOutstandingEstPercentString = dashboard.VATPAIDOutstandingEstPercent.ToString("#,0.##", nfi);
+                        }
+                    }
+                }
+                return dashboard;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+
+        public List<VATRecivedList> getVATRecivedList(Profile profile, DateTime StartDate, DateTime EndDate)
+        {
+            List<VATRecivedList> List = new List<VATRecivedList>();
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profile.ProfileID),
+                        new SqlParameter("@SD", StartDate),
+                        new SqlParameter("@ED", EndDate)
+                    };
+
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetVATRecivedList",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            VATRecivedList item = new VATRecivedList();
+                            item.JobID = int.Parse(row["JobID"].ToString());
+                            item.clientID = int.Parse(row["ClientID"].ToString());
+                            item.JobStartDate = DateTime.Parse(row["StartDate"].ToString());
+                            item.JobStartDateString = item.JobStartDate.ToString("dd MMM yyyy");
+                            item.Total = decimal.Parse(row["Total"].ToString());
+                            item.VAT = decimal.Parse(row["VAT"].ToString());
+                            item.clientName = row["Client"].ToString();
+                            item.JobTitle = row["JobTitle"].ToString();
+                            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                            nfi.NumberGroupSeparator = " ";
+                            item.TotalString = item.Total.ToString("#,0.##", nfi);
+                            item.VATString = item.VAT.ToString("#,0.##", nfi);
+                            List.Add(item);
+                        }
+                    }
+                }
+                return List;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        #endregion
     }
 }                  

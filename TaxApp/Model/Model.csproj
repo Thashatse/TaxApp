@@ -145,6 +145,9 @@
     <Compile Include="TravelLog.cs">
       <DependentUpon>TaxAppModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="VatCenter.cs" />
+    <Compile Include="VATDashboard.cs" />
+    <Compile Include="VATRecivedList.cs" />
     <Compile Include="Vehicle.cs">
       <DependentUpon>TaxAppModel.tt</DependentUpon>
     </Compile>
