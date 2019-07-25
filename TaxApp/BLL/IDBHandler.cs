@@ -93,9 +93,15 @@ namespace BLL
         bool newTaxOrVatPeriod(TaxAndVatPeriods newPeriod);
         #endregion
 
+        #region Tax Period Brakets
+        List<TaxPeriodRates> getTaxPeriodBrakets(TaxAndVatPeriods getBrakets);
+        bool newPeriodTaxBraket(TaxPeriodRates newBraket);
+        #endregion
+
         #region VAT Center
-        VATDashboard getVatCenterDashboard(Profile profile, DateTime StartDate, DateTime EndDate);
-        List<VATRecivedList> getVATRecivedList(Profile profile, DateTime StartDate, DateTime EndDate);
+        VATDashboard getVatCenterDashboard(Profile profile, TaxAndVatPeriods period);
+        List<VATRecivedList> getVATRecivedList(Profile profile, TaxAndVatPeriods period);
+        TaxAndVatPeriods SP_GetLatestTaxAndVatPeriodID();
         #endregion
     }
 }

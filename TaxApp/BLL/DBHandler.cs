@@ -256,14 +256,30 @@ namespace BLL
         }
         #endregion
 
-        #region VAT Center
-        public VATDashboard getVatCenterDashboard(Profile profile, DateTime StartDate, DateTime EndDate)
+        #region Tax Period Brakets
+        public List<TaxPeriodRates> getTaxPeriodBrakets(TaxAndVatPeriods getBrakets)
         {
-            return db.getVatCenterDashboard(profile, StartDate, EndDate);
+            return db.getTaxPeriodBrakets(getBrakets);
         }
-        public List<VATRecivedList> getVATRecivedList(Profile profile, DateTime StartDate, DateTime EndDate)
+        public bool newPeriodTaxBraket(TaxPeriodRates newBraket)
         {
-            return db.getVATRecivedList(profile, StartDate, EndDate);
+            return db.newPeriodTaxBraket(newBraket);
+        }
+        #endregion
+
+        #region VAT Center
+        public VATDashboard getVatCenterDashboard(Profile profile, TaxAndVatPeriods period)
+        {
+            return db.getVatCenterDashboard(profile, period);
+        }
+        public List<VATRecivedList> getVATRecivedList(Profile profile, TaxAndVatPeriods period)
+        {
+            return db.getVATRecivedList(profile, period);
+        }
+
+        public TaxAndVatPeriods SP_GetLatestTaxAndVatPeriodID()
+        {
+            return db.SP_GetLatestTaxAndVatPeriodID();
         }
         #endregion
     }

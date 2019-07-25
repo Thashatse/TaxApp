@@ -2187,6 +2187,7 @@
     <Content Include="Views\Tax\TaxCenter.cshtml" />
     <Content Include="Views\Vat\VatCenter.cshtml" />
     <Content Include="Views\Tax\TaxVatPeriod.cshtml" />
+    <Content Include="Views\Tax\TaxBrakets.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,13 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE SP_GetTaxPeriodBrakets 
+	@PID int
+AS
+BEGIN
+	Select *
+	From TaxPeriodRates
+	Where PeriodID = @PID
+END
+GO

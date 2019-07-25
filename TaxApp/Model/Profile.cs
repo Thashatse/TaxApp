@@ -49,6 +49,7 @@ namespace Model
 
         [Display(Name = "VAT Number")]
         public string VATNumber { get; set; }
+        public decimal VATRate { get; set; }
 
         [Required]
         [Display(Name = "Password")]

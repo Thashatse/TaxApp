@@ -12,6 +12,9 @@ namespace Model
         public string amountTital { get; set; }
         public string expenseType { get; set; }
         public decimal amount { get; set; }
+        public decimal VAT { get; set; }
+        public string TotalString { get; set; }
+        public string VATString { get; set; }
         public string deatilTitle { get; set; }
         public string deatil { get; set; }
         public string date { get; set; }

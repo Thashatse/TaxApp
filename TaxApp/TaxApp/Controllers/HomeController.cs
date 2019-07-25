@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Threading;
+using Model;
 
 namespace TaxApp.Controllers
 {
@@ -132,11 +133,29 @@ namespace TaxApp.Controllers
                 dashboardExpenses = dashboardExpenses.OrderBy(x => x.dateSort).ToList();
                 List<Model.SP_GetInvoice_Result> OutinvoiceDetails = handler.getInvoicesOutsatanding(profile);
 
-                var viewModel = new Model.homeViewModel();
+                List<VATDashboard> VAT = new List<VATDashboard>();
+                List<TaxAndVatPeriods> vatPeriod = handler.getTaxOrVatPeriodForProfile(profile, 'V');
+                int v = 0;
+                if (vatPeriod != null && vatPeriod.Count != 0)
+                {
+                    foreach (TaxAndVatPeriods item in vatPeriod)
+                    {
+                       if(v < 3)
+                       {
+                            VATDashboard periodVAT = handler.getVatCenterDashboard(profile, item);
+                            periodVAT.PeriodString = item.PeriodString;
+                            VAT.Add(periodVAT);
+                       }
+                       v++;
+                    }
+                }
+
+                    var viewModel = new Model.homeViewModel();
                 viewModel.Jobs = jobs;
                 viewModel.DashboardIncomeExpense = dashboardIncomeExpense;
                 viewModel.Expenses = dashboardExpenses;
                 viewModel.OutInvoices = OutinvoiceDetails;
+                viewModel.VAT = VAT;
 
                 return View(viewModel);
             }
@@ -146,20 +165,6 @@ namespace TaxApp.Controllers
                     "Error loding job details");
                 return RedirectToAction("../Shared/Error");
             }
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
         }
     }
 }

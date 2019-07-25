@@ -501,126 +501,35 @@
                     <table class="table align-items-center table-flush">
                         <thead class="thead-light">
                             <tr>
-                                <th scope="col">Month</th>
-                                <th scope="col">Value</th>
-                                <th scope="col">Total to Month</th>
-                                <th scope="col">% of year</th>
-                                <th scope="col"></th>
+                                <th scope="col">Period</th>
+                                <th scope="col">VAT RECEIVED</th>
+                                <th scope="col">VAT PAID</th>
+                                <th scope="col">VAT OWED EST.</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">
-                                    <div class="media align-items-center">
-                                        <div class="media-body">
-                                            <span class="mb-0 text-sm">May</span>
-                                        </div>
-                                    </div>
-                                </th>
-                                <td>
-                                    $1,800 USD
-                                </td>
-                                <td>
-                                    $1,800 USD
-                                </td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <span class="mr-2">100%</span>
-                                        <div>
-                                            <div class="progress">
-                                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
+                            @foreach (var item in Model.VAT)
+                            {
+                                <tr>
+                                    <th scope="row">
+                                        <div class="media align-items-center">
+                                            <div class="media-body">
+                                                <span class="mb-0 text-sm"> @Html.DisplayFor(modelItem => item.PeriodString) </span>
                                             </div>
                                         </div>
-                                    </div>
-                                </td>
-                                <td class="text-right">
-                                    <div class="dropdown">
-                                        <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <div class="media align-items-center">
-                                        <div class="media-body">
-                                            <span class="mb-0 text-sm">May</span>
-                                        </div>
-                                    </div>
-                                </th>
-                                <td>
-                                    $1,800 USD
-                                </td>
-                                <td>
-                                    $1,800 USD
-                                </td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <span class="mr-2">100%</span>
-                                        <div>
-                                            <div class="progress">
-                                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="text-right">
-                                    <div class="dropdown">
-                                        <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <div class="media align-items-center">
-                                        <div class="media-body">
-                                            <span class="mb-0 text-sm">May</span>
-                                        </div>
-                                    </div>
-                                </th>
-                                <td>
-                                    $1,800 USD
-                                </td>
-                                <td>
-                                    $1,800 USD
-                                </td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <span class="mr-2">100%</span>
-                                        <div>
-                                            <div class="progress">
-                                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="text-right">
-                                    <div class="dropdown">
-                                        <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
+                                    </th>
+                                    <td>
+                                        R @Html.DisplayFor(modelItem => item.VATRECEIVEDString)
+                                    </td>
+                                    <td>
+                                        R @Html.DisplayFor(modelItem => item.VATPAIDString)
+                                    </td>
+                                    <td>
+                                        R @Html.DisplayFor(modelItem => item.VATPAIDOutstandingEstString)
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
                     </table>
                 </div>
             </div>

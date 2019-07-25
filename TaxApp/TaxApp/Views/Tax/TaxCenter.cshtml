@@ -78,6 +78,39 @@
 </div>
 <!-- Page content -->
 <div class="container-fluid mt--7">
+    <!-- Header -->
+    <div class="header">
+        <div class="container">
+            <div class="header-body text-center mb-7">
+                <div class="row justify-content-center">
+                    <div class="col-lg-5 col-md-6">
+                        <h1 class="text-white">
+                            TAX
+                        </h1>
+                        <div>
+                            <p class="text-white">
+                                For Period @ViewBag.VatPeriod
+                                <a href="../TAX/TaxCenter?view=DS"
+                                   class="btn btn-sm btn-white"><i class="ni ni-settings-gear-65"></i></a>
+                            </p>
+                        </div>
+                        @if (ViewBag.View == "DS")
+                        {
+                            using (Html.BeginForm())
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.DropDownList("TaxPeriodList", ViewBag.VATPeriodList as SelectList)
+                                <input type="submit" value="Select" class="btn btn-sm btn-default" />
+                                <a href="../Tax/TaxVatPeriod?Type=T"
+                                   class="btn btn-sm btn-white">New Period</a>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row mt-5">
         <div class="col-xl-12 mb-5 mb-xl-0">
             <div class="card shadow">

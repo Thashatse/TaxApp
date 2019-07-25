@@ -13,6 +13,7 @@ namespace Model
         public List<Model.SP_GetInvoice_Result> Invoices { get; set; }
         public Model.DashboardIncomeExpense DashboardIncomeExpense { get; set; }
         public List<Model.SP_GetInvoice_Result> OutInvoices { get; set; }
+        public List<Model.VATDashboard> VAT { get; set; }
         //public Model.Vat Vat { get; set; }
     }
 }

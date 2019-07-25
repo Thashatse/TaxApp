@@ -175,10 +175,14 @@
                         </div>
                         @if (ViewBag.View == "DS")
                         {
-                            @Html.DropDownList("VatPeriodList", ViewBag.VATPeriodList as SelectList)
-                            <input type="submit" value="Select" class="btn btn-sm btn-default" />
-                            <a href="../Tax/TaxVatPeriod?Type=V"
-                               class="btn btn-sm btn-white">New Period</a>
+                            using (Html.BeginForm())
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.DropDownList("VatPeriodList", ViewBag.VATPeriodList as SelectList)
+                                <input type="submit" value="Select" class="btn btn-sm btn-default" />
+                                <a href="../Tax/TaxVatPeriod?Type=V"
+                                   class="btn btn-sm btn-white">New Period</a>
+                            }
                         }
                     </div>
                 </div>
@@ -213,26 +217,25 @@
                             <tbody>
                                 @foreach (var item in Model.VATRecivedList)
                                 {
-                                <tr>
-                                    <th scope="row">
-                                        @Html.DisplayFor(modelItem => item.JobStartDateString)
-                                    </th>
-                                    <td>
-                                        <a href="/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)"
-                                           >@Html.DisplayFor(modelItem => item.JobTitle)</a>
-</td>
-                                    <td>
-                                        <a href='/Client/ClientDetails?ID=@Html.DisplayFor(modelItem => item.clientID)'>
-                                            @Html.DisplayFor(modelItem => item.clientName)
-                                        </a>
-                                    </td>
-                                    <td>
-                                        R @Html.DisplayFor(modelItem => item.TotalString)
-                                    </td>
-                                    <td>
-                                        R @Html.DisplayFor(modelItem => item.VATString)
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            @Html.DisplayFor(modelItem => item.JobStartDateString)
+                                        </th>
+                                        <td>
+                                            <a href="/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)">@Html.DisplayFor(modelItem => item.JobTitle)</a>
+                                        </td>
+                                        <td>
+                                            <a href='/Client/ClientDetails?ID=@Html.DisplayFor(modelItem => item.clientID)'>
+                                                @Html.DisplayFor(modelItem => item.clientName)
+                                            </a>
+                                        </td>
+                                        <td>
+                                            R @Html.DisplayFor(modelItem => item.TotalString)
+                                        </td>
+                                        <td>
+                                            R @Html.DisplayFor(modelItem => item.VATString)
+                                        </td>
+                                    </tr>
                                 }
                             </tbody>
                         </table>
@@ -245,6 +248,8 @@
         {
             <p>No Vat Recived this period </p>
         }
+        @if (Model.VATPaid != null && Model.VATPaid.Count > 0)
+        {
             <div class="col-xl-12 mb-5 mb-xl-0">
                 <div class="card shadow">
                     <div class="card-header border-0">
@@ -259,30 +264,38 @@
                         <table class="table align-items-center table-flush">
                             <thead class="thead-light">
                                 <tr>
-                                    <th scope="col">Job</th>
-                                    <th scope="col">Job Start Date</th>
-                                    <th scope="col">Total Recived</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Total Paid</th>
                                     <th scope="col">VAT</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th scope="row">
-                                        Job Title
-                                    </th>
-                                    <td>
-                                        Date
-                                    </td>
-                                    <td>
-                                        R
-                                    </td>
-                                    <td>
-                                        R
-                                    </td>
-                                </tr>
+                                @foreach (var item in Model.VATPaid)
+                                {
+                                    <tr>
+                                        <th scope="row">
+                                            @Html.DisplayFor(modelItem => item.date)
+                                        </th>
+                                        <td>
+                                            <a href="@Html.DisplayFor(modelItem => item.URL)">@Html.DisplayFor(modelItem => item.name)</a>
+                                        </td>
+                                        <td>
+                                            R @Html.DisplayFor(modelItem => item.TotalString)
+                                        </td>
+                                        <td>
+                                            R @Html.DisplayFor(modelItem => item.VATString)
+                                        </td>
+                                    </tr>
+                                }
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-        </div>
+        }
+        else
+        {
+            <p>No Vat Paid this period </p>
+        }
+    </div>

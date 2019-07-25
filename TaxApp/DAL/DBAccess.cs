@@ -2189,7 +2189,6 @@ namespace DAL
         #endregion
 
         #region Income Dashboard
-
         public DashboardIncome getIncomeDashboard(Profile profile)
         {
             DashboardIncome dashboardIncome = null;
@@ -2301,6 +2300,7 @@ namespace DAL
                             TaxAndVatPeriods Period = new TaxAndVatPeriods();
                             Period.ProfileID = int.Parse(row["ProfileID"].ToString());
                             Period.PeriodID = int.Parse(row["PeriodID"].ToString());
+                            Period.VATRate = decimal.Parse(row["VATRate"].ToString());
                             Period.StartDate = DateTime.Parse(row["StartDate"].ToString());
                             Period.EndDate = DateTime.Parse(row["EndDate"].ToString());
                             Period.Type = row["Type"].ToString()[0];
@@ -2340,10 +2340,104 @@ namespace DAL
 
             return Result;
         }
+        public TaxAndVatPeriods SP_GetLatestTaxAndVatPeriodID()
+        {
+            TaxAndVatPeriods PeriodID = null;
+            try
+            {
+                using (DataTable table = DBHelper.Select("SP_GetLatestTaxAndVatPeriodID",
+            CommandType.StoredProcedure))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            PeriodID = new Model.TaxAndVatPeriods();
+
+                            if (row["PeriodID"].ToString() != "")
+                            {
+                                PeriodID.PeriodID = int.Parse(row["PeriodID"].ToString());
+                            }
+                            else
+                            {
+                                PeriodID.PeriodID = 0;
+                            }
+                        }
+                    }
+                }
+                return PeriodID;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        #endregion
+
+        #region Tax Period Brakets
+        public List<TaxPeriodRates> getTaxPeriodBrakets(TaxAndVatPeriods getBrakets)
+        {
+            List<TaxPeriodRates> Brakets = new List<TaxPeriodRates>();
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", getBrakets.PeriodID)
+                    };
+
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetTaxPeriodBrakets",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            TaxPeriodRates Braket = new TaxPeriodRates();
+                            Braket.PeriodID = int.Parse(row["PeriodID"].ToString());
+                            Braket.RateID = int.Parse(row["RateID"].ToString());
+                            Braket.Rate = decimal.Parse(row["Rate"].ToString());
+                            Braket.Threashold = decimal.Parse(row["Threshold"].ToString());
+                            Braket.Type = row["Type"].ToString()[0];
+                            Brakets.Add(Braket);
+                        }
+                    }
+                }
+                return Brakets;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        public bool newPeriodTaxBraket(TaxPeriodRates newBraket)
+        {
+            bool Result = false;
+
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@PID", newBraket.PeriodID),
+                        new SqlParameter("@R", newBraket.Rate),
+                        new SqlParameter("@T", newBraket.Threashold),
+                        new SqlParameter("@TY", newBraket.Type)
+                   };
+
+                Result = DBHelper.NonQuery("SP_NewPeriodTaxBraket", CommandType.StoredProcedure, pars);
+
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return Result;
+        }
         #endregion
 
         #region VAT Center
-        public VATDashboard getVatCenterDashboard(Profile profile, DateTime StartDate, DateTime EndDate)
+        public VATDashboard getVatCenterDashboard(Profile profile, TaxAndVatPeriods period)
         {
             VATDashboard dashboard = null;
             try
@@ -2351,8 +2445,10 @@ namespace DAL
                 SqlParameter[] pars = new SqlParameter[]
                     {
                         new SqlParameter("@PID", profile.ProfileID),
-                        new SqlParameter("@SD", StartDate),
-                        new SqlParameter("@ED", EndDate)
+                        new SqlParameter("@SD", period.StartDate),
+                        new SqlParameter("@PDID", period.PeriodID),
+                        new SqlParameter("@VR", period.VATRate),
+                        new SqlParameter("@ED", period.EndDate)
                     };
 
 
@@ -2494,8 +2590,7 @@ namespace DAL
                 throw new ApplicationException(e.ToString());
             }
         }
-
-        public List<VATRecivedList> getVATRecivedList(Profile profile, DateTime StartDate, DateTime EndDate)
+        public List<VATRecivedList> getVATRecivedList(Profile profile, TaxAndVatPeriods period)
         {
             List<VATRecivedList> List = new List<VATRecivedList>();
             try
@@ -2503,8 +2598,9 @@ namespace DAL
                 SqlParameter[] pars = new SqlParameter[]
                     {
                         new SqlParameter("@PID", profile.ProfileID),
-                        new SqlParameter("@SD", StartDate),
-                        new SqlParameter("@ED", EndDate)
+                        new SqlParameter("@SD", period.StartDate),
+                        new SqlParameter("@PDID", period.PeriodID),
+                        new SqlParameter("@ED", period.EndDate)
                     };
 
 

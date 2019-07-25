@@ -23,5 +23,6 @@ namespace Model
         public decimal VATPAIDOutstandingEstPercent { get; set; }
         public string VATPAIDOutstandingEstPercentString { get; set; }
         public string VATPAIDOutstandingEstString { get; set; }
+        public string PeriodString { get; set; }
     }
 }

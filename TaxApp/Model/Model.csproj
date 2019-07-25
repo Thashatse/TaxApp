@@ -139,9 +139,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TaxAppModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="TaxBraketsView.cs" />
     <Compile Include="TaxConsultant.cs">
       <DependentUpon>TaxAppModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="TaxDashboard.cs" />
+    <Compile Include="TaxPeriodRates.cs" />
+    <Compile Include="TAXRecivedList.cs" />
     <Compile Include="TravelLog.cs">
       <DependentUpon>TaxAppModel.tt</DependentUpon>
     </Compile>

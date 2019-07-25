@@ -7,7 +7,8 @@ GO
 alter PROCEDURE SP_GetVATRecivedList
 	@PID int,
 	@SD  date,
-	@ED date
+	@ED date,
+	@PDID int
 AS
 BEGIN
 	Select Jobs.JobID, Jobs.JobTitle, Client.FirstName + ' ' + Client.LastName as Client, Client.ClientID, Jobs.StartDate, 

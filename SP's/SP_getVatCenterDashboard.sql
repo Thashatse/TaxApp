@@ -7,10 +7,12 @@ GO
 alter PROCEDURE SP_getVatCenterDashboard
 	@PID int,
 	@SD  date,
-	@ED date
+	@ED date,
+	@PDID int,
+	@VR decimal(4,2)
 AS
 BEGIN
-	Select (Select sum((((InvoiceLineItem.UnitCount * InvoiceLineItem.UnitCost)/100)*VATRate))  
+	Select (Select sum((((InvoiceLineItem.UnitCount * InvoiceLineItem.UnitCost)/100)*@VR))  
 From Invoice, InvoiceLineItem, JobInvoice, Jobs, Client
 Where Invoice.[Datetime] Between @SD and @ED
 	AND Invoice.InvoiceNum = InvoiceLineItem.InvoiceNum
@@ -20,7 +22,7 @@ Where Invoice.[Datetime] Between @SD and @ED
 	AND Jobs.ClientID = Client.ClientID
 	And Client.ProfileID = @PID) as VATRECEIVED,
 
-	(Select sum((((InvoiceLineItem.UnitCount * InvoiceLineItem.UnitCost)/100)*VATRate))  
+	(Select sum((((InvoiceLineItem.UnitCount * InvoiceLineItem.UnitCost)/100)*@VR))  
 From Invoice, InvoiceLineItem, JobInvoice, Jobs, Client
 Where Invoice.[Datetime] Between DATEADD(DAY, (SELECT DATEDIFF(DAY, @ED, @SD)), @SD) and @SD
 	AND Invoice.InvoiceNum = InvoiceLineItem.InvoiceNum
@@ -65,9 +67,7 @@ From TravelLog, Vehicle
 Where TravelLog.VehicleID = Vehicle.VehicleID 
 	And Vehicle.ProfileID = @PID
 	AND TravelLog.[Date] Between @SD and @ED))) / 
-	(((Select VATRate
-From [Profile]
-Where ProfileID = @PID)/100)+1))
+	(((@VR)/100)+1))
 	 as VATPAID,
 
 	 (((Select sum(Amount) 
@@ -105,9 +105,7 @@ From TravelLog, Vehicle
 Where TravelLog.VehicleID = Vehicle.VehicleID 
 	And Vehicle.ProfileID = @PID
 	AND TravelLog.[Date] Between DATEADD(DAY, (SELECT DATEDIFF(DAY, @ED, @SD)), @SD) and @SD))) / 
-	(((Select VATRate
-From [Profile]
-Where ProfileID = @PID)/100)+1))
+	(((@VR)/100)+1))
 	 as VATPAIDPreviousPeriod
 END
 GO

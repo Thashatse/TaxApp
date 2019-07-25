@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Model
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+
     public class TaxAndVatPeriods
     {
         public int ProfileID { get; set; }
         public int PeriodID { get; set; }
+        [Required]
+        public decimal VATRate { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string PeriodString { get; set; }
