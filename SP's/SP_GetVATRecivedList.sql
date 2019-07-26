@@ -7,11 +7,10 @@ GO
 alter PROCEDURE SP_GetVATRecivedList
 	@PID int,
 	@SD  date,
-	@ED date,
-	@PDID int
+	@ED date
 AS
 BEGIN
-	Select Jobs.JobID, Jobs.JobTitle, Client.FirstName + ' ' + Client.LastName as Client, Client.ClientID, Jobs.StartDate, 
+	Select Jobs.JobID, Jobs.JobTitle, Client.FirstName + ' ' + Client.LastName as Client, Client.ClientID, Invoice.[DateTime], 
 	sum((((InvoiceLineItem.UnitCount * InvoiceLineItem.UnitCost)/100)*VATRate)+(InvoiceLineItem.UnitCount * InvoiceLineItem.UnitCost)) As Total,
 	sum((((InvoiceLineItem.UnitCount * InvoiceLineItem.UnitCost)/100)*VATRate)) As VAT
 From Jobs, Invoice, InvoiceLineItem, JobInvoice, Client
@@ -22,7 +21,7 @@ WHERE Jobs.JobID = JobInvoice.JobID
 	And Client.ProfileID = @PID
 	AND Invoice.[Datetime] Between @SD and @ED
 	AND Invoice.Paid = 1
-Group by Jobs.JobTitle, Jobs.StartDate, Jobs.JobID, Client.FirstName, Client.LastName, Client.ClientID
-Order by Jobs.StartDate
+Group by Jobs.JobTitle, Invoice.[DateTime], Jobs.JobID, Client.FirstName, Client.LastName, Client.ClientID
+Order by Invoice.[DateTime]
 END
 GO

@@ -207,7 +207,7 @@
                         <table class="table align-items-center table-flush">
                             <thead class="thead-light">
                                 <tr>
-                                    <th scope="col">Job Start Date</th>
+                                    <th scope="col">Invoice Date</th>
                                     <th scope="col">Job</th>
                                     <th scope="col">Client</th>
                                     <th scope="col">Total Recived</th>
@@ -219,7 +219,7 @@
                                 {
                                     <tr>
                                         <th scope="row">
-                                            @Html.DisplayFor(modelItem => item.JobStartDateString)
+                                            @Html.DisplayFor(modelItem => item.InvoiceDateString)
                                         </th>
                                         <td>
                                             <a href="/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)">@Html.DisplayFor(modelItem => item.JobTitle)</a>
@@ -233,7 +233,7 @@
                                             R @Html.DisplayFor(modelItem => item.TotalString)
                                         </td>
                                         <td>
-                                            R @Html.DisplayFor(modelItem => item.VATString)
+                                            R @Html.DisplayFor(modelItem => item.VATorTAXString)
                                         </td>
                                     </tr>
                                 }

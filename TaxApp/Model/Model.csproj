@@ -140,6 +140,7 @@
       <DependentUpon>TaxAppModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="TaxBraketsView.cs" />
+    <Compile Include="TaxCenter.cs" />
     <Compile Include="TaxConsultant.cs">
       <DependentUpon>TaxAppModel.tt</DependentUpon>
     </Compile>
@@ -151,7 +152,7 @@
     </Compile>
     <Compile Include="VatCenter.cs" />
     <Compile Include="VATDashboard.cs" />
-    <Compile Include="VATRecivedList.cs" />
+    <Compile Include="TAXorVATRecivedList.cs" />
     <Compile Include="Vehicle.cs">
       <DependentUpon>TaxAppModel.tt</DependentUpon>
     </Compile>

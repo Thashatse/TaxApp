@@ -66,7 +66,7 @@ namespace TaxApp.Controllers
             try
             {
                 VATDashboard dashboard = null;
-                List<VATRecivedList> VATRecived = null;
+                List<TAXorVATRecivedList> VATRecived = null;
                 List<Model.DashboardExpense> VATPaid = null;
 
                 Profile profileID = new Profile();
@@ -87,85 +87,84 @@ namespace TaxApp.Controllers
 
                     if (period == null || period == "")
                     {
-                        Response.Redirect("../Vat/VatCenter?period="+ vatPeriod[0].PeriodID + "&view="+ view);
+                        Response.Redirect("../Vat/VatCenter?period=" + vatPeriod[0].PeriodID + "&view=" + view);
                     }
-
-                    foreach(TaxAndVatPeriods item in vatPeriod)
-                    {
-                        if(item.PeriodID.ToString() == period)
+                        foreach (TaxAndVatPeriods item in vatPeriod)
                         {
-                            ViewBag.VatPeriod = item.PeriodString;
-
-                            dashboard = handler.getVatCenterDashboard(profileID, item);
-
-                            VATRecived = handler.getVATRecivedList(profileID, item);
-
-                            VATPaid = new List<Model.DashboardExpense>();
-                            List<Model.TravelLog> ProfileTravelLog = handler.getProfileTravelLog(profileID);
-                            List<Model.SP_GetJobExpense_Result> ProfileJobExpenses = handler.getAllJobExpense(profileID);
-                            List<Model.SP_GetGeneralExpense_Result> ProfileGeneralExpenses = handler.getGeneralExpenses(profileID);
-                            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
-                            nfi.NumberGroupSeparator = " ";
-                            foreach (Model.TravelLog expenseItem in ProfileTravelLog)
+                            if (item.PeriodID.ToString() == period)
                             {
-                                Model.DashboardExpense expense = new Model.DashboardExpense();
+                                ViewBag.VatPeriod = item.PeriodString;
 
-                                expense.name = expenseItem.Reason;
-                                expense.date = expenseItem.DateString;
-                                expense.dateSort = expenseItem.Date;
-                                expense.deatil = expenseItem.TotalKMs.ToString();
-                                expense.deatilTitle = "Total Km's:";
-                                expense.amountTital = "Cost to Customer:";
-                                expense.amount = expenseItem.ClientCharge;
-                                expense.URL = "../Expense/TravleLogItem?ID=" + expenseItem.ExpenseID;
-                                expense.expenseType = "Travel";
-                                expense.VAT = ((expense.amount / 100) * item.VATRate);
-                                expense.VATString = expense.VAT.ToString("#,0.##", nfi);
-                                expense.TotalString = expense.amount.ToString("#,0.##", nfi);
+                                dashboard = handler.getVatCenterDashboard(profileID, item);
 
-                                VATPaid.Add(expense);
+                                VATRecived = handler.getVATRecivedList(profileID, item);
+
+                                VATPaid = new List<Model.DashboardExpense>();
+                                List<Model.TravelLog> ProfileTravelLog = handler.getProfileTravelLog(profileID);
+                                List<Model.SP_GetJobExpense_Result> ProfileJobExpenses = handler.getAllJobExpense(profileID);
+                                List<Model.SP_GetGeneralExpense_Result> ProfileGeneralExpenses = handler.getGeneralExpenses(profileID);
+                                var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                                nfi.NumberGroupSeparator = " ";
+                                foreach (Model.TravelLog expenseItem in ProfileTravelLog)
+                                {
+                                    Model.DashboardExpense expense = new Model.DashboardExpense();
+
+                                    expense.name = expenseItem.Reason;
+                                    expense.date = expenseItem.DateString;
+                                    expense.dateSort = expenseItem.Date;
+                                    expense.deatil = expenseItem.TotalKMs.ToString();
+                                    expense.deatilTitle = "Total Km's:";
+                                    expense.amountTital = "Cost to Customer:";
+                                    expense.amount = expenseItem.ClientCharge;
+                                    expense.URL = "../Expense/TravleLogItem?ID=" + expenseItem.ExpenseID;
+                                    expense.expenseType = "Travel";
+                                    expense.VAT = ((expense.amount / 100) * item.VATRate);
+                                    expense.VATString = expense.VAT.ToString("#,0.##", nfi);
+                                    expense.TotalString = expense.amount.ToString("#,0.##", nfi);
+
+                                    VATPaid.Add(expense);
+                                }
+                                foreach (Model.SP_GetJobExpense_Result expenseItem in ProfileJobExpenses)
+                                {
+                                    Model.DashboardExpense expense = new Model.DashboardExpense();
+
+                                    expense.name = expenseItem.Name;
+                                    expense.date = expenseItem.DateString;
+                                    expense.dateSort = expenseItem.Date;
+                                    expense.deatil = expenseItem.JobTitle;
+                                    expense.deatilTitle = "Job:";
+                                    expense.amountTital = "Price:";
+                                    expense.amount = expenseItem.Amount;
+                                    expense.URL = "../Expense/JobExpense?ID=" + expenseItem.ExpenseID;
+                                    expense.expenseType = "Job";
+                                    expense.VAT = ((expense.amount / 100) * item.VATRate);
+                                    expense.VATString = expense.VAT.ToString("#,0.##", nfi);
+                                    expense.TotalString = expense.amount.ToString("#,0.##", nfi);
+
+                                    VATPaid.Add(expense);
+                                }
+                                foreach (Model.SP_GetGeneralExpense_Result expenseItem in ProfileGeneralExpenses)
+                                {
+                                    Model.DashboardExpense expense = new Model.DashboardExpense();
+
+                                    expense.name = expenseItem.Name;
+                                    expense.date = expenseItem.DateString;
+                                    expense.dateSort = expenseItem.Date;
+                                    expense.deatil = expenseItem.Repeat.ToString();
+                                    expense.deatilTitle = "Recuring:";
+                                    expense.amountTital = "Price:";
+                                    expense.amount = expenseItem.Amount;
+                                    expense.URL = "../Expense/GeneralExpense?ID=" + expenseItem.ExpenseID;
+                                    expense.expenseType = "General";
+                                    expense.VAT = ((expense.amount / 100) * item.VATRate);
+                                    expense.VATString = expense.VAT.ToString("#,0.##", nfi);
+                                    expense.TotalString = expense.amount.ToString("#,0.##", nfi);
+
+                                    VATPaid.Add(expense);
+                                }
+                                VATPaid = VATPaid.OrderBy(x => x.dateSort).ToList();
                             }
-                            foreach (Model.SP_GetJobExpense_Result expenseItem in ProfileJobExpenses)
-                            {
-                                Model.DashboardExpense expense = new Model.DashboardExpense();
-
-                                expense.name = expenseItem.Name;
-                                expense.date = expenseItem.DateString;
-                                expense.dateSort = expenseItem.Date;
-                                expense.deatil = expenseItem.JobTitle;
-                                expense.deatilTitle = "Job:";
-                                expense.amountTital = "Price:";
-                                expense.amount = expenseItem.Amount;
-                                expense.URL = "../Expense/JobExpense?ID=" + expenseItem.ExpenseID;
-                                expense.expenseType = "Job";
-                                expense.VAT = ((expense.amount / 100) * item.VATRate);
-                                expense.VATString = expense.VAT.ToString("#,0.##", nfi);
-                                expense.TotalString = expense.amount.ToString("#,0.##", nfi);
-
-                                VATPaid.Add(expense);
-                            }
-                            foreach (Model.SP_GetGeneralExpense_Result expenseItem in ProfileGeneralExpenses)
-                            {
-                                Model.DashboardExpense expense = new Model.DashboardExpense();
-
-                                expense.name = expenseItem.Name;
-                                expense.date = expenseItem.DateString;
-                                expense.dateSort = expenseItem.Date;
-                                expense.deatil = expenseItem.Repeat.ToString();
-                                expense.deatilTitle = "Recuring:";
-                                expense.amountTital = "Price:";
-                                expense.amount = expenseItem.Amount;
-                                expense.URL = "../Expense/GeneralExpense?ID=" + expenseItem.ExpenseID;
-                                expense.expenseType = "General";
-                                expense.VAT = ((expense.amount / 100) * item.VATRate);
-                                expense.VATString = expense.VAT.ToString("#,0.##", nfi);
-                                expense.TotalString = expense.amount.ToString("#,0.##", nfi);
-
-                                VATPaid.Add(expense);
-                            }
-                            VATPaid = VATPaid.OrderBy(x => x.dateSort).ToList();
                         }
-                    }
 
                     if(ViewBag.VatPeriod == null)
                     {

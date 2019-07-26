@@ -103,8 +103,13 @@ namespace DAL
 
         #region VAT Center
         VATDashboard getVatCenterDashboard(Profile profile, TaxAndVatPeriods period);
-        List<VATRecivedList> getVATRecivedList(Profile profile, TaxAndVatPeriods period);
+        List<TAXorVATRecivedList> getVATRecivedList(Profile profile, TaxAndVatPeriods period);
         TaxAndVatPeriods SP_GetLatestTaxAndVatPeriodID();
+        #endregion
+
+        #region Tax Center
+        TaxDashboard getTaxCenterDashboard(Profile profile, TaxAndVatPeriods period);
+        List<TAXorVATRecivedList> getTAXRecivedList(Profile profile, TaxAndVatPeriods period, TaxPeriodRates rate);
         #endregion
     }
 }

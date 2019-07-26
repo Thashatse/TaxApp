@@ -272,7 +272,7 @@ namespace BLL
         {
             return db.getVatCenterDashboard(profile, period);
         }
-        public List<VATRecivedList> getVATRecivedList(Profile profile, TaxAndVatPeriods period)
+        public List<TAXorVATRecivedList> getVATRecivedList(Profile profile, TaxAndVatPeriods period)
         {
             return db.getVATRecivedList(profile, period);
         }
@@ -280,6 +280,17 @@ namespace BLL
         public TaxAndVatPeriods SP_GetLatestTaxAndVatPeriodID()
         {
             return db.SP_GetLatestTaxAndVatPeriodID();
+        }
+        #endregion
+
+        #region Tax Center
+        public TaxDashboard getTaxCenterDashboard(Profile profile, TaxAndVatPeriods period)
+        {
+            return db.getTaxCenterDashboard(profile, period);
+        }
+        public List<TAXorVATRecivedList> getTAXRecivedList(Profile profile, TaxAndVatPeriods period, TaxPeriodRates rate)
+        {
+            return db.getTAXRecivedList(profile, period, rate);
         }
         #endregion
     }

@@ -150,12 +150,30 @@ namespace TaxApp.Controllers
                     }
                 }
 
+                List<TaxDashboard> TAX = new List<TaxDashboard>();
+                List<TaxAndVatPeriods> taxPeriod = handler.getTaxOrVatPeriodForProfile(profile, 'T');
+                int t = 0;
+                if (taxPeriod != null && taxPeriod.Count != 0)
+                {
+                    foreach (TaxAndVatPeriods item in taxPeriod)
+                    {
+                       if(t < 3)
+                       {
+                            TaxDashboard periodTAX = handler.getTaxCenterDashboard(profile, item);
+                            periodTAX.PeriodString = item.PeriodString;
+                            TAX.Add(periodTAX);
+                       }
+                       t++;
+                    }
+                }
+
                     var viewModel = new Model.homeViewModel();
                 viewModel.Jobs = jobs;
                 viewModel.DashboardIncomeExpense = dashboardIncomeExpense;
                 viewModel.Expenses = dashboardExpenses;
                 viewModel.OutInvoices = OutinvoiceDetails;
                 viewModel.VAT = VAT;
+                viewModel.TAX = TAX;
 
                 return View(viewModel);
             }

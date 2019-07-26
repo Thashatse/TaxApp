@@ -2590,16 +2590,15 @@ namespace DAL
                 throw new ApplicationException(e.ToString());
             }
         }
-        public List<VATRecivedList> getVATRecivedList(Profile profile, TaxAndVatPeriods period)
+        public List<TAXorVATRecivedList> getVATRecivedList(Profile profile, TaxAndVatPeriods period)
         {
-            List<VATRecivedList> List = new List<VATRecivedList>();
+            List<TAXorVATRecivedList> List = new List<TAXorVATRecivedList>();
             try
             {
                 SqlParameter[] pars = new SqlParameter[]
                     {
                         new SqlParameter("@PID", profile.ProfileID),
                         new SqlParameter("@SD", period.StartDate),
-                        new SqlParameter("@PDID", period.PeriodID),
                         new SqlParameter("@ED", period.EndDate)
                     };
 
@@ -2611,19 +2610,250 @@ namespace DAL
                     {
                         foreach (DataRow row in table.Rows)
                         {
-                            VATRecivedList item = new VATRecivedList();
+                            TAXorVATRecivedList item = new TAXorVATRecivedList();
                             item.JobID = int.Parse(row["JobID"].ToString());
                             item.clientID = int.Parse(row["ClientID"].ToString());
-                            item.JobStartDate = DateTime.Parse(row["StartDate"].ToString());
-                            item.JobStartDateString = item.JobStartDate.ToString("dd MMM yyyy");
+                            item.InvoiceDate = DateTime.Parse(row["DateTime"].ToString());
+                            item.InvoiceDateString = item.InvoiceDate.ToString("dd MMM yyyy");
                             item.Total = decimal.Parse(row["Total"].ToString());
-                            item.VAT = decimal.Parse(row["VAT"].ToString());
+                            item.VATorTAX = decimal.Parse(row["VAT"].ToString());
                             item.clientName = row["Client"].ToString();
                             item.JobTitle = row["JobTitle"].ToString();
                             var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
                             nfi.NumberGroupSeparator = " ";
                             item.TotalString = item.Total.ToString("#,0.##", nfi);
-                            item.VATString = item.VAT.ToString("#,0.##", nfi);
+                            item.VATorTAXString = item.VATorTAX.ToString("#,0.##", nfi);
+                            List.Add(item);
+                        }
+                    }
+                }
+                return List;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        #endregion
+
+        #region Tax Center
+        public TaxDashboard getTaxCenterDashboard(Profile profile, TaxAndVatPeriods period)
+        {
+            TaxDashboard dashboard = null;
+            try
+            {
+                var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                nfi.NumberGroupSeparator = " ";
+                SqlParameter[] pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profile.ProfileID),
+                        new SqlParameter("@SD", period.StartDate),
+                        new SqlParameter("@ED", period.EndDate),
+                        new SqlParameter("@VR", period.VATRate),
+                        new SqlParameter("@TR", 0)
+                    };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_getTAXCenterDashboard",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            dashboard = new TaxDashboard();
+
+                            if (row["IncomeRECEIVED"].ToString() != "")
+                            {
+                                dashboard.Income = decimal.Parse(row["IncomeRECEIVED"].ToString());
+                            }
+                            else
+                            {
+                                dashboard.Income = 2;
+                            }
+                        }
+                    }
+                }
+
+                List<TaxPeriodRates> brakets = getTaxPeriodBrakets(period);
+                brakets = brakets.OrderBy(x => x.Threashold).ToList();
+                string endbraketrange = "and above";
+                TaxPeriodRates braket = new TaxPeriodRates();
+
+                bool getUpperRange = false;
+                foreach (TaxPeriodRates item in brakets)
+                {
+                    if (getUpperRange == true)
+                    {
+                        endbraketrange = " - R" + (item.Threashold - 1).ToString("#,0.##", nfi);
+                        getUpperRange = false;
+                    }
+                    if (item.Threashold < dashboard.Income)
+                    {
+                        braket = item;
+                        getUpperRange = true;
+                    }
+                }
+                if (getUpperRange == true)
+                {
+                    endbraketrange = " and above";
+                }
+
+                pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profile.ProfileID),
+                        new SqlParameter("@SD", period.StartDate),
+                        new SqlParameter("@ED", period.EndDate),
+                        new SqlParameter("@VR", period.VATRate),
+                        new SqlParameter("@TR", braket.Rate)
+                    };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_getTAXCenterDashboard",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            dashboard = new TaxDashboard();
+
+                            if (row["IncomeRECEIVED"].ToString() != "")
+                            {
+                                dashboard.Income = decimal.Parse(row["IncomeRECEIVED"].ToString());
+                            }
+                            else
+                            {
+                                dashboard.Income = 0;
+                            }
+
+                            if (row["IncomeRECEIVEDPastPeriod"].ToString() != "")
+                            {
+                                dashboard.IncomePercent = decimal.Parse(row["IncomeRECEIVEDPastPeriod"].ToString());
+                            }
+                            else
+                            {
+                                dashboard.IncomePercent = 0;
+                            }
+
+                            if (row["TaxOwed"].ToString() != "")
+                            {
+                                dashboard.TAXOwed = decimal.Parse(row["TaxOwed"].ToString());
+                            }
+                            else
+                            {
+                                dashboard.TAXOwed = 0;
+                            }
+
+                            if (row["TaxOwedPastPeriod"].ToString() != "")
+                            {
+                                dashboard.TAXOwedPercent = decimal.Parse(row["TaxOwedPastPeriod"].ToString());
+                            }
+                            else
+                            {
+                                dashboard.TAXOwedPercent = 0;
+                            }
+
+                            if (dashboard.Income == 0
+                                && dashboard.IncomePercent == 0)
+                            {
+                                dashboard.IncomeUporDown = 'U';
+                            }
+                            else if (dashboard.Income > dashboard.IncomePercent
+                                && dashboard.IncomePercent != 0)
+                            {
+                                dashboard.IncomeUporDown = 'U';
+                                dashboard.IncomePercent =
+                                    (dashboard.Income / dashboard.IncomePercent) * 100;
+                            }
+                            else if (dashboard.Income < dashboard.IncomePercent)
+                            {
+                                dashboard.IncomeUporDown = 'D';
+                                dashboard.IncomePercent =
+                                    (dashboard.IncomePercent / dashboard.Income) * 100;
+                            }
+                            else
+                            {
+                                dashboard.IncomeUporDown = 'U';
+                                dashboard.IncomePercent = -999999999;
+                            }
+
+                            if (dashboard.TAXOwed == 0
+                                && dashboard.TAXOwedPercent == 0)
+                            {
+                                dashboard.TAXOwedUporDown = 'U';
+                            }
+                            else if (dashboard.TAXOwed > dashboard.TAXOwedPercent
+                                && dashboard.TAXOwedPercent != 0)
+                            {
+                                dashboard.TAXOwedUporDown = 'U';
+                                dashboard.TAXOwedPercent =
+                                    (dashboard.TAXOwed / dashboard.TAXOwedPercent) * 100;
+                            }
+                            else if (dashboard.TAXOwed < dashboard.TAXOwedPercent)
+                            {
+                                dashboard.TAXOwedUporDown = 'D';
+                                dashboard.TAXOwedPercent =
+                                    (dashboard.TAXOwedPercent / dashboard.TAXOwed) * 100;
+                            }
+                            else
+                            {
+                                dashboard.TAXOwedUporDown = 'U';
+                                dashboard.TAXOwedPercent = -999999999;
+                            }
+                            
+                            dashboard.TaxBraketString = braket.Rate.ToString("#,0.##", nfi) + "% | R" +
+                            braket.Threashold.ToString("#,0.##", nfi) + endbraketrange;
+
+                            dashboard.IncomePercentString = dashboard.IncomePercent.ToString("#,0.##", nfi);
+                            dashboard.TAXOwedPercentString = dashboard.TAXOwedPercent.ToString("#,0.##", nfi);
+                            dashboard.IncomeSTRING = dashboard.Income.ToString("#,0.##", nfi);
+                            dashboard.TAXOwedSTRING = dashboard.TAXOwed.ToString("#,0.##", nfi);
+
+                            dashboard.TAXRate = braket.Rate;
+                        }
+                    }
+                }
+
+                return dashboard;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        public List<TAXorVATRecivedList> getTAXRecivedList(Profile profile, TaxAndVatPeriods period, TaxPeriodRates rate)
+        {
+            List<TAXorVATRecivedList> List = new List<TAXorVATRecivedList>();
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profile.ProfileID),
+                        new SqlParameter("@SD", period.StartDate),
+                        new SqlParameter("@RID", rate.Rate),
+                        new SqlParameter("@ED", period.EndDate)
+                    };
+
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetIncomeRecivedList",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            TAXorVATRecivedList item = new TAXorVATRecivedList();
+                            item.JobID = int.Parse(row["JobID"].ToString());
+                            item.clientID = int.Parse(row["ClientID"].ToString());
+                            item.InvoiceDate = DateTime.Parse(row["DateTime"].ToString());
+                            item.InvoiceDateString = item.InvoiceDate.ToString("dd MMM yyyy");
+                            item.Total = decimal.Parse(row["Total"].ToString());
+                            item.VATorTAX = decimal.Parse(row["TAX"].ToString());
+                            item.clientName = row["Client"].ToString();
+                            item.JobTitle = row["JobTitle"].ToString();
+                            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                            nfi.NumberGroupSeparator = " ";
+                            item.TotalString = item.Total.ToString("#,0.##", nfi);
+                            item.VATorTAXString = item.VATorTAX.ToString("#,0.##", nfi);
                             List.Add(item);
                         }
                     }

@@ -9,7 +9,7 @@ namespace Model
     public class VatCenter
     {
         public VATDashboard VATDashboard { get; set; }
-        public List<VATRecivedList> VATRecivedList { get; set; }
+        public List<TAXorVATRecivedList> VATRecivedList { get; set; }
         public List<Model.DashboardExpense> VATPaid { get; set; }
     }
 }

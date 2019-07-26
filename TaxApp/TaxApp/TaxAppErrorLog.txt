@@ -1,25 +1,5 @@
 
-TimeStamp: 7/25/2019 5:50:30 PM
-Machine Name: TEFO-NTSAKO-HAS
-OS Version: Microsoft Windows NT 10.0.17134.0
-Curent User: thash
-User Domain: TEFO-NTSAKO-HAS
-Curent Directory: C:\Program Files (x86)\IIS Express
-Error: 
-System.NullReferenceException: Object reference not set to an instance of an object.
-   at TaxApp.Controllers.TaxController.TaxBrakets(FormCollection collection, String ID, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\TaxController.cs:line 348Error loding new Tax Brakets
-
-TimeStamp: 7/25/2019 5:50:41 PM
-Machine Name: TEFO-NTSAKO-HAS
-OS Version: Microsoft Windows NT 10.0.17134.0
-Curent User: thash
-User Domain: TEFO-NTSAKO-HAS
-Curent Directory: C:\Program Files (x86)\IIS Express
-Error: 
-System.NullReferenceException: Object reference not set to an instance of an object.
-   at TaxApp.Controllers.TaxController.TaxBrakets(FormCollection collection, String ID, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\TaxController.cs:line 348Error loding new Tax Brakets
-
-TimeStamp: 7/25/2019 5:54:26 PM
+TimeStamp: 7/26/2019 1:10:10 PM
 Machine Name: TEFO-NTSAKO-HAS
 OS Version: Microsoft Windows NT 10.0.17134.0
 Curent User: thash
@@ -29,9 +9,42 @@ Error:
 System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have been sent.
    at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
    at System.Web.HttpResponseWrapper.Redirect(String url)
-   at TaxApp.Controllers.TaxController.TaxCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\TaxController.cs:line 173Error loding Tax Center
+   at TaxApp.Controllers.VatController.VatCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\VatController.cs:line 171Error loding Vat Center
 
-TimeStamp: 7/25/2019 5:56:03 PM
+TimeStamp: 7/26/2019 1:10:30 PM
+Machine Name: TEFO-NTSAKO-HAS
+OS Version: Microsoft Windows NT 10.0.17134.0
+Curent User: thash
+User Domain: TEFO-NTSAKO-HAS
+Curent Directory: C:\Program Files (x86)\IIS Express
+Error: 
+System.ApplicationException: System.ApplicationException: An Error Occouerd When Comunicating With The DatabaseSystem.Data.SqlClient.SqlException (0x80131904): Procedure or function 'SP_GetVATRecivedList' expects parameter '@PDID', which was not supplied.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable[] dataTables, Int32 startRecord, Int32 maxRecords, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable dataTable)
+   at DAL.DBHelper.ParamSelect(String commandName, CommandType cmdType, SqlParameter[] pars) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\DAL\DBHelper.cs:line 37
+ClientConnectionId:7adf6aa2-0a21-40b9-af7f-2b84bef78efa
+Error Number:201,State:4,Class:16
+   at DAL.DBHelper.ParamSelect(String commandName, CommandType cmdType, SqlParameter[] pars) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\DAL\DBHelper.cs:line 42
+   at DAL.DBAccess.getVATRecivedList(Profile profile, TaxAndVatPeriods period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\DAL\DBAccess.cs:line 2606
+   at DAL.DBAccess.getVATRecivedList(Profile profile, TaxAndVatPeriods period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\DAL\DBAccess.cs:line 2634
+   at BLL.DBHandler.getVATRecivedList(Profile profile, TaxAndVatPeriods period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\BLL\DBHandler.cs:line 277
+   at TaxApp.Controllers.VatController.VatCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\VatController.cs:line 100Error loding Vat Center
+
+TimeStamp: 7/26/2019 1:10:45 PM
 Machine Name: TEFO-NTSAKO-HAS
 OS Version: Microsoft Windows NT 10.0.17134.0
 Curent User: thash
@@ -41,9 +54,9 @@ Error:
 System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have been sent.
    at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
    at System.Web.HttpResponseWrapper.Redirect(String url)
-   at TaxApp.Controllers.VatController.VatCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\VatController.cs:line 172Error loding Vat Center
+   at TaxApp.Controllers.VatController.VatCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\VatController.cs:line 171Error loding Vat Center
 
-TimeStamp: 7/25/2019 5:56:05 PM
+TimeStamp: 7/26/2019 1:13:04 PM
 Machine Name: TEFO-NTSAKO-HAS
 OS Version: Microsoft Windows NT 10.0.17134.0
 Curent User: thash
@@ -53,24 +66,232 @@ Error:
 System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have been sent.
    at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
    at System.Web.HttpResponseWrapper.Redirect(String url)
-   at TaxApp.Controllers.TaxController.TaxCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\TaxController.cs:line 173Error loding Tax Center
+   at TaxApp.Controllers.VatController.VatCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\VatController.cs:line 171Error loding Vat Center
 
-TimeStamp: 7/25/2019 5:57:36 PM
+TimeStamp: 7/26/2019 1:13:23 PM
 Machine Name: TEFO-NTSAKO-HAS
 OS Version: Microsoft Windows NT 10.0.17134.0
 Curent User: thash
 User Domain: TEFO-NTSAKO-HAS
 Curent Directory: C:\Program Files (x86)\IIS Express
 Error: 
-System.NullReferenceException: Object reference not set to an instance of an object.
-   at TaxApp.Controllers.TaxController.TaxBrakets(FormCollection collection, String ID, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\TaxController.cs:line 350Error loding new Tax Brakets
+System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have been sent.
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponseWrapper.Redirect(String url)
+   at TaxApp.Controllers.TaxController.TaxCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\TaxController.cs:line 108Error loding Tax Center
 
-TimeStamp: 7/25/2019 5:58:09 PM
+TimeStamp: 7/26/2019 1:14:27 PM
 Machine Name: TEFO-NTSAKO-HAS
 OS Version: Microsoft Windows NT 10.0.17134.0
 Curent User: thash
 User Domain: TEFO-NTSAKO-HAS
 Curent Directory: C:\Program Files (x86)\IIS Express
 Error: 
-System.NullReferenceException: Object reference not set to an instance of an object.
-   at TaxApp.Controllers.TaxController.TaxBrakets(FormCollection collection, String ID, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\TaxController.cs:line 350Error loding new Tax Brakets
+System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have been sent.
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponseWrapper.Redirect(String url)
+   at TaxApp.Controllers.TaxController.TaxCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\TaxController.cs:line 108Error loding Tax Center
+
+TimeStamp: 7/26/2019 1:17:54 PM
+Machine Name: TEFO-NTSAKO-HAS
+OS Version: Microsoft Windows NT 10.0.17134.0
+Curent User: thash
+User Domain: TEFO-NTSAKO-HAS
+Curent Directory: C:\Program Files (x86)\IIS Express
+Error: 
+System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have been sent.
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponseWrapper.Redirect(String url)
+   at TaxApp.Controllers.VatController.VatCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\VatController.cs:line 171Error loding Vat Center
+
+TimeStamp: 7/26/2019 1:17:57 PM
+Machine Name: TEFO-NTSAKO-HAS
+OS Version: Microsoft Windows NT 10.0.17134.0
+Curent User: thash
+User Domain: TEFO-NTSAKO-HAS
+Curent Directory: C:\Program Files (x86)\IIS Express
+Error: 
+System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have been sent.
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponseWrapper.Redirect(String url)
+   at TaxApp.Controllers.TaxController.TaxCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\TaxController.cs:line 108Error loding Tax Center
+
+TimeStamp: 7/26/2019 1:22:02 PM
+Machine Name: TEFO-NTSAKO-HAS
+OS Version: Microsoft Windows NT 10.0.17134.0
+Curent User: thash
+User Domain: TEFO-NTSAKO-HAS
+Curent Directory: C:\Program Files (x86)\IIS Express
+Error: 
+System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have been sent.
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponseWrapper.Redirect(String url)
+   at TaxApp.Controllers.TaxController.TaxCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\TaxController.cs:line 108Error loding Tax Center
+
+TimeStamp: 7/26/2019 2:02:46 PM
+Machine Name: TEFO-NTSAKO-HAS
+OS Version: Microsoft Windows NT 10.0.17134.0
+Curent User: thash
+User Domain: TEFO-NTSAKO-HAS
+Curent Directory: C:\Program Files (x86)\IIS Express
+Error: 
+System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have been sent.
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponseWrapper.Redirect(String url)
+   at TaxApp.Controllers.TaxController.TaxCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\TaxController.cs:line 108Error loding Tax Center
+
+TimeStamp: 7/26/2019 2:05:28 PM
+Machine Name: TEFO-NTSAKO-HAS
+OS Version: Microsoft Windows NT 10.0.17134.0
+Curent User: thash
+User Domain: TEFO-NTSAKO-HAS
+Curent Directory: C:\Program Files (x86)\IIS Express
+Error: 
+System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have been sent.
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponseWrapper.Redirect(String url)
+   at TaxApp.Controllers.VatController.VatCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\VatController.cs:line 171Error loding Vat Center
+
+TimeStamp: 7/26/2019 2:05:30 PM
+Machine Name: TEFO-NTSAKO-HAS
+OS Version: Microsoft Windows NT 10.0.17134.0
+Curent User: thash
+User Domain: TEFO-NTSAKO-HAS
+Curent Directory: C:\Program Files (x86)\IIS Express
+Error: 
+System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have been sent.
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponseWrapper.Redirect(String url)
+   at TaxApp.Controllers.TaxController.TaxCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\TaxController.cs:line 108Error loding Tax Center
+
+TimeStamp: 7/26/2019 2:08:38 PM
+Machine Name: TEFO-NTSAKO-HAS
+OS Version: Microsoft Windows NT 10.0.17134.0
+Curent User: thash
+User Domain: TEFO-NTSAKO-HAS
+Curent Directory: C:\Program Files (x86)\IIS Express
+Error: 
+System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have been sent.
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponseWrapper.Redirect(String url)
+   at TaxApp.Controllers.VatController.VatCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\VatController.cs:line 171Error loding Vat Center
+
+TimeStamp: 7/26/2019 2:08:42 PM
+Machine Name: TEFO-NTSAKO-HAS
+OS Version: Microsoft Windows NT 10.0.17134.0
+Curent User: thash
+User Domain: TEFO-NTSAKO-HAS
+Curent Directory: C:\Program Files (x86)\IIS Express
+Error: 
+System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have been sent.
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponseWrapper.Redirect(String url)
+   at TaxApp.Controllers.TaxController.TaxCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\TaxController.cs:line 108Error loding Tax Center
+
+TimeStamp: 7/26/2019 2:10:07 PM
+Machine Name: TEFO-NTSAKO-HAS
+OS Version: Microsoft Windows NT 10.0.17134.0
+Curent User: thash
+User Domain: TEFO-NTSAKO-HAS
+Curent Directory: C:\Program Files (x86)\IIS Express
+Error: 
+System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have been sent.
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponseWrapper.Redirect(String url)
+   at TaxApp.Controllers.TaxController.TaxCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\TaxController.cs:line 108Error loding Tax Center
+
+TimeStamp: 7/26/2019 2:12:27 PM
+Machine Name: TEFO-NTSAKO-HAS
+OS Version: Microsoft Windows NT 10.0.17134.0
+Curent User: thash
+User Domain: TEFO-NTSAKO-HAS
+Curent Directory: C:\Program Files (x86)\IIS Express
+Error: 
+System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have been sent.
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponseWrapper.Redirect(String url)
+   at TaxApp.Controllers.TaxController.TaxCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\TaxController.cs:line 108Error loding Tax Center
+
+TimeStamp: 7/26/2019 2:12:28 PM
+Machine Name: TEFO-NTSAKO-HAS
+OS Version: Microsoft Windows NT 10.0.17134.0
+Curent User: thash
+User Domain: TEFO-NTSAKO-HAS
+Curent Directory: C:\Program Files (x86)\IIS Express
+Error: 
+System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have been sent.
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponseWrapper.Redirect(String url)
+   at TaxApp.Controllers.TaxController.TaxCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\TaxController.cs:line 108Error loding Tax Center
+
+TimeStamp: 7/26/2019 2:13:10 PM
+Machine Name: TEFO-NTSAKO-HAS
+OS Version: Microsoft Windows NT 10.0.17134.0
+Curent User: thash
+User Domain: TEFO-NTSAKO-HAS
+Curent Directory: C:\Program Files (x86)\IIS Express
+Error: 
+System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have been sent.
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponseWrapper.Redirect(String url)
+   at TaxApp.Controllers.TaxController.TaxCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\TaxController.cs:line 108Error loding Tax Center
+
+TimeStamp: 7/26/2019 2:13:52 PM
+Machine Name: TEFO-NTSAKO-HAS
+OS Version: Microsoft Windows NT 10.0.17134.0
+Curent User: thash
+User Domain: TEFO-NTSAKO-HAS
+Curent Directory: C:\Program Files (x86)\IIS Express
+Error: 
+System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have been sent.
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponseWrapper.Redirect(String url)
+   at TaxApp.Controllers.TaxController.TaxCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\TaxController.cs:line 108Error loding Tax Center
+
+TimeStamp: 7/26/2019 2:18:56 PM
+Machine Name: TEFO-NTSAKO-HAS
+OS Version: Microsoft Windows NT 10.0.17134.0
+Curent User: thash
+User Domain: TEFO-NTSAKO-HAS
+Curent Directory: C:\Program Files (x86)\IIS Express
+Error: 
+System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have been sent.
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponseWrapper.Redirect(String url)
+   at TaxApp.Controllers.TaxController.TaxCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\TaxController.cs:line 108Error loding Tax Center
+
+TimeStamp: 7/26/2019 2:18:57 PM
+Machine Name: TEFO-NTSAKO-HAS
+OS Version: Microsoft Windows NT 10.0.17134.0
+Curent User: thash
+User Domain: TEFO-NTSAKO-HAS
+Curent Directory: C:\Program Files (x86)\IIS Express
+Error: 
+System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have been sent.
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponseWrapper.Redirect(String url)
+   at TaxApp.Controllers.VatController.VatCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\VatController.cs:line 171Error loding Vat Center
+
+TimeStamp: 7/26/2019 3:41:58 PM
+Machine Name: TEFO-NTSAKO-HAS
+OS Version: Microsoft Windows NT 10.0.17134.0
+Curent User: thash
+User Domain: TEFO-NTSAKO-HAS
+Curent Directory: C:\Program Files (x86)\IIS Express
+Error: 
+System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have been sent.
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponseWrapper.Redirect(String url)
+   at TaxApp.Controllers.TaxController.TaxCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\TaxController.cs:line 108Error loding Tax Center
+
+TimeStamp: 7/26/2019 3:42:04 PM
+Machine Name: TEFO-NTSAKO-HAS
+OS Version: Microsoft Windows NT 10.0.17134.0
+Curent User: thash
+User Domain: TEFO-NTSAKO-HAS
+Curent Directory: C:\Program Files (x86)\IIS Express
+Error: 
+System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have been sent.
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponseWrapper.Redirect(String url)
+   at TaxApp.Controllers.VatController.VatCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\VatController.cs:line 171Error loding Vat Center
