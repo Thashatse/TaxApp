@@ -58,7 +58,14 @@
 
                         <div class="form-group">
                             <div class="text-center">
-                                <input type="submit" value="Set Up Later" class="btn btn-light" />
+                                @if (ViewBag.Return == "Consultant")
+                                {
+                                    <a href="../Home/Index" class="btn btn-light">Set Up Later</a>
+                                }
+                                else
+                                {
+                                    <a href="../Landing/EmailSettings?ID=@ViewBag.ProfileID" class="btn btn-light">Set Up Later</a>
+                                }
                                 <input type="submit" value="Add Consultant" class="btn btn-default" />
                             </div>
                         </div>

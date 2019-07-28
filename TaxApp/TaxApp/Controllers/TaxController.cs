@@ -240,6 +240,97 @@ namespace TaxApp.Controllers
         }
         #endregion
 
+        #region Tax Consultant
+        public ActionResult Consultant()
+        {
+            try
+            {
+                getCookie();
+
+                TaxConsultant consultant = new TaxConsultant();
+                consultant.ProfileID = int.Parse(cookie["ID"]);
+                consultant = handler.getConsumtant(consultant);
+
+                if(consultant == null)
+                {
+                    Response.Redirect("../Landing/TaxConsultant?ID=" + cookie["ID"] + "&Return=Consultant");
+                }
+
+                return View(consultant);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding Tax Consultant");
+                return Redirect("../Shared/Error?Err=An error occurred loading Tax Consultant");
+            }
+        }
+        public ActionResult EditConsultant()
+        {
+            try
+            {
+                getCookie();
+
+                TaxConsultant consultant = new TaxConsultant();
+                consultant.ProfileID = int.Parse(cookie["ID"]);
+                consultant = handler.getConsumtant(consultant);
+
+                if(consultant == null)
+                {
+                    Response.Redirect("../Shared/Error?Err=An error occurred loading Tax Consultant for edit");
+                }
+
+                return View(consultant);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding Tax Consultant");
+                return Redirect("../Shared/Error?Err=An error occurred loading Tax Consultant for edit");
+            }
+        }
+        [HttpPost]
+        public ActionResult EditConsultant(FormCollection collection)
+        {
+            try
+            {
+                getCookie();
+
+                TaxConsultant consultant = new TaxConsultant();
+                consultant.ProfileID = int.Parse(cookie["ID"]);
+                consultant = handler.getConsumtant(consultant);
+
+                if(consultant == null)
+                {
+                    function.logAnError("Error loding Tax Consultant for edit");
+                    Response.Redirect("../Tax/Consultant");
+                }
+
+                consultant = new Model.TaxConsultant();
+
+                consultant.Name = Request.Form["Name"];
+                consultant.EmailAddress = Request.Form["EmailAddress"];
+                consultant.ProfileID = int.Parse(cookie["ID"]);
+
+                bool result = handler.EditTaxConsultant(consultant);
+
+                if (result == true)
+                {
+                    return Redirect("../Tax/Consultant");
+                }
+                else
+                {
+                    return RedirectToAction("../Shared/Error?Err=An error occurred loading Tax Consultant for edit");
+                }
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding Tax Consultant for edit");
+                return Redirect("../Shared/Error?Err=An error occurred loading Tax Consultant for edit");
+            }
+        }
+        #endregion
         #region Tax Brakets
         public ActionResult TaxBrakets(string ID, string period)
         {

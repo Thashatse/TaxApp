@@ -26,6 +26,7 @@ namespace DAL
         #region Tax Consultanat
         bool newConsultant(Model.TaxConsultant consultant);
         Model.TaxConsultant getConsultant(Model.TaxConsultant consultant);
+        bool EditTaxConsultant(TaxConsultant consultant);
         #endregion
 
         #region Email Settings

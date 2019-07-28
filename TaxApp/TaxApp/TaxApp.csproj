@@ -136,6 +136,7 @@
     <Compile Include="Controllers\InvoiceController.cs" />
     <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\LandingController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\SharedController.cs" />
     <Compile Include="Controllers\TaxController.cs" />
     <Compile Include="Controllers\VatController.cs" />
@@ -2180,7 +2181,7 @@
     <Content Include="Views\Expense\DeleteTravleLogItem.cshtml" />
     <Content Include="Views\Expense\EditTravleLogItem.cshtml" />
     <Content Include="Views\Invoice\Print.cshtml" />
-    <Content Include="Views\Invoice\EmailToCustomer.cshtml" />
+    <Content Include="Views\Invoice\EmailInvoice.cshtml" />
     <Content Include="Views\Expense\GeneralExpenses.cshtml" />
     <Content Include="Views\Expense\EditJobExpense.cshtml" />
     <Content Include="Views\Invoice\Income.cshtml" />
@@ -2188,6 +2189,9 @@
     <Content Include="Views\Vat\VatCenter.cshtml" />
     <Content Include="Views\Tax\TaxVatPeriod.cshtml" />
     <Content Include="Views\Tax\TaxBrakets.cshtml" />
+    <Content Include="Views\Report\Reports.cshtml" />
+    <Content Include="Views\Tax\Consultant.cshtml" />
+    <Content Include="Views\Tax\EditConsultant.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

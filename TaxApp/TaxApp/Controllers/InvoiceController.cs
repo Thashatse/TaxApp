@@ -179,6 +179,15 @@ namespace TaxApp.Controllers
                         ViewBag.Paid = "Unpaid";
                     }
 
+                    TaxConsultant consultant = new TaxConsultant();
+                    consultant.ProfileID = int.Parse(cookie["ID"]);
+                    consultant = handler.getConsumtant(consultant);
+
+                    if (consultant != null)
+                    {
+                        ViewBag.TaxConsultant = true;
+                    }
+
                     return View(invoiceDetails[0]);
                 }
             }
@@ -269,7 +278,7 @@ namespace TaxApp.Controllers
 
         #region Email Invoice
         // GET: Invoice
-        public ActionResult EmailToCustomer(string id = "0")
+        public ActionResult EmailInvoice(string To, string id = "0")
         {
             try
             {
@@ -319,6 +328,18 @@ namespace TaxApp.Controllers
                         ViewBag.Paid = "Unpaid";
                     }
 
+                    if(To == "Consultant")
+                    {
+                        TaxConsultant consultant = new TaxConsultant();
+                        consultant.ProfileID = int.Parse(cookie["ID"]);
+                        consultant = handler.getConsumtant(consultant);
+                        ViewBag.To = consultant.Name + " - " + consultant.EmailAddress;
+                    }
+                    else
+                    {
+                        ViewBag.To = invoiceDetails[0].ClientName + " - " + invoiceDetails[0].EmailAddress;
+                    }
+
                     return View(invoiceDetails[0]);
                 }
             }
@@ -331,7 +352,7 @@ namespace TaxApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult EmailToCustomer(FormCollection collection, string ID)
+        public ActionResult EmailInvoice(FormCollection collection, string ID, string To)
         {
             try
             {
@@ -360,8 +381,24 @@ namespace TaxApp.Controllers
                 getProfile.Username = "";
                 getProfile = handler.getProfile(getProfile);
 
-                bool result = function.sendEmail(invoiceDetails[0].EmailAddress,
-                    invoiceDetails[0].ClientName,
+                string toAddress;
+                string toName;
+                if (To == "Consultant")
+                {
+                    TaxConsultant consultant = new TaxConsultant();
+                    consultant.ProfileID = int.Parse(cookie["ID"]);
+                    consultant = handler.getConsumtant(consultant);
+                    toAddress = consultant.EmailAddress;
+                    toName = consultant.Name;
+                }
+                else
+                {
+                    toAddress = invoiceDetails[0].EmailAddress;
+                    toName = invoiceDetails[0].ClientName;
+                }
+
+                bool result = function.sendEmail(toAddress,
+                    toName,
                     Request.Form["subject"],
                     Request.Form["Message"],
                     getProfile.FirstName + " " + getProfile.LastName,
@@ -369,15 +406,18 @@ namespace TaxApp.Controllers
 
                 if (result == true)
                 {
-                    Response.Write("<script>parent.close_window();</script>");
+                    ViewBag.Processed = true;
+                    return View();
                 }
                 else
                 {
                     function.logAnError("Error creating new invoice");
-                    Redirect("../Shared/Error?Err=An Error Occured Sending Your Email, Please Try Again Later.");
+                    Response.Redirect("../Shared/Error?Err=An Error Occured Sending Your Email, Please Try Again Later.");
                 }
 
-                return RedirectToAction("../Shared/Error?Err=An Error Occured Sending Your Email, Please Try Again Later.");
+                Response.Redirect("../Shared/Error?Err=An Error Occured Sending Your Email, Please Try Again Later.");
+
+                return View();
             }
             catch (Exception e)
             {
@@ -649,49 +689,5 @@ namespace TaxApp.Controllers
             }
         }
         #endregion
-
-        // GET: Invoice/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Invoice/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Invoice/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Invoice/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

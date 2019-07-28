@@ -5,235 +5,245 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
-        <div class="container-fluid">
-            <div class="header-body">
-                <!-- Card stats -->
-                <div class="row">
-                    <div class="col-xl-6 col-lg-12">
-                        <div class="card card-stats mb-4 mb-xl-0">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col">
-                                        <h5 class="card-title text-uppercase text-muted mb-0">Income (Past 30 Days)</h5>
-                                        <span class="h2 font-weight-bold mb-0">R @Model.DashboardIncome.IncomePast30DaysString</span>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="icon icon-shape bg-green text-white rounded-circle shadow">
-                                            <i class="ni ni-money-coins"></i>
-                                        </div>
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+        <div class="header-body">
+            <!-- Card stats -->
+            <div class="row">
+                <div class="col-xl-6 col-lg-12">
+                    <div class="card card-stats mb-4 mb-xl-0">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0">Income (Past 30 Days)</h5>
+                                    <span class="h2 font-weight-bold mb-0">R @Model.DashboardIncome.IncomePast30DaysString</span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-green text-white rounded-circle shadow">
+                                        <i class="ni ni-money-coins"></i>
                                     </div>
                                 </div>
-                                @if (@Model.DashboardIncome.IncomePast60to30DaysPercent == -999999999)
-                                {
-                                    <p class="mt-3 mb-0 text-muted text-sm">
-                                        <span class="text-success mr-2">
-                                            <i class="fa fa-arrow-up"></i>
-                                            UP
-                                        </span>
-                                        <span class="text-nowrap">Since last month</span>
-                                    </p>
-                                }
-                                else if (@Model.DashboardIncome.IncomePast60to30DaysUporDown == 'U')
-                                {
-                                    <p class="mt-3 mb-0 text-muted text-sm">
-                                        <span class="text-success mr-2">
-                                            <i class="fa fa-arrow-up"></i>
-                                            UP @Model.DashboardIncome.IncomePast60to30DaysPercent %
-                                        </span>
-                                        <span class="text-nowrap">Since last month</span>
-                                    </p>
-                                }
-                                else if (@Model.DashboardIncome.IncomePast60to30DaysUporDown == 'D')
-                                {
-                                    <p class="mt-3 mb-0 text-muted text-sm">
-                                        <span class="text-danger mr-2">
-                                            <i class="fas fa-arrow-down"></i>
-                                            DOWN @Model.DashboardIncome.IncomePast60to30DaysPercent %
-                                        </span>
-                                        <span class="text-nowrap">Since last month</span>
-                                    </p>
-                                }
                             </div>
+                            @if (@Model.DashboardIncome.IncomePast60to30DaysPercent == -999999999)
+                            {
+                                <p class="mt-3 mb-0 text-muted text-sm">
+                                    <span class="text-success mr-2">
+                                        <i class="fa fa-arrow-up"></i>
+                                        UP
+                                    </span>
+                                    <span class="text-nowrap">Since last month</span>
+                                </p>
+                            }
+                            else if (@Model.DashboardIncome.IncomePast60to30DaysUporDown == 'U')
+                            {
+                                <p class="mt-3 mb-0 text-muted text-sm">
+                                    <span class="text-success mr-2">
+                                        <i class="fa fa-arrow-up"></i>
+                                        UP @Model.DashboardIncome.IncomePast60to30DaysPercent %
+                                    </span>
+                                    <span class="text-nowrap">Since last month</span>
+                                </p>
+                            }
+                            else if (@Model.DashboardIncome.IncomePast60to30DaysUporDown == 'D')
+                            {
+                                <p class="mt-3 mb-0 text-muted text-sm">
+                                    <span class="text-danger mr-2">
+                                        <i class="fas fa-arrow-down"></i>
+                                        DOWN @Model.DashboardIncome.IncomePast60to30DaysPercent %
+                                    </span>
+                                    <span class="text-nowrap">Since last month</span>
+                                </p>
+                            }
                         </div>
-                        <br />
                     </div>
+                    <br />
+                </div>
 
-                    <div class="col-xl-6 col-lg-12">
-                        <div class="card card-stats mb-4 mb-xl-0">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col">
-                                        <h5 class="card-title text-uppercase text-muted mb-0">Total Outstanding Income</h5>
-                                        <span class="h2 font-weight-bold mb-0">R @Model.DashboardIncome.TotalOutIncomeString</span>
-                                        <br />
-                                        <br />
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="icon icon-shape bg-red text-white rounded-circle shadow">
-                                            <i class="ni ni-money-coins"></i>
-                                        </div>
+                <div class="col-xl-6 col-lg-12">
+                    <div class="card card-stats mb-4 mb-xl-0">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0">Total Outstanding Income</h5>
+                                    <span class="h2 font-weight-bold mb-0">R @Model.DashboardIncome.TotalOutIncomeString</span>
+                                    <br />
+                                    <br />
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-red text-white rounded-circle shadow">
+                                        <i class="ni ni-money-coins"></i>
                                     </div>
                                 </div>
                             </div>
+                            <p></p>
                         </div>
-                        <br />
+                    </div>
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt--7">
+
+    @if (Model.OutInvoices.Count > 0 && Model.OutInvoices != null)
+    {
+        <!-- Header 1 -->
+        <div class="header">
+            <div class="container">
+                <div class="header-body text-center mb-7">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-5 col-md-6">
+                            <h1 class="text-white">
+                                Unpaid Invoices
+                            </h1>
+                            <div>
+                                <a href="../Job/JobSelector?Dest=New*Invoice"
+                                   class="btn btn-sm btn-white">New Invoice</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            </div>
-            </div>
+        </div>
 
-            <div class="container-fluid mt--7">
-
-                @if (Model.OutInvoices.Count > 0 && Model.OutInvoices != null)
-                {
-                    <!-- Header 1 -->
-                    <div class="header">
-                        <div class="container">
-                            <div class="header-body text-center mb-7">
-                                <div class="row justify-content-center">
-                                    <div class="col-lg-5 col-md-6">
-                                        <h1 class="text-white">
-                                            Unpaid Invoices
-                                        </h1>
-                                        <div>
-                                            <a href="../Job/JobSelector?Dest=New*Invoice"
-                                               class="btn btn-sm btn-white">New Invoice</a>
-                                        </div>
-                                    </div>
+        <div class="row">
+            @foreach (var item in Model.OutInvoices)
+            {
+                <div class="col-xl-4">
+                    <div class="card shadow">
+                        <div class="card-header border-0">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h3 class="mb-0">
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.JobTitle)
+                                        </td>
+                                    </h3>
+                                </div>
+                                <div class="col text-right">
+                                    <a href="Invoice?ID=@Html.DisplayFor(modelItem => item.InvoiceNum)" class="btn btn-sm btn-primary">Details</a>
                                 </div>
                             </div>
                         </div>
+                        <div class="table-responsive">
+                            <!-- Projects table -->
+                            <table class="table align-items-center table-flush">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">
+                                            Date & Time:
+                                        </th>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DateTimeString)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            Amount:
+                                        </th>
+                                        <td>
+                                            R @Html.DisplayFor(modelItem => item.TotalCost)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            Client Name:
+                                        </th>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ClientName)
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
+                    <br />
+                </div>
+            }
+        </div>
+    }
 
-                    <div class="row">
-                        @foreach (var item in Model.OutInvoices)
-                        {
-                            <div class="col-xl-4">
-                                <div class="card shadow">
-                                    <div class="card-header border-0">
-                                        <div class="row align-items-center">
-                                            <div class="col">
-                                                <h3 class="mb-0">
-                                                    <td>
-                                                        @Html.DisplayFor(modelItem => item.JobTitle)
-                                                    </td>
-                                                </h3>
-                                            </div>
-                                            <div class="col text-right">
-                                                <a href="Invoice?ID=@Html.DisplayFor(modelItem => item.InvoiceNum)" class="btn btn-sm btn-primary">Details</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="table-responsive">
-                                        <!-- Projects table -->
-                                        <table class="table align-items-center table-flush">
-                                            <tbody>
-                                                <tr>
-                                                    <th scope="row">
-                                                        Date & Time:
-                                                    </th>
-                                                    <td>
-                                                        @Html.DisplayFor(modelItem => item.DateTimeString)
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">
-                                                        Amount:
-                                                    </th>
-                                                    <td>
-                                                        R @Html.DisplayFor(modelItem => item.TotalCost)
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">
-                                                        Client Name:
-                                                    </th>
-                                                    <td>
-                                                        @Html.DisplayFor(modelItem => item.ClientName)
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+    @if (Model.PastInvoices != null && Model.PastInvoices.Count > 0)
+    {
+        <!-- Header 2 -->
+        <div class="header">
+            <div class="container">
+                <div class="header-body text-center mb-7">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-5 col-md-6">
+                            @if (Model.OutInvoices.Count < 0)
+                            {
+                                <h1>
+                                    Paid Invoices
+                                </h1>
+                            }
+                            else
+                            {
+                                <h1 class="text-white">
+                                    Paid Invoices
+                                </h1>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            @foreach (var item in Model.PastInvoices)
+            {
+                <div class="col-xl-4">
+                    <div class="card shadow">
+                        <div class="card-header border-0">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h3 class="mb-0">
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.JobTitle)
+                                        </td>
+                                    </h3>
                                 </div>
-                                <br />
-                            </div>
-                        }
-                    </div>
-                }
-
-                @if (Model.PastInvoices != null && Model.PastInvoices.Count > 0)
-                {
-                    <!-- Header 2 -->
-                    <div class="header">
-                        <div class="container">
-                            <div class="header-body text-center mb-7">
-                                <div class="row justify-content-center">
-                                    <div class="col-lg-5 col-md-6">
-                                        <h1>
-                                            Paid Invoices
-                                        </h1>
-                                    </div>
+                                <div class="col text-right">
+                                    <a href="Invoice?ID=@Html.DisplayFor(modelItem => item.InvoiceNum)" class="btn btn-sm btn-primary">Details</a>
                                 </div>
                             </div>
                         </div>
+                        <div class="table-responsive">
+                            <!-- Projects table -->
+                            <table class="table align-items-center table-flush">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">
+                                            Date & Time:
+                                        </th>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DateTimeString)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            Amount:
+                                        </th>
+                                        <td>
+                                            R @Html.DisplayFor(modelItem => item.TotalCost)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            Client Name:
+                                        </th>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ClientName)
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-
-                    <div class="row mt-5">
-                        @foreach (var item in Model.PastInvoices)
-                        {
-                            <div class="col-xl-4">
-                                <div class="card shadow">
-                                    <div class="card-header border-0">
-                                        <div class="row align-items-center">
-                                            <div class="col">
-                                                <h3 class="mb-0">
-                                                    <td>
-                                                        @Html.DisplayFor(modelItem => item.JobTitle)
-                                                    </td>
-                                                </h3>
-                                            </div>
-                                            <div class="col text-right">
-                                                <a href="Invoice?ID=@Html.DisplayFor(modelItem => item.InvoiceNum)" class="btn btn-sm btn-primary">Details</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="table-responsive">
-                                        <!-- Projects table -->
-                                        <table class="table align-items-center table-flush">
-                                            <tbody>
-                                                <tr>
-                                                    <th scope="row">
-                                                        Date & Time:
-                                                    </th>
-                                                    <td>
-                                                        @Html.DisplayFor(modelItem => item.DateTimeString)
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">
-                                                        Amount:
-                                                    </th>
-                                                    <td>
-                                                        R @Html.DisplayFor(modelItem => item.TotalCost)
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">
-                                                        Client Name:
-                                                    </th>
-                                                    <td>
-                                                        @Html.DisplayFor(modelItem => item.ClientName)
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <br />
-                            </div>
-                        }
-                    </div>
-                }
+                    <br />
+                </div>
+            }
+        </div>
+    }

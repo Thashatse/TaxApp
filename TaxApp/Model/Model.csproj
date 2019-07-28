@@ -110,6 +110,7 @@
       <DependentUpon>TaxAppModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReportsViewModel.cs" />
     <Compile Include="SP_GetGeneralExpense_Result.cs">
       <DependentUpon>TaxAppModel.tt</DependentUpon>
     </Compile>

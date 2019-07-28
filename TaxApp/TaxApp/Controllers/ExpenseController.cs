@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -128,7 +129,16 @@ namespace TaxApp.Controllers
                 newExpense.Date = DateTime.Parse(Request.Form["Date"].ToString());
                 newExpense.Amount = Decimal.Parse(Request.Form["Amount"].ToString());
                 newExpense.Repeat = bool.Parse(Request.Form["Repeat"].ToString().Split(',')[0]);
-                //newExpense.Invoice_ReceiptCopy = DBNull.Value;
+
+                //Read file to byte array
+                FileStream stream = System.IO.File.OpenRead(@""+Request.Form["Invoice_ReceiptCopy"] +"");
+                byte[] fileBytes = new byte[stream.Length];
+
+                stream.Read(fileBytes, 0, fileBytes.Length);
+                stream.Close();
+
+                //byte[] bytes = Request.Form["Invoice_ReceiptCopy"];
+                //newExpense.Invoice_ReceiptCopy = bytes;
 
                 bool result = handler.newGeneralExpense(newExpense);
 

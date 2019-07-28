@@ -263,8 +263,6 @@ namespace DAL
 
             return Result;
         }
-
-
         public Model.TaxConsultant getConsultant(Model.TaxConsultant Consultant)
         {
             Model.TaxConsultant consultant = null;
@@ -296,6 +294,29 @@ namespace DAL
             {
                 throw new ApplicationException(e.ToString());
             }
+        }
+        public bool EditTaxConsultant(TaxConsultant consultant)
+        {
+            bool Result = false;
+
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@N", consultant.Name),
+                        new SqlParameter("@EA", consultant.EmailAddress),
+                        new SqlParameter("@PID", consultant.ProfileID)
+                   };
+
+                Result = DBHelper.NonQuery("SP_EditTaxConsultant", CommandType.StoredProcedure, pars);
+
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return Result;
         }
         #endregion
 

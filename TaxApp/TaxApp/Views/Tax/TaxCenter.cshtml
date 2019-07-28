@@ -138,26 +138,31 @@
                         <h1 class="text-white">
                             TAX
                         </h1>
+
+                        <p class="text-white">
+                            For Period @ViewBag.TaxPeriod
+                        </p>
                         <div>
-                            <p class="text-white">
-                                For Period @ViewBag.TaxPeriod
-                                <a href="../TAX/TaxCenter?view=DS"
-                                   class="btn btn-sm btn-white"><i class="ni ni-settings-gear-65"></i></a>
-                            </p>
+                            <a href="#"
+                               class="btn btn-sm btn-white">Send Report to Consultant</a>
+                            <a href="../TAX/TaxCenter?view=DS"
+                               class="btn btn-sm btn-white"><i class="ni ni-settings-gear-65"></i></a>
                         </div>
-                        @if (ViewBag.View == "DS")
-                        {
-                            using (Html.BeginForm())
+                        <div>
+                            @if (ViewBag.View == "DS")
                             {
-                                @Html.AntiForgeryToken()
-                                @Html.DropDownList("TaxPeriodList", ViewBag.VATPeriodList as SelectList)
-                                <input type="submit" value="Select" class="btn btn-sm btn-default" />
-                                <a href="../Tax/TaxVatPeriod?Type=T"
-                                   class="btn btn-sm btn-white">New Period</a>
+                                using (Html.BeginForm())
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.DropDownList("TaxPeriodList", ViewBag.VATPeriodList as SelectList)
+                                    <input type="submit" value="Select" class="btn btn-sm btn-default" />
+                                    <a href="../Tax/TaxVatPeriod?Type=T"
+                                       class="btn btn-sm btn-white">New Period</a>
+                                }
                             }
-                        }
+                        </div>
+                        </div>
                     </div>
-                </div>
             </div>
         </div>
     </div>

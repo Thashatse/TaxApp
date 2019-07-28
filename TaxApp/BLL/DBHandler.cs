@@ -51,6 +51,10 @@ namespace BLL
         {
             return db.getConsultant(consultant);
         }
+        public bool EditTaxConsultant(TaxConsultant consultant)
+        {
+            return db.EditTaxConsultant(consultant);
+        }
         #endregion
 
         #region Email Settings

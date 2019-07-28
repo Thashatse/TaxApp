@@ -234,16 +234,21 @@ namespace TaxApp.Controllers
 
         #region New Consultant
         // GET: Landing/NewProfile
-        public ActionResult TaxConsultant()
+        public ActionResult TaxConsultant(string ID, string Return)
         {
+            ViewBag.Return = Return;
+            ViewBag.ProfileID = ID;
             return View();
         }
 
         // POST: Landing/NewProfile
         [HttpPost]
-        public ActionResult TaxConsultant(FormCollection collection, string ID)
+        public ActionResult TaxConsultant(FormCollection collection, string ID, string Return)
         {
             string profileID = ID;
+            ViewBag.Return = Return;
+            ViewBag.ProfileID = ID;
+
             try
             {
                 Model.TaxConsultant newConsultant = new Model.TaxConsultant();
@@ -256,7 +261,14 @@ namespace TaxApp.Controllers
 
                 if (result == true)
                 {
+                    if(Return == "Consultant")
+                    {
+                        return Redirect("../Tax/Consultant");
+                    }
+                    else
+                    {
                         return Redirect("/Landing/EmailSettings?ID=" + profileID.ToString());
+                    }
                 }
                 else
                 {
