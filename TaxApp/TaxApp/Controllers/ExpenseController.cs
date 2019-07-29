@@ -112,7 +112,7 @@ namespace TaxApp.Controllers
 
         // POST: Landing/NewProfile
         [HttpPost]
-        public ActionResult NewGeneralExpense(FormCollection collection)
+        public ActionResult NewGeneralExpense(FormCollection collection, HttpPostedFileBase file)
         {
             try
             {
@@ -130,16 +130,6 @@ namespace TaxApp.Controllers
                 newExpense.Amount = Decimal.Parse(Request.Form["Amount"].ToString());
                 newExpense.Repeat = bool.Parse(Request.Form["Repeat"].ToString().Split(',')[0]);
 
-                //Read file to byte array
-                FileStream stream = System.IO.File.OpenRead(@""+Request.Form["Invoice_ReceiptCopy"] +"");
-                byte[] fileBytes = new byte[stream.Length];
-
-                stream.Read(fileBytes, 0, fileBytes.Length);
-                stream.Close();
-
-                //byte[] bytes = Request.Form["Invoice_ReceiptCopy"];
-                //newExpense.Invoice_ReceiptCopy = bytes;
-
                 bool result = handler.newGeneralExpense(newExpense);
 
                 if (result == true)
@@ -155,7 +145,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error in new general expense of expense controler");
-                return View();
+                return View("../Shared/Error");
             }
         }
         #endregion

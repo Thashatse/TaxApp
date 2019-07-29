@@ -1337,6 +1337,28 @@ namespace DAL
 
             return Result;
         }
+        public bool addGeneralExpenseFile(FileUpload newFile)
+        {
+            bool Result = false;
+
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@IRC", newFile.fileByteArray),
+                        new SqlParameter("@EID", newFile.ID)
+                   };
+
+                Result = DBHelper.NonQuery("SP_addGeneralExpenseFile", CommandType.StoredProcedure, pars);
+
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return Result;
+        }
         public SP_GetGeneralExpense_Result getGeneralExpense(Expense expenseID)
         {
             SP_GetGeneralExpense_Result expense = null;
