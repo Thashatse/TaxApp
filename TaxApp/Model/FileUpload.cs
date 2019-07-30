@@ -16,5 +16,6 @@ namespace Model
         public HttpPostedFileBase file { get; set; }
         public byte[] fileByteArray { get; set; }
         public int ID { get; set; }
+        public string fileName { get; set; }
     }
 }

@@ -28,5 +28,6 @@ namespace Model
         public bool Repeat { get; set; }
 
         public byte[] Invoice_ReceiptCopy { get; set; }
+        public string fileName { get; set; }
     }
 }

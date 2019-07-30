@@ -1,6 +1,6 @@
 ﻿@model Model.FileUpload
 @{
-    ViewBag.Title = "";
+    ViewBag.Title = "Upload File";
 }
 
 <!-- Header -->
@@ -10,7 +10,7 @@
             <div class="row justify-content-center">
                 <div class="col-lg-5 col-md-6">
                     <h1 class="text-white">
-                        Upload @ViewBag.Title
+                        Upload @ViewBag.Heading
                     </h1>
                     <div>
                         <p class="text-white">For @ViewBag.Details</p>
@@ -45,6 +45,8 @@
                             <div class="form-group">
                                 <div class="col-md-offset-2 col-md-10">
                                     <input type="submit" value="Upload" class="btn btn-primary" />
+                                    <input id='txtId' name='ID' value="@ViewBag.ID" type="hidden" />
+                                    <input id='txtType' name='type' value="@ViewBag.type" type="hidden" />
                                 </div>
                             </div>
                             <div class="form-group">

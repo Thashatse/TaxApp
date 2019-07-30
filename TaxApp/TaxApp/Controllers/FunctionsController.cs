@@ -60,23 +60,25 @@ namespace TaxApp.Controllers
             }
         }
 
-        // GET: Functions
+        #region Upload File
         public ActionResult AttachFile(string ID, string type, string Title, string Details)
         {
-            ViewBag.Title = Title;
+            ViewBag.Heading = Title;
             ViewBag.Details = Details;
+            ViewBag.type = type;
+            ViewBag.ID = ID;
              return View();
         }
 
         [HttpPost]
-        public ActionResult AttachFile(string ID, string type, string Title, string Details, FormCollection collection, HttpPostedFileBase file)
+        public ActionResult AttachFile(string ID, string type, HttpPostedFileBase file)
         {
-            ViewBag.Title = Title;
-            ViewBag.Details = Details;
-
             try
             {
                 getCookie();
+
+                ID = Request.Form["ID"];
+                type = Request.Form["type"];
 
                 String FileExt = Path.GetExtension(file.FileName).ToUpper();
 
@@ -86,6 +88,7 @@ namespace TaxApp.Controllers
 
                 FileUpload newFile = new FileUpload();
                 newFile.fileByteArray = FileDet;
+                newFile.fileName = file.FileName;
 
                 newFile.ID = int.Parse(ID);
 
@@ -96,6 +99,12 @@ namespace TaxApp.Controllers
                     success = handler.addGeneralExpenseFile(newFile);
                     if (success == true)
                         Response.Redirect("../Expense/GeneralExpense?ID="+ID);
+                }
+                else if (type == "JE")
+                {
+                    success = handler.addJobExpenseFile(newFile);
+                    if (success == true)
+                        Response.Redirect("../Expense/JobExpense?ID="+ID);
                 }
 
                 Response.Redirect("../Shared/Error?Err=An error occurred uploading file");
@@ -110,5 +119,29 @@ namespace TaxApp.Controllers
 
             return Redirect("../Shared/Error?Err=An error occurred uploading the file");
         }
+        #endregion
+        
+        #region DownLoad File
+        public FileResult DownloadFile(string ID, string type)
+        {
+                getCookie();
+
+                FileUpload getFile = new FileUpload();
+            getFile.ID = int.Parse(ID);
+
+                if (type == "GE")
+                {
+                getFile = handler.getGeneralExpenseFile(getFile);
+                }
+            else if (type == "JE")
+                {
+                getFile = handler.getJobExpenseFile(getFile);
+                }
+
+            return File(getFile.fileByteArray, System.Net.Mime.MediaTypeNames.Application.Octet, getFile.fileName);
+        }
+        #endregion
     }
+            
+        
 }

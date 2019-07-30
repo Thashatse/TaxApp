@@ -15,12 +15,26 @@
                     </h1>
                     <br />
                     <div>
-                        @if (ViewBag.Complete == "NotDone")
+                        @if (ViewBag.Complete != "NotDone")
                         {
-                            <a href="../Expense/EditJobExpense?ID=@Html.DisplayFor(model => model.ExpenseID)" 
+                            <a href="../Expense/EditJobExpense?ID=@Html.DisplayFor(model => model.ExpenseID)"
                                class="btn btn-sm btn-secondary">Edit</a>
                         }
-                        </div>
+                        <br />
+                        <br />
+                        @if (@Model.Invoice_ReceiptCopy == null)
+                        {
+                            <a href="../Functions/AttachFile?ID=@Html.DisplayFor(model => model.ExpenseID)&type=JE&Title=Invoice or Receipt&Details=@ViewBag.Details"
+                               class="btn btn-sm btn-white">Add Invoice or Receipt Copy</a>
+                        }
+                        else
+                        {
+                            <a target="_blank" href="../Functions/DownloadFile?ID=@Html.DisplayFor(model => model.ExpenseID)&type=JE"
+                               class="btn btn-sm btn-white">Download Invoice or Receipt Copy</a>
+                            <a href="../Functions/AttachFile?ID=@Html.DisplayFor(model => model.ExpenseID)&type=JE&Title=Invoice or Receipt&Details=@ViewBag.Details"
+                               class="btn btn-sm btn-white">Update Invoice or Receipt Copy</a>
+                        }
+                    </div>
                 </div>
             </div>
         </div>

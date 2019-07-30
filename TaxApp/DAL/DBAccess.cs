@@ -7,6 +7,7 @@ using System.Data;
 using System.Data.SqlClient;
 using Model;
 using System.Globalization;
+using System.IO;
 
 namespace DAL
 {
@@ -1205,7 +1206,10 @@ namespace DAL
                             expense.Date = DateTime.Parse(row[5].ToString());
                             expense.DateString = expense.Date.ToString("dddd, dd MMMM yyyy");
                             expense.Amount = decimal.Parse(row[6].ToString());
-                            //expense.Invoice_ReceiptCopy = row[7].ToString();
+                            if (row["Invoice/ReceiptCopy"] != null && row["Invoice/ReceiptCopy"].ToString() != "")
+                            {
+                                expense.Invoice_ReceiptCopy = Encoding.ASCII.GetBytes(row["Invoice/ReceiptCopy"].ToString());
+                            }
                             expense.CatName = row[8].ToString();
                             expense.CatDescription = row[9].ToString();
                         }
@@ -1337,28 +1341,6 @@ namespace DAL
 
             return Result;
         }
-        public bool addGeneralExpenseFile(FileUpload newFile)
-        {
-            bool Result = false;
-
-            try
-            {
-                SqlParameter[] pars = new SqlParameter[]
-                   {
-                        new SqlParameter("@IRC", newFile.fileByteArray),
-                        new SqlParameter("@EID", newFile.ID)
-                   };
-
-                Result = DBHelper.NonQuery("SP_addGeneralExpenseFile", CommandType.StoredProcedure, pars);
-
-            }
-            catch (Exception e)
-            {
-                throw new ApplicationException(e.ToString());
-            }
-
-            return Result;
-        }
         public SP_GetGeneralExpense_Result getGeneralExpense(Expense expenseID)
         {
             SP_GetGeneralExpense_Result expense = null;
@@ -1386,7 +1368,10 @@ namespace DAL
                             expense.Date = DateTime.Parse(row[5].ToString());
                             expense.Amount = decimal.Parse(row[6].ToString());
                             expense.Repeat = bool.Parse(row[7].ToString());
-                            //expense.Invoice_ReceiptCopy = row[8].ToString();
+                            if(row["Invoice/ReceiptCopy"] != null && row["Invoice/ReceiptCopy"].ToString() != "")
+                            {
+                            expense.Invoice_ReceiptCopy = Encoding.ASCII.GetBytes(row["Invoice/ReceiptCopy"].ToString());
+                            }
                             expense.CatName = row[9].ToString();
                             expense.CatDescription = row[10].ToString();
                             expense.DateString = expense.Date.ToString("dddd, dd MMMM yyyy");
@@ -2902,6 +2887,119 @@ namespace DAL
                     }
                 }
                 return List;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        #endregion
+
+        #region File Upload Download
+        public bool addGeneralExpenseFile(FileUpload newFile)
+        {
+            bool Result = false;
+
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@IRC", newFile.fileByteArray),
+                        new SqlParameter("@EID", newFile.ID),
+                        new SqlParameter("@FN", newFile.fileName),
+                   };
+
+                Result = DBHelper.NonQuery("SP_addGeneralExpenseFile", CommandType.StoredProcedure, pars);
+
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return Result;
+        }
+        public FileUpload getGeneralExpenseFile(FileUpload getFile)
+        {
+            FileUpload file = null;
+
+            SqlParameter[] pars = new SqlParameter[]
+                {
+                        new SqlParameter("@EID", getFile.ID)
+                };
+
+            try
+            {
+                using (DataTable table = DBHelper.ParamSelect("SP_getGeneralExpenseFile",
+            CommandType.StoredProcedure, pars))
+                {
+                    foreach (DataRow row in table.Rows)
+                    {
+                        if (row != null)
+                        {
+                            file = new FileUpload();
+                            file.fileByteArray = (byte[])row["Invoice/ReceiptCopy"];
+                            file.fileName = row["FileName"].ToString();
+                            file.ID = getFile.ID;
+                        }
+                    }
+                }
+                return file;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        public bool addJobExpenseFile(FileUpload newFile)
+        {
+            bool Result = false;
+
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@IRC", newFile.fileByteArray),
+                        new SqlParameter("@EID", newFile.ID),
+                        new SqlParameter("@FN", newFile.fileName),
+                   };
+
+                Result = DBHelper.NonQuery("SP_addJobExpenseFile", CommandType.StoredProcedure, pars);
+
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return Result;
+        }
+        public FileUpload getJobExpenseFile(FileUpload getFile)
+        {
+            FileUpload file = null;
+
+            SqlParameter[] pars = new SqlParameter[]
+                {
+                        new SqlParameter("@EID", getFile.ID)
+                };
+
+            try
+            {
+                using (DataTable table = DBHelper.ParamSelect("SP_getJobExpenseFile",
+            CommandType.StoredProcedure, pars))
+                {
+                    foreach (DataRow row in table.Rows)
+                    {
+                        if (row != null)
+                        {
+                            file = new FileUpload();
+                            file.fileByteArray = (byte[])row["Invoice/ReceiptCopy"];
+                            file.fileName = row["FileName"].ToString();
+                            file.ID = getFile.ID;
+                        }
+                    }
+                }
+                return file;
             }
             catch (Exception e)
             {

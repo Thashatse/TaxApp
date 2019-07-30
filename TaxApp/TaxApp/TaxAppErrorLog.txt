@@ -1,19 +1,5 @@
 
-TimeStamp: 7/29/2019 8:07:14 PM
-Machine Name: TEFO-NTSAKO-HAS
-OS Version: Microsoft Windows NT 10.0.17134.0
-Curent User: thash
-User Domain: TEFO-NTSAKO-HAS
-Curent Directory: C:\Program Files (x86)\IIS Express
-Error: 
-System.ArgumentNullException: Value cannot be null.
-Parameter name: String
-   at System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
-   at System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
-   at System.Int32.Parse(String s)
-   at TaxApp.Controllers.FunctionsController.AttachFile(FormCollection collection, HttpPostedFileBase file, String ID, String type, String Title, String Details) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\FunctionsController.cs:line 89Error loding Vat Center
-
-TimeStamp: 7/29/2019 8:20:49 PM
+TimeStamp: 7/30/2019 5:26:51 PM
 Machine Name: TEFO-NTSAKO-HAS
 OS Version: Microsoft Windows NT 10.0.17134.0
 Curent User: thash
@@ -23,4 +9,40 @@ Error:
 System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have been sent.
    at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
    at System.Web.HttpResponseWrapper.Redirect(String url)
-   at TaxApp.Controllers.FunctionsController.AttachFile(String ID, String type, String Title, String Details, FormCollection collection, HttpPostedFileBase file) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\FunctionsController.cs:line 101Error loding Vat Center
+   at TaxApp.Controllers.FunctionsController.AttachFile(String ID, String type, HttpPostedFileBase file) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\FunctionsController.cs:line 104Error loding Vat Center
+
+TimeStamp: 7/30/2019 5:30:04 PM
+Machine Name: TEFO-NTSAKO-HAS
+OS Version: Microsoft Windows NT 10.0.17134.0
+Curent User: thash
+User Domain: TEFO-NTSAKO-HAS
+Curent Directory: C:\Program Files (x86)\IIS Express
+Error: 
+System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have been sent.
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponseWrapper.Redirect(String url)
+   at TaxApp.Controllers.FunctionsController.AttachFile(String ID, String type, HttpPostedFileBase file) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\FunctionsController.cs:line 104Error loding Vat Center
+
+TimeStamp: 7/30/2019 5:30:19 PM
+Machine Name: TEFO-NTSAKO-HAS
+OS Version: Microsoft Windows NT 10.0.17134.0
+Curent User: thash
+User Domain: TEFO-NTSAKO-HAS
+Curent Directory: C:\Program Files (x86)\IIS Express
+Error: 
+System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have been sent.
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponseWrapper.Redirect(String url)
+   at TaxApp.Controllers.FunctionsController.AttachFile(String ID, String type, HttpPostedFileBase file) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\FunctionsController.cs:line 104Error loding Vat Center
+
+TimeStamp: 7/30/2019 5:44:12 PM
+Machine Name: TEFO-NTSAKO-HAS
+OS Version: Microsoft Windows NT 10.0.17134.0
+Curent User: thash
+User Domain: TEFO-NTSAKO-HAS
+Curent Directory: C:\Program Files (x86)\IIS Express
+Error: 
+System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have been sent.
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponseWrapper.Redirect(String url)
+   at TaxApp.Controllers.FunctionsController.AttachFile(String ID, String type, HttpPostedFileBase file) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\FunctionsController.cs:line 110Error loding Vat Center

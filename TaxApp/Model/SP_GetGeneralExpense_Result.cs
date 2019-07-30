@@ -32,5 +32,6 @@ namespace Model
         public byte[] Invoice_ReceiptCopy { get; set; }
         public string CatName { get; set; }
         public string CatDescription { get; set; }
+        public string fileName { get; set; }
     }
 }

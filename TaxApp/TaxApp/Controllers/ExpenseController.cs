@@ -112,7 +112,7 @@ namespace TaxApp.Controllers
 
         // POST: Landing/NewProfile
         [HttpPost]
-        public ActionResult NewGeneralExpense(FormCollection collection, HttpPostedFileBase file)
+        public ActionResult NewGeneralExpense(FormCollection collection)
         {
             try
             {
@@ -338,6 +338,8 @@ namespace TaxApp.Controllers
                 getJob.JobID = JobExpense.JobID;
                 Model.SP_GetJob_Result Job = handler.getJob(getJob);
                 ViewBag.JobTitle = Job.JobTitle;
+                ViewBag.Details = JobExpense.Name + " Expense";
+                ViewBag.Title = "Invoice or Receipt";
 
                 if (Job.EndDate != null)
                 {
@@ -368,6 +370,8 @@ namespace TaxApp.Controllers
                 Model.Expense getExpense = new Model.Expense();
                 getExpense.ExpenseID = int.Parse(ID);
                 Model.SP_GetGeneralExpense_Result GeneralExpense = handler.getGeneralExpense(getExpense);
+                ViewBag.Details = GeneralExpense.Name + " Expense";
+                ViewBag.Title = "Invoice or Receipt";
 
                 return View(GeneralExpense);
             }

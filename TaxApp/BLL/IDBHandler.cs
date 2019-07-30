@@ -60,7 +60,6 @@ namespace BLL
         List<SP_GetJobExpense_Result> getJobExpenses(Job jobID);
         List<SP_GetJobExpense_Result> getAllJobExpense(Profile profileID);
         bool newGeneralExpense(SP_GetGeneralExpense_Result newGeneralExpense);
-        bool addGeneralExpenseFile(FileUpload newFile);
         SP_GetGeneralExpense_Result getGeneralExpense(Expense expenseID);
         List<SP_GetGeneralExpense_Result> getGeneralExpenses(Profile profileID);
         List<ExpenseCategory> getExpenseCatagories();
@@ -109,6 +108,13 @@ namespace BLL
         #region Tax Center
         TaxDashboard getTaxCenterDashboard(Profile profile, TaxAndVatPeriods period);
         List<TAXorVATRecivedList> getTAXRecivedList(Profile profile, TaxAndVatPeriods period, TaxPeriodRates rate);
+        #endregion
+
+        #region File Upload Download
+        bool addGeneralExpenseFile(FileUpload newFile);
+        FileUpload getGeneralExpenseFile(FileUpload getFile);
+        bool addJobExpenseFile(FileUpload newFile);
+        FileUpload getJobExpenseFile(FileUpload getFile);
         #endregion
     }
 }

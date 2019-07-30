@@ -17,20 +17,23 @@
                     <div>
                         <a href="../expense/editexpense?ID=@Html.DisplayFor(model => model.ExpenseID)"
                            class="btn btn-sm btn-white">Edit</a>
-                        @if(@Model.Invoice_ReceiptCopy == null)
+                        <a href="../expense/reapetexpense?ID=@Html.DisplayFor(model => model.ExpenseID)"
+                           class="btn btn-sm btn-white">Reapet Expense now</a>
+                        <a href="../expense/GeneralExpenses"
+                           class="btn btn-sm btn-white">View All General Expenses</a>
+                        <br /><br />
+                        @if (@Model.Invoice_ReceiptCopy == null)
                         {
-                        <a href="../Functions/AttachFile?ID=@Html.DisplayFor(model => model.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@Model.Name Expense"
-                           class="btn btn-sm btn-white">Add Invoice or Receipt Copy</a>
+                            <a href="../Functions/AttachFile?ID=@Html.DisplayFor(model => model.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@ViewBag.Details"
+                               class="btn btn-sm btn-white">Add Invoice or Receipt Copy</a>
                         }
                         else
                         {
-                        <a href="../Functions/AttachFile?ID=@Html.DisplayFor(model => model.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@Model.Name Expense"
-                           class="btn btn-sm btn-white">Update Invoice or Receipt Copy</a>
+                            <a target="_blank" href="../Functions/DownloadFile?ID=@Html.DisplayFor(model => model.ExpenseID)&type=GE"
+                               class="btn btn-sm btn-white">Download Invoice or Receipt Copy</a>
+                            <a href="../Functions/AttachFile?ID=@Html.DisplayFor(model => model.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@ViewBag.Details"
+                               class="btn btn-sm btn-white">Update Invoice or Receipt Copy</a>
                         }
-                        <a href="../expense/reapetexpense?ID=@Html.DisplayFor(model => model.ExpenseID)"
-                           class="btn btn-sm btn-white">Reapet Expense now</a>
-                        <br /><br /><a href="../expense/GeneralExpenses"
-                           class="btn btn-sm btn-white">View All General Expenses</a>
                     </div>
                 </div>
             </div>

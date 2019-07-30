@@ -6,14 +6,16 @@ SET QUOTED_IDENTIFIER ON
 GO
 alter PROCEDURE [dbo].[SP_addGeneralExpenseFile]
 	@EID int,
-	@IRC varbinary(MAX)
+	@IRC varbinary(MAX),
+	@FN varchar(MAX)
 AS
 BEGIN
 	BEGIN TRY
 		BEGIN TRANSACTION
 
     UPDATE [GeneralExpense] 
-	Set [Invoice/ReceiptCopy] = @IRC
+	Set [Invoice/ReceiptCopy] = @IRC,
+		[FileName] = @FN
     WHERE ExpenseID = @EID
 
 		COMMIT TRANSACTION 

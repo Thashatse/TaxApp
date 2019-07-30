@@ -147,10 +147,6 @@ namespace BLL
         {
             return db.newGeneralExpense(newGeneralExpense);
         }
-        public bool addGeneralExpenseFile(FileUpload newFile)
-        {
-            return db.addGeneralExpenseFile(newFile);
-        }
         public SP_GetGeneralExpense_Result getGeneralExpense(Expense expenseID)
         {
             return db.getGeneralExpense(expenseID);
@@ -299,6 +295,25 @@ namespace BLL
         public List<TAXorVATRecivedList> getTAXRecivedList(Profile profile, TaxAndVatPeriods period, TaxPeriodRates rate)
         {
             return db.getTAXRecivedList(profile, period, rate);
+        }
+        #endregion
+
+        #region File Upload Download
+        public bool addGeneralExpenseFile(FileUpload newFile)
+        {
+            return db.addGeneralExpenseFile(newFile);
+        }
+        public FileUpload getGeneralExpenseFile(FileUpload getFile)
+        {
+            return db.getGeneralExpenseFile(getFile);
+        }
+        public bool addJobExpenseFile(FileUpload newFile)
+        {
+            return db.addJobExpenseFile(newFile);
+        }
+        public FileUpload getJobExpenseFile(FileUpload getFile)
+        {
+            return db.getJobExpenseFile(getFile);
         }
         #endregion
     }
