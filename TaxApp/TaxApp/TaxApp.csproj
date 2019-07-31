@@ -137,6 +137,7 @@
     <Compile Include="Controllers\InvoiceController.cs" />
     <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\LandingController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\SharedController.cs" />
     <Compile Include="Controllers\TaxController.cs" />
@@ -2194,10 +2195,11 @@
     <Content Include="Views\Tax\Consultant.cshtml" />
     <Content Include="Views\Tax\EditConsultant.cshtml" />
     <Content Include="Views\Functions\AttachFile.cshtml" />
+    <Content Include="Views\Client\Edit.cshtml" />
+    <Content Include="Views\Profile\Profile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\NewFolder1\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

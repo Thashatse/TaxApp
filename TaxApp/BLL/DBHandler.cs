@@ -33,6 +33,10 @@ namespace BLL
         {
             return db.getProfile(User);
         }
+        public bool editprofile(Model.Profile User)
+        {
+            return db.editprofile(User);
+        }
         #endregion
 
         #region Bussiness
@@ -123,6 +127,10 @@ namespace BLL
         public List<Client> getProfileClients(Client client)
         {
             return db.getProfileClients(client);
+        }
+        public bool editClient(Client client)
+        {
+            return db.editClient(client);
         }
         #endregion
 

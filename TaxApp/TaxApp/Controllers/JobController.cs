@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Model;
 
 namespace TaxApp.Controllers
 {
@@ -209,13 +210,23 @@ namespace TaxApp.Controllers
             getClients.ProfileID = int.Parse(cookie["ID"].ToString());
             List<Model.Client> Clients = handler.getProfileClients(getClients);
             ViewBag.ClientList = new SelectList(Clients, "ClientID", "FirstName");
-            return View();
+
+                Profile getProfile = new Profile();
+                getProfile.ProfileID = int.Parse(cookie["ID"].ToString());
+                getProfile.EmailAddress = "";
+                getProfile.Username = "";
+                getProfile = handler.getProfile(getProfile);
+                Job defaultData = new Job();
+                defaultData.HourlyRate = getProfile.DefaultHourlyRate;
+                defaultData.DefultDate = DateTime.Now.ToString("yyyy-MM-dd");
+                defaultData.MinDate = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
+            return View(defaultData);
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error loding new job");
-                return Redirect("/job/jobs");
+                return Redirect("../Shared/Error");
             }
         }
 
@@ -225,12 +236,22 @@ namespace TaxApp.Controllers
         {
             try
             {
+                getCookie();
+
+                Model.Client getClients = new Model.Client();
+                getClients.ProfileID = int.Parse(cookie["ID"].ToString());
+                List<Model.Client> Clients = handler.getProfileClients(getClients);
+                ViewBag.ClientList = new SelectList(Clients, "ClientID", "FirstName");
+
                 Model.Job newJob = new Model.Job();
 
                 newJob.ClientID = int.Parse(Request.Form["ClientList"].ToString());
                 newJob.JobTitle = Request.Form["JobTitle"].ToString();
                 newJob.HourlyRate = decimal.Parse(Request.Form["HourlyRate"].ToString());
-                newJob.Budget = decimal.Parse(Request.Form["Budget"].ToString());
+                if(Request.Form["Budget"].ToString() != "")
+                    newJob.Budget = decimal.Parse(Request.Form["Budget"].ToString());
+                else
+                    newJob.Budget = 0;
                 newJob.StartDate = DateTime.Parse(Request.Form["StartDate"]);
 
                 bool result = handler.newJob(newJob);
@@ -248,7 +269,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error in email settings method of LandingControles");
-                return View();
+                return RedirectToAction("../Shared/Error?Err=An error occurred while creating new job.");
             }
         }
         #endregion

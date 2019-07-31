@@ -64,8 +64,8 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                <input class="datefield" data-val="true" data-val-required="Date is required"
-                                       id="ReleaseDate" name="StartDate" type="date" value="DateTime.Now" />
+                                <input name="StartDate" type="date" value="@Html.DisplayFor(model => model.DefultDate)"
+                                       min="@Html.DisplayFor(model => model.MinDate)" />
                             </div>
                         </div>
 

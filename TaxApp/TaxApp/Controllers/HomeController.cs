@@ -130,7 +130,7 @@ namespace TaxApp.Controllers
 
                     dashboardExpenses.Add(expense);
                 }
-                dashboardExpenses = dashboardExpenses.OrderBy(x => x.dateSort).ToList();
+                dashboardExpenses = dashboardExpenses.OrderByDescending(x => x.dateSort).ToList();
                 List<Model.SP_GetInvoice_Result> OutinvoiceDetails = handler.getInvoicesOutsatanding(profile);
 
                 List<VATDashboard> VAT = new List<VATDashboard>();

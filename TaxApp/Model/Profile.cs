@@ -23,10 +23,10 @@ namespace Model
         public string FirstName { get; set; }
 
         [Required]
-
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
+        [Display(Name = "Company Name")]
         public string CompanyName { get; set; }
 
         [Required]
@@ -52,13 +52,14 @@ namespace Model
         public decimal VATRate { get; set; }
 
         [Required]
-        [Display(Name = "Password")]
+        [Display(Name = "Default Hourly Rate (R)")]
         public decimal DefaultHourlyRate { get; set; }
 
 
         public bool Active { get; set; }
 
         [Required]
+        [Display(Name = "Username")]
         public string Username { get; set; }
 
         [Required]

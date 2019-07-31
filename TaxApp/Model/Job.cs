@@ -26,8 +26,10 @@ namespace Model
         public string JobTitle { get; set; }
 
 
-        [Display(Name = "Hourly Rate")]
+        [Display(Name = "Hourly Rate (R)")]
         public Nullable<decimal> HourlyRate { get; set; }
+
+        [Display(Name = "Budget (R)")]
         public Nullable<decimal> Budget { get; set; }
 
         [Required]
@@ -36,5 +38,7 @@ namespace Model
 
         [Display(Name = "End Date")]
         public Nullable<System.DateTime> EndDate { get; set; }
+        public string DefultDate { get; set; }
+        public string MinDate { get; set; }
     }
 }

@@ -15,6 +15,7 @@ namespace BLL
 
         #region Profile
         bool newprofile(Model.Profile user);
+        bool editprofile(Model.Profile User);
         Model.Profile getProfile(Model.Profile User);
         #endregion
 
@@ -52,6 +53,7 @@ namespace BLL
         bool newClient(Model.Client client);
         Model.Client getClient(Model.Client client);
         List<Client> getProfileClients(Client client);
+        bool editClient(Client client);
         #endregion
 
         #region Expense

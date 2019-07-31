@@ -166,6 +166,36 @@ namespace DAL
 
             return Result;
         }
+        public bool editprofile(Model.Profile User)
+        {
+            bool Result = false;
+            
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+            new SqlParameter("@FN", User.FirstName),
+            new SqlParameter("@LN", User.LastName),
+            new SqlParameter("@CN", User.CompanyName),
+            new SqlParameter("@EM", User.EmailAddress),
+            new SqlParameter("@CNum", User.ContactNumber),
+            new SqlParameter("@PA", User.PhysicalAddress),
+            new SqlParameter("@VATNum", User.VATNumber),
+            new SqlParameter("@DR", User.DefaultHourlyRate),
+            new SqlParameter("@UN", User.Username),
+            new SqlParameter("@PID", User.ProfileID)
+                   };
+                
+                Result = DBHelper.NonQuery("SP_EditProfile", CommandType.StoredProcedure, pars);
+
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return Result;
+        }
         public Model.Profile getProfile(Model.Profile User)
         {
             Model.Profile profile = null;
@@ -505,11 +535,12 @@ namespace DAL
                                 job.TravelLogCostTotal = 0;
                             }
 
-                            if (row[3].ToString() != "" || row[3].ToString() != null)
+                            if ((row[3].ToString() != "" || row[3].ToString() != null)
+                                && decimal.Parse(row["Budget"].ToString()) != 0)
                             {
                                 job.Budget = decimal.Parse(row[3].ToString());
-                                job.BudgetPercent = ((job.ExpenseTotal + job.TravelLogCostTotal + 
-                                    (job.WorkLogHours * job.HourlyRate)) / job.Budget) *100;
+                                job.BudgetPercent = ((job.ExpenseTotal + job.TravelLogCostTotal +
+                                    (job.WorkLogHours * job.HourlyRate)) / job.Budget) * 100;
                             }
                             else
                             {
@@ -629,7 +660,9 @@ namespace DAL
                             }
                             Jobs.Add(job);
 
-                            if (row[3].ToString() != "" || row[3].ToString() != null)
+
+                            if ((row[3].ToString() != "" || row[3].ToString() != null)
+                                && decimal.Parse(row["Budget"].ToString()) != 0)
                             {
                                 job.Budget = decimal.Parse(row[3].ToString());
                                 job.BudgetPercent = ((job.ExpenseTotal + job.TravelLogCostTotal +
@@ -753,7 +786,9 @@ namespace DAL
                             }
                             Jobs.Add(job);
 
-                            if (row[3].ToString() != "" || row[3].ToString() != null)
+
+                            if ((row[3].ToString() != "" || row[3].ToString() != null)
+                                && decimal.Parse(row["Budget"].ToString()) != 0)
                             {
                                 job.Budget = decimal.Parse(row[3].ToString());
                                 job.BudgetPercent = ((job.ExpenseTotal + job.TravelLogCostTotal +
@@ -878,7 +913,8 @@ namespace DAL
                             }
                             Jobs.Add(job);
 
-                            if (row[3].ToString() != "" || row[3].ToString() != null)
+                            if ((row[3].ToString() != "" || row[3].ToString() != null)
+                                && decimal.Parse(row["Budget"].ToString()) != 0)
                             {
                                 job.Budget = decimal.Parse(row[3].ToString());
                                 job.BudgetPercent = ((job.ExpenseTotal + job.TravelLogCostTotal +
@@ -1066,7 +1102,33 @@ namespace DAL
 
             return Result;
         }
+        public bool editClient(Client client)
+        {
+            bool Result = false;
 
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@FN", client.FirstName),
+                        new SqlParameter("@LN", client.LastName),
+                        new SqlParameter("@CN", client.CompanyName),
+                        new SqlParameter("@CNum", client.ContactNumber),
+                        new SqlParameter("@EA", client.EmailAddress),
+                        new SqlParameter("@PA", client.PhysiclaAddress),
+                        new SqlParameter("@CID", client.ClientID),
+                   };
+
+                Result = DBHelper.NonQuery("SP_EditClient", CommandType.StoredProcedure, pars);
+
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return Result;
+        }
         public Client getClient(Client client)
         {
             Model.Client Client = null;
@@ -1086,26 +1148,40 @@ namespace DAL
                         if (row != null)
                         {
                             Client = new Model.Client();
-                            client.FirstName = row[1].ToString();
-                            client.LastName = row[2].ToString();
-                            client.CompanyName = row[3].ToString();
-                            client.ContactNumber = row[4].ToString();
-                            client.EmailAddress = row[5].ToString();
-                            client.PreferedCommunicationChannel = row[7].ToString();
-                            client.PhysiclaAddress = row[6].ToString();
-                            client.ProfileID = int.Parse(row[8].ToString());
-                            client.ClientID = int.Parse(row[0].ToString());
+                            Client.FirstName = row[1].ToString();
+                            Client.LastName = row[2].ToString();
+
+                            if (row["CompanyName"] != null)
+                            {
+                                if (row["CompanyName"].ToString() != "")
+                                {
+                                    Client.CompanyName = row["CompanyName"].ToString();
+                                }
+                                else
+                                {
+                                    Client.CompanyName = "None";
+                                }
+                            }
+                            else
+                            {
+                                Client.CompanyName = "None";
+                            }
+                            Client.ContactNumber = row[4].ToString();
+                            Client.EmailAddress = row[5].ToString();
+                            Client.PreferedCommunicationChannel = row[7].ToString();
+                            Client.PhysiclaAddress = row[6].ToString();
+                            Client.ProfileID = int.Parse(row[8].ToString());
+                            Client.ClientID = int.Parse(row[0].ToString());
                         }
                     }
                 }
-                return client;
+                return Client;
             }
             catch (Exception e)
             {
                 throw new ApplicationException(e.ToString());
             }
         }
-
         public List<Client> getProfileClients(Client client)
         {
             List<Client> Clients = new List<Client>();
@@ -1128,8 +1204,22 @@ namespace DAL
                             NewClient.ClientID = int.Parse(row[0].ToString());
                             NewClient.FirstName = row[1].ToString();
                                 NewClient.LastName = row[2].ToString();
-                                NewClient.CompanyName = row[3].ToString();
-                                NewClient.ContactNumber = row[4].ToString();
+                            if (row["CompanyName"] != null)
+                            {
+                                if (row["CompanyName"].ToString() != "")
+                                {
+                                    NewClient.CompanyName = row["CompanyName"].ToString();
+                                }
+                                else
+                                {
+                                    NewClient.CompanyName = "None";
+                                }
+                            }
+                            else
+                            {
+                                NewClient.CompanyName = "None";
+                            }
+                            NewClient.ContactNumber = row[4].ToString();
                                 NewClient.EmailAddress = row[5].ToString();
                                 NewClient.PreferedCommunicationChannel = row[7].ToString();
                                 NewClient.PhysiclaAddress = row[6].ToString();

@@ -18,10 +18,13 @@ namespace Model
         public int ClientID { get; set; }
 
         [Required]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
+        [Display(Name = "Company Name")]
         public string CompanyName { get; set; }
 
         [Required(ErrorMessage = "Please Enter Mobile No")]
@@ -35,6 +38,7 @@ namespace Model
         ErrorMessage = "Sorry, The email address entered is not in the correct format. The standard email address format is name@example.com")]
         public string EmailAddress { get; set; }
 
+        [Display(Name = "Physical Address")]
         public string PhysiclaAddress { get; set; }
 
         [Required]

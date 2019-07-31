@@ -11,6 +11,12 @@
             <div class="row justify-content-center">
                 <div class="col-lg-5 col-md-6">
                     <h1 class="text-white">Clients</h1>
+                    <br />
+                    <div>
+                            <p class="btn btn-sm btn-white">
+                                @Html.ActionLink("New Client", "NewClient")
+                            </p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -25,9 +31,6 @@
                 <div class="card bg-secondary shadow border-0">
 
                     <div class="col text-right">
-                        <p class="btn">
-                            @Html.ActionLink("Create New", "NewClient")
-                        </p>
                     </div>
                     <table class="table">
                         <tr>
@@ -39,15 +42,6 @@
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.CompanyName)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.ContactNumber)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.EmailAddress)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.PhysiclaAddress)
                             </th>
                             <th></th>
                         </tr>
@@ -65,18 +59,9 @@
                                     @Html.DisplayFor(modelItem => item.CompanyName)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.ContactNumber)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.EmailAddress)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.PhysiclaAddress)
-                                </td>
-                                <td>
-                                    @Html.ActionLink("Edit", "Edit", new { id = item.ClientID }) |
-                                    @Html.ActionLink("Details", "ClientDetails", new { id = item.ClientID }) |
-                                    @Html.ActionLink("Delete", "Delete", new { id = item.ClientID })
+                                <a href='/Client/ClientDetails?ID=@Html.DisplayFor(modelItem => item.ClientID)'>
+    Details
+</a>
                                 </td>
                             </tr>
                         }

@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using BLL;
 using System.Threading;
+using Model;
 
 namespace TaxApp.Controllers
 {
@@ -21,6 +22,8 @@ namespace TaxApp.Controllers
         {
             Thread zero = new Thread(function.repeatExpense);
             zero.Start();
+
+            Profile username = new Profile();
 
             try
             {
@@ -43,6 +46,10 @@ namespace TaxApp.Controllers
                             Response.Redirect("/Home/Index");
                         }
                     }
+                    else if(cookie["User"] != null || cookie["User"] != "")
+                    {
+                        username.Username = cookie["User"];
+                    }
                 }
             }
             catch (Exception e)
@@ -52,7 +59,7 @@ namespace TaxApp.Controllers
                 Redirect("/Shared/Error");
             }
 
-            return View();
+            return View(username);
         }
         // POST: Landing/Welcome
         [HttpPost]
@@ -93,17 +100,20 @@ namespace TaxApp.Controllers
                 else if (result[0] != null 
                     | result[1] != null)
                     {
-                        createCookie(handler.getProfile(newProfile));
+                        if(Request.Form["customCheckLogin"] != null)
+                            createCookie(handler.getProfile(newProfile), true);
+                        else
+                            createCookie(handler.getProfile(newProfile), false);
                         return Redirect("/Home/index");
                 }
                 }
-                return Redirect("/Shared/Error");
+                return Redirect("/Shared/Error?Err=An error occurred while processing your request, please try again later.");
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error in welcome method of LandingControles");
-                return Redirect("/Shared/Error");
+                return Redirect("/Shared/Error?Err=An error occurred while processing your request, please try again later.");
             }
         }
         #endregion
@@ -190,7 +200,7 @@ namespace TaxApp.Controllers
 
                             if (profile != null)
                             {
-                                createCookie(profile);
+                                createCookie(profile, false);
                                 return Redirect("/Landing/TaxConsultant?ID=" + profile.ProfileID.ToString());
                             }
                             else
@@ -220,13 +230,23 @@ namespace TaxApp.Controllers
         #endregion
 
         #region Cookie managment
-        public void createCookie(Model.Profile profile)
+        public void createCookie(Model.Profile profile, bool remeber)
         {
             //log the user in by creating a cookie to manage their state
             cookie = new HttpCookie("TaxAppUserID");
-            cookie.Expires = DateTime.Now.AddDays(3);
-            // Set the user id in it.
-            cookie["ID"] = profile.ProfileID.ToString();
+            if(remeber == true)
+            {
+                cookie.Expires = DateTime.Now.AddDays(14);
+                // Set the user id in it.
+                cookie["ID"] = profile.ProfileID.ToString();
+                cookie["User"] = profile.Username.ToString();
+            }
+            else
+            {
+                cookie.Expires = DateTime.Now.AddDays(1);
+                // Set the user id in it.
+                cookie["ID"] = profile.ProfileID.ToString();
+            }
             // Add it to the current web response.
             Response.Cookies.Add(cookie);
         }

@@ -131,6 +131,14 @@
                                 <tbody>
                                     <tr>
                                         <th scope="row">
+                                            Client:
+                                        </th>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ClientFirstName)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
                                             Hours Worked:
                                         </th>
                                         <td>
@@ -344,104 +352,110 @@
     <br />
 
     <div class="row">
-        <div class="col-xl-6">
-            <div class="card shadow">
-                <div class="card-header border-0">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <h3 class="mb-0">Tax</h3>
-                        </div>
-                        <div class="col text-right">
-                            <a href="../Tax/TaxCenter" class="btn btn-sm btn-primary">Tax Center</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="table-responsive">
-                    <table class="table align-items-center table-flush">
-                        <thead class="thead-light">
-                            <tr>
-                                <th scope="col">Period</th>
-                                <th scope="col">Braket</th>
-                                <th scope="col">Income Recived</th>
-                                <th scope="col">TAX Est.</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.TAX)
-                            {
-                                <tr>
-                                    <th scope="row">
-                                        <div class="media align-items-center">
-                                            <div class="media-body">
-                                                <span class="mb-0 text-sm"> @Html.DisplayFor(modelItem => item.PeriodString) </span>
-                                            </div>
-                                        </div>
-                                    </th>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.TaxBraketString)
-                                    </td>
-                                    <td>
-                                        R @Html.DisplayFor(modelItem => item.IncomeSTRING)
-                                    </td>
-                                    <td>
-                                        R @Html.DisplayFor(modelItem => item.TAXOwedSTRING)
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-6">
-            <div class="card shadow">
-                <div class="card-header border-0">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <h3 class="mb-0">VAT</h3>
-                        </div>
-                        <div class="col text-right">
-                            <a href="../Vat/VatCenter" class="btn btn-sm btn-primary">VAT Center</a>
+        @if (Model.TAX.Count > 0 && Model.TAX != null)
+        {
+            <div class="col-xl-6">
+                <div class="card shadow">
+                    <div class="card-header border-0">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h3 class="mb-0">Tax</h3>
+                            </div>
+                            <div class="col text-right">
+                                <a href="../Tax/TaxCenter" class="btn btn-sm btn-primary">Tax Center</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="table-responsive">
-                    <table class="table align-items-center table-flush">
-                        <thead class="thead-light">
-                            <tr>
-                                <th scope="col">Period</th>
-                                <th scope="col">VAT RECEIVED</th>
-                                <th scope="col">VAT PAID</th>
-                                <th scope="col">VAT OWED EST.</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.VAT)
-                            {
+                    <div class="table-responsive">
+                        <table class="table align-items-center table-flush">
+                            <thead class="thead-light">
                                 <tr>
-                                    <th scope="row">
-                                        <div class="media align-items-center">
-                                            <div class="media-body">
-                                                <span class="mb-0 text-sm"> @Html.DisplayFor(modelItem => item.PeriodString) </span>
-                                            </div>
-                                        </div>
-                                    </th>
-                                    <td>
-                                        R @Html.DisplayFor(modelItem => item.VATRECEIVEDString)
-                                    </td>
-                                    <td>
-                                        R @Html.DisplayFor(modelItem => item.VATPAIDString)
-                                    </td>
-                                    <td>
-                                        R @Html.DisplayFor(modelItem => item.VATPAIDOutstandingEstString)
-                                    </td>
+                                    <th scope="col">Period</th>
+                                    <th scope="col">Braket</th>
+                                    <th scope="col">Income Recived</th>
+                                    <th scope="col">TAX Est.</th>
                                 </tr>
-                            }
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.TAX)
+                                {
+                                    <tr>
+                                        <th scope="row">
+                                            <div class="media align-items-center">
+                                                <div class="media-body">
+                                                    <span class="mb-0 text-sm"> @Html.DisplayFor(modelItem => item.PeriodString) </span>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TaxBraketString)
+                                        </td>
+                                        <td>
+                                            R @Html.DisplayFor(modelItem => item.IncomeSTRING)
+                                        </td>
+                                        <td>
+                                            R @Html.DisplayFor(modelItem => item.TAXOwedSTRING)
+                                        </td>
+                                    </tr>
+                                }
                             </tbody>
-                    </table>
+                        </table>
+                    </div>
                 </div>
             </div>
+        }
+
+            @if (Model.VAT.Count > 0 && Model.VAT != null)
+            {
+                <div class="col-xl-6">
+                    <div class="card shadow">
+                        <div class="card-header border-0">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h3 class="mb-0">VAT</h3>
+                                </div>
+                                <div class="col text-right">
+                                    <a href="../Vat/VatCenter" class="btn btn-sm btn-primary">VAT Center</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table align-items-center table-flush">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col">Period</th>
+                                        <th scope="col">VAT RECEIVED</th>
+                                        <th scope="col">VAT PAID</th>
+                                        <th scope="col">VAT OWED EST.</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.VAT)
+                                    {
+                                        <tr>
+                                            <th scope="row">
+                                                <div class="media align-items-center">
+                                                    <div class="media-body">
+                                                        <span class="mb-0 text-sm"> @Html.DisplayFor(modelItem => item.PeriodString) </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <td>
+                                                R @Html.DisplayFor(modelItem => item.VATRECEIVEDString)
+                                            </td>
+                                            <td>
+                                                R @Html.DisplayFor(modelItem => item.VATPAIDString)
+                                            </td>
+                                            <td>
+                                                R @Html.DisplayFor(modelItem => item.VATPAIDOutstandingEstString)
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
-    </div>
 

@@ -15,7 +15,7 @@ namespace DAL
 
         #region Profile
         bool newprofile(Model.Profile user);
-
+        bool editprofile(Model.Profile User);
         Model.Profile getProfile(Model.Profile User);
         #endregion
 
@@ -52,7 +52,7 @@ namespace DAL
         #region Client
         bool newClient(Model.Client client);
         Model.Client getClient(Model.Client client);
-
+        bool editClient(Client client);
         List<Client> getProfileClients(Client client);
         #endregion
 

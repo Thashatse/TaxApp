@@ -73,7 +73,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loading clients");
-                return RedirectToAction("../Shared/Error");
+                return RedirectToAction("../Shared/Error?Err=Error loading clients");
             }
         }
 
@@ -92,7 +92,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding client details");
-                return Redirect("/job/jobs");
+                return Redirect("../Client/Client");
             }
         }
         #endregion
@@ -146,24 +146,62 @@ namespace TaxApp.Controllers
 
         #region edit
         // GET: Client/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int ID)
         {
-            return View();
+            try
+            {
+                getCookie();
+                Model.Client getClient = new Model.Client();
+                getClient.ClientID = ID;
+                Model.Client client = handler.getClient(getClient);
+                return View(client);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding client details for edit");
+                return Redirect("../Client/Client");
+            }
         }
 
         // POST: Client/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int ID, FormCollection collection)
         {
             try
             {
-                // TODO: Add update logic here
+                getCookie();
+                Model.Client getClient = new Model.Client();
+                getClient.ClientID = ID;
+                Model.Client client = handler.getClient(getClient);
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
+                client.FirstName = Request.Form["FirstName"].ToString();
+                client.LastName = Request.Form["LastName"].ToString();
+                client.ContactNumber = Request.Form["ContactNumber"].ToString();
+                client.EmailAddress = Request.Form["EmailAddress"].ToString();
+                client.CompanyName = Request.Form["CompanyName"].ToString();
+                client.PhysiclaAddress = Request.Form["PhysiclaAddress"].ToString();
+                client.ProfileID = int.Parse(cookie["ID"].ToString());
+                client.PreferedCommunicationChannel = "EMA";
+
+                bool result = handler.editClient(client);
+
+                if (result == true)
+                {
+                    return Redirect("'/ClientDetails?ID="+client.ClientID);
+                }
+                else
+                {
+                    Response.Redirect("../Shared/Error?Err=Error saving client details");
+                }
+
                 return View();
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error commiting client edit");
+                return RedirectToAction("../Shared/Error?Err=Error saving client details");
             }
         }
         #endregion
