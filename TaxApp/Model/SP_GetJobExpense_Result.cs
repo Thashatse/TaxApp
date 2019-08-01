@@ -34,5 +34,8 @@ namespace Model
         [Display(Name = "Category Description")]
         public string CatDescription { get; set; }
         public string JobTitle { get; set; }
+        public string DefultDate { get; set; }
+        public string MinDate { get; set; }
+        public string MaxDate { get; set; }
     }
 }

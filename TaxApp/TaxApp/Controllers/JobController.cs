@@ -278,7 +278,12 @@ namespace TaxApp.Controllers
         // GET: Landing/NewProfile
         public ActionResult NewWorkLogItem(string ID)
         {
-            getCookie();
+            if(ID == null || ID == "")
+                Response.Redirect("../Shared/Error");
+
+            try
+            {
+                getCookie();
 
             Model.Job getJob = new Model.Job();
             getJob.JobID = int.Parse(ID);
@@ -286,7 +291,19 @@ namespace TaxApp.Controllers
             ViewBag.JobTitle = Job.JobTitle;
             ViewBag.JobID = Job.JobID;
 
-            return View();
+            Worklog defaultData = new Worklog();
+            defaultData.DefultDate = DateTime.Now.ToString("yyyy-MM-dd");
+            defaultData.MaxDateStart = DateTime.Now.ToString("yyyy-MM-dd");
+            defaultData.MaxDateEnd = DateTime.Now.ToString("yyyy-MM-dd");
+
+                return View(defaultData);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loading new work log item view - NewWorkLogItem Job Controller");
+                return View();
+            }
         }
 
         // POST: Landing/NewProfile

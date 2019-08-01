@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Model;
 
 namespace TaxApp.Controllers
 {
@@ -100,7 +101,12 @@ namespace TaxApp.Controllers
             getCookie();
             List<Model.ExpenseCategory> cats = handler.getExpenseCatagories();
             ViewBag.CategoryList = new SelectList(cats, "CategoryID", "Name");
-            return View();
+
+                SP_GetGeneralExpense_Result defaultData = new SP_GetGeneralExpense_Result();
+                defaultData.DefultDate = DateTime.Now.ToString("yyyy-MM-dd");
+                defaultData.MaxDate = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
+
+                return View(defaultData);
             }
             catch (Exception e)
             {
@@ -165,7 +171,11 @@ namespace TaxApp.Controllers
                 ViewBag.JobTitle = Job.JobTitle;
                 ViewBag.JobID = Job.JobID;
 
-                return View();
+                SP_GetJobExpense_Result defaultData = new SP_GetJobExpense_Result();
+                defaultData.DefultDate = DateTime.Now.ToString("yyyy-MM-dd");
+                defaultData.MaxDate = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
+
+                return View(defaultData);
             }
             catch (Exception e)
             {
@@ -471,7 +481,11 @@ namespace TaxApp.Controllers
                 ViewBag.JobTitle = Job.JobTitle;
                 ViewBag.JobID = Job.JobID;
 
-                return View();
+                TravelLog defaultData = new TravelLog();
+                defaultData.DefultDate = DateTime.Now.ToString("yyyy-MM-dd");
+                defaultData.MaxDate = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
+
+                return View(defaultData);
             }
             catch (Exception e)
             {

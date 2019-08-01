@@ -33,5 +33,8 @@ namespace Model
         public string CatName { get; set; }
         public string CatDescription { get; set; }
         public string fileName { get; set; }
+        public string DefultDate { get; set; }
+        public string MinDate { get; set; }
+        public string MaxDate { get; set; }
     }
 }

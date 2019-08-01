@@ -38,5 +38,8 @@ namespace Model
         public decimal SARSMaintenceCost { get; set; }
         [Display(Name = "Client Charge")]
         public decimal ClientCharge { get; set; }
+        public string DefultDate { get; set; }
+        public string MinDate { get; set; }
+        public string MaxDate { get; set; }
     }
 }

@@ -54,8 +54,8 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    <input class="datefield" data-val="true" data-val-required="Date is required"
-                                           id="ReleaseDate" name="Date" type="date" value="DateTime.Now" />
+                                    <input name="Date" type="date" value="@Html.DisplayFor(model => model.DefultDate)"
+                                       max="@Html.DisplayFor(model => model.MaxDate)" />
                                 </div>
                             </div>
 

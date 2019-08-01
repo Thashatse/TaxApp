@@ -17,15 +17,20 @@ namespace Model
     {
         public int LogItemID { get; set; }
         public string Description { get; set; }
-        [Display(Name = "Start Time")]
+        [Display(Name = "Start")]
         public System.DateTime StartTime { get; set; }
         public string StartTimeString { get; set; }
         [Display(Name = "Date")]
         public string DateString { get; set; }
-        [Display(Name = "End Time")]
+        [Display(Name = "End")]
         public Nullable<System.DateTime> EndTime { get; set; }
         public string EndTimeString { get; set; }
         [Display(Name = "Total Time")]
         public String WorkLogHoursString { get; set; }
+        public string DefultDate { get; set; }
+        public string MinDateStart { get; set; }
+        public string MaxDateStart { get; set; }
+        public string MinDateEnd { get; set; }
+        public string MaxDateEnd { get; set; }
     }
 }
