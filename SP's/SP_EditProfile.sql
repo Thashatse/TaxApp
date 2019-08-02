@@ -4,10 +4,10 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-create PROCEDURE [dbo].[SP_EditProfile]
+alter PROCEDURE [dbo].[SP_EditProfile]
 	@FN VARCHAR (50), @LN VARCHAR (50), @CN VARCHAR (50), @EM VARCHAR (50), 
 	@CNum NCHAR (10), @PA VARCHAR (1000), @VATNum NCHAR (30), @DR MONEY, 
-	@UN VARCHAR (50), @PID int
+	@UN VARCHAR (50), @PID int, @Pass VARCHAR (Max)
 AS
 BEGIN
 	BEGIN TRY
@@ -22,7 +22,8 @@ BEGIN
 		PhysicalAddress = @PA,
 		VATNumber = @VATNum,
 		DefaultHourlyRate = @DR,
-		Username = @UN
+		Username = @UN,
+		[Password] = @Pass
     WHERE ProfileID = @PID
 
 		COMMIT TRANSACTION 

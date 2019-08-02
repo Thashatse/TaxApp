@@ -183,7 +183,8 @@ namespace DAL
             new SqlParameter("@VATNum", User.VATNumber),
             new SqlParameter("@DR", User.DefaultHourlyRate),
             new SqlParameter("@UN", User.Username),
-            new SqlParameter("@PID", User.ProfileID)
+            new SqlParameter("@PID", User.ProfileID),
+            new SqlParameter("@Pass", User.Password)
                    };
                 
                 Result = DBHelper.NonQuery("SP_EditProfile", CommandType.StoredProcedure, pars);

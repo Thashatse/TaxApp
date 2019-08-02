@@ -93,40 +93,94 @@ namespace TaxApp.Controllers
             {
                 getCookie();
 
-                Profile updateProfile = new Profile();
+                Profile getProfile = new Profile();
 
-                updateProfile.ProfileID = 0;
-                updateProfile.FirstName = Request.Form["FirstName"];
-                updateProfile.LastName = Request.Form["LastName"];
-                updateProfile.CompanyName = Request.Form["CompanyName"];
-                updateProfile.EmailAddress = Request.Form["EmailAddress"];
-                updateProfile.ContactNumber = Request.Form["ContactNumber"];
-                updateProfile.PhysicalAddress = Request.Form["PhysicalAddress"];
-                updateProfile.VATNumber = Request.Form["VATNumber"];
-                updateProfile.DefaultHourlyRate = Convert.ToDecimal(Request.Form["DefaultHourlyRate"]);
-                updateProfile.Username = Request.Form["Username"];
+                getProfile.ProfileID = int.Parse(cookie["ID"].ToString());
+                getProfile.EmailAddress = "";
+                getProfile.Username = "";
+                getProfile = handler.getProfile(getProfile);
 
-                Profile profile = handler.getProfile(updateProfile);
+                Profile authProfile = new Model.Profile();
 
-                updateProfile.ProfileID = int.Parse(cookie["ID"].ToString());
+                authProfile.EmailAddress = getProfile.EmailAddress;
+                authProfile.Username = getProfile.Username;
+                authProfile.Password = Request.Form["Password"];
 
-                bool result = false;
+                if (authProfile.Password == "")
+                {
+                    ViewBag.Error = "Enter your Password";
+                    return View(getProfile);
+                }
+                else if (authProfile.EmailAddress != ""
+                    && authProfile.Username != ""
+                    && authProfile.Password != "")
+                {
+                    string[] authResult = Auth.AuthenticateEmail(authProfile, authProfile.Password);
 
-                if (profile == null)
-                    result = true;
-                else if (profile.ProfileID == updateProfile.ProfileID)
-                    result = true;
+                    if (authResult[0] == "PassN/A")
+                    {
+                        ViewBag.Error = "Incorect Password";
+                        return View(getProfile);
+                    }
+                    else if (authResult[0] != null
+                        | authResult[1] != null)
+                    {
+                        Profile updateProfile = new Profile();
 
-                if (result == true)
-                    result = handler.editprofile(updateProfile);
-                else
-                    return Redirect("/Profile/Profile?ERR=UserEmailEx");
+                        updateProfile.ProfileID = 0;
+                        updateProfile.FirstName = Request.Form["FirstName"];
+                        updateProfile.LastName = Request.Form["LastName"];
+                        updateProfile.CompanyName = Request.Form["CompanyName"];
+                        updateProfile.EmailAddress = Request.Form["EmailAddress"];
+                        updateProfile.ContactNumber = Request.Form["ContactNumber"];
+                        updateProfile.PhysicalAddress = Request.Form["PhysicalAddress"];
+                        updateProfile.VATNumber = Request.Form["VATNumber"];
+                        updateProfile.DefaultHourlyRate = Convert.ToDecimal(Request.Form["DefaultHourlyRate"]);
+                        updateProfile.Username = Request.Form["Username"];
+
+                        if (Request.Form["NewPassword"] != "" && Request.Form["NewPasswordConfirmation"] != "")
+                        {
+                            if (Request.Form["NewPassword"] != Request.Form["NewPasswordConfirmation"])
+                            {
+                                ViewBag.Error = "New Passwords do not match";
+                                return View(getProfile);
+                            }
+                            else
+                            {
+                               updateProfile.Password = Auth.generatePassHash(Request.Form["NewPassword"]);
+                            }
+                        }
+                        else
+                        {
+                            updateProfile.Password = getProfile.Password;
+                        }
+
+                        Profile profile = handler.getProfile(updateProfile);
+
+                        updateProfile.ProfileID = int.Parse(cookie["ID"].ToString());
+
+                        bool result = false;
+
+                        if (profile == null)
+                            result = true;
+                        else if (profile.ProfileID == updateProfile.ProfileID)
+                            result = true;
+
+                        if (result == true)
+                            result = handler.editprofile(updateProfile);
+                        else
+                            return Redirect("/Profile/Profile?ERR=UserEmailEx");
 
 
-                if (result == true)
-                    return Redirect("/Profile/Profile");
-                else
-                    return RedirectToAction("../Shared/Error?Err=An error occurred while updating profile.");
+                        if (result == true)
+                            return Redirect("/Profile/Profile");
+                        else
+                            return RedirectToAction("../Shared/Error?Err=An error occurred while updating profile.");
+                    }
+                }
+
+                ViewBag.Error = "An error occurred while Updating profile.";
+                return View(getProfile);
             }
             catch (Exception e)
             {

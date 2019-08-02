@@ -682,7 +682,7 @@ namespace TaxApp.Controllers
         }
         #endregion
 
-        #region New Vehicale Expense
+        #region New Vehicale
         // GET
         public ActionResult NewVehicle()
         {
@@ -731,6 +731,27 @@ namespace TaxApp.Controllers
                 function.logAnError(e.ToString() +
                     "Error in new vehicle of expense controler");
                 return View();
+            }
+        }
+        #endregion
+
+        #region Vehicles
+        // GET
+        public ActionResult Vehicles()
+        {
+            try
+            {
+                getCookie();
+                Profile getVehicles = new Profile();
+                getVehicles.ProfileID = int.Parse(cookie["ID"].ToString());
+                List<Vehicle> vehicles = handler.getVehicles(getVehicles);
+                return View(vehicles);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loading Vehicles view");
+                return RedirectToAction("../Shared/Error");
             }
         }
         #endregion

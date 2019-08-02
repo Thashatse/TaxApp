@@ -76,7 +76,13 @@ namespace Model
         [Display(Name = "Confirm password")]
         public string PasswordConfirmation { get; set; }
 
+        [Compare("NewPassword", ErrorMessage = "Passwords do not match, please try again!")]
+        [Display(Name = "Confirm New password")]
+        public string NewPasswordConfirmation { get; set; }
 
+        [DataType(DataType.Password)]
+        [Display(Name = "New password")]
+        public string NewPassword { get; set; }
         public string PassRestCode { get; set; }
     }
 }

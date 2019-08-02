@@ -22,7 +22,6 @@ namespace TaxApp.Controllers
         {
             Thread zero = new Thread(function.repeatExpense);
             zero.Start();
-
             Profile username = new Profile();
 
             try
