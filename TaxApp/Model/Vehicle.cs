@@ -17,13 +17,18 @@ namespace Model
     {
         public int VehicleID { get; set; }
         public int ProfielID { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
         [Display(Name = "SARS Fixed Cost (R p.a.)")]
         public decimal SARSFixedCost { get; set; }
+        [Required]
         [Display(Name = "SARS Fuel Cost (R/KM)")]
         public decimal SARSFuelCost { get; set; }
+        [Required]
         [Display(Name = "SARS Maintence Cost (R/KM)")]
         public decimal SARSMaintenceCost { get; set; }
+        [Required]
         [Display(Name = "Client Charge (R/KM)")]
         public decimal ClientCharge { get; set; }
     }

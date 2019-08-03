@@ -14,5 +14,7 @@ namespace Model
         public char IncomePast60to30DaysUporDown { get; set; }
         public decimal TotalOutIncome { get; set; }
         public string TotalOutIncomeString { get; set; }
+        public string ExpensePast60to30DaysPercentString { get; set; }
+        public string IncomePast60to30DaysPercentString { get; set; }
     }
 }

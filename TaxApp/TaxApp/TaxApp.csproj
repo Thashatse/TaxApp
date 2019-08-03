@@ -200,6 +200,9 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Views\Expense\EditVehicles.cshtml" />
+    <Content Include="Views\Job\EditJobWorkLog.cshtml" />
+    <Content Include="Views\Job\DeleteJobWorkLog.cshtml" />
     <None Include="Views\Shared\Help.cshtml" />
     <Content Include="WebPages\Landing.aspx" />
     <Content Include="libman.json" />

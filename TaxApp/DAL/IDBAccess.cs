@@ -47,6 +47,8 @@ namespace DAL
         bool newWorkLogItem(Model.Worklog logItem, Model.Job job);
         Worklog getLogItem(Model.Worklog logID);
         List<Worklog> getJobHours(Job JobID);
+        bool EditWorkLogItem(Model.Worklog logItem);
+        bool DeleteWorkLogItem(Model.Worklog logItem);
         #endregion
 
         #region Client
@@ -118,6 +120,11 @@ namespace DAL
         FileUpload getGeneralExpenseFile(FileUpload getFile);
         bool addJobExpenseFile(FileUpload newFile);
         FileUpload getJobExpenseFile(FileUpload getFile);
+        #endregion
+
+        #region Vehicle
+        bool editVehicle(Vehicle editVehicle);
+        Vehicle getVehicle(Vehicle getVehicle);
         #endregion
     }
 }

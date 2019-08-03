@@ -27,9 +27,10 @@
                     @using (Html.BeginForm())
                     {
                         @Html.AntiForgeryToken()
+                        <p class="text-red">@ViewBag.Err</p>
 
                         <div class="form-horizontal">
-                            <br/>
+                            <br />
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
@@ -42,8 +43,8 @@
                                 @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
                                     <input type="time" name="startTime" value="09:00">
-                                    <input name="startTimeDate" type="date" value="@Html.DisplayFor(model => model.DefultDate)"
-                                       max="@Html.DisplayFor(model => model.MaxDateStart)"/>
+                                    <input name="startTimeDate" type="date" value="@Html.DisplayFor(model => model.StartTimeString)"
+                                           max="@Html.DisplayFor(model => model.MaxDateStart)" />
                                 </div>
                             </div>
 
@@ -51,8 +52,8 @@
                                 @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
                                     <input type="time" name="endTime" value="17:00">
-                                    <input name="endTimeDate" type="date" value="@Html.DisplayFor(model => model.DefultDate)"
-                                       max="@Html.DisplayFor(model => model.MaxDateEnd)" />
+                                    <input name="endTimeDate" type="date" value="@Html.DisplayFor(model => model.EndTimeString)"
+                                           max="@Html.DisplayFor(model => model.MaxDateEnd)" />
                                 </div>
                             </div>
 

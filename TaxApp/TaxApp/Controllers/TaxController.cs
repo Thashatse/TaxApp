@@ -296,6 +296,9 @@ namespace TaxApp.Controllers
             {
                 getCookie();
 
+                if(Request.Form["Name"] != null && Request.Form["Name"] != ""
+                    && Request.Form["EmailAddress"] != null && Request.Form["EmailAddress"] != "")
+                {
                 TaxConsultant consultant = new TaxConsultant();
                 consultant.ProfileID = int.Parse(cookie["ID"]);
                 consultant = handler.getConsumtant(consultant);
@@ -321,6 +324,12 @@ namespace TaxApp.Controllers
                 else
                 {
                     return RedirectToAction("../Shared/Error?Err=An error occurred loading Tax Consultant for edit");
+                }
+                }
+                else
+                {
+                    ViewBag.Err = "Please enter a name and email address";
+                    return View();
                 }
             }
             catch (Exception e)

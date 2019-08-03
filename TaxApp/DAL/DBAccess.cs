@@ -123,6 +123,8 @@ namespace DAL
                             nfi.NumberGroupSeparator = " ";
                             dashboardIncomeExpense.IncomePast30DaysString = dashboardIncomeExpense.IncomePast30Days.ToString("#,0.##", nfi);
                             dashboardIncomeExpense.ExpensePast30DaysString = dashboardIncomeExpense.ExpensePast30Days.ToString("#,0.##", nfi);
+                            dashboardIncomeExpense.IncomePast60to30DaysPercentString = dashboardIncomeExpense.IncomePast60to30DaysPercent.ToString("#,0.##", nfi);
+                            dashboardIncomeExpense.ExpensePast60to30DaysPercentString = dashboardIncomeExpense.ExpensePast60to30DaysPercent.ToString("#,0.##", nfi);
                         }
                     }
                 }
@@ -541,7 +543,7 @@ namespace DAL
                             {
                                 job.Budget = decimal.Parse(row[3].ToString());
                                 job.BudgetPercent = ((job.ExpenseTotal + job.TravelLogCostTotal +
-                                    (job.WorkLogHours * job.HourlyRate)) / job.Budget) * 100;
+                                    (job.WorkLogHours/60 * job.HourlyRate)) / job.Budget) * 100;
                             }
                             else
                             {
@@ -549,7 +551,7 @@ namespace DAL
                                 job.BudgetPercent = 0;
                             }
 
-                            job.AllExpenseTotal = job.ExpenseTotal + job.TravelLogCostTotal;
+                            job.AllExpenseTotal = job.ExpenseTotal;
 
                             var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
                             nfi.NumberGroupSeparator = " ";
@@ -573,6 +575,9 @@ namespace DAL
             List<SP_GetJob_Result> Jobs = new List<SP_GetJob_Result>();
             try
             {
+                #region jobHours
+                List<SP_GetJob_Result> JobHours = new List<SP_GetJob_Result>();
+
                 SqlParameter[] pars = new SqlParameter[]
                     {
                         new SqlParameter("@PID", profile.ProfileID),
@@ -581,6 +586,113 @@ namespace DAL
                         //***************************************//
                     };
 
+                using (DataTable table = DBHelper.ParamSelect("SP_WorklogHours",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            SP_GetJob_Result jobHours = new Model.SP_GetJob_Result();
+
+                            jobHours.JobID = int.Parse(row["JobID"].ToString());
+
+                            if (row["WorkLogHours"].ToString() != "" && row["WorkLogHours"] != null)
+                            {
+                                jobHours.WorkLogHours = int.Parse(row["WorkLogHours"].ToString());
+                            }
+                            else
+                            {
+                                jobHours.WorkLogHours = 0;
+                            }
+
+                            JobHours.Add(jobHours);
+                        }
+                    }
+                }
+                #endregion
+
+                #region Job Income outstanding
+                List<SP_GetJob_Result> TotalUnPaids = new List<SP_GetJob_Result>();
+
+                pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profile.ProfileID),
+                        //***************************************//
+                        new SqlParameter("@CID", profile.ProfileID)
+                        //***************************************//
+                    };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_TotalUnPaid",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            SP_GetJob_Result TotalUnPaid = new Model.SP_GetJob_Result();
+
+                            TotalUnPaid.JobID = int.Parse(row["JobID"].ToString());
+
+                            if (row["TotalUnPaid"].ToString() != "" && row["TotalUnPaid"] != null)
+                            {
+                                TotalUnPaid.TotalUnPaid = decimal.Parse(row["TotalUnPaid"].ToString());
+                            }
+                            else
+                            {
+                                TotalUnPaid.TotalUnPaid = 0;
+                            }
+
+                            TotalUnPaids.Add(TotalUnPaid);
+                        }
+                    }
+                }
+                #endregion
+
+                #region Job Income
+                List<SP_GetJob_Result> TotalPaids = new List<SP_GetJob_Result>();
+
+                pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profile.ProfileID),
+                        //***************************************//
+                        new SqlParameter("@CID", profile.ProfileID)
+                        //***************************************//
+                    };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_TotalPaid",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            SP_GetJob_Result TotalPaid = new Model.SP_GetJob_Result();
+
+                            TotalPaid.JobID = int.Parse(row["JobID"].ToString());
+
+                            if (row["TotalPaid"].ToString() != "" && row["TotalPaid"] != null)
+                            {
+                                TotalPaid.TotalUnPaid = decimal.Parse(row["TotalPaid"].ToString());
+                            }
+                            else
+                            {
+                                TotalPaid.TotalPaid = 0;
+                            }
+
+                            TotalPaids.Add(TotalPaid);
+                        }
+                    }
+                }
+                #endregion
+
+                pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profile.ProfileID),
+                        //***************************************//
+                        new SqlParameter("@CID", profile.ProfileID)
+                        //***************************************//
+                    };
 
                 using (DataTable table = DBHelper.ParamSelect("SP_GetProfileJobsCurrent",
             CommandType.StoredProcedure, pars))
@@ -590,25 +702,25 @@ namespace DAL
                         foreach (DataRow row in table.Rows)
                         {
                             SP_GetJob_Result job = new Model.SP_GetJob_Result();
-                            job.JobID = int.Parse(row[0].ToString());
-                            job.ClientID = int.Parse(row[6].ToString());
+                            job.JobID = int.Parse(row["JobID"].ToString());
+                            job.ClientID = int.Parse(row["ClientID"].ToString());
 
-                            if (row[8].ToString() != "" && row[8] != null)
+                            job.WorkLogHours = 0;
+                            job.WorkLogHoursString = "None";
+                            foreach (SP_GetJob_Result hours in JobHours)
                             {
-                                job.WorkLogHours = int.Parse(row[8].ToString());
-                                int Hour = int.Parse(row[8].ToString()) / 60;
-                                int Minute = int.Parse(row[8].ToString()) % 60;
-                                job.WorkLogHoursString = Hour + ":" + Minute + " ";
-                            }
-                            else
-                            {
-                                job.WorkLogHours = 0;
-                                job.WorkLogHoursString = "None";
+                                if (hours.JobID == job.JobID)
+                                {
+                                    job.WorkLogHours = hours.WorkLogHours;
+                                    int Hour = hours.WorkLogHours / 60;
+                                    int Minute = hours.WorkLogHours % 60;
+                                    job.WorkLogHoursString = Hour + ":" + Minute + " ";
+                                }
                             }
 
-                            job.JobTitle = row[1].ToString();
-                            job.ClientFirstName = row[7].ToString();
-                            job.StartDate = DateTime.Parse(row[4].ToString());
+                            job.JobTitle = row["JobTitle"].ToString();
+                            job.ClientFirstName = row["FirstName"].ToString();
+                            job.StartDate = DateTime.Parse(row["StartDate"].ToString());
                             job.StartDateString = String.Format("{0:dddd, dd MMMM yyyy}", job.StartDate);
 
                             if (row["EndDate"].ToString() != "" && row["EndDate"] != null)
@@ -622,38 +734,38 @@ namespace DAL
                                 job.EndDateString = "Active";
                             }
 
-                            job.HourlyRate = decimal.Parse(row[2].ToString());
+                            job.HourlyRate = decimal.Parse(row["HourlyRate"].ToString());
 
-                            if (row[9].ToString() != "" && row[9] != null)
+                            if (row["ExpenseTotal"].ToString() != "" && row["ExpenseTotal"] != null)
                             {
-                                job.ExpenseTotal = decimal.Parse(row[9].ToString());
+                                job.ExpenseTotal = decimal.Parse(row["ExpenseTotal"].ToString());
                             }
                             else
                             {
                                 job.ExpenseTotal = 0;
                             }
 
-                            if (row[10].ToString() != "" && row[10] != null)
+                            job.TotalPaid = 0;
+                            foreach (SP_GetJob_Result item in TotalPaids)
                             {
-                                job.TotalPaid = decimal.Parse(row[10].ToString());
-                            }
-                            else
-                            {
-                                job.TotalPaid = 0;
-                            }
-
-                            if (row[11].ToString() != "" && row[11] != null)
-                            {
-                                job.TotalUnPaid = decimal.Parse(row[11].ToString());
-                            }
-                            else
-                            {
-                                job.TotalUnPaid = 0;
+                                if (job.JobID == item.JobID)
+                                {
+                                    job.TotalPaid = item.TotalPaid;
+                                }
                             }
 
-                            if (row[12].ToString() != "" && row[12] != null)
+                            job.TotalUnPaid = 0;
+                            foreach (SP_GetJob_Result item in TotalUnPaids)
                             {
-                                job.TravelLogCostTotal = decimal.Parse(row[12].ToString());
+                                if (job.JobID == item.JobID)
+                                {
+                                    job.TotalUnPaid = item.TotalUnPaid;
+                                }
+                            }
+
+                            if (row["TravelLogCostTotal"].ToString() != "" && row["TravelLogCostTotal"] != null)
+                            {
+                                job.TravelLogCostTotal = decimal.Parse(row["TravelLogCostTotal"].ToString());
                             }
                             else
                             {
@@ -661,13 +773,12 @@ namespace DAL
                             }
                             Jobs.Add(job);
 
-
-                            if ((row[3].ToString() != "" || row[3].ToString() != null)
+                            if ((row["Budget"].ToString() != "" || row["Budget"].ToString() != null)
                                 && decimal.Parse(row["Budget"].ToString()) != 0)
                             {
-                                job.Budget = decimal.Parse(row[3].ToString());
+                                job.Budget = decimal.Parse(row["Budget"].ToString());
                                 job.BudgetPercent = ((job.ExpenseTotal + job.TravelLogCostTotal +
-                                    (job.WorkLogHours * job.HourlyRate)) / job.Budget) * 100;
+                                    ((job.WorkLogHours / 60) * job.HourlyRate)) / job.Budget) * 100;
                             }
                             else
                             {
@@ -684,6 +795,7 @@ namespace DAL
                             job.BudgetString = job.Budget.ToString("#,0.##", nfi);
                             job.TravelLogCostTotalString = job.TravelLogCostTotal.ToString("#,0.##", nfi);
                             job.TotalUnPaidString = job.TotalUnPaid.ToString("#,0.##", nfi);
+
                         }
                     }
                 }
@@ -699,6 +811,9 @@ namespace DAL
             List<SP_GetJob_Result> Jobs = new List<SP_GetJob_Result>();
             try
             {
+                #region jobHours
+                List<SP_GetJob_Result> JobHours = new List<SP_GetJob_Result>();
+
                 SqlParameter[] pars = new SqlParameter[]
                     {
                         new SqlParameter("@PID", profile.ProfileID),
@@ -707,6 +822,113 @@ namespace DAL
                         //***************************************//
                     };
 
+                using (DataTable table = DBHelper.ParamSelect("SP_WorklogHoursPast",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            SP_GetJob_Result jobHours = new Model.SP_GetJob_Result();
+
+                            jobHours.JobID = int.Parse(row["JobID"].ToString());
+
+                            if (row["WorkLogHours"].ToString() != "" && row["WorkLogHours"] != null)
+                            {
+                                jobHours.WorkLogHours = int.Parse(row["WorkLogHours"].ToString());
+                            }
+                            else
+                            {
+                                jobHours.WorkLogHours = 0;
+                            }
+
+                            JobHours.Add(jobHours);
+                        }
+                    }
+                }
+                #endregion
+
+                #region Job Income outstanding
+                List<SP_GetJob_Result> TotalUnPaids = new List<SP_GetJob_Result>();
+
+                pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profile.ProfileID),
+                        //***************************************//
+                        new SqlParameter("@CID", profile.ProfileID)
+                        //***************************************//
+                    };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_TotalUnPaidPast",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            SP_GetJob_Result TotalUnPaid = new Model.SP_GetJob_Result();
+
+                            TotalUnPaid.JobID = int.Parse(row["JobID"].ToString());
+
+                            if (row["TotalUnPaid"].ToString() != "" && row["TotalUnPaid"] != null)
+                            {
+                                TotalUnPaid.TotalUnPaid = decimal.Parse(row["TotalUnPaid"].ToString());
+                            }
+                            else
+                            {
+                                TotalUnPaid.TotalUnPaid = 0;
+                            }
+
+                            TotalUnPaids.Add(TotalUnPaid);
+                        }
+                    }
+                }
+                #endregion
+
+                #region Job Income
+                List<SP_GetJob_Result> TotalPaids = new List<SP_GetJob_Result>();
+
+                pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profile.ProfileID),
+                        //***************************************//
+                        new SqlParameter("@CID", profile.ProfileID)
+                        //***************************************//
+                    };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_TotalPaidPast",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            SP_GetJob_Result TotalPaid = new Model.SP_GetJob_Result();
+
+                            TotalPaid.JobID = int.Parse(row["JobID"].ToString());
+
+                            if (row["TotalPaid"].ToString() != "" && row["TotalPaid"] != null)
+                            {
+                                TotalPaid.TotalUnPaid = decimal.Parse(row["TotalPaid"].ToString());
+                            }
+                            else
+                            {
+                                TotalPaid.TotalPaid = 0;
+                            }
+
+                            TotalPaids.Add(TotalPaid);
+                        }
+                    }
+                }
+                #endregion
+
+                pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profile.ProfileID),
+                        //***************************************//
+                        new SqlParameter("@CID", profile.ProfileID)
+                        //***************************************//
+                    };
 
                 using (DataTable table = DBHelper.ParamSelect("SP_GetProfileJobsPast",
             CommandType.StoredProcedure, pars))
@@ -716,25 +938,25 @@ namespace DAL
                         foreach (DataRow row in table.Rows)
                         {
                             SP_GetJob_Result job = new Model.SP_GetJob_Result();
-                            job.JobID = int.Parse(row[0].ToString());
-                            job.ClientID = int.Parse(row[6].ToString());
+                            job.JobID = int.Parse(row["JobID"].ToString());
+                            job.ClientID = int.Parse(row["ClientID"].ToString());
 
-                            if (row[8].ToString() != "" && row[8] != null)
+                            job.WorkLogHours = 0;
+                            job.WorkLogHoursString = "None";
+                            foreach (SP_GetJob_Result hours in JobHours)
                             {
-                                job.WorkLogHours = int.Parse(row[8].ToString());
-                                int Hour = int.Parse(row[8].ToString()) / 60;
-                                int Minute = int.Parse(row[8].ToString()) % 60;
-                                job.WorkLogHoursString = Hour + ":" + Minute + " ";
-                            }
-                            else
-                            {
-                                job.WorkLogHours = 0;
-                                job.WorkLogHoursString = "None";
+                                if (hours.JobID == job.JobID)
+                                {
+                                    job.WorkLogHours = hours.WorkLogHours;
+                                    int Hour = hours.WorkLogHours / 60;
+                                    int Minute = hours.WorkLogHours % 60;
+                                    job.WorkLogHoursString = Hour + ":" + Minute + " ";
+                                }
                             }
 
-                            job.JobTitle = row[1].ToString();
-                            job.ClientFirstName = row[7].ToString();
-                            job.StartDate = DateTime.Parse(row[4].ToString());
+                            job.JobTitle = row["JobTitle"].ToString();
+                            job.ClientFirstName = row["FirstName"].ToString();
+                            job.StartDate = DateTime.Parse(row["StartDate"].ToString());
                             job.StartDateString = String.Format("{0:dddd, dd MMMM yyyy}", job.StartDate);
 
                             if (row["EndDate"].ToString() != "" && row["EndDate"] != null)
@@ -748,38 +970,38 @@ namespace DAL
                                 job.EndDateString = "Active";
                             }
 
-                            job.HourlyRate = decimal.Parse(row[2].ToString());
+                            job.HourlyRate = decimal.Parse(row["HourlyRate"].ToString());
 
-                            if (row[9].ToString() != "" && row[9] != null)
+                            if (row["ExpenseTotal"].ToString() != "" && row["ExpenseTotal"] != null)
                             {
-                                job.ExpenseTotal = decimal.Parse(row[9].ToString());
+                                job.ExpenseTotal = decimal.Parse(row["ExpenseTotal"].ToString());
                             }
                             else
                             {
                                 job.ExpenseTotal = 0;
                             }
 
-                            if (row[10].ToString() != "" && row[10] != null)
+                            job.TotalPaid = 0;
+                            foreach (SP_GetJob_Result item in TotalPaids)
                             {
-                                job.TotalPaid = decimal.Parse(row[10].ToString());
-                            }
-                            else
-                            {
-                                job.TotalPaid = 0;
-                            }
-
-                            if (row[11].ToString() != "" && row[11] != null)
-                            {
-                                job.TotalUnPaid = decimal.Parse(row[11].ToString());
-                            }
-                            else
-                            {
-                                job.TotalUnPaid = 0;
+                                if (job.JobID == item.JobID)
+                                {
+                                    job.TotalPaid = item.TotalPaid;
+                                }
                             }
 
-                            if (row[12].ToString() != "" && row[12] != null)
+                            job.TotalUnPaid = 0;
+                            foreach (SP_GetJob_Result item in TotalUnPaids)
                             {
-                                job.TravelLogCostTotal = decimal.Parse(row[12].ToString());
+                                if (job.JobID == item.JobID)
+                                {
+                                    job.TotalUnPaid = item.TotalUnPaid;
+                                }
+                            }
+
+                            if (row["TravelLogCostTotal"].ToString() != "" && row["TravelLogCostTotal"] != null)
+                            {
+                                job.TravelLogCostTotal = decimal.Parse(row["TravelLogCostTotal"].ToString());
                             }
                             else
                             {
@@ -787,13 +1009,12 @@ namespace DAL
                             }
                             Jobs.Add(job);
 
-
-                            if ((row[3].ToString() != "" || row[3].ToString() != null)
+                            if ((row["Budget"].ToString() != "" || row["Budget"].ToString() != null)
                                 && decimal.Parse(row["Budget"].ToString()) != 0)
                             {
-                                job.Budget = decimal.Parse(row[3].ToString());
+                                job.Budget = decimal.Parse(row["Budget"].ToString());
                                 job.BudgetPercent = ((job.ExpenseTotal + job.TravelLogCostTotal +
-                                    (job.WorkLogHours * job.HourlyRate)) / job.Budget) * 100;
+                                    (job.WorkLogHours/60 * job.HourlyRate)) / job.Budget) * 100;
                             }
                             else
                             {
@@ -810,6 +1031,7 @@ namespace DAL
                             job.BudgetString = job.Budget.ToString("#,0.##", nfi);
                             job.TravelLogCostTotalString = job.TravelLogCostTotal.ToString("#,0.##", nfi);
                             job.TotalUnPaidString = job.TotalUnPaid.ToString("#,0.##", nfi);
+
                         }
                     }
                 }
@@ -825,6 +1047,9 @@ namespace DAL
             List<SP_GetJob_Result> Jobs = new List<SP_GetJob_Result>();
             try
             {
+                #region jobHours
+            List<SP_GetJob_Result> JobHours = new List<SP_GetJob_Result>();
+
                 SqlParameter[] pars = new SqlParameter[]
                     {
                         new SqlParameter("@PID", profile.ProfileID),
@@ -833,6 +1058,113 @@ namespace DAL
                         //***************************************//
                     };
 
+                using (DataTable table = DBHelper.ParamSelect("SP_WorklogHours",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            SP_GetJob_Result jobHours = new Model.SP_GetJob_Result();
+
+                            jobHours.JobID = int.Parse(row["JobID"].ToString());
+
+                            if (row["WorkLogHours"].ToString() != "" && row["WorkLogHours"] != null)
+                            {
+                                jobHours.WorkLogHours = int.Parse(row["WorkLogHours"].ToString());
+                            }
+                            else
+                            {
+                                jobHours.WorkLogHours = 0;
+                            }
+
+                            JobHours.Add(jobHours);
+                        }
+                    }
+                }
+                #endregion
+
+                #region Job Income outstanding
+                List<SP_GetJob_Result> TotalUnPaids = new List<SP_GetJob_Result>();
+
+                pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profile.ProfileID),
+                        //***************************************//
+                        new SqlParameter("@CID", profile.ProfileID)
+                        //***************************************//
+                    };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_TotalUnPaid",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            SP_GetJob_Result TotalUnPaid = new Model.SP_GetJob_Result();
+
+                            TotalUnPaid.JobID = int.Parse(row["JobID"].ToString());
+
+                            if (row["TotalUnPaid"].ToString() != "" && row["TotalUnPaid"] != null)
+                            {
+                                TotalUnPaid.TotalUnPaid = decimal.Parse(row["TotalUnPaid"].ToString());
+                            }
+                            else
+                            {
+                                TotalUnPaid.TotalUnPaid = 0;
+                            }
+
+                            TotalUnPaids.Add(TotalUnPaid);
+                        }
+                    }
+                }
+                #endregion
+
+                #region Job Income
+                List<SP_GetJob_Result> TotalPaids = new List<SP_GetJob_Result>();
+
+                pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profile.ProfileID),
+                        //***************************************//
+                        new SqlParameter("@CID", profile.ProfileID)
+                        //***************************************//
+                    };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_TotalPaid",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            SP_GetJob_Result TotalPaid = new Model.SP_GetJob_Result();
+
+                            TotalPaid.JobID = int.Parse(row["JobID"].ToString());
+
+                            if (row["TotalPaid"].ToString() != "" && row["TotalPaid"] != null)
+                            {
+                                TotalPaid.TotalUnPaid = decimal.Parse(row["TotalPaid"].ToString());
+                            }
+                            else
+                            {
+                                TotalPaid.TotalPaid = 0;
+                            }
+
+                            TotalPaids.Add(TotalPaid);
+                        }
+                    }
+                }
+                #endregion
+
+                pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profile.ProfileID),
+                        //***************************************//
+                        new SqlParameter("@CID", profile.ProfileID)
+                        //***************************************//
+                    };
 
                 using (DataTable table = DBHelper.ParamSelect("SP_GetProfileJobsDashboard",
             CommandType.StoredProcedure, pars))
@@ -842,31 +1174,30 @@ namespace DAL
                         foreach (DataRow row in table.Rows)
                         {
                             SP_GetJob_Result job = new Model.SP_GetJob_Result();
-                            job.JobID = int.Parse(row[0].ToString());
-                            job.ClientID = int.Parse(row[6].ToString());
+                            job.JobID = int.Parse(row["JobID"].ToString());
+                            job.ClientID = int.Parse(row["ClientID"].ToString());
 
-                            if (row[8].ToString() != "" && row[8] != null)
+                            job.WorkLogHours = 0;
+                            job.WorkLogHoursString = "None";
+                            foreach (SP_GetJob_Result hours in JobHours)
                             {
-                                job.WorkLogHours = int.Parse(row[8].ToString());
-                                int Hour = int.Parse(row[8].ToString()) / 60;
-                                int Minute = int.Parse(row[8].ToString()) % 60;
-                                job.WorkLogHoursString = Hour + ":" + Minute + " ";
+                                if (hours.JobID == job.JobID)
+                                {
+                                    job.WorkLogHours = hours.WorkLogHours;
+                                    int Hour = hours.WorkLogHours / 60;
+                                    int Minute = hours.WorkLogHours % 60;
+                                    job.WorkLogHoursString = Hour + ":" + Minute + " ";
+                                }
                             }
-                            else
-                            {
-
-                                job.WorkLogHours = 0;
-                                job.WorkLogHoursString = "None";
-                            }
-
-                            job.JobTitle = row[1].ToString();
-                            job.ClientFirstName = row[7].ToString();
-                            job.StartDate = DateTime.Parse(row[4].ToString());
+                            
+                            job.JobTitle = row["JobTitle"].ToString();
+                            job.ClientFirstName = row["FirstName"].ToString();
+                            job.StartDate = DateTime.Parse(row["StartDate"].ToString());
                             job.StartDateString = String.Format("{0:dddd, dd MMMM yyyy}", job.StartDate);
 
                             if (row["EndDate"].ToString() != "" && row["EndDate"] != null)
                             {
-                                job.EndDate = DateTime.Parse(row[6].ToString());
+                                job.EndDate = DateTime.Parse(row["EndDate"].ToString());
                                 job.EndDateString = String.Format("{0:dddd, dd MMMM yyyy}", job.EndDate);
 
                             }
@@ -875,38 +1206,38 @@ namespace DAL
                                 job.EndDateString = "Active";
                             }
 
-                            job.HourlyRate = decimal.Parse(row[2].ToString());
+                            job.HourlyRate = decimal.Parse(row["HourlyRate"].ToString());
 
-                            if (row[9].ToString() != "" && row[9] != null)
+                            if (row["ExpenseTotal"].ToString() != "" && row["ExpenseTotal"] != null)
                             {
-                                job.ExpenseTotal = decimal.Parse(row[9].ToString());
+                                job.ExpenseTotal = decimal.Parse(row["ExpenseTotal"].ToString());
                             }
                             else
                             {
                                 job.ExpenseTotal = 0;
                             }
 
-                            if (row["TotalPaid"].ToString() != "" && row["TotalPaid"] != null)
+                            job.TotalPaid = 0;
+                            foreach(SP_GetJob_Result item in TotalPaids)
                             {
-                                job.TotalPaid = decimal.Parse(row["TotalPaid"].ToString());
-                            }
-                            else
-                            {
-                                job.TotalPaid = 0;
-                            }
-
-                            if (row[11].ToString() != "" && row[11] != null)
-                            {
-                                job.TotalUnPaid = decimal.Parse(row[11].ToString());
-                            }
-                            else
-                            {
-                                job.TotalUnPaid = 0;
+                                if (job.JobID == item.JobID)
+                                {
+                                    job.TotalPaid = item.TotalPaid;
+                                }
                             }
 
-                            if (row[12].ToString() != "" && row[12] != null)
+                            job.TotalUnPaid = 0;
+                            foreach(SP_GetJob_Result item in TotalUnPaids)
                             {
-                                job.TravelLogCostTotal = decimal.Parse(row[12].ToString());
+                                if (job.JobID == item.JobID)
+                                {
+                                    job.TotalUnPaid = item.TotalUnPaid;
+                                }
+                            }
+
+                            if (row["TravelLogCostTotal"].ToString() != "" && row["TravelLogCostTotal"] != null)
+                            {
+                                job.TravelLogCostTotal = decimal.Parse(row["TravelLogCostTotal"].ToString());
                             }
                             else
                             {
@@ -914,12 +1245,12 @@ namespace DAL
                             }
                             Jobs.Add(job);
 
-                            if ((row[3].ToString() != "" || row[3].ToString() != null)
+                            if ((row["Budget"].ToString() != "" || row["Budget"].ToString() != null)
                                 && decimal.Parse(row["Budget"].ToString()) != 0)
                             {
-                                job.Budget = decimal.Parse(row[3].ToString());
+                                job.Budget = decimal.Parse(row["Budget"].ToString());
                                 job.BudgetPercent = ((job.ExpenseTotal + job.TravelLogCostTotal +
-                                    (job.WorkLogHours * job.HourlyRate)) / job.Budget) * 100;
+                                    ((job.WorkLogHours/60) * job.HourlyRate)) / job.Budget) * 100;
                             }
                             else
                             {
@@ -936,9 +1267,11 @@ namespace DAL
                             job.BudgetString = job.Budget.ToString("#,0.##", nfi);
                             job.TravelLogCostTotalString = job.TravelLogCostTotal.ToString("#,0.##", nfi);
                             job.TotalUnPaidString = job.TotalUnPaid.ToString("#,0.##", nfi);
+
                         }
                     }
                 }
+
                 return Jobs;
             }
             catch (Exception e)
@@ -967,6 +1300,7 @@ namespace DAL
 
             return Result;
         }
+        #endregion
 
         #region WorkLog Item
         public bool newWorkLogItem(Model.Worklog logItem, Model.Job job)
@@ -993,7 +1327,51 @@ namespace DAL
 
             return Result;
         }
+        public bool EditWorkLogItem(Model.Worklog logItem)
+        {
+            bool Result = false;
 
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@ID", logItem.LogItemID),
+                        new SqlParameter("@D", logItem.Description),
+                        new SqlParameter("@ST", logItem.StartTime),
+                        new SqlParameter("@ET", logItem.EndTime)
+                   };
+
+                Result = DBHelper.NonQuery("SP_EditWorkLogItem", CommandType.StoredProcedure, pars);
+
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return Result;
+        }
+        public bool DeleteWorkLogItem(Model.Worklog logItem)
+        {
+            bool Result = false;
+
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@ID", logItem.LogItemID)
+                   };
+
+                Result = DBHelper.NonQuery("SP_DeleteWorkLogItem", CommandType.StoredProcedure, pars);
+
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return Result;
+        }
         public Worklog getLogItem(Model.Worklog logID)
         {
             Worklog logItem = null;
@@ -1014,11 +1392,11 @@ namespace DAL
                         {
                             logItem = new Worklog();
                             logItem.LogItemID = int.Parse(row[0].ToString());
-                            logItem.Description = row[1].ToString();
+                            logItem.Description = row["Description"].ToString();
                             logItem.StartTime = DateTime.Parse(row[2].ToString());
-                            logItem.StartTimeString = logItem.StartTime.ToString("hh:mm tt");
+                            logItem.StartTimeString = logItem.StartTime.ToString("HH:mm");
                             logItem.EndTime = DateTime.Parse(row[3].ToString());
-                            logItem.EndTimeString = logItem.EndTime.Value.ToString("hh:mm tt");
+                            logItem.EndTimeString = logItem.EndTime.ToString("HH:mm");
                             logItem.DateString = logItem.StartTime.ToString("dddd, dd MMMM yyyy");
                             int Hour = int.Parse(row["WorkLogHours"].ToString()) / 60;
                             int Minute = int.Parse(row["WorkLogHours"].ToString()) % 60;
@@ -1071,7 +1449,6 @@ namespace DAL
                 throw new ApplicationException(e.ToString());
             }
         }
-        #endregion
         #endregion
 
         #region Client
@@ -1678,68 +2055,6 @@ namespace DAL
             }
 
             return Result;
-        }
-        public bool newVehicle(Vehicle newVehicle)
-        {
-            bool Result = false;
-
-            try
-            {
-                SqlParameter[] pars = new SqlParameter[]
-                   {
-                        new SqlParameter("@N", newVehicle.Name),
-                        new SqlParameter("@FC", newVehicle.SARSFuelCost),
-                        new SqlParameter("@CC", newVehicle.ClientCharge),
-                        new SqlParameter("@MC", newVehicle.SARSMaintenceCost),
-                        new SqlParameter("@FxC", newVehicle.SARSFixedCost),
-                        new SqlParameter("@PID", newVehicle.ProfielID),
-                   };
-
-                Result = DBHelper.NonQuery("SP_NewVehicle", CommandType.StoredProcedure, pars);
-
-            }
-            catch (Exception e)
-            {
-                throw new ApplicationException(e.ToString());
-            }
-
-            return Result;
-        }
-        public List<Vehicle> getVehicles(Profile getProfileVehicles)
-        {
-            List<Vehicle> Vehicles = new List<Vehicle>();
-            try
-            {
-                SqlParameter[] pars = new SqlParameter[]
-                   {
-                        new SqlParameter("@PID", getProfileVehicles.ProfileID)
-                   };
-
-                using (DataTable table = DBHelper.ParamSelect("SP_GetVehicles",
-            CommandType.StoredProcedure, pars))
-                {
-                    if (table.Rows.Count > 0)
-                    {
-                        foreach (DataRow row in table.Rows)
-                        {
-                            Vehicle Vehicle = new Vehicle();
-                            Vehicle.VehicleID = int.Parse(row["VehicleID"].ToString());
-                            Vehicle.ProfielID = int.Parse(row["ProfileID"].ToString());
-                            Vehicle.SARSFixedCost = decimal.Parse(row["SARSFixedCost"].ToString());
-                            Vehicle.SARSFuelCost = decimal.Parse(row["SARSFuelCost"].ToString());
-                            Vehicle.SARSMaintenceCost = decimal.Parse(row["SARSMaintenceCost"].ToString());
-                            Vehicle.ClientCharge = decimal.Parse(row["ClientCharge"].ToString());
-                            Vehicle.Name = row["Name"].ToString();
-                            Vehicles.Add(Vehicle);
-                        }
-                    }
-                }
-                return Vehicles;
-            }
-            catch (Exception e)
-            {
-                throw new ApplicationException(e.ToString());
-            }
         }
         public List<TravelLog> getProfileTravelLog(Profile getProfileTravelLog)
         {
@@ -2384,6 +2699,7 @@ namespace DAL
                             nfi.NumberGroupSeparator = " ";
                             dashboardIncome.IncomePast30DaysString = dashboardIncome.IncomePast30Days.ToString("#,0.##", nfi);
                             dashboardIncome.TotalOutIncomeString = dashboardIncome.TotalOutIncome.ToString("#,0.##", nfi);
+                            dashboardIncome.IncomePast60to30DaysPercentString = dashboardIncome.IncomePast60to30DaysPercent.ToString("#,0.##", nfi);
                         }
                     }
                 }
@@ -3091,6 +3407,132 @@ namespace DAL
                     }
                 }
                 return file;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        #endregion
+
+        #region Vehicle
+        public bool newVehicle(Vehicle newVehicle)
+        {
+            bool Result = false;
+
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@N", newVehicle.Name),
+                        new SqlParameter("@FC", newVehicle.SARSFuelCost),
+                        new SqlParameter("@CC", newVehicle.ClientCharge),
+                        new SqlParameter("@MC", newVehicle.SARSMaintenceCost),
+                        new SqlParameter("@FxC", newVehicle.SARSFixedCost),
+                        new SqlParameter("@PID", newVehicle.ProfielID),
+                   };
+
+                Result = DBHelper.NonQuery("SP_NewVehicle", CommandType.StoredProcedure, pars);
+
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return Result;
+        }
+        public List<Vehicle> getVehicles(Profile getProfileVehicles)
+        {
+            List<Vehicle> Vehicles = new List<Vehicle>();
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@PID", getProfileVehicles.ProfileID)
+                   };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetVehicles",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            Vehicle Vehicle = new Vehicle();
+                            Vehicle.VehicleID = int.Parse(row["VehicleID"].ToString());
+                            Vehicle.ProfielID = int.Parse(row["ProfileID"].ToString());
+                            Vehicle.SARSFixedCost = decimal.Parse(row["SARSFixedCost"].ToString());
+                            Vehicle.SARSFuelCost = decimal.Parse(row["SARSFuelCost"].ToString());
+                            Vehicle.SARSMaintenceCost = decimal.Parse(row["SARSMaintenceCost"].ToString());
+                            Vehicle.ClientCharge = decimal.Parse(row["ClientCharge"].ToString());
+                            Vehicle.Name = row["Name"].ToString();
+                            Vehicles.Add(Vehicle);
+                        }
+                    }
+                }
+                return Vehicles;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        public bool editVehicle(Vehicle editVehicle)
+        {
+            bool Result = false;
+
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@N", editVehicle.Name),
+                        new SqlParameter("@FC", editVehicle.SARSFuelCost),
+                        new SqlParameter("@CC", editVehicle.ClientCharge),
+                        new SqlParameter("@MC", editVehicle.SARSMaintenceCost),
+                        new SqlParameter("@FxC", editVehicle.SARSFixedCost),
+                        new SqlParameter("@VID", editVehicle.VehicleID),
+                   };
+
+                Result = DBHelper.NonQuery("SP_EditVehicle", CommandType.StoredProcedure, pars);
+
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return Result;
+        }
+        public Vehicle getVehicle(Vehicle getVehicle)
+        {
+            Vehicle Vehicle = null;
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@VID", getVehicle.VehicleID)
+                   };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetVehicle",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            Vehicle = new Vehicle();
+                            Vehicle.VehicleID = int.Parse(row["VehicleID"].ToString());
+                            Vehicle.ProfielID = int.Parse(row["ProfileID"].ToString());
+                            Vehicle.SARSFixedCost = decimal.Parse(row["SARSFixedCost"].ToString());
+                            Vehicle.SARSFuelCost = decimal.Parse(row["SARSFuelCost"].ToString());
+                            Vehicle.SARSMaintenceCost = decimal.Parse(row["SARSMaintenceCost"].ToString());
+                            Vehicle.ClientCharge = decimal.Parse(row["ClientCharge"].ToString());
+                            Vehicle.Name = row["Name"].ToString();
+                        }
+                    }
+                }
+                return Vehicle;
             }
             catch (Exception e)
             {

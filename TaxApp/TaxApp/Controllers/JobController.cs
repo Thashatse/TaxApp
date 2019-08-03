@@ -312,25 +312,42 @@ namespace TaxApp.Controllers
         {
             try
             {
-                if(ID != null) {
-                Model.Job jobID = new Model.Job();
-                jobID.JobID = int.Parse(ID);
-
-                Model.Worklog logItem = new Model.Worklog();
-                logItem.Description = Request.Form["Description"].ToString();
-                logItem.StartTime = DateTime.Parse(Request.Form["startTimeDate"].ToString() + " " + Request.Form["startTime"].ToString());
-                logItem.EndTime = DateTime.Parse(Request.Form["endTimeDate"].ToString() + " " + Request.Form["endTime"].ToString());
-
-                bool result = handler.newWorkLogItem(logItem, jobID);
-
-                if (result == true)
+                if (ID != null)
                 {
-                    return Redirect("/job/JobWorkLog?ID=" + ID);
-                }
-                else
-                {
-                    return RedirectToAction("../Shared/Error");
-                }
+                    Model.Job jobID = new Model.Job();
+                    jobID.JobID = int.Parse(ID);
+
+                    if (Request.Form["Description"] != null && Request.Form["Description"].ToString() != "")
+                    {
+                        Model.Worklog logItem = new Model.Worklog();
+                        logItem.Description = Request.Form["Description"].ToString();
+                        logItem.StartTime = DateTime.Parse(Request.Form["startTimeDate"].ToString() + " " + Request.Form["startTime"].ToString());
+                        logItem.EndTime = DateTime.Parse(Request.Form["endTimeDate"].ToString() + " " + Request.Form["endTime"].ToString());
+
+                        bool result = handler.newWorkLogItem(logItem, jobID);
+
+                        if (result == true)
+                        {
+                            return Redirect("/job/JobWorkLog?ID=" + ID);
+                        }
+                        else
+                        {
+                            return RedirectToAction("../Shared/Error");
+                        }
+                    }
+
+                    Model.SP_GetJob_Result Job = handler.getJob(jobID);
+                    ViewBag.JobTitle = Job.JobTitle;
+                    ViewBag.JobID = Job.JobID;
+
+                    Worklog defaultData = new Worklog();
+                    defaultData.DefultDate = DateTime.Now.ToString("yyyy-MM-dd");
+                    defaultData.MaxDateStart = DateTime.Now.ToString("yyyy-MM-dd");
+                    defaultData.MaxDateEnd = DateTime.Now.ToString("yyyy-MM-dd");
+
+                    ViewBag.Err = "Please enter a description";
+
+                    return View(defaultData);
                 }
                 else
                 {
@@ -341,6 +358,148 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error in email settings method of LandingControles");
+                return View();
+            }
+        }
+        #endregion
+
+        #region Edit Work Log
+        public ActionResult EditJobWorkLog(string ID, string JobID)
+        {
+            if(ID == null || ID == "")
+                Response.Redirect("../Shared/Error");
+
+            try
+            {
+                getCookie();
+
+                Worklog Item = new Worklog();
+                Item.LogItemID = int.Parse(ID);
+                Item = handler.getLogItem(Item);
+
+                Item.DateString = Item.StartTime.ToString("yyyy-MM-dd");
+                Item.DefultDate = Item.EndTime.ToString("yyyy-MM-dd");
+                Item.MaxDateStart = DateTime.Now.ToString("yyyy-MM-dd");
+                Item.MaxDateEnd = DateTime.Now.ToString("yyyy-MM-dd");
+
+                return View(Item);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loading edit work log item view - NewWorkLogItem Job Controller");
+                return View();
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditJobWorkLog(FormCollection collection, string ID, string JobID)
+        {
+            try
+            {
+                if (ID != null)
+                {
+                    if (Request.Form["Description"] != null && Request.Form["Description"].ToString() != "")
+                    {
+                        Model.Worklog logItem = new Model.Worklog();
+                        logItem.LogItemID = int.Parse(ID);
+                        logItem.Description = Request.Form["Description"].ToString();
+                        logItem.StartTime = DateTime.Parse(Request.Form["startTimeDate"].ToString() + " " + Request.Form["startTime"].ToString());
+                        logItem.EndTime = DateTime.Parse(Request.Form["endTimeDate"].ToString() + " " + Request.Form["endTime"].ToString());
+
+                        bool result = handler.EditWorkLogItem(logItem);
+
+                        if (result == true)
+                        {
+                            return Redirect("/job/JobWorkLog?ID=" + JobID);
+                        }
+                        else
+                        {
+                            return RedirectToAction("../Shared/Error");
+                        }
+                    }
+                    else
+                    {
+                        Worklog Item = new Worklog();
+                        Item.LogItemID = int.Parse(ID);
+                        Item = handler.getLogItem(Item);
+
+                        ViewBag.Err = "Please enter a description";
+
+                        return View(Item);
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("../Shared/Error");
+                }
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error in email settings method of LandingControles");
+                return View();
+            }
+        }
+        #endregion
+
+        #region Delete Work Log
+        public ActionResult DeleteJobWorkLog(string ID, string JobID)
+        {
+            if(ID == null || ID == "")
+                Response.Redirect("../Shared/Error");
+
+            try
+            {
+                getCookie();
+
+                Worklog Item = new Worklog();
+                Item.LogItemID = int.Parse(ID);
+                Item = handler.getLogItem(Item);
+
+                ViewBag.JobID = JobID;
+
+                return View(Item);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loading delete work log item view - NewWorkLogItem Job Controller");
+                return View();
+            }
+        }
+
+        // POST: Landing/NewProfile
+        [HttpPost]
+        public ActionResult DeleteJobWorkLog(FormCollection collection, string ID, string JobID)
+        {
+            try
+            {
+                if (ID != null)
+                {
+                    Model.Worklog logItem = new Model.Worklog();
+                    logItem.LogItemID = int.Parse(ID);
+
+                    bool result = handler.DeleteWorkLogItem(logItem);
+
+                    if (result == true)
+                    {
+                        return Redirect("/job/JobWorkLog?ID=" + JobID);
+                    }
+                    else
+                    {
+                        return RedirectToAction("../Shared/Error");
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("../Shared/Error");
+                }
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error deleting work log item");
                 return View();
             }
         }

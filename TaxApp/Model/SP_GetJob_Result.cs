@@ -32,7 +32,7 @@ namespace Model
         public string ClientFirstName { get; set; }
 
         [Display(Name = "Total Hours Worked")]
-        public Nullable<int> WorkLogHours { get; set; }
+        public int WorkLogHours { get; set; }
         public String WorkLogHoursString { get; set; }
 
         [Display(Name = "Total Expenses")]

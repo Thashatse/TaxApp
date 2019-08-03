@@ -11,10 +11,12 @@ namespace Model
         public decimal IncomePast30Days { get; set; }
         public string IncomePast30DaysString { get; set; }
         public decimal IncomePast60to30DaysPercent { get; set; }
+        public string IncomePast60to30DaysPercentString { get; set; }
         public char IncomePast60to30DaysUporDown { get; set; }
         public decimal ExpensePast30Days { get; set; }
         public string ExpensePast30DaysString { get; set; }
         public decimal ExpensePast60to30DaysPercent { get; set; }
+        public string ExpensePast60to30DaysPercentString { get; set; }
         public char ExpensePast60to30DaysUporDown { get; set; }
     }
 }

@@ -42,11 +42,14 @@ namespace BLL
         List<SP_GetJob_Result> getProfileJobsDashboard(Profile profile);
         bool MarkJobAsComplete(Job job);
 
+        #endregion
+
         #region WorkLog Item
         bool newWorkLogItem(Model.Worklog logItem, Model.Job job);
         Worklog getLogItem(Model.Worklog logID);
         List<Worklog> getJobHours(Job JobID);
-        #endregion
+        bool EditWorkLogItem(Model.Worklog logItem);
+        bool DeleteWorkLogItem(Model.Worklog logItem);
         #endregion
 
         #region Client
@@ -117,6 +120,11 @@ namespace BLL
         FileUpload getGeneralExpenseFile(FileUpload getFile);
         bool addJobExpenseFile(FileUpload newFile);
         FileUpload getJobExpenseFile(FileUpload getFile);
+        #endregion
+
+        #region Vehicle
+        bool editVehicle(Vehicle editVehicle);
+        Vehicle getVehicle(Vehicle getVehicle);
         #endregion
     }
 }

@@ -23,7 +23,7 @@ namespace Model
         [Display(Name = "Date")]
         public string DateString { get; set; }
         [Display(Name = "End")]
-        public Nullable<System.DateTime> EndTime { get; set; }
+        public DateTime EndTime { get; set; }
         public string EndTimeString { get; set; }
         [Display(Name = "Total Time")]
         public String WorkLogHoursString { get; set; }

@@ -1,5 +1,19 @@
 
-TimeStamp: 8/1/2019 1:32:37 PM
+TimeStamp: 8/3/2019 5:23:03 PM
+Machine Name: TEFO-NTSAKO-HAS
+OS Version: Microsoft Windows NT 10.0.17134.0
+Curent User: thash
+User Domain: TEFO-NTSAKO-HAS
+Curent Directory: C:\Program Files (x86)\IIS Express
+Error: 
+System.ArgumentNullException: Value cannot be null.
+Parameter name: String
+   at System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   at System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   at System.Int32.Parse(String s)
+   at TaxApp.Controllers.JobController.Job(String ID) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\JobController.cs:line 105Error loding job details
+
+TimeStamp: 8/3/2019 5:39:10 PM
 Machine Name: TEFO-NTSAKO-HAS
 OS Version: Microsoft Windows NT 10.0.17134.0
 Curent User: thash
@@ -13,7 +27,7 @@ Parameter name: String
    at System.Int32.Parse(String s)
    at TaxApp.Controllers.JobController.NewWorkLogItem(String ID) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\JobController.cs:line 289Error loading new work log item view - NewWorkLogItem Job Controller
 
-TimeStamp: 8/1/2019 1:39:18 PM
+TimeStamp: 8/3/2019 5:50:27 PM
 Machine Name: TEFO-NTSAKO-HAS
 OS Version: Microsoft Windows NT 10.0.17134.0
 Curent User: thash
@@ -23,9 +37,33 @@ Error:
 System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have been sent.
    at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
    at System.Web.HttpResponseWrapper.Redirect(String url)
-   at TaxApp.Controllers.ExpenseController.getCookie() in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\ExpenseController.cs:line 53Error in welcome method of LandingControles
+   at TaxApp.Controllers.TaxController.TaxCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\TaxController.cs:line 108Error loding Tax Center
 
-TimeStamp: 8/1/2019 1:39:18 PM
+TimeStamp: 8/3/2019 5:50:31 PM
+Machine Name: TEFO-NTSAKO-HAS
+OS Version: Microsoft Windows NT 10.0.17134.0
+Curent User: thash
+User Domain: TEFO-NTSAKO-HAS
+Curent Directory: C:\Program Files (x86)\IIS Express
+Error: 
+System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have been sent.
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponseWrapper.Redirect(String url)
+   at TaxApp.Controllers.VatController.VatCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\VatController.cs:line 171Error loding Vat Center
+
+TimeStamp: 8/3/2019 5:50:34 PM
+Machine Name: TEFO-NTSAKO-HAS
+OS Version: Microsoft Windows NT 10.0.17134.0
+Curent User: thash
+User Domain: TEFO-NTSAKO-HAS
+Curent Directory: C:\Program Files (x86)\IIS Express
+Error: 
+System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have been sent.
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponseWrapper.Redirect(String url)
+   at TaxApp.Controllers.TaxController.TaxCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\TaxController.cs:line 108Error loding Tax Center
+
+TimeStamp: 8/3/2019 7:33:14 PM
 Machine Name: TEFO-NTSAKO-HAS
 OS Version: Microsoft Windows NT 10.0.17134.0
 Curent User: thash
@@ -33,54 +71,46 @@ User Domain: TEFO-NTSAKO-HAS
 Curent Directory: C:\Program Files (x86)\IIS Express
 Error: 
 System.NullReferenceException: Object reference not set to an instance of an object.
-   at TaxApp.Controllers.ExpenseController.Expenses() in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\ExpenseController.cs:line 74Error loding Expese Page
+   at TaxApp.Controllers.JobController.EditJobWorkLog(String ID) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\JobController.cs:line 383Error loading edit work log item view - NewWorkLogItem Job Controller
 
-TimeStamp: 8/2/2019 10:55:16 AM
+TimeStamp: 8/3/2019 8:00:15 PM
 Machine Name: TEFO-NTSAKO-HAS
 OS Version: Microsoft Windows NT 10.0.17134.0
 Curent User: thash
 User Domain: TEFO-NTSAKO-HAS
 Curent Directory: C:\Program Files (x86)\IIS Express
 Error: 
-System.NullReferenceException: Object reference not set to an instance of an object.
-   at TaxApp.Controllers.HomeController.Index() in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\HomeController.cs:line 75Error loding job details
+System.ArgumentNullException: Value cannot be null.
+Parameter name: String
+   at System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   at System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   at System.Int32.Parse(String s)
+   at TaxApp.Controllers.JobController.EditJobWorkLog(String ID, String JobID) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\JobController.cs:line 377Error loading edit work log item view - NewWorkLogItem Job Controller
 
-TimeStamp: 8/2/2019 11:33:48 AM
+TimeStamp: 8/3/2019 8:07:40 PM
 Machine Name: TEFO-NTSAKO-HAS
 OS Version: Microsoft Windows NT 10.0.17134.0
 Curent User: thash
 User Domain: TEFO-NTSAKO-HAS
 Curent Directory: C:\Program Files (x86)\IIS Express
 Error: 
-System.NullReferenceException: Object reference not set to an instance of an object.
-   at TaxApp.Controllers.HomeController.Index() in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\HomeController.cs:line 75Error loding job details
+System.ArgumentNullException: Value cannot be null.
+Parameter name: String
+   at System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   at System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   at System.Int32.Parse(String s)
+   at TaxApp.Controllers.JobController.NewWorkLogItem(String ID) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\JobController.cs:line 289Error loading new work log item view - NewWorkLogItem Job Controller
 
-TimeStamp: 8/2/2019 11:33:54 AM
+TimeStamp: 8/3/2019 8:24:07 PM
 Machine Name: TEFO-NTSAKO-HAS
 OS Version: Microsoft Windows NT 10.0.17134.0
 Curent User: thash
 User Domain: TEFO-NTSAKO-HAS
 Curent Directory: C:\Program Files (x86)\IIS Express
 Error: 
-System.NullReferenceException: Object reference not set to an instance of an object.
-   at TaxApp.Controllers.HomeController.Index() in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\HomeController.cs:line 75Error loding job details
-
-TimeStamp: 8/2/2019 11:35:44 AM
-Machine Name: TEFO-NTSAKO-HAS
-OS Version: Microsoft Windows NT 10.0.17134.0
-Curent User: thash
-User Domain: TEFO-NTSAKO-HAS
-Curent Directory: C:\Program Files (x86)\IIS Express
-Error: 
-System.NullReferenceException: Object reference not set to an instance of an object.
-   at TaxApp.Controllers.HomeController.Index() in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\HomeController.cs:line 75Error loding job details
-
-TimeStamp: 8/2/2019 11:36:17 AM
-Machine Name: TEFO-NTSAKO-HAS
-OS Version: Microsoft Windows NT 10.0.17134.0
-Curent User: thash
-User Domain: TEFO-NTSAKO-HAS
-Curent Directory: C:\Program Files (x86)\IIS Express
-Error: 
-System.NullReferenceException: Object reference not set to an instance of an object.
-   at TaxApp.Controllers.HomeController.Index() in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\HomeController.cs:line 75Error loding job details
+System.ArgumentNullException: Value cannot be null.
+Parameter name: String
+   at System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   at System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   at System.Int32.Parse(String s)
+   at TaxApp.Controllers.JobController.DeleteJobWorkLog(String ID, String JobID) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\JobController.cs:line 457Error loading delete work log item view - NewWorkLogItem Job Controller

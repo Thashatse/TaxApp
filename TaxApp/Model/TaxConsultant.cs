@@ -20,6 +20,8 @@ namespace Model
         public string Name { get; set; }
         [Required]
         [Display(Name = "Email Address")]
+        [RegularExpression(@"^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$",
+        ErrorMessage = "Sorry, The email address entered is not in the correct format. The standard email address format is name@example.com")]
         public string EmailAddress { get; set; }
     }
 }

@@ -1,0 +1,14 @@
+USE [TaxApp]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+alter PROCEDURE [dbo].[SP_GetVehicle]
+	@VID INT
+AS
+BEGIN
+    SELECT *
+    FROM   Vehicle
+	Where VehicleID = @VID
+END

@@ -756,6 +756,65 @@ namespace TaxApp.Controllers
         }
         #endregion
 
+        #region Vehicles
+        // GET
+        public ActionResult EditVehicles(string ID)
+        {
+            try
+            {
+                getCookie();
+
+                Vehicle getVehicle = new Vehicle();
+                getVehicle.VehicleID = int.Parse(ID);
+                Vehicle vehicle = handler.getVehicle(getVehicle);
+
+                return View(vehicle);
+
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loading edit Vehicles view");
+                return RedirectToAction("../Shared/Error?Err=An error occurred loading data for vehicles");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditVehicles(FormCollection collection, string ID)
+        {
+            try
+            {
+                getCookie();
+
+                Vehicle vehicle = new Vehicle();
+                vehicle.Name = Request.Form["Name"].ToString();
+                vehicle.SARSFuelCost = decimal.Parse(Request.Form["SARSFuelCost"].ToString());
+                vehicle.SARSMaintenceCost = decimal.Parse(Request.Form["SARSMaintenceCost"].ToString());
+                vehicle.SARSFixedCost = decimal.Parse(Request.Form["SARSFixedCost"].ToString());
+                vehicle.ClientCharge = decimal.Parse(Request.Form["ClientCharge"].ToString());
+                vehicle.ProfielID = int.Parse(cookie["ID"]);
+                vehicle.VehicleID = int.Parse(ID);
+
+                bool result = handler.editVehicle(vehicle);
+
+                if (result == true)
+                {
+                    return Redirect("/Expense/vehicles");
+                }
+                else
+                {
+                    return RedirectToAction("../Shared/Error?Err=An error occurred editing vehicles");
+                }
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error executing edit Vehicle");
+                return RedirectToAction("../Shared/Error?Err=An error occurred editing vehicles");
+            }
+        }
+        #endregion
+
         #region Travel Loge View
         public ActionResult JobTravelLog(string ID)
         {

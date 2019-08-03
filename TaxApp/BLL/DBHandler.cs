@@ -98,6 +98,7 @@ namespace BLL
         {
             return db.MarkJobAsComplete(job);
         }
+        #endregion
 
         #region WorkLog Item
         public bool newWorkLogItem(Model.Worklog logItem, Model.Job job)
@@ -112,7 +113,15 @@ namespace BLL
         {
             return db.getJobHours(JobID);
         }
-        #endregion
+
+        public bool EditWorkLogItem(Model.Worklog logItem)
+        {
+            return db.EditWorkLogItem(logItem);
+        }
+        public bool DeleteWorkLogItem(Model.Worklog logItem)
+        {
+            return db.DeleteWorkLogItem(logItem);
+        }
         #endregion
 
         #region Client
@@ -322,6 +331,17 @@ namespace BLL
         public FileUpload getJobExpenseFile(FileUpload getFile)
         {
             return db.getJobExpenseFile(getFile);
+        }
+        #endregion
+
+        #region Vehicle
+        public bool editVehicle(Vehicle editVehicle)
+        {
+            return db.editVehicle(editVehicle);
+        }
+        public Vehicle getVehicle(Vehicle getVehicle)
+        {
+            return db.getVehicle(getVehicle);
         }
         #endregion
     }
