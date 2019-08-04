@@ -133,7 +133,7 @@ namespace TaxApp.Controllers
                 if (id == "0")
                 {
                     function.logAnError("Error loding invoice details - No ID Supplied");
-                    return Redirect("../Shared/error");
+                    return Redirect("../Shared/Error?Err=Error loading invoice");
                 }
                 else
                 {
@@ -195,7 +195,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding invoice details");
-                return Redirect("../Shared/Error");
+                return Redirect("../Shared/Error?Err=Error loading invoice");
             }
         }
         
@@ -232,6 +232,9 @@ namespace TaxApp.Controllers
                     {
                         ViewBag.Complete = "NotDone";
                     }
+
+                    if (invoiceDetails.Count < 1)
+                        Response.Redirect("/Invoice/NewInvoice?ID="+id+"&ReturnTo=Job");
 
                     return View(invoiceDetails);
                 }
@@ -430,11 +433,13 @@ namespace TaxApp.Controllers
 
         #region New Invoice
         // GET: Invoice/Create
-        public ActionResult NewInvoice(string ID)
+        public ActionResult NewInvoice(string ID, string ReturnTo)
         {
             try
             {
             getCookie();
+
+                ViewBag.ReturnTo = ReturnTo;
 
             Model.Job job = new Model.Job();
             job.JobID = int.Parse(ID);
@@ -460,17 +465,19 @@ namespace TaxApp.Controllers
 
         // POST: Invoice/Create
         [HttpPost]
-        public ActionResult NewInvoice(FormCollection collection, string ID)
+        public ActionResult NewInvoice(FormCollection collection, string ID, string ReturnTo)
         {
             try
             {
-                    getCookie();
+                getCookie();
 
                 Model.Job job = new Model.Job();
                 job.JobID = int.Parse(ID);
 
                 Model.SP_GetJob_Result jobDetails = handler.getJob(job);
                 ViewBag.JobName = jobDetails.JobTitle;
+                ViewBag.JobID = jobDetails.JobID;
+                ViewBag.ReturnTo = ReturnTo;
 
                 List<List<SP_GetJobIntemsToInvoice_Result>> JobItemsForInvoice = handler.getJobItemsForInvoice(job);
                 ViewBag.Hours = JobItemsForInvoice.ElementAt(0);
@@ -516,135 +523,146 @@ namespace TaxApp.Controllers
 
                 bool result = false;
 
-                Job newInvoiceJobID = new Job();
-                newInvoiceJobID.JobID = int.Parse(ID);
-                Invoice newInvoice = new Invoice();
-                newInvoice.InvoiceNum = function.generateNewInvoiceNum();
-                result = handler.newInvoice(newInvoice, newInvoiceJobID);
-
-                if (result == true)
+                if (Request.Form["AllCheck"] != "True"
+                    && HoursResults.Count == 0
+                    && ExpensesResults.Count == 0
+                    && TravelsResults.Count == 0)
+                       result = true;
+                    
+                if(result == false)
                 {
-                    InvoiceLineItem newDeatilLine = new InvoiceLineItem();
-                    newDeatilLine.InvoiceNum = newInvoice.InvoiceNum;
+                    Job newInvoiceJobID = new Job();
+                    newInvoiceJobID.JobID = int.Parse(ID);
+                    Invoice newInvoice = new Invoice();
+                    newInvoice.InvoiceNum = function.generateNewInvoiceNum();
+                    result = handler.newInvoice(newInvoice, newInvoiceJobID);
 
-                    if (Request.Form["AllCheck"] == "True")
+                    if (result == true)
                     {
-                        foreach (SP_GetJobIntemsToInvoice_Result item in JobItemsForInvoice.ElementAt(0))
+                        InvoiceLineItem newDeatilLine = new InvoiceLineItem();
+                        newDeatilLine.InvoiceNum = newInvoice.InvoiceNum;
+
+                        if (Request.Form["AllCheck"] == "True")
                         {
-                            newDeatilLine.LineItemID = item.ID;
-                            newDeatilLine.Name = item.Description;
-                            newDeatilLine.UnitCost = item.UnitCost;
-                            newDeatilLine.UnitCount = item.UnitCount/60;
-                            newDeatilLine.Type = 'H';
-
-                            result = handler.newInvoiceDetailLine(newDeatilLine);
-
-                            if (result == false)
+                            foreach (SP_GetJobIntemsToInvoice_Result item in JobItemsForInvoice.ElementAt(0))
                             {
-                                function.logAnError("Error creating new invoice detale line Hours");
-                                Redirect("/Shared/Error");
+                                newDeatilLine.LineItemID = item.ID;
+                                newDeatilLine.Name = item.Description;
+                                newDeatilLine.UnitCost = item.UnitCost;
+                                newDeatilLine.UnitCount = item.UnitCount / 60;
+                                newDeatilLine.Type = 'H';
+
+                                result = handler.newInvoiceDetailLine(newDeatilLine);
+
+                                if (result == false)
+                                {
+                                    function.logAnError("Error creating new invoice detale line Hours");
+                                    Redirect("/Shared/Error");
+                                }
+                            }
+
+                            foreach (SP_GetJobIntemsToInvoice_Result item in JobItemsForInvoice.ElementAt(1))
+                            {
+                                newDeatilLine.LineItemID = item.ID;
+                                newDeatilLine.Name = item.Description;
+                                newDeatilLine.UnitCost = item.UnitCost;
+                                newDeatilLine.UnitCount = item.UnitCount;
+                                newDeatilLine.Type = 'T';
+
+                                result = handler.newInvoiceDetailLine(newDeatilLine);
+
+                                if (result == false)
+                                {
+                                    function.logAnError("Error creating new invoice detale line Expenses");
+                                    Redirect("/Shared/Error");
+                                }
+                            }
+
+                            foreach (SP_GetJobIntemsToInvoice_Result item in JobItemsForInvoice.ElementAt(2))
+                            {
+                                newDeatilLine.LineItemID = item.ID;
+                                newDeatilLine.Name = item.Description;
+                                newDeatilLine.UnitCost = item.UnitCost;
+                                newDeatilLine.UnitCount = item.UnitCount;
+                                newDeatilLine.Type = 'E';
+
+                                result = handler.newInvoiceDetailLine(newDeatilLine);
+
+                                if (result == false)
+                                {
+                                    function.logAnError("Error creating new invoice detale line Travel");
+                                    Redirect("/Shared/Error");
+                                }
+                            }
+                        }
+                        else
+                        {
+                            foreach (SP_GetJobIntemsToInvoice_Result item in HoursResults)
+                            {
+                                newDeatilLine.LineItemID = item.ID;
+                                newDeatilLine.Name = item.Description;
+                                newDeatilLine.UnitCost = item.UnitCost;
+                                newDeatilLine.UnitCount = item.UnitCount / 60;
+
+                                result = handler.newInvoiceDetailLine(newDeatilLine);
+
+                                if (result == false)
+                                {
+                                    function.logAnError("Error creating new invoice detale line Hours");
+                                    Redirect("/Shared/Error");
+                                }
+                            }
+
+                            foreach (SP_GetJobIntemsToInvoice_Result item in ExpensesResults)
+                            {
+                                newDeatilLine.LineItemID = item.ID;
+                                newDeatilLine.Name = item.Description;
+                                newDeatilLine.UnitCost = item.UnitCost;
+                                newDeatilLine.UnitCount = item.UnitCount;
+
+                                result = handler.newInvoiceDetailLine(newDeatilLine);
+
+                                if (result == false)
+                                {
+                                    function.logAnError("Error creating new invoice detale line Expenses");
+                                    Redirect("/Shared/Error");
+                                }
+                            }
+
+                            foreach (SP_GetJobIntemsToInvoice_Result item in TravelsResults)
+                            {
+                                newDeatilLine.LineItemID = item.ID;
+                                newDeatilLine.Name = item.Description;
+                                newDeatilLine.UnitCost = item.UnitCost;
+                                newDeatilLine.UnitCount = item.UnitCount;
+
+                                result = handler.newInvoiceDetailLine(newDeatilLine);
+
+                                if (result == false)
+                                {
+                                    function.logAnError("Error creating new invoice detale line Travel");
+                                    Redirect("/Shared/Error");
+                                }
                             }
                         }
 
-                        foreach (SP_GetJobIntemsToInvoice_Result item in JobItemsForInvoice.ElementAt(1))
-                        {
-                            newDeatilLine.LineItemID = item.ID;
-                            newDeatilLine.Name = item.Description;
-                            newDeatilLine.UnitCost = item.UnitCost;
-                            newDeatilLine.UnitCount = item.UnitCount;
-                            newDeatilLine.Type = 'T';
-
-                            result = handler.newInvoiceDetailLine(newDeatilLine);
-
-                            if (result == false)
-                            {
-                                function.logAnError("Error creating new invoice detale line Expenses");
-                                Redirect("/Shared/Error");
-                            }
-                        }
-
-                        foreach (SP_GetJobIntemsToInvoice_Result item in JobItemsForInvoice.ElementAt(2))
-                        {
-                            newDeatilLine.LineItemID = item.ID;
-                            newDeatilLine.Name = item.Description;
-                            newDeatilLine.UnitCost = item.UnitCost;
-                            newDeatilLine.UnitCount = item.UnitCount;
-                            newDeatilLine.Type = 'E';
-
-                            result = handler.newInvoiceDetailLine(newDeatilLine);
-
-                            if (result == false)
-                            {
-                                function.logAnError("Error creating new invoice detale line Travel");
-                                Redirect("/Shared/Error");
-                            }
-                        }
+                        return RedirectToAction("Invoice", "Invoice", new { ID = newInvoice.InvoiceNum });
                     }
-                    else
-                    {
-                        foreach (SP_GetJobIntemsToInvoice_Result item in HoursResults)
-                        {
-                            newDeatilLine.LineItemID = item.ID;
-                            newDeatilLine.Name = item.Description;
-                            newDeatilLine.UnitCost = item.UnitCost;
-                            newDeatilLine.UnitCount = item.UnitCount / 60;
 
-                            result = handler.newInvoiceDetailLine(newDeatilLine);
-
-                            if (result == false)
-                            {
-                                function.logAnError("Error creating new invoice detale line Hours");
-                                Redirect("/Shared/Error");
-                            }
-                        }
-
-                        foreach (SP_GetJobIntemsToInvoice_Result item in ExpensesResults)
-                        {
-                            newDeatilLine.LineItemID = item.ID;
-                            newDeatilLine.Name = item.Description;
-                            newDeatilLine.UnitCost = item.UnitCost;
-                            newDeatilLine.UnitCount = item.UnitCount;
-
-                            result = handler.newInvoiceDetailLine(newDeatilLine);
-
-                            if (result == false)
-                            {
-                                function.logAnError("Error creating new invoice detale line Expenses");
-                                Redirect("/Shared/Error");
-                            }
-                        }
-
-                        foreach (SP_GetJobIntemsToInvoice_Result item in TravelsResults)
-                        {
-                            newDeatilLine.LineItemID = item.ID;
-                            newDeatilLine.Name = item.Description;
-                            newDeatilLine.UnitCost = item.UnitCost;
-                            newDeatilLine.UnitCount = item.UnitCount;
-
-                            result = handler.newInvoiceDetailLine(newDeatilLine);
-
-                            if (result == false)
-                            {
-                                function.logAnError("Error creating new invoice detale line Travel");
-                                Redirect("/Shared/Error");
-                            }
-                        }
-                    }
-                    Response.Redirect("../Invoice/Invoice?ID=" + newInvoice.InvoiceNum);
+                    function.logAnError("Error creating new invoice");
+                    return RedirectToAction("Error", "Shared");
                 }
                 else
                 {
-                    function.logAnError("Error creating new invoice");
-                    Redirect("../Shared/Error");
+                    ViewBag.Err = "Please select an item to add to the invoice";
+                    return View();
                 }
-
-                return RedirectToAction("/Shared/Error");
             }
             catch(Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error in post new invoice of invoice controler");
-                return View();
+                return RedirectToAction("Error", "Shared");
             }
         }
         #endregion

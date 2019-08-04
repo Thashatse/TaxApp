@@ -12,9 +12,7 @@
                     <h1 class="text-white">
                         @ViewBag.Paid Invoice
                     </h1>
-                    <p class="text-white">
-                        For @Html.DisplayFor(model => model.JobTitle)
-                    </p>
+                    <p class="text-white">For <a class="text-white" href="../Job/Job?ID=@Html.DisplayFor(model => model.JobID)"> @Html.DisplayFor(model => model.JobTitle)</a></p>
                     <br />
                     <div>
                         @if (ViewBag.Paid == "Unpaid")

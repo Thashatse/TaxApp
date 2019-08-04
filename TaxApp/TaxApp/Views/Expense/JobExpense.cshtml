@@ -13,6 +13,7 @@
                     <h1 class="text-white">
                         @Html.DisplayFor(model => model.Name)
                     </h1>
+                    <p class="text-white">For <a class="text-white" href="../Job/Job?ID=@ViewBag.JobID"> @ViewBag.JobTitle</a></p>
                     <br />
                     <div>
                         @if (ViewBag.Complete != "NotDone")
@@ -47,7 +48,7 @@
             <div class="col-lg-12 col-md-12">
                 <div class="card bg-secondary shadow border-0">
 
-                    <div>
+                    <div class="table-responsive">
                         <table class="table align-items-center table-flush">
                             <tbody>
                                 <tr>

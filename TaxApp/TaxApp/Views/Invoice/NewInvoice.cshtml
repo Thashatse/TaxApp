@@ -4,6 +4,8 @@
     ViewBag.Title = "New Invoice";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@Html.ActionLink("Link Name", "Invoice", "MyController", null, null)
+
 <!-- Header -->
 <div class="header bg-gradient-primary py-7 py-lg-8">
     <div class="container">
@@ -25,9 +27,10 @@
         <div class="row justify-content-center">
             <div class="col-lg-12 col-md-12">
                 <div class="card bg-secondary shadow border-0">
-                    @using (Html.BeginForm())
-                    {
-                        @Html.AntiForgeryToken()
+                    <div class="container">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
 
                         <div>
 
@@ -35,46 +38,56 @@
                             Add line items to the invoice:
                             <hr />
 
+                            <p class="text-red">@ViewBag.Err</p>
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        <div class="form-group">
+                            <div class="form-group">
 
-                            <input type="checkbox" name="AllCheck" value="True">All<br /><br />
-                            Work Log Hours:
-                            <div class="col-md-10">
-                                @foreach (var item in ViewBag.Hours)
-                                {
-                                    <input type="checkbox" name="Hour+@item.ID" value="@item.ID">
-                                    @item.DisplayString<br>
-                                }
-                            </div>
+                                <input type="checkbox" name="AllCheck" value="True">All<br /><br />
+                                Work Log Hours:
+                                <div class="col-md-10">
+                                    @foreach (var item in ViewBag.Hours)
+                                    {
+                                        <input type="checkbox" name="Hour+@item.ID" value="@item.ID">
+                                        @item.DisplayString<br>
+                                    }
+                                </div>
 
-                            Expenses:
-                            <div class="col-md-10">
-                                @foreach (var item in ViewBag.Expenses)
-                                {
-                                    <input type="checkbox" name="Expense+@item.ID" value="@item.ID">
-                                    @item.DisplayString<br>
-                                }
-                            </div>
+                                Expenses:
+                                <div class="col-md-10">
+                                    @foreach (var item in ViewBag.Expenses)
+                                    {
+                                        <input type="checkbox" name="Expense+@item.ID" value="@item.ID">
+                                        @item.DisplayString<br>
+                                    }
+                                </div>
 
-                            Travel Expenses:
-                            <div class="col-md-10">
-                                @foreach (var item in ViewBag.Travelss)
-                                {
-                                    <input type="checkbox" name="Travel+@item.ID" value="@item.ID">
-                                    @item.DisplayString<br>
-                                }
+                                Travel Expenses:
+                                <div class="col-md-10">
+                                    @foreach (var item in ViewBag.Travelss)
+                                    {
+                                        <input type="checkbox" name="Travel+@item.ID" value="@item.ID">
+                                        @item.DisplayString<br>
+                                    }
+                                </div>
                             </div>
-                        </div>
 
                             <div class="form-group">
                                 <div class="col-md-offset-2 col-md-10">
                                     <input type="submit" value="Create" class="btn btn-default" /> |
-                                    <a href="../Invoice/JobInvoices?ID=@ViewBag.JobID">Cancel</a>
+                                    @if (ViewBag.ReturnTo == "Job")
+                                    {
+                                        <a href="../Job/Job?ID=@ViewBag.JobID">Cancel</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="../Invoice/JobInvoices?ID=@ViewBag.JobID">Cancel</a>
+                                    }
                                 </div>
                             </div>
                         </div>
-                    }
+                        }
+
+                    </div>
                 </div>
             </div>
         </div>

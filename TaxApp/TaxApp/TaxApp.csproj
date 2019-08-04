@@ -203,6 +203,7 @@
     <Content Include="Views\Expense\EditVehicles.cshtml" />
     <Content Include="Views\Job\EditJobWorkLog.cshtml" />
     <Content Include="Views\Job\DeleteJobWorkLog.cshtml" />
+    <Content Include="Views\Job\EditJob.cshtml" />
     <None Include="Views\Shared\Help.cshtml" />
     <Content Include="WebPages\Landing.aspx" />
     <Content Include="libman.json" />

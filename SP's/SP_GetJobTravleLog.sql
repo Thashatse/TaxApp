@@ -13,5 +13,6 @@ BEGIN
 	From TravelLog, Vehicle
 	Where JobID = @JID
 		AND TravelLog.VehicleID = Vehicle.VehicleID
+	Order by TravelLog.[Date] desc
 END
 GO

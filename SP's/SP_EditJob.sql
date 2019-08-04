@@ -1,0 +1,29 @@
+USE [TaxApp]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+create PROCEDURE [dbo].[SP_EditJob]
+	@JT Varchar(Max),
+	@HR money,
+	@B money = 0,
+	@JID int
+AS
+BEGIN
+	BEGIN TRY
+		BEGIN TRANSACTION
+
+    UPDATE [Jobs] 
+	Set JobTitle = @JT,
+		HourlyRate = @HR,
+		Budget = @B
+    WHERE JobID = @JID
+
+		COMMIT TRANSACTION 
+	END TRY 
+	BEGIN CATCH 
+		IF @@TRANCOUNT > 0 
+			ROLLBACK TRANSACTION
+	END CATCH 
+	END

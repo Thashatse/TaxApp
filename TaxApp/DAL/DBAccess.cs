@@ -449,6 +449,30 @@ namespace DAL
 
             return Result;
         }
+        public bool editJob(Job job)
+        {
+            bool Result = false;
+
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@JT", job.JobTitle),
+                        new SqlParameter("@HR", job.HourlyRate),
+                        new SqlParameter("@B", job.Budget),
+                        new SqlParameter("@JID",job.JobID),
+                   };
+
+                Result = DBHelper.NonQuery("SP_EditJob", CommandType.StoredProcedure, pars);
+
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return Result;
+        }
         public SP_GetJob_Result getJob(Job Job)
         {
             SP_GetJob_Result job = null;

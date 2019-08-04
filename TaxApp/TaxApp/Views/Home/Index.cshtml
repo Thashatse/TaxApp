@@ -66,7 +66,7 @@
                             @if (@Model.DashboardIncomeExpense.ExpensePast60to30DaysPercent == -999999999)
                             {
                                 <p class="mt-3 mb-0 text-muted text-sm">
-                                    <span class="text-success mr-2">
+                                    <span class="text-danger mr-2">
                                         <i class="fa fa-arrow-up"></i>
                                         UP
                                     </span>
@@ -76,7 +76,7 @@
                             else if (@Model.DashboardIncomeExpense.ExpensePast60to30DaysUporDown == 'U')
                             {
                                 <p class="mt-3 mb-0 text-muted text-sm">
-                                    <span class="text-success mr-2">
+                                    <span class="text-danger mr-2">
                                         <i class="fa fa-arrow-up"></i>
                                         UP @Model.DashboardIncomeExpense.ExpensePast60to30DaysPercentString %
                                     </span>
@@ -86,7 +86,7 @@
                             else if (@Model.DashboardIncomeExpense.ExpensePast60to30DaysUporDown == 'D')
                             {
                                 <p class="mt-3 mb-0 text-muted text-sm">
-                                    <span class="text-danger mr-2">
+                                    <span class="text-success mr-2">
                                         <i class="fas fa-arrow-down"></i>
                                         Down @Model.DashboardIncomeExpense.ExpensePast60to30DaysPercentString %
                                     </span>
@@ -402,6 +402,7 @@
                         </table>
                     </div>
                 </div>
+                <br />
             </div>
         }
 

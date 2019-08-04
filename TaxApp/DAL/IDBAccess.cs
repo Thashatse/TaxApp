@@ -36,6 +36,7 @@ namespace DAL
 
         #region Job
         bool newJob(Model.Job job);
+        bool editJob(Job job);
         Model.SP_GetJob_Result getJob(Model.Job job);
         List<SP_GetJob_Result> getProfileJobs(Profile profile);
         List<SP_GetJob_Result> getProfileJobsPast(Profile profile);

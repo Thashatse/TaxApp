@@ -77,6 +77,10 @@ namespace BLL
         {
             return db.newJob(job);
         }
+        public bool editJob(Job job)
+        {
+            return db.editJob(job);
+        }
         public SP_GetJob_Result getJob(Model.Job job)
         {
             return db.getJob(job);

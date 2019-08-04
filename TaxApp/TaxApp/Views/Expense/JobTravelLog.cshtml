@@ -13,7 +13,7 @@
                     <h1 class="text-white">
                         Job Travle Log
                     </h1>
-                    <p class="text-white">For @ViewBag.JobTitle</p>
+                    <p class="text-white">For <a class="text-white" href="../Job/Job?ID=@ViewBag.JobID"> @ViewBag.JobTitle</a></p>
                     <br />
                     <div>
                         @if (ViewBag.Complete == "NotDone")

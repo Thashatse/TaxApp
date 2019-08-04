@@ -192,29 +192,53 @@ namespace TaxApp.Controllers
             try
             {
                 getCookie();
+
                 List<Model.ExpenseCategory> cats = handler.getExpenseCatagories();
                 ViewBag.CategoryList = new SelectList(cats, "CategoryID", "Name");
 
-                Model.SP_GetJobExpense_Result newExpense = new Model.SP_GetJobExpense_Result();
+                bool check = true;
 
-                newExpense.CategoryID = int.Parse(Request.Form["CategoryList"].ToString());
-                newExpense.Name = Request.Form["Name"].ToString();
-                newExpense.Description = Request.Form["Description"].ToString();
-                newExpense.JobID = int.Parse(ID);
-                newExpense.Date = DateTime.Parse(Request.Form["Date"].ToString());
-                newExpense.Amount = Convert.ToDecimal(Request.Form["Amount"], CultureInfo.CurrentCulture);
-                //newExpense.Invoice_ReceiptCopy = DBNull.Value;
-
-                bool result = handler.newJobExpense(newExpense);
-
-                if (result == true)
+                if (Request.Form["Amount"] == null || Request.Form["Amount"] == "")
                 {
-                    return Redirect("/Expense/JobExpenses?ID=" + ID);
+                    ViewBag.Err = "Please enter an Amount";
+                    check = false;
                 }
-                else
+
+                if(check == true)
                 {
-                    return RedirectToAction("../Shared/Error");
+                    Model.SP_GetJobExpense_Result newExpense = new Model.SP_GetJobExpense_Result();
+
+                    newExpense.CategoryID = int.Parse(Request.Form["CategoryList"].ToString());
+                    newExpense.Name = Request.Form["Name"].ToString();
+                    newExpense.Description = Request.Form["Description"].ToString();
+                    newExpense.JobID = int.Parse(ID);
+                    newExpense.Date = DateTime.Parse(Request.Form["Date"].ToString());
+                    newExpense.Amount = Convert.ToDecimal(Request.Form["Amount"], CultureInfo.CurrentCulture);
+                    //newExpense.Invoice_ReceiptCopy = DBNull.Value;
+
+                    bool result = handler.newJobExpense(newExpense);
+
+                    if (result == true)
+                    {
+                        return Redirect("/Expense/JobExpenses?ID=" + ID);
+                    }
+                    else
+                    {
+                        return RedirectToAction("../Shared/Error");
+                    }
                 }
+
+                Model.Job getJob = new Model.Job();
+                getJob.JobID = int.Parse(ID);
+                Model.SP_GetJob_Result Job = handler.getJob(getJob);
+                ViewBag.JobTitle = Job.JobTitle;
+                ViewBag.JobID = Job.JobID;
+
+                SP_GetJobExpense_Result defaultData = new SP_GetJobExpense_Result();
+                defaultData.DefultDate = DateTime.Now.ToString("yyyy-MM-dd");
+                defaultData.MaxDate = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
+
+                return View(defaultData);
             }
             catch (Exception e)
             {
@@ -348,6 +372,7 @@ namespace TaxApp.Controllers
                 getJob.JobID = JobExpense.JobID;
                 Model.SP_GetJob_Result Job = handler.getJob(getJob);
                 ViewBag.JobTitle = Job.JobTitle;
+                ViewBag.JobID = Job.JobID;
                 ViewBag.Details = JobExpense.Name + " Expense";
                 ViewBag.Title = "Invoice or Receipt";
 
@@ -502,20 +527,71 @@ namespace TaxApp.Controllers
             try
             {
                 getCookie();
+
                 Model.Profile getProfileVehicles = new Model.Profile();
                 getProfileVehicles.ProfileID = int.Parse(cookie["ID"]);
                 List<Model.Vehicle> Vehicles = handler.getVehicles(getProfileVehicles);
                 ViewBag.Vehicles = new SelectList(Vehicles, "VehicleID", "Name");
 
                 Model.TravelLog newTravelLogExpense = new Model.TravelLog();
+                bool check = true;
+                
+                if (Request.Form["ClosingKMs"] == null || Request.Form["ClosingKMs"] == ""
+                    || Request.Form["OpeningKMs"] == null || Request.Form["OpeningKMs"] == "")
+                {
+                    check = false;
+                    ViewBag.err = "Please enter Opening KMs & Closing KMs";
+                }
+                else
+                {
+
+                    if (double.Parse(Request.Form["OpeningKMs"].ToString()) > double.Parse(Request.Form["ClosingKMs"].ToString()))
+                    {
+                        check = false;
+                        ViewBag.err = "Opening KMs canot be greater that Closing KMs";
+                    }
+                    else
+                    {
+                        newTravelLogExpense.OpeningKMs = double.Parse(Request.Form["OpeningKMs"].ToString());
+                        newTravelLogExpense.ClosingKMs = double.Parse(Request.Form["ClosingKMs"].ToString());
+                    }
+                }
+
+                if (Request.Form["Reason"] == null || Request.Form["Reason"] == "")
+                {
+                    check = false;
+                    ViewBag.err = "Please enter a Reason";
+                }
+                else
+                {
+                    newTravelLogExpense.Reason = Request.Form["Reason"].ToString();
+                }
+
+                if (Request.Form["To"] == null || Request.Form["To"] == "")
+                {
+                    check = false;
+                    ViewBag.err = "Please enter a destination (To)";
+                }
+                else
+                {
+                    newTravelLogExpense.To = Request.Form["To"].ToString();
+                }
+
+                if (Request.Form["From"] == null || Request.Form["From"] == "")
+                {
+                    check = false;
+                    ViewBag.err = "Please enter a starting point (From)";
+                }
+                else
+                {
+                    newTravelLogExpense.From = Request.Form["From"].ToString();
+                }
 
                 newTravelLogExpense.Date = DateTime.Parse(Request.Form["Date"]);
-                newTravelLogExpense.From = Request.Form["From"].ToString();
-                newTravelLogExpense.To = Request.Form["To"].ToString();
-                newTravelLogExpense.Reason = Request.Form["Reason"].ToString();
-                newTravelLogExpense.OpeningKMs = double.Parse(Request.Form["OpeningKMs"].ToString());
-                newTravelLogExpense.ClosingKMs = double.Parse(Request.Form["ClosingKMs"].ToString());
                 newTravelLogExpense.VehicleID = int.Parse(Request.Form["VehicleList"].ToString());
+                
+                if (check == true) {
+
                 newTravelLogExpense.JobID = int.Parse(ID);
 
                 bool result = handler.NewTravelExpense(newTravelLogExpense);
@@ -528,6 +604,18 @@ namespace TaxApp.Controllers
                 {
                     return RedirectToAction("../Shared/Error");
                 }
+            }
+
+                Model.Job getJob = new Model.Job();
+                getJob.JobID = int.Parse(ID);
+                Model.SP_GetJob_Result Job = handler.getJob(getJob);
+                ViewBag.JobTitle = Job.JobTitle;
+                ViewBag.JobID = Job.JobID;
+
+                newTravelLogExpense.DefultDate = newTravelLogExpense.Date.ToString("yyyy-MM-dd");
+                newTravelLogExpense.MaxDate = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
+
+                return View(newTravelLogExpense);
             }
             catch (Exception e)
             {

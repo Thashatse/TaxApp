@@ -12,7 +12,7 @@
             <div class="row justify-content-center">
                 <div class="col-lg-5 col-md-6">
                     <h1 class="text-white">New Job Expense</h1>
-                    <p class="text-white">For @ViewBag.JobTitle</p>
+                    <p class="text-white">For <a class="text-white" href="../Job/Job?ID=@ViewBag.JobID"> @ViewBag.JobTitle</a></p>
                 </div>
             </div>
         </div>
@@ -27,6 +27,7 @@
                     @using (Html.BeginForm())
                     {
                         @Html.AntiForgeryToken()
+                        <p class="text-red">@ViewBag.Err</p>
                         <br />
                         <div class="form-horizontal">
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -58,7 +59,7 @@
                                 @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
                                     <input value="@Html.DisplayFor(model => model.DefultDate)"
-                                       max="@Html.DisplayFor(model => model.MaxDate)" name="Date" type="date"/>
+                                           max="@Html.DisplayFor(model => model.MaxDate)" name="Date" type="date" />
                                 </div>
                             </div>
 

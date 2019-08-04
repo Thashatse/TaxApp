@@ -14,7 +14,7 @@
                     <h1 class="text-white">
                         @Html.DisplayFor(model => model.Reason)
                     </h1>
-                    <p class="text-white">For @Html.DisplayFor(model => model.JobTitle)</p>
+                    <p class="text-white">For <a class="text-white" href="../Job/Job?ID=@Html.DisplayFor(modelItem => Model.JobID)"> @Html.DisplayFor(modelItem => Model.JobTitle)</a></p>
                     <br />
                     <div>
                         @if (Model.Invoiced.Equals(false))

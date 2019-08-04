@@ -13,7 +13,6 @@ namespace TaxApp.Controllers
         IDBHandler handler = new DBHandler();
         HttpCookie cookie;
         Functions function = new Functions();
-
         public void getCookie()
         {
             try
@@ -273,6 +272,101 @@ namespace TaxApp.Controllers
             }
         }
         #endregion
+
+        #region edit Job
+        public ActionResult EditJob(string ID)
+        {
+            try {
+                getCookie();
+
+                Model.Job getJob = new Model.Job();
+                getJob.JobID = int.Parse(ID);
+
+                Model.SP_GetJob_Result Job = handler.getJob(getJob);
+
+                Job editJob = new Job();
+                editJob.JobID = Job.JobID;
+                editJob.JobTitle = Job.JobTitle;
+                editJob.HourlyRate = Job.HourlyRate;
+                editJob.Budget = Job.Budget;
+
+                ViewBag.JobTitle = Job.JobTitle;
+                ViewBag.JobID = Job.JobID;
+
+                return View(editJob);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding edit job");
+                return Redirect("../Shared/Error?Err=An error occurred while loading job for edit.");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditJob(string ID, FormCollection collection)
+        {
+            try
+            {
+                getCookie();
+                
+                Job editJob = new Job();
+                editJob.JobID = int.Parse(ID);
+                SP_GetJob_Result Job = handler.getJob(editJob);
+                editJob.JobID = Job.JobID;
+                editJob.JobTitle = Job.JobTitle;
+                editJob.HourlyRate = Job.HourlyRate;
+                editJob.Budget = Job.Budget;
+
+                bool err = false;
+
+                if (Request.Form["HourlyRate"] == null || Request.Form["HourlyRate"] == "")
+                {
+                    ViewBag.Err = "Please enter a hourly rate";
+                    err = true;
+                }
+                else
+                {
+                    editJob.HourlyRate = decimal.Parse(Request.Form["HourlyRate"].ToString());
+                }
+
+                if(Request.Form["JobTitle"] == null || Request.Form["JobTitle"] == "")
+                {
+                    ViewBag.Err = "Please enter a job title";
+                    err = true;
+                }
+                else
+                {
+                    editJob.JobTitle = Request.Form["JobTitle"].ToString();
+                }
+
+                if(Request.Form["Budget"].ToString() != "")
+                    editJob.Budget = decimal.Parse(Request.Form["Budget"].ToString());
+
+                if(err == false)
+                {
+                    bool result = handler.editJob(editJob);
+
+                    if (result == true)
+                    {
+                        return Redirect("/job/job?ID=" + editJob.JobID);
+                    }
+                    else
+                    {
+                        return Redirect("../Shared/Error?Err=An error occurred while saving job edits.");
+                    }
+                }
+
+                return View(editJob);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding edit job");
+                return Redirect("../Shared/Error?Err=An error occurred while loading job for edit.");
+            }
+        }
+        #endregion
         
         #region New Work Log
         // GET: Landing/NewProfile
@@ -317,7 +411,20 @@ namespace TaxApp.Controllers
                     Model.Job jobID = new Model.Job();
                     jobID.JobID = int.Parse(ID);
 
-                    if (Request.Form["Description"] != null && Request.Form["Description"].ToString() != "")
+                    bool check = true;
+
+                    if (Request.Form["Description"] == null || Request.Form["Description"].ToString() == "")
+                    {
+                        ViewBag.Err = "Please enter a description"; check = false;
+                    }
+
+                    if (DateTime.Parse(Request.Form["startTimeDate"].ToString() + " " + Request.Form["startTime"].ToString()) >
+                        DateTime.Parse(Request.Form["endTimeDate"].ToString() + " " + Request.Form["endTime"].ToString()))
+                    {
+                        ViewBag.Err = "Please enter a start time and date before end date and time"; check = false;
+                    }
+
+                    if(check == true)
                     {
                         Model.Worklog logItem = new Model.Worklog();
                         logItem.Description = Request.Form["Description"].ToString();
@@ -344,8 +451,6 @@ namespace TaxApp.Controllers
                     defaultData.DefultDate = DateTime.Now.ToString("yyyy-MM-dd");
                     defaultData.MaxDateStart = DateTime.Now.ToString("yyyy-MM-dd");
                     defaultData.MaxDateEnd = DateTime.Now.ToString("yyyy-MM-dd");
-
-                    ViewBag.Err = "Please enter a description";
 
                     return View(defaultData);
                 }
