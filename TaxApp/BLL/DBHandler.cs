@@ -90,9 +90,9 @@ namespace BLL
         {
             return db.getProfileJobs(profile);
         }
-        public List<SP_GetJob_Result> getProfileJobsPast(Profile profile)
+        public List<SP_GetJob_Result> getProfileJobsPast(Profile profile, DateTime sDate, DateTime eDate)
         {
-            return db.getProfileJobsPast(profile);
+            return db.getProfileJobsPast(profile, sDate, eDate);
         }
         public List<SP_GetJob_Result> getProfileJobsDashboard(Profile profile)
         {
@@ -172,9 +172,9 @@ namespace BLL
         {
             return db.getGeneralExpense(expenseID);
         }
-        public List<SP_GetGeneralExpense_Result> getGeneralExpenses(Profile profileID)
+        public List<SP_GetGeneralExpense_Result> getGeneralExpenses(Profile profileID, DateTime sDate, DateTime eDate)
         {
-            return db.getGeneralExpenses(profileID);
+            return db.getGeneralExpenses(profileID, sDate, eDate);
         }
         public List<ExpenseCategory> getExpenseCatagories()
         {
@@ -200,9 +200,9 @@ namespace BLL
         {
             return db.getVehicles(getProfileVehicles);
         }
-        public List<TravelLog> getProfileTravelLog(Profile getProfileTravelLog)
+        public List<TravelLog> getProfileTravelLog(Profile getProfileTravelLog, DateTime sDate, DateTime eDate)
         {
-            return db.getProfileTravelLog(getProfileTravelLog);
+            return db.getProfileTravelLog(getProfileTravelLog, sDate, eDate);
         }
         public List<TravelLog> getJobTravelLog(Job getJobTravelLog)
         {
@@ -252,9 +252,9 @@ namespace BLL
         {
             return db.getInvoicesOutsatanding(profileID);
         }
-        public List<SP_GetInvoice_Result> getInvoicesPast(Profile profileID)
+        public List<SP_GetInvoice_Result> getInvoicesPast(Profile profileID, DateTime sDate, DateTime eDate)
         {
-            return db.getInvoicesPast(profileID);
+            return db.getInvoicesPast(profileID, sDate, eDate);
         }
         public List<SP_GetInvoice_Result> getInvoiceDetails(Invoice invoiceNum)
         {

@@ -60,19 +60,61 @@ namespace TaxApp.Controllers
 
         #region View Jobs (List/Details)
         // GET: Jobs
-        public ActionResult Jobs()
+        public ActionResult Jobs(string view, string PastJobsDisplayCount, string StartDateRange, string EndDateRange)
         {
             try
             {
                 getCookie();
-            Model.Profile getJobs = new Model.Profile();
+
+                ViewBag.view = view;
+                ViewBag.SeeMore = false;
+                int year = DateTime.Now.Year;
+                DateTime sDate = DateTime.Now.AddMonths(-6);
+                DateTime eDate = DateTime.Now;
+
+                if (StartDateRange != null && EndDateRange != null
+                    && DateTime.TryParse(StartDateRange, out sDate) && DateTime.TryParse(EndDateRange, out eDate)) { }
+
+                if (sDate > eDate)
+                {
+                    DateTime temp = sDate;
+                    sDate = eDate;
+                    eDate = temp;
+                }
+
+                ViewBag.DateRange = sDate.ToString("dd MMM yyyy") + " - " + eDate.ToString("dd MMM yyyy");
+                ViewBag.StartDateRange = sDate.ToString("yyyy-MM-dd");
+                ViewBag.EndDateRange = eDate.ToString("yyyy-MM-dd");
+
+                Model.Profile getJobs = new Model.Profile();
             getJobs.ProfileID = int.Parse(cookie["ID"].ToString());
+            List<Model.SP_GetJob_Result> pastJobs = handler.getProfileJobsPast(getJobs, sDate, eDate);
             List<Model.SP_GetJob_Result> currentJobs = handler.getProfileJobs(getJobs);
-            List<Model.SP_GetJob_Result> pastJobs = handler.getProfileJobsPast(getJobs);
 
                 if(pastJobs.Count == 0)
                 {
                     pastJobs = null;
+                }
+                else if(pastJobs.Count > 3)
+                {
+                    int x;
+                    if (PastJobsDisplayCount != null && PastJobsDisplayCount != "" && function.IsDigitsOnly(PastJobsDisplayCount))
+                        x = int.Parse(PastJobsDisplayCount);
+                    else
+                        x = 3;
+
+                    if(x < pastJobs.Count)
+                    {
+                        pastJobs = pastJobs.GetRange(0, x);
+                        ViewBag.SeeMore = true;
+                    }
+                    else
+                    {
+                        pastJobs = pastJobs.GetRange(0, pastJobs.Count);
+                        ViewBag.SeeMore = false;
+                    }
+
+                    ViewBag.X = x + 6;
                 }
 
                 if (currentJobs.Count == 0)
@@ -90,6 +132,36 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding job details");
+                return RedirectToAction("../Shared/Error");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Jobs(FormCollection collection, string view, string PastJobsDisplayCount, string StartDateRange, string EndDateRange)
+        {
+            try
+            {
+                int year = DateTime.Now.Year;
+                DateTime sDate = DateTime.Now.AddMonths(-6);
+                DateTime eDate = DateTime.Now;
+
+                DateTime.TryParse(Request.Form["StartDate"], out sDate);
+                DateTime.TryParse(Request.Form["EndDate"], out eDate);
+
+                StartDateRange = sDate.ToString("yyyy-MM-dd");
+                EndDateRange = eDate.ToString("yyyy-MM-dd");
+
+                return RedirectToAction("Jobs", "Job", new {
+                    view,
+                    PastJobsDisplayCount,
+                    StartDateRange,
+                    EndDateRange
+                });
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error updating date range for jobs page");
                 return RedirectToAction("../Shared/Error");
             }
         }

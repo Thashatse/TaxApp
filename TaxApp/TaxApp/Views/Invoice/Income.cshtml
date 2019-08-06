@@ -165,18 +165,33 @@
         </div>
     }
 
-    @if (Model.PastInvoices != null && Model.PastInvoices.Count > 0)
-    {
-        <!-- Header 2 -->
-        <div class="header">
-            <div class="container">
-                <div class="header-body text-center mb-7">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-5 col-md-6">
-                            @if (Model.OutInvoices.Count < 0)
+    <!-- Header 2 -->
+    <div class="header">
+        <div class="container">
+            <div class="header-body text-center mb-7">
+                <div class="row justify-content-center">
+                    <div class="col-lg-5 col-md-6">
+                        @if (Model.OutInvoices.Count < 0)
+                        {
+                            if (Model.PastInvoices.Count < 0)
+                            {
+                                <h1>
+                                    No Paid Invoices
+                                </h1>
+                            }
+                            else
                             {
                                 <h1>
                                     Paid Invoices
+                                </h1>
+                            }
+                        }
+                        else
+                        {
+                            if (Model.PastInvoices.Count < 0)
+                            {
+                                <h1 class="text-white">
+                                    No Paid Invoices
                                 </h1>
                             }
                             else
@@ -185,12 +200,45 @@
                                     Paid Invoices
                                 </h1>
                             }
-                        </div>
+                            <div>
+                                <a href="../Job/JobSelector?Dest=New*Invoice"
+                                   class="btn btn-sm btn-white">New Invoice</a>
+                            </div>
+                        }
+                        <br />
+                        <p>
+                            Date Range: @ViewBag.DateRange
+                            @if (ViewBag.View != "DS")
+                            {
+                                <a href="/Invoice/Income?view=DS"
+                                   class="btn btn-sm btn-white"><i class="ni ni-settings-gear-65"></i></a>
+                            }
+                        </p>
+                        @if (ViewBag.View == "DS")
+                        {
+                            using (Html.BeginForm())
+                            {
+                                @Html.AntiForgeryToken()
+
+                                <div>
+                                    <div class="col-lg-12 col-sm-12">
+                                        Start: <input name="StartDate" type="date" value="@ViewBag.StartDateRange" /><br />
+
+                                        End: <input name="EndDate" type="date" value="@ViewBag.EndDateRange" /><br />
+                                        <br /><input type="submit" value="Select" class="btn btn-sm btn-default" />
+                                    </div>
+                                </div>
+
+                            }
+                        }
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
+    @if (Model.PastInvoices != null && Model.PastInvoices.Count > 0)
+    {
         <div class="row mt-5">
             @foreach (var item in Model.PastInvoices)
             {
@@ -243,6 +291,14 @@
                         </div>
                     </div>
                     <br />
+                </div>
+            }
+            @if (ViewBag.SeeMore)
+            {
+                <br />
+                <div>
+                    <a href="/Invoice/Income?PastInvoiceDisplayCount=@ViewBag.X"
+                       class="btn btn-sm btn-white">Show More</a>
                 </div>
             }
         </div>

@@ -73,9 +73,12 @@ namespace TaxApp.Controllers
                 Model.Profile getProfile = new Model.Profile();
                 getProfile.ProfileID = int.Parse(cookie["ID"].ToString());
 
-                List<Model.TravelLog> ProfileTravelLog = handler.getProfileTravelLog(getProfile);
+                DateTime sDate = DateTime.Now.AddYears(-1);
+                DateTime eDate = DateTime.Now;
+
+                List<Model.TravelLog> ProfileTravelLog = handler.getProfileTravelLog(getProfile, sDate, eDate);
                 List<Model.SP_GetJobExpense_Result> ProfileJobExpenses = handler.getAllJobExpense(getProfile);
-                List<Model.SP_GetGeneralExpense_Result> ProfileGeneralExpenses = handler.getGeneralExpenses(getProfile);
+                List<Model.SP_GetGeneralExpense_Result> ProfileGeneralExpenses = handler.getGeneralExpenses(getProfile, sDate, eDate);
 
                 Model.ExpenseViewModel viewModel = new Model.ExpenseViewModel();
                 viewModel.GExpense = ProfileGeneralExpenses;
@@ -418,18 +421,59 @@ namespace TaxApp.Controllers
             }
         }
 
-        public ActionResult GeneralExpenses()
+        public ActionResult GeneralExpenses(string view, string ExpenseDisplayCount, string StartDateRange, string EndDateRange)
         {
-            getCookie();
-
             try
             {
                 getCookie();
 
+                ViewBag.view = view;
+                ViewBag.SeeMore = false;
+                int year = DateTime.Now.Year;
+                DateTime sDate = DateTime.Now.AddMonths(-6);
+                DateTime eDate = DateTime.Now;
+
+                if (StartDateRange != null && EndDateRange != null
+                    && DateTime.TryParse(StartDateRange, out sDate) && DateTime.TryParse(EndDateRange, out eDate)) { }
+
+                if (sDate > eDate)
+                {
+                    DateTime temp = sDate;
+                    sDate = eDate;
+                    eDate = temp;
+                }
+
+                ViewBag.DateRange = sDate.ToString("dd MMM yyyy") + " - " + eDate.ToString("dd MMM yyyy");
+                ViewBag.StartDateRange = sDate.ToString("yyyy-MM-dd");
+                ViewBag.EndDateRange = eDate.ToString("yyyy-MM-dd");
+
                 Model.Profile getProfile = new Model.Profile();
                 getProfile.ProfileID = int.Parse(cookie["ID"].ToString());
 
-                List<Model.SP_GetGeneralExpense_Result> ProfileGeneralExpenses = handler.getGeneralExpenses(getProfile);
+                List<Model.SP_GetGeneralExpense_Result> ProfileGeneralExpenses = handler.getGeneralExpenses(getProfile, sDate, eDate);
+
+                if (ProfileGeneralExpenses.Count > 6)
+                {
+                    int x;
+                    if (ExpenseDisplayCount != null && ExpenseDisplayCount != "" 
+                        && function.IsDigitsOnly(ExpenseDisplayCount))
+                        x = int.Parse(ExpenseDisplayCount);
+                    else
+                        x = 6;
+
+                    if (x < ProfileGeneralExpenses.Count)
+                    {
+                        ProfileGeneralExpenses = ProfileGeneralExpenses.GetRange(0, x);
+                        ViewBag.SeeMore = true;
+                    }
+                    else
+                    {
+                        ProfileGeneralExpenses = ProfileGeneralExpenses.GetRange(0, ProfileGeneralExpenses.Count);
+                        ViewBag.SeeMore = false;
+                    }
+
+                    ViewBag.X = x + 6;
+                }
 
                 return View(ProfileGeneralExpenses);
             }
@@ -440,8 +484,39 @@ namespace TaxApp.Controllers
                 return Redirect("../Shared/error?Err=An error occurred loading all general expenses");
             }
         }
+
+        [HttpPost]
+        public ActionResult GeneralExpenses(FormCollection collection, string view, string ExpenseDisplayCount, string StartDateRange, string EndDateRange)
+        {
+            try
+            {
+                int year = DateTime.Now.Year;
+                DateTime sDate = DateTime.Now.AddMonths(-6);
+                DateTime eDate = DateTime.Now;
+
+                DateTime.TryParse(Request.Form["StartDate"], out sDate);
+                DateTime.TryParse(Request.Form["EndDate"], out eDate);
+
+                StartDateRange = sDate.ToString("yyyy-MM-dd");
+                EndDateRange = eDate.ToString("yyyy-MM-dd");
+
+                return RedirectToAction("GeneralExpenses", "Expense", new
+                {
+                    view,
+                    ExpenseDisplayCount,
+                    StartDateRange,
+                    EndDateRange
+                });
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error updating date range for jobs page");
+                return RedirectToAction("../Shared/Error");
+            }
+        }
         #endregion
-        
+
         #region Reapet General Expense
         public ActionResult reapetexpense(string ID)
         {
@@ -934,14 +1009,60 @@ namespace TaxApp.Controllers
                 return Redirect("/job/job?ID=" + ID);
             }
         }
-        public ActionResult TravleLog()
+        public ActionResult TravleLog(string view, string ExpenseDisplayCount, string StartDateRange, string EndDateRange)
         {
             try
             {
                 getCookie();
+
+                ViewBag.view = view;
+                ViewBag.SeeMore = false;
+                int year = DateTime.Now.Year;
+                DateTime sDate = DateTime.Now.AddMonths(-6);
+                DateTime eDate = DateTime.Now;
+
+                if (StartDateRange != null && EndDateRange != null
+                    && DateTime.TryParse(StartDateRange, out sDate) && DateTime.TryParse(EndDateRange, out eDate)) { }
+
+                if (sDate > eDate)
+                {
+                    DateTime temp = sDate;
+                    sDate = eDate;
+                    eDate = temp;
+                }
+
+                ViewBag.DateRange = sDate.ToString("dd MMM yyyy") + " - " + eDate.ToString("dd MMM yyyy");
+                ViewBag.StartDateRange = sDate.ToString("yyyy-MM-dd");
+                ViewBag.EndDateRange = eDate.ToString("yyyy-MM-dd");
+
                 Model.Profile getProfile = new Model.Profile();
                 getProfile.ProfileID = int.Parse(cookie["ID"].ToString());
-                List <Model.TravelLog> ProfileTravelLog = handler.getProfileTravelLog(getProfile);
+                List <Model.TravelLog> ProfileTravelLog = handler.getProfileTravelLog(getProfile, sDate, eDate);
+
+
+                if (ProfileTravelLog.Count > 6)
+                {
+                    int x;
+                    if (ExpenseDisplayCount != null && ExpenseDisplayCount != ""
+                        && function.IsDigitsOnly(ExpenseDisplayCount))
+                        x = int.Parse(ExpenseDisplayCount);
+                    else
+                        x = 6;
+
+                    if (x < ProfileTravelLog.Count)
+                    {
+                        ProfileTravelLog = ProfileTravelLog.GetRange(0, x);
+                        ViewBag.SeeMore = true;
+                    }
+                    else
+                    {
+                        ProfileTravelLog = ProfileTravelLog.GetRange(0, ProfileTravelLog.Count);
+                        ViewBag.SeeMore = false;
+                    }
+
+                    ViewBag.X = x + 6;
+                }
+
                 return View(ProfileTravelLog);
             }
             catch (Exception e)
@@ -951,6 +1072,38 @@ namespace TaxApp.Controllers
                 return Redirect("/Expense/Expenses");
             }
         }
+
+        [HttpPost]
+        public ActionResult TravleLog(FormCollection collection, string view, string ExpenseDisplayCount, string StartDateRange, string EndDateRange)
+        {
+            try
+            {
+                int year = DateTime.Now.Year;
+                DateTime sDate = DateTime.Now.AddMonths(-6);
+                DateTime eDate = DateTime.Now;
+
+                DateTime.TryParse(Request.Form["StartDate"], out sDate);
+                DateTime.TryParse(Request.Form["EndDate"], out eDate);
+
+                StartDateRange = sDate.ToString("yyyy-MM-dd");
+                EndDateRange = eDate.ToString("yyyy-MM-dd");
+
+                return RedirectToAction("TravleLog", "Expense", new
+                {
+                    view,
+                    ExpenseDisplayCount,
+                    StartDateRange,
+                    EndDateRange
+                });
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error updating date range for jobs page");
+                return RedirectToAction("../Shared/Error");
+            }
+        }
+
         public ActionResult TravleLogItem(string ID)
         {
             try

@@ -3,7 +3,9 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 alter PROCEDURE SP_GetTravleLog
-	@PID int
+	@PID int,
+	@SD date,
+	@ED date
 AS
 BEGIN
 	Select TravelLog.ExpenseID, TravelLog.[From], TravelLog.[To], TravelLog.Reason, 
@@ -20,6 +22,7 @@ BEGIN
 		 AND Client.ProfileID = Profile.ProfileID
 		 AND TravelLog.VehicleID = Vehicle.VehicleID
 		 AND Profile.ProfileID = @PID
+			and [TravelLog].[Date] between @SD and @ED
 	Order by TravelLog.[Date] desc
 END
 GO

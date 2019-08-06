@@ -830,7 +830,7 @@ namespace DAL
                 throw new ApplicationException(e.ToString());
             }
         }
-        public List<SP_GetJob_Result> getProfileJobsPast(Profile profile)
+        public List<SP_GetJob_Result> getProfileJobsPast(Profile profile, DateTime sDate, DateTime eDate)
         {
             List<SP_GetJob_Result> Jobs = new List<SP_GetJob_Result>();
             try
@@ -842,8 +842,10 @@ namespace DAL
                     {
                         new SqlParameter("@PID", profile.ProfileID),
                         //***************************************//
-                        new SqlParameter("@CID", profile.ProfileID)
+                        new SqlParameter("@CID", profile.ProfileID),
                         //***************************************//
+                        new SqlParameter("@SD", sDate),
+                        new SqlParameter("@ED", eDate),
                     };
 
                 using (DataTable table = DBHelper.ParamSelect("SP_WorklogHoursPast",
@@ -879,8 +881,10 @@ namespace DAL
                     {
                         new SqlParameter("@PID", profile.ProfileID),
                         //***************************************//
-                        new SqlParameter("@CID", profile.ProfileID)
+                        new SqlParameter("@CID", profile.ProfileID),
                         //***************************************//
+                        new SqlParameter("@SD", sDate),
+                        new SqlParameter("@ED", eDate)
                     };
 
                 using (DataTable table = DBHelper.ParamSelect("SP_TotalUnPaidPast",
@@ -916,8 +920,10 @@ namespace DAL
                     {
                         new SqlParameter("@PID", profile.ProfileID),
                         //***************************************//
-                        new SqlParameter("@CID", profile.ProfileID)
+                        new SqlParameter("@CID", profile.ProfileID),
                         //***************************************//
+                        new SqlParameter("@SD", sDate),
+                        new SqlParameter("@ED", eDate)
                     };
 
                 using (DataTable table = DBHelper.ParamSelect("SP_TotalPaidPast",
@@ -950,8 +956,10 @@ namespace DAL
                     {
                         new SqlParameter("@PID", profile.ProfileID),
                         //***************************************//
-                        new SqlParameter("@CID", profile.ProfileID)
+                        new SqlParameter("@CID", profile.ProfileID),
                         //***************************************//
+                        new SqlParameter("@SD", sDate),
+                        new SqlParameter("@ED", eDate),
                     };
 
                 using (DataTable table = DBHelper.ParamSelect("SP_GetProfileJobsPast",
@@ -1877,14 +1885,16 @@ namespace DAL
                 throw new ApplicationException(e.ToString());
             }
         }
-        public List<SP_GetGeneralExpense_Result> getGeneralExpenses(Profile profileID)
+        public List<SP_GetGeneralExpense_Result> getGeneralExpenses(Profile profileID, DateTime sDate, DateTime eDate)
         {
             List<SP_GetGeneralExpense_Result> Expenses = new List<SP_GetGeneralExpense_Result>();
             try
             {
                 SqlParameter[] pars = new SqlParameter[]
                     {
-                        new SqlParameter("@PID", profileID.ProfileID)
+                        new SqlParameter("@PID", profileID.ProfileID),
+                        new SqlParameter("@SD", sDate),
+                        new SqlParameter("@ED", eDate)
                     };
 
 
@@ -2080,14 +2090,16 @@ namespace DAL
 
             return Result;
         }
-        public List<TravelLog> getProfileTravelLog(Profile getProfileTravelLog)
+        public List<TravelLog> getProfileTravelLog(Profile getProfileTravelLog, DateTime sDate, DateTime eDate)
         {
             List<TravelLog> TravelLog = new List<TravelLog>();
             try
             {
                 SqlParameter[] pars = new SqlParameter[]
                    {
-                        new SqlParameter("@PID", getProfileTravelLog.ProfileID)
+                        new SqlParameter("@PID", getProfileTravelLog.ProfileID),
+                        new SqlParameter("@SD", sDate),
+                        new SqlParameter("@ED", eDate)
                    };
 
                 using (DataTable table = DBHelper.ParamSelect("SP_GetTravleLog",
@@ -2474,14 +2486,16 @@ namespace DAL
                 throw new ApplicationException(e.ToString());
             }
         }
-        public List<SP_GetInvoice_Result> getInvoicesPast(Profile profileID)
+        public List<SP_GetInvoice_Result> getInvoicesPast(Profile profileID, DateTime sDate, DateTime eDate)
         {
             List<SP_GetInvoice_Result> JobInvoices = new List<SP_GetInvoice_Result>();
             try
             {
                 SqlParameter[] pars = new SqlParameter[]
                     {
-                        new SqlParameter("@PID", profileID.ProfileID)
+                        new SqlParameter("@PID", profileID.ProfileID),
+                        new SqlParameter("@SD", sDate),
+                        new SqlParameter("@ED", eDate)
                     };
 
 

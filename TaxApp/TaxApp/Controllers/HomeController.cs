@@ -74,14 +74,17 @@ namespace TaxApp.Controllers
                 Model.Profile profile = new Model.Profile();
                 profile.ProfileID = int.Parse(cookie["ID"].ToString());
 
+                DateTime sDate = DateTime.Now.AddYears(-1);
+                DateTime eDate = DateTime.Now;
+
                 List<Model.SP_GetJob_Result> jobs = handler.getProfileJobsDashboard(profile);
 
                 Model.DashboardIncomeExpense dashboardIncomeExpense = handler.getDashboardIncomeExpense(profile);
 
                 List<Model.DashboardExpense> dashboardExpenses = new List<Model.DashboardExpense>();
-                List<Model.TravelLog> ProfileTravelLog = handler.getProfileTravelLog(profile);
+                List<Model.TravelLog> ProfileTravelLog = handler.getProfileTravelLog(profile, sDate, eDate);
                 List<Model.SP_GetJobExpense_Result> ProfileJobExpenses = handler.getAllJobExpense(profile);
-                List<Model.SP_GetGeneralExpense_Result> ProfileGeneralExpenses = handler.getGeneralExpenses(profile);
+                List<Model.SP_GetGeneralExpense_Result> ProfileGeneralExpenses = handler.getGeneralExpenses(profile, sDate, eDate);
                 foreach(Model.TravelLog item in ProfileTravelLog)
                 {
                     Model.DashboardExpense expense = new Model.DashboardExpense();

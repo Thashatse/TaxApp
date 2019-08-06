@@ -39,7 +39,7 @@ namespace BLL
         bool editJob(Job job);
         SP_GetJob_Result getJob(Model.Job job);
         List<SP_GetJob_Result> getProfileJobs(Profile profile);
-        List<SP_GetJob_Result> getProfileJobsPast(Profile profile);
+        List<SP_GetJob_Result> getProfileJobsPast(Profile profile, DateTime sDate, DateTime eDate);
         List<SP_GetJob_Result> getProfileJobsDashboard(Profile profile);
         bool MarkJobAsComplete(Job job);
 
@@ -67,14 +67,14 @@ namespace BLL
         List<SP_GetJobExpense_Result> getAllJobExpense(Profile profileID);
         bool newGeneralExpense(SP_GetGeneralExpense_Result newGeneralExpense);
         SP_GetGeneralExpense_Result getGeneralExpense(Expense expenseID);
-        List<SP_GetGeneralExpense_Result> getGeneralExpenses(Profile profileID);
+        List<SP_GetGeneralExpense_Result> getGeneralExpenses(Profile profileID, DateTime sDate, DateTime eDate);
         List<ExpenseCategory> getExpenseCatagories();
         bool NewTravelExpense(TravelLog newTravelLogExpense);
         bool DeleteTravelExpense(TravelLog TravelLogExpense);
         bool EditTravelExpense(TravelLog newTravelLogExpense);
         bool newVehicle(Vehicle newVehicle);
         List<Vehicle> getVehicles(Profile getProfileVehicles);
-        List<TravelLog> getProfileTravelLog(Profile getProfileTravelLog);
+        List<TravelLog> getProfileTravelLog(Profile getProfileTravelLog, DateTime sDate, DateTime eDate);
         List<TravelLog> getJobTravelLog(Job getJobTravelLog);
         TravelLog getTravelLogItem(TravelLog getTravelLogItem);
         bool UpdateGeneralExpenseRepeate(SP_GetGeneralExpense_Result expense);
@@ -90,7 +90,7 @@ namespace BLL
         List<SP_GetInvoice_Result> getInvoices(Profile profileID);
         List<SP_GetInvoice_Result> getInvoiceDetails(Invoice invoiceNum);
         List<SP_GetInvoice_Result> getInvoicesOutsatanding(Profile profileID);
-        List<SP_GetInvoice_Result> getInvoicesPast(Profile profileID);
+        List<SP_GetInvoice_Result> getInvoicesPast(Profile profileID, DateTime sDate, DateTime eDate);
         bool MarkInvoiceAsPaid(Invoice invoice);
         DashboardIncome getIncomeDashboard(Profile profile);
         #endregion

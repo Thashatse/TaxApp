@@ -3,6 +3,7 @@ using Model;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -250,18 +251,61 @@ namespace TaxApp.Controllers
         #endregion
 
         #region View Income Page
-        public ActionResult Income()
+        public ActionResult Income(string view, string PastInvoiceDisplayCount, string StartDateRange, string EndDateRange)
         {
             try
             {
                 getCookie();
 
+                ViewBag.view = view;
+                ViewBag.SeeMore = false;
+                int year = DateTime.Now.Year;
+                DateTime sDate = DateTime.Now.AddMonths(-6);
+                DateTime eDate = DateTime.Now;
+
+                if (StartDateRange != null && EndDateRange != null
+                    && DateTime.TryParse(StartDateRange, out sDate) && DateTime.TryParse(EndDateRange, out eDate)) { }
+
+                if (sDate > eDate)
+                {
+                    DateTime temp = sDate;
+                    sDate = eDate;
+                    eDate = temp;
+                }
+
+                ViewBag.DateRange = sDate.ToString("dd MMM yyyy") + " - " + eDate.ToString("dd MMM yyyy");
+                ViewBag.StartDateRange = sDate.ToString("yyyy-MM-dd");
+                ViewBag.EndDateRange = eDate.ToString("yyyy-MM-dd");
+
                 Profile profileID = new Model.Profile();
                 profileID.ProfileID = int.Parse(cookie["ID"]);
 
                 List<SP_GetInvoice_Result> OutinvoiceDetails = handler.getInvoicesOutsatanding(profileID);
-                List<SP_GetInvoice_Result> PastinvoiceDetails = handler.getInvoicesPast(profileID);
+                List<SP_GetInvoice_Result> PastinvoiceDetails = handler.getInvoicesPast(profileID, sDate, eDate);
                 Model.DashboardIncome IncomeDashboard = handler.getIncomeDashboard(profileID);
+
+                if (PastinvoiceDetails.Count > 3)
+                {
+                    int x;
+                    if (PastInvoiceDisplayCount != null && PastInvoiceDisplayCount != "" 
+                        && function.IsDigitsOnly(PastInvoiceDisplayCount))
+                        x = int.Parse(PastInvoiceDisplayCount);
+                    else
+                        x = 3;
+
+                    if (x < PastinvoiceDetails.Count)
+                    {
+                        PastinvoiceDetails = PastinvoiceDetails.GetRange(0, x);
+                        ViewBag.SeeMore = true;
+                    }
+                    else
+                    {
+                        PastinvoiceDetails = PastinvoiceDetails.GetRange(0, PastinvoiceDetails.Count);
+                        ViewBag.SeeMore = false;
+                    }
+
+                    ViewBag.X = x + 6;
+                }
 
                 var viewModel = new Model.incomeViewModel();
                 viewModel.OutInvoices = OutinvoiceDetails;
@@ -277,6 +321,37 @@ namespace TaxApp.Controllers
                 return Redirect("../Shared/Error");
             }
         }
+
+        [HttpPost]
+        public ActionResult Income(FormCollection collection, string view, string PastInvoiceDisplayCount, string StartDateRange, string EndDateRange)
+        {
+            try
+            {
+                int year = DateTime.Now.Year;
+                DateTime sDate = DateTime.Now.AddMonths(-6);
+                DateTime eDate = DateTime.Now;
+
+                DateTime.TryParse(Request.Form["StartDate"], out sDate);
+                DateTime.TryParse(Request.Form["EndDate"], out eDate);
+
+                StartDateRange = sDate.ToString("yyyy-MM-dd");
+                EndDateRange = eDate.ToString("yyyy-MM-dd");
+
+                return RedirectToAction("Income", "Invoice", new
+                {
+                    view,
+                    PastInvoiceDisplayCount,
+                    StartDateRange,
+                    EndDateRange
+                });
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error updating date range for income page");
+                return RedirectToAction("../Shared/Error");
+            }
+        }
         #endregion
 
         #region Email Invoice
@@ -286,6 +361,7 @@ namespace TaxApp.Controllers
             try
             {
                 getCookie();
+
                 if (id == "0")
                 {
                     function.logAnError("Error loding Print invoice details - No ID Supplied");
@@ -354,6 +430,73 @@ namespace TaxApp.Controllers
             }
         }
 
+        public string RenderRazorViewToString(ControllerContext controllerContext, string viewName, object model)
+        {
+            ViewData.Model = model;
+            using (var sw = new StringWriter())
+            {
+                var viewResult = ViewEngines.Engines.FindPartialView(ControllerContext,
+                                                                         viewName);
+                var viewContext = new ViewContext(ControllerContext, viewResult.View,
+                                             ViewData, TempData, sw);
+                viewResult.View.Render(viewContext, sw);
+                viewResult.ViewEngine.ReleaseView(ControllerContext, viewResult.View);
+                return sw.GetStringBuilder().ToString();
+            }
+        }
+
+        public ActionResult Email(string id)
+        {
+            try
+            {
+                    Invoice invoiceNum = new Invoice();
+                    invoiceNum.InvoiceNum = id;
+
+                    List<SP_GetInvoice_Result> invoiceDetails = handler.getInvoiceDetails(invoiceNum);
+                    ViewBag.InvoiceItems = invoiceDetails;
+
+                    decimal total = new decimal();
+                    foreach (SP_GetInvoice_Result item in invoiceDetails)
+                    {
+                        total += item.TotalCost;
+                    }
+                    ViewBag.TotalExcludingVAT = total.ToString("0.##");
+                    decimal totalVAT = ((total / 100) * invoiceDetails[0].VATRate);
+                    ViewBag.VAT = totalVAT.ToString("0.##");
+                    total = (totalVAT) + total;
+                    ViewBag.TotalDue = total.ToString("0.##");
+
+                    Profile getProfile = new Profile();
+                    getProfile.ProfileID = int.Parse(cookie["ID"]);
+                    getProfile.EmailAddress = "";
+                    getProfile.Username = "";
+                    getProfile = handler.getProfile(getProfile);
+                    ViewBag.VatNum = getProfile.VATNumber;
+                    ViewBag.ProfileName = getProfile.FirstName + " " + getProfile.LastName;
+                    ViewBag.ProfileEmail = getProfile.EmailAddress;
+                    ViewBag.ProfileNo = getProfile.ContactNumber;
+
+                    ViewBag.JobID = id;
+
+                    if (invoiceDetails[0].Paid == true)
+                    {
+                        ViewBag.Paid = "Paid";
+                    }
+                    else
+                    {
+                        ViewBag.Paid = "Unpaid";
+                    }
+
+                    return View(invoiceDetails[0]);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding invoice for email");
+                return View();
+            }
+        }
+
         [HttpPost]
         public ActionResult EmailInvoice(FormCollection collection, string ID, string To)
         {
@@ -400,10 +543,12 @@ namespace TaxApp.Controllers
                     toName = invoiceDetails[0].ClientName;
                 }
 
+                string invoice = RenderRazorViewToString(this.ControllerContext, "Email", null);
+
                 bool result = function.sendEmail(toAddress,
                     toName,
                     Request.Form["subject"],
-                    Request.Form["Message"],
+                    Request.Form["Message"] + invoice,
                     getProfile.FirstName + " " + getProfile.LastName,
                     getProfile.ProfileID);
 

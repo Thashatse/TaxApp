@@ -2,8 +2,10 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-create PROCEDURE SP_GetInvoicesPaid
-	@PID int
+alter PROCEDURE SP_GetInvoicesPaid
+	@PID int,
+	@SD date,
+	@ED date
 AS
 BEGIN
 	select Invoice.InvoiceNum, [DateTime], VATRate, Paid,
@@ -19,6 +21,7 @@ BEGIN
 		AND Jobs.ClientID = Client.ClientID
 		AND Client.ProfileID = @PID
 		AND Paid = 1
+				and Invoice.[DateTime] between @SD and @ED
 	Order by [DateTime] desc
 END
 GO

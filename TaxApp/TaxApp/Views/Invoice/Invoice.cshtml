@@ -115,7 +115,7 @@
                                                     Job:
                                                 </dt>
                                             </td>
-                                            <td>
+                                            <td align="right">
                                                 <dd>
                                                     @Html.DisplayFor(model => model.JobTitle)
                                                 </dd>
@@ -127,7 +127,7 @@
                                                     VAT Number:
                                                 </dt>
                                             </td>
-                                            <td>
+                                            <td align="right">
                                                 <dd>
                                                     @ViewBag.VatNum
                                                 </dd>
@@ -139,7 +139,7 @@
                                                     @Html.DisplayNameFor(model => model.InvoiceNum)
                                                 </dt>
                                             </td>
-                                            <td>
+                                            <td align="right">
                                                 <dd>
                                                     @Html.DisplayFor(model => model.InvoiceNum)
                                                 </dd>
@@ -151,7 +151,7 @@
                                                     @Html.DisplayNameFor(model => model.DateTime):
                                                 </dt>
                                             </td>
-                                            <td>
+                                            <td align="right">
                                                 <dd>
                                                     @Html.DisplayFor(model => model.DateTime)
                                                 </dd>
@@ -177,10 +177,10 @@
                             @foreach (var item in ViewBag.InvoiceItems)
                             {
                                 <tr>
-                                    <td>@item.UnitCountString</td>
+                                    <td align="right">@item.UnitCountString</td>
                                     <td>@item.Name</td>
-                                    <td>R @item.UnitCostString</td>
-                                    <td>R @item.TotalCostString</td>
+                                    <td align="right">R @item.UnitCostString</td>
+                                    <td align="right">R @item.TotalCostString</td>
                                 </tr>
                             }
 
@@ -188,21 +188,21 @@
                                 <td></td>
                                 <td></td>
                                 <td>Excluding VAT:</td>
-                                <td>R @ViewBag.TotalExcludingVAT</td>
+                                <td align="right">R @ViewBag.TotalExcludingVAT</td>
                             </tr>
 
                             <tr>
                                 <td></td>
                                 <td></td>
                                 <td>VAT at  @Html.DisplayFor(model => model.VATRateString)%:</td>
-                                <td>R @ViewBag.VAT</td>
+                                <td align="right">R @ViewBag.VAT</td>
                             </tr>
 
                             <tr>
                                 <td></td>
                                 <td></td>
                                 <td>Total Due:</td>
-                                <td>R @ViewBag.TotalDue</td>
+                                <td align="right">R @ViewBag.TotalDue</td>
                             </tr>
 
                         </table>

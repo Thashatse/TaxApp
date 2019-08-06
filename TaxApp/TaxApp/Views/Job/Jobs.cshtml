@@ -16,9 +16,9 @@
                         Jobs
                     </h1>
                     <br />
-                    @if (Model.curentJobs == null)
+                    @if (Model.curentJobs.Count < 1 && Model.pastJobs.Count < 1)
                     {
-                        <div class="text-white"> No Active Jobs</div>
+                        <div class="text-white"> No Jobs</div>
                     }
                     <br />
                     <div>
@@ -128,13 +128,67 @@
                                 <h1>
                                     Past Jobs
                                 </h1>
+                                <br />
+                                <p>
+                                    Date Range: @ViewBag.DateRange
+                                        @if (ViewBag.View != "DS")
+                                        {
+                                    <a href="../Job/Jobs?view=DS"
+                                       class="btn btn-sm btn-white"><i class="ni ni-settings-gear-65"></i></a>
+                                        }
+                                </p>
+                                if (ViewBag.View == "DS")
+                                {
+                                    using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <div>
+                                            <div class="col-lg-12 col-sm-12">
+                                                Start: <input name="StartDate" type="date" value="@ViewBag.StartDateRange" /><br />
+                                            
+                                                End: <input name="EndDate" type="date" value="@ViewBag.EndDateRange" /><br />
+                                                <br /><input type="submit" value="Select" class="btn btn-sm btn-default" />
+                                            </div>
+                                        </div>
+
+                                    }
+                                }
+                                <br />
                             }
                             else
                             {
                                 <h1 class="text-white">
                                     Past Jobs
-                                </h1>
+                                </h1><br />
+                                <p class="text-white">
+                                    Date Range: @ViewBag.DateRange
+                                    <a href="../Job/Jobs?view=DS"
+                                       class="btn btn-sm btn-white"><i class="ni ni-settings-gear-65"></i></a>
+                                </p>
+                                if (ViewBag.View == "DS")
+                                {
+                                    using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <div class="text-white">
+                                            <div class="col-lg-5 col-sm-12">
+                                                Start: <input name="StartDate" type="date" value="@ViewBag.StartDateRange" /><br />
+                                            </div>
+                                            <div class="col-lg-5 col-sm-12">
+                                                End: <input name="EndDate" type="date" value="@ViewBag.EndDateRange" /><br /><br />
+                                            </div>
+                                            <div class="col-lg-2 col-sm-12">
+                                                <br /><input type="submit" value="Select" class="btn btn-sm btn-default" />
+                                            </div>
+                                        </div>
+
+                                    }
+                                }
+                                <br />
                             }
+
                             @if (Model.pastJobs == null && Model.curentJobs != null)
                             {
                                 <th> No Past Jobs</th>
@@ -143,90 +197,97 @@
                             {
                                 <th class="text-white">No Past Jobs</th>
                             }
-                            <br />
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="container-fluid mt--7">
-        <div class="row mt-5">
-            @if (Model.pastJobs != null)
-            {
-                foreach (var item in Model.pastJobs)
+        <div class="container-fluid mt--7">
+            <div class="row mt-5">
+                @if (Model.pastJobs != null)
                 {
-                    <div class="col-xl-4">
-                        <div class="card shadow">
-                            <div class="card-header border-0">
-                                <div class="row align-items-center">
-                                    <div class="col">
-                                        <h3 class="mb-0">
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.JobTitle)
-                                            </td>
-                                        </h3>
-                                    </div>
-                                    <div class="col text-right">
-                                        <a href="/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)"
-                                           class="btn btn-sm btn-primary">Details</a>
+                    foreach (var item in Model.pastJobs)
+                    {
+                        <div class="col-xl-4">
+                            <div class="card shadow">
+                                <div class="card-header border-0">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <h3 class="mb-0">
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.JobTitle)
+                                                </td>
+                                            </h3>
+                                        </div>
+                                        <div class="col text-right">
+                                            <a href="/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)"
+                                               class="btn btn-sm btn-primary">Details</a>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="table-responsive">
+                                    <!-- Projects table -->
+                                    <table class="table align-items-center table-flush">
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">
+                                                    Client:
+                                                </th>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.ClientFirstName)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                    Hours Worked:
+                                                </th>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.WorkLogHoursString)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                    Income:
+                                                </th>
+                                                <td>
+                                                    R @Html.DisplayFor(modelItem => item.TotalPaidString)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                    Expenses:
+                                                </th>
+                                                <td>
+                                                    R @Html.DisplayFor(modelItem => item.AllExpenseTotalString)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                    Budget Used:
+                                                </th>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="mr-2">@Html.DisplayFor(modelItem => item.BudgetPercent)%</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                            <div class="table-responsive">
-                                <!-- Projects table -->
-                                <table class="table align-items-center table-flush">
-                                    <tbody>
-                                        <tr>
-                                            <th scope="row">
-                                                Client:
-                                            </th>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.ClientFirstName)
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">
-                                                Hours Worked:
-                                            </th>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.WorkLogHoursString)
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">
-                                                Income:
-                                            </th>
-                                            <td>
-                                                R @Html.DisplayFor(modelItem => item.TotalPaidString)
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">
-                                                Expenses:
-                                            </th>
-                                            <td>
-                                                R @Html.DisplayFor(modelItem => item.AllExpenseTotalString)
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">
-                                                Budget Used:
-                                            </th>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <span class="mr-2">@Html.DisplayFor(modelItem => item.BudgetPercent)%</span>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                            <br />
                         </div>
-                        <br />
-                    </div>
+                    }
                 }
+            </div>
+            @if (ViewBag.SeeMore)
+            {
+                <br />
+                <div>
+                    <a href="/Job/Jobs?PastJobsDisplayCount=@ViewBag.X"
+                       class="btn btn-sm btn-white">Show More</a>
+                </div>
             }
         </div>
-    </div>
-}
+    }

@@ -15,9 +15,38 @@
                         Travle Log
                     </h1><br />
                     <div>
-                            <a href="../Job/JobSelector?Dest=New*Travel*Expense"
-                               class="btn btn-sm btn-white">New Travel Expense</a>
+                        <a href="../Job/JobSelector?Dest=New*Travel*Expense"
+                           class="btn btn-sm btn-white">New Travel Expense</a>
                     </div>
+                    <br />
+                    <p class="text-white">
+                        Date Range: @ViewBag.DateRange
+                        @if (ViewBag.View != "DS")
+                        {
+                            <a href="/Expense/TravleLog?view=DS"
+                               class="btn btn-sm btn-white"><i class="ni ni-settings-gear-65"></i></a>
+                        }
+                    </p>
+                    @if (ViewBag.View == "DS")
+                    {
+                        using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="text-white">
+                                <div class="row">
+                                    <div class="col-lg-5 col-sm-12">Start: <input name="StartDate" type="date" value="@ViewBag.StartDateRange" /></div>
+                                    <div class="col-lg-5 col-sm-12">
+                                        End: <input name="EndDate" type="date" value="@ViewBag.EndDateRange" />
+                                    </div>
+                                    <div class="col-lg-2 col-sm-12">
+                                        <br /><input type="submit" value="Select" class="btn btn-sm btn-default" />
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+                    }
                 </div>
             </div>
         </div>
@@ -84,3 +113,11 @@
             </div>
         }
     </div>
+    @if (ViewBag.SeeMore)
+    {
+        <br />
+        <div>
+            <a href="/Expense/TravleLog?ExpenseDisplayCount=@ViewBag.X"
+               class="btn btn-sm btn-white">Show More</a>
+        </div>
+    }

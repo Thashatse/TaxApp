@@ -5,7 +5,9 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 alter PROCEDURE [dbo].[SP_GetGeneralExpenses]
-	@PID INT
+	@PID INT,
+	@SD date,
+	@ED date
 AS
 BEGIN
     SELECT Expense.ExpenseID, Expense.CategoryID, Expense.[Name], Expense.[Description],
@@ -15,5 +17,6 @@ BEGIN
     WHERE  GeneralExpense.ProfileID = @PID
 			AND Expense.ExpenseID = GeneralExpense.ExpenseID
 			AND Expense.CategoryID = ExpenseCategory.CategoryID
+			and GeneralExpense.[Date] between @SD and @ED
 	Order by GeneralExpense.[Date] desc
 END 

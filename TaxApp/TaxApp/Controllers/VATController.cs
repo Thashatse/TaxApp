@@ -92,17 +92,20 @@ namespace TaxApp.Controllers
                         foreach (TaxAndVatPeriods item in vatPeriod)
                         {
                             if (item.PeriodID.ToString() == period)
-                            {
-                                ViewBag.VatPeriod = item.PeriodString;
+                        {
+                            DateTime sDate = DateTime.Now.AddYears(-1);
+                            DateTime eDate = DateTime.Now;
+
+                            ViewBag.VatPeriod = item.PeriodString;
 
                                 dashboard = handler.getVatCenterDashboard(profileID, item);
 
                                 VATRecived = handler.getVATRecivedList(profileID, item);
 
                                 VATPaid = new List<Model.DashboardExpense>();
-                                List<Model.TravelLog> ProfileTravelLog = handler.getProfileTravelLog(profileID);
+                                List<Model.TravelLog> ProfileTravelLog = handler.getProfileTravelLog(profileID, sDate, eDate);
                                 List<Model.SP_GetJobExpense_Result> ProfileJobExpenses = handler.getAllJobExpense(profileID);
-                                List<Model.SP_GetGeneralExpense_Result> ProfileGeneralExpenses = handler.getGeneralExpenses(profileID);
+                                List<Model.SP_GetGeneralExpense_Result> ProfileGeneralExpenses = handler.getGeneralExpenses(profileID, sDate, eDate);
                                 var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
                                 nfi.NumberGroupSeparator = " ";
                                 foreach (Model.TravelLog expenseItem in ProfileTravelLog)
