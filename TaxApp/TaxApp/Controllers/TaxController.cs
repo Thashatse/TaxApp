@@ -340,6 +340,7 @@ namespace TaxApp.Controllers
             }
         }
         #endregion
+
         #region Tax Brakets
         public ActionResult TaxBrakets(string ID, string period)
         {

@@ -130,6 +130,7 @@ namespace TaxApp.Controllers
         {
             try
             {
+                ViewBag.cat = 'I';
                 getCookie();
                 if (id == "0")
                 {
@@ -205,6 +206,7 @@ namespace TaxApp.Controllers
         {
             try
             {
+                ViewBag.cat = 'I';
                 getCookie();
                 if(id.ToString() == null || id.ToString() == "")
                 {
@@ -255,6 +257,8 @@ namespace TaxApp.Controllers
         {
             try
             {
+                ViewBag.cat = 'I';
+
                 getCookie();
 
                 ViewBag.view = view;
@@ -327,6 +331,7 @@ namespace TaxApp.Controllers
         {
             try
             {
+                ViewBag.cat = 'I';
                 int year = DateTime.Now.Year;
                 DateTime sDate = DateTime.Now.AddMonths(-6);
                 DateTime eDate = DateTime.Now;

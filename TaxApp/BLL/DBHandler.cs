@@ -348,5 +348,12 @@ namespace BLL
             return db.getVehicle(getVehicle);
         }
         #endregion
+
+        #region Search
+        public List<SearchViewModel> getSearchResults(string term, int ProfileID, DateTime sDate, DateTime eDate, string cat)
+        {
+            return db.getSearchResults(term, ProfileID, sDate, eDate, cat);
+        }
+        #endregion
     }
 }

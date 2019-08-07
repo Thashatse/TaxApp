@@ -60,6 +60,109 @@ namespace TaxApp.Controllers
             }
         }
         
+        public ActionResult Search(string view, string StartDateRange, string EndDateRange, string term, string cat)
+        {
+            try
+            {
+                getCookie();
+
+                List<SearchViewModel> results = null;
+
+                if (cat == null || cat == "")
+                    cat = "A";
+
+                if (cat == "J")
+                    ViewBag.SearchType = "Job";
+
+                if (cat == "WL")
+                    ViewBag.SearchType = "Work Log";
+
+                if (cat == "TC")
+                    ViewBag.SearchType = "Tax Consultnat";
+
+                if (cat == "I")
+                    ViewBag.SearchType = "Invoice";
+
+                if (cat == "TL")
+                    ViewBag.SearchType = "Travel Log";
+
+                if (cat == "JE")
+                    ViewBag.SearchType = "Job Expense";
+
+                if (cat == "C")
+                    ViewBag.SearchType = "Client";
+
+                if (cat == "GE")
+                    ViewBag.SearchType = "Genetal Expense";
+
+                ViewBag.view = view;
+                    ViewBag.term = term;
+                    ViewBag.cat = cat;
+
+                    int year = DateTime.Now.Year;
+                    DateTime sDate = DateTime.Now.AddYears(-100);
+                    DateTime eDate = DateTime.Now;
+
+                    if (StartDateRange != null && EndDateRange != null
+                        && DateTime.TryParse(StartDateRange, out sDate) && DateTime.TryParse(EndDateRange, out eDate)) { }
+
+                    if (sDate > eDate)
+                    {
+                        DateTime temp = sDate;
+                        sDate = eDate;
+                        eDate = temp;
+                    }
+
+                    ViewBag.DateRange = sDate.ToString("dd MMM yyyy") + " - " + eDate.ToString("dd MMM yyyy");
+                    ViewBag.StartDateRange = sDate.ToString("yyyy-MM-dd");
+                    ViewBag.EndDateRange = eDate.ToString("yyyy-MM-dd");
+
+                if (term != null && term != "")
+                {
+                    results = handler.getSearchResults(term, int.Parse(cookie["ID"]), sDate, eDate, cat);
+                }
+
+                return View(results);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding search term: "+term);
+                return Redirect("../Shared/Error?An error occurred while processing your search request.");
+            }
+        }
+        [HttpPost]
+        public ActionResult Search(FormCollection collection, string view, string StartDateRange, string EndDateRange, string term, string cat)
+        {
+            try
+            {
+                int year = DateTime.Now.Year;
+                DateTime sDate = DateTime.Now.AddYears(-100);
+                DateTime eDate = DateTime.Now;
+
+                DateTime.TryParse(Request.Form["StartDate"], out sDate);
+                DateTime.TryParse(Request.Form["EndDate"], out eDate);
+
+                StartDateRange = sDate.ToString("yyyy-MM-dd");
+                EndDateRange = eDate.ToString("yyyy-MM-dd");
+
+                return RedirectToAction("Home", "Search", new
+                {
+                    view,
+                    StartDateRange,
+                    EndDateRange,
+                    term,
+                    cat
+                });
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error updating date range for jobs page");
+                return RedirectToAction("../Shared/Error");
+            }
+        }
+
         public ActionResult Index()
         {
             Thread zero = new Thread(function.repeatExpense);

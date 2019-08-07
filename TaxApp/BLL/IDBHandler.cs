@@ -127,6 +127,10 @@ namespace BLL
         bool editVehicle(Vehicle editVehicle);
         Vehicle getVehicle(Vehicle getVehicle);
         #endregion
+
+        #region Search
+        List<SearchViewModel> getSearchResults(string term, int ProfileID, DateTime sDate, DateTime eDate, string Cat);
+        #endregion
     }
 }
 

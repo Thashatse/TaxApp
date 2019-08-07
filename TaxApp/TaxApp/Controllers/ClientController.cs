@@ -62,8 +62,10 @@ namespace TaxApp.Controllers
         // GET: Client
         public ActionResult Client()
         {
-            try { 
-            getCookie();
+            try
+            {
+                ViewBag.cat = "C";
+                getCookie();
             Model.Client getClients = new Model.Client();
             getClients.ProfileID = int.Parse(cookie["ID"].ToString());
             List<Model.Client> Clients = handler.getProfileClients(getClients);

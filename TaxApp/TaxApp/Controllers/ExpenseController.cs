@@ -335,6 +335,7 @@ namespace TaxApp.Controllers
         {
             try
             {
+                ViewBag.cat = "JE";
                 getCookie();
                 Model.Job getJob = new Model.Job();
                 getJob.JobID = int.Parse(ID);
@@ -366,6 +367,7 @@ namespace TaxApp.Controllers
         {
             try
             {
+                ViewBag.cat = "JE";
                 getCookie();
                 Model.Expense getExpense = new Model.Expense();
                 getExpense.ExpenseID = int.Parse(ID);
@@ -404,6 +406,7 @@ namespace TaxApp.Controllers
         {
             try
             {
+                ViewBag.cat = "GE";
                 getCookie();
                 Model.Expense getExpense = new Model.Expense();
                 getExpense.ExpenseID = int.Parse(ID);
@@ -425,6 +428,7 @@ namespace TaxApp.Controllers
         {
             try
             {
+                ViewBag.cat = "GE";
                 getCookie();
 
                 ViewBag.view = view;
@@ -904,6 +908,7 @@ namespace TaxApp.Controllers
         {
             try
             {
+                ViewBag.cat = "TL";
                 getCookie();
                 Profile getVehicles = new Profile();
                 getVehicles.ProfileID = int.Parse(cookie["ID"].ToString());
@@ -919,7 +924,7 @@ namespace TaxApp.Controllers
         }
         #endregion
 
-        #region Vehicles
+        #region Edit Vehicles
         // GET
         public ActionResult EditVehicles(string ID)
         {
@@ -983,6 +988,7 @@ namespace TaxApp.Controllers
         {
             try
             {
+                ViewBag.cat = "TL";
                 getCookie();
                 Model.Job getJob = new Model.Job();
                 getJob.JobID = int.Parse(ID);
@@ -1013,6 +1019,7 @@ namespace TaxApp.Controllers
         {
             try
             {
+                ViewBag.cat = "TL";
                 getCookie();
 
                 ViewBag.view = view;
@@ -1078,6 +1085,7 @@ namespace TaxApp.Controllers
         {
             try
             {
+                ViewBag.cat = "TL";
                 int year = DateTime.Now.Year;
                 DateTime sDate = DateTime.Now.AddMonths(-6);
                 DateTime eDate = DateTime.Now;
@@ -1108,6 +1116,7 @@ namespace TaxApp.Controllers
         {
             try
             {
+                ViewBag.cat = "TL";
                 getCookie();
 
                 Model.TravelLog getTravelLogItem = new Model.TravelLog();

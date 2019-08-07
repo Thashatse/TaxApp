@@ -66,6 +66,7 @@ namespace TaxApp.Controllers
             {
                 getCookie();
 
+                ViewBag.cat = 'J';
                 ViewBag.view = view;
                 ViewBag.SeeMore = false;
                 int year = DateTime.Now.Year;
@@ -141,6 +142,7 @@ namespace TaxApp.Controllers
         {
             try
             {
+                ViewBag.cat = 'J';
                 int year = DateTime.Now.Year;
                 DateTime sDate = DateTime.Now.AddMonths(-6);
                 DateTime eDate = DateTime.Now;
@@ -171,6 +173,7 @@ namespace TaxApp.Controllers
         {
             try
             {
+                ViewBag.cat = 'J';
                 getCookie();
             Model.Job getJob = new Model.Job();
             getJob.JobID = int.Parse(ID);
@@ -206,6 +209,7 @@ namespace TaxApp.Controllers
         {
             try
             {
+                ViewBag.cat = "WL";
                 getCookie();
             Model.Job getJob = new Model.Job();
             getJob.JobID = int.Parse(ID);
@@ -238,6 +242,7 @@ namespace TaxApp.Controllers
         {
             try
             {
+                ViewBag.cat = "WL";
                 getCookie();
             Model.Worklog LogID = new Model.Worklog();
             LogID.LogItemID = int.Parse(ID);

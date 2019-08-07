@@ -3578,5 +3578,270 @@ namespace DAL
             }
         }
         #endregion
+
+        #region Search
+        public List<SearchViewModel> getSearchResults(string term, int ProfileID, DateTime sDate, DateTime eDate, string cat)
+        {
+            List<SearchViewModel> results = new List<SearchViewModel>();
+
+            try
+            {
+                #region Jobs
+                if(cat == "A" || cat == "J")
+                {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@ST", term),
+                        new SqlParameter("@PID", ProfileID),
+                        new SqlParameter("@SD", sDate),
+                        new SqlParameter("@ED", eDate)
+                   };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_SearchJobs",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            SearchViewModel result = new SearchViewModel();
+                            result.ResultID = int.Parse(row["JobID"].ToString());
+                            result.ResultTitle = row["JobTitle"].ToString() + " (Job)";
+                            result.ResultDetails = row["Name"].ToString();
+                            result.ResultDate = DateTime.Parse(row["StartDate"].ToString());
+                            result.ResultDateString = result.ResultDate.ToString("dd MMM yyyy");
+                                result.ResultLink = "../Job/Job?ID=" + result.ResultID;
+                                results.Add(result);
+                        }
+                    }
+                }
+                }
+                #endregion
+
+                #region Work Log
+                if(cat == "A" || cat == "WL")
+                {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@ST", term),
+                        new SqlParameter("@PID", ProfileID),
+                        new SqlParameter("@SD", sDate),
+                        new SqlParameter("@ED", eDate)
+                   };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_SearchWorkLog",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            SearchViewModel result = new SearchViewModel();
+                            result.ResultID = int.Parse(row["LogItemID"].ToString());
+                            result.ResultTitle = row["Description"].ToString() + " (Work Log Item)";
+                            result.ResultDetails = row["JobClient"].ToString();
+                            result.ResultDate = DateTime.Parse(row["StartTime"].ToString());
+                            result.ResultDateString = result.ResultDate.ToString("hh:mm dd MMM yyyy");
+                                result.ResultLink = "../Job/JobWorkLogItem?ID=" + result.ResultID;
+                                results.Add(result);
+                        }
+                    }
+                }
+                }
+                #endregion
+
+                #region Tax Consultant
+                if (cat == "A" || cat == "TC")
+                {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@ST", term),
+                        new SqlParameter("@PID", ProfileID)
+                   };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_SearchTaxConsultant",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            SearchViewModel result = new SearchViewModel();
+                            result.ResultID = ProfileID;
+                            result.ResultTitle = row["Name"].ToString() + " (Tax Consultant)";
+                                result.ResultLink = "../Tax/Consultant";
+                                results.Add(result);
+                        }
+                    }
+                }
+                }
+                #endregion
+
+                #region Invoice
+                if(cat == "A" || cat == "I")
+                {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@ST", term),
+                        new SqlParameter("@PID", ProfileID),
+                        new SqlParameter("@SD", sDate),
+                        new SqlParameter("@ED", eDate)
+                   };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_SearchInvoice",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            SearchViewModel result = new SearchViewModel();
+                            result.ResultID = long.Parse(row["InvoiceNum"].ToString());
+                            result.ResultTitle = row["JobTitle"].ToString() + " (Invoice)";
+                            result.ResultDetails = row["Name"].ToString();
+                            result.ResultDate = DateTime.Parse(row["StartDate"].ToString());
+                            result.ResultDateString = result.ResultDate.ToString("dd MMM yyyy");
+                                result.ResultLink = "../Invoice/Invoice?ID=" + result.ResultID;
+                                results.Add(result);
+                        }
+                    }
+                }
+                }
+                #endregion
+
+                #region Travel Log
+                if(cat == "A" || cat == "TL")
+                {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@ST", term),
+                        new SqlParameter("@PID", ProfileID),
+                        new SqlParameter("@SD", sDate),
+                        new SqlParameter("@ED", eDate)
+                   };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_SearchTravelLog",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            SearchViewModel result = new SearchViewModel();
+                            result.ResultID = int.Parse(row["ExpenseID"].ToString());
+                            result.ResultTitle = row["Reason"].ToString() + " (Travel Log Item)";
+                            result.ResultDetails = row["Details"].ToString();
+                            result.ResultDate = DateTime.Parse(row["Date"].ToString());
+                            result.ResultDateString = result.ResultDate.ToString("dd MMM yyyy");
+                                result.ResultLink = "../Expense/TravleLogItem?ID=" + result.ResultID;
+                                results.Add(result);
+                        }
+                    }
+                }
+                }
+                #endregion
+
+                #region Job Expenses
+                if(cat == "A" || cat == "JE")
+                {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@ST", term),
+                        new SqlParameter("@PID", ProfileID),
+                        new SqlParameter("@SD", sDate),
+                        new SqlParameter("@ED", eDate)
+                   };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_SearchJobExpenses",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            SearchViewModel result = new SearchViewModel();
+                            result.ResultID = int.Parse(row["ExpenseID"].ToString());
+                            result.ResultTitle = row["Name"].ToString() + " (Job Expense)";
+                            result.ResultDetails = row["Description"].ToString();
+                            result.ResultDate = DateTime.Parse(row["Date"].ToString());
+                            result.ResultDateString = result.ResultDate.ToString("dd MMM yyyy");
+                                result.ResultLink = "../Expense/JobExpense?ID=" + result.ResultID;
+                                results.Add(result);
+                        }
+                    }
+                }
+                }
+                #endregion
+
+                #region Clients
+                if(cat == "A" || cat == "C")
+                {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@ST", term),
+                        new SqlParameter("@PID", ProfileID)
+                   };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_SearchClients",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            SearchViewModel result = new SearchViewModel();
+                            result.ResultID = int.Parse(row["ClientID"].ToString());
+                            result.ResultTitle = row["Name"].ToString() + " (Client)";
+                            result.ResultDetails = row["CompanyName"].ToString();
+                                result.ResultLink = "../Client/ClientDetails?ID=" + result.ResultID;
+                                results.Add(result);
+                        }
+                    }
+                }
+                }
+                #endregion
+
+                #region General Expenses
+                if(cat == "A" || cat == "GE")
+                {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@ST", term),
+                        new SqlParameter("@PID", ProfileID),
+                        new SqlParameter("@SD", sDate),
+                        new SqlParameter("@ED", eDate)
+                   };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_SearchGeneralExpenses",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            SearchViewModel result = new SearchViewModel();
+                            result.ResultID = int.Parse(row["ExpenseID"].ToString());
+                            result.ResultTitle = row["Name"].ToString() + " (General Expense)";
+                            result.ResultDetails = row["Description"].ToString();
+                            result.ResultDate = DateTime.Parse(row["Date"].ToString());
+                            result.ResultDateString = result.ResultDate.ToString("dd MMM yyyy");
+                                result.ResultLink = "../Expense/GeneralExpense?ID="+result.ResultID;
+                            results.Add(result);
+                        }
+                    }
+                }
+                }
+                #endregion
+
+                results = results.OrderBy(x => x.ResultTitle).ToList();
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return results;
+        }
+        #endregion
     }
 }                  

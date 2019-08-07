@@ -215,6 +215,7 @@
     <Content Include="Views\Job\DeleteJobWorkLog.cshtml" />
     <Content Include="Views\Job\EditJob.cshtml" />
     <Content Include="Views\Invoice\Email.cshtml" />
+    <Content Include="Views\Home\Search.cshtml" />
     <None Include="Views\Shared\Help.cshtml" />
     <Content Include="WebPages\Landing.aspx" />
     <Content Include="libman.json" />
@@ -1939,8 +1940,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Theam\fonts\nucleo\nucleo-icons.eot" />
     <Content Include="Theam\fonts\nucleo\nucleo-icons.ttf" />
