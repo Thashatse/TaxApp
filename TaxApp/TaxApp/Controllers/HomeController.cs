@@ -14,6 +14,7 @@ namespace TaxApp.Controllers
         IDBHandler handler = new DBHandler();
         HttpCookie cookie;
         Functions function = new Functions();
+        NotificationsFunctions notiFunctions = new NotificationsFunctions();
 
         public void getCookie()
         {
@@ -165,14 +166,17 @@ namespace TaxApp.Controllers
 
         public ActionResult Index()
         {
-            Thread zero = new Thread(function.repeatExpense);
-            zero.Start();
+            getCookie();
+
+            Thread zero = new Thread(function.runAutoFunctions);
+            zero.Start(cookie["ID"]);
 
             ViewBag.Title = "Dashboard";
 
+            ViewBag.NotificationList = notiFunctions.getNotifications(int.Parse(cookie["ID"]));
+
             try
             {
-                getCookie();
 
                 Model.Profile profile = new Model.Profile();
                 profile.ProfileID = int.Parse(cookie["ID"].ToString());

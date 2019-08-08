@@ -131,6 +131,13 @@ namespace BLL
         #region Search
         List<SearchViewModel> getSearchResults(string term, int ProfileID, DateTime sDate, DateTime eDate, string Cat);
         #endregion
+
+        #region Notifications
+        bool newNotification(Model.Notifications newNotification);
+        List<Model.Notifications> getNotifications(Model.Notifications getNotifications);
+        Model.Notifications dismissNotifications(Model.Notifications dismissNotification);
+        bool UpdateJobNotiStatus(SP_GetJob_Result job);
+        #endregion
     }
 }
 

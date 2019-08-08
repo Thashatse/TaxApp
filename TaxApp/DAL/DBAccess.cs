@@ -513,6 +513,11 @@ namespace DAL
                             job.StartDate = DateTime.Parse(row[4].ToString());
                             job.StartDateString = String.Format("{0:dddd, dd MMMM yyyy}", job.StartDate);
 
+                            job.Noti95 = bool.Parse(row["Noti75"].ToString());
+                            job.Noti90 = bool.Parse(row["Noti90"].ToString());
+                            job.Noti75 = bool.Parse(row["Noti95"].ToString());
+                            job.noti100 = bool.Parse(row["Noti100"].ToString());
+
                             if (row["EndDate"].ToString() != "" && row["EndDate"] != null)
                             {
                                 job.EndDate = DateTime.Parse(row["EndDate"].ToString());
@@ -844,8 +849,8 @@ namespace DAL
                         //***************************************//
                         new SqlParameter("@CID", profile.ProfileID),
                         //***************************************//
-                        new SqlParameter("@SD", sDate),
-                        new SqlParameter("@ED", eDate),
+                        new SqlParameter("@SD", sDate.AddDays(-1)),
+                        new SqlParameter("@ED", eDate.AddDays(+1)),
                     };
 
                 using (DataTable table = DBHelper.ParamSelect("SP_WorklogHoursPast",
@@ -883,8 +888,8 @@ namespace DAL
                         //***************************************//
                         new SqlParameter("@CID", profile.ProfileID),
                         //***************************************//
-                        new SqlParameter("@SD", sDate),
-                        new SqlParameter("@ED", eDate)
+                        new SqlParameter("@SD", sDate.AddDays(-1)),
+                        new SqlParameter("@ED", eDate.AddDays(+1))
                     };
 
                 using (DataTable table = DBHelper.ParamSelect("SP_TotalUnPaidPast",
@@ -922,8 +927,8 @@ namespace DAL
                         //***************************************//
                         new SqlParameter("@CID", profile.ProfileID),
                         //***************************************//
-                        new SqlParameter("@SD", sDate),
-                        new SqlParameter("@ED", eDate)
+                        new SqlParameter("@SD", sDate.AddDays(-1)),
+                        new SqlParameter("@ED", eDate.AddDays(+1))
                     };
 
                 using (DataTable table = DBHelper.ParamSelect("SP_TotalPaidPast",
@@ -958,8 +963,8 @@ namespace DAL
                         //***************************************//
                         new SqlParameter("@CID", profile.ProfileID),
                         //***************************************//
-                        new SqlParameter("@SD", sDate),
-                        new SqlParameter("@ED", eDate),
+                        new SqlParameter("@SD", sDate.AddDays(-1)),
+                        new SqlParameter("@ED", eDate.AddDays(+1)),
                     };
 
                 using (DataTable table = DBHelper.ParamSelect("SP_GetProfileJobsPast",
@@ -1893,8 +1898,8 @@ namespace DAL
                 SqlParameter[] pars = new SqlParameter[]
                     {
                         new SqlParameter("@PID", profileID.ProfileID),
-                        new SqlParameter("@SD", sDate),
-                        new SqlParameter("@ED", eDate)
+                        new SqlParameter("@SD", sDate.AddDays(-1)),
+                        new SqlParameter("@ED", eDate.AddDays(+1))
                     };
 
 
@@ -2098,8 +2103,8 @@ namespace DAL
                 SqlParameter[] pars = new SqlParameter[]
                    {
                         new SqlParameter("@PID", getProfileTravelLog.ProfileID),
-                        new SqlParameter("@SD", sDate),
-                        new SqlParameter("@ED", eDate)
+                        new SqlParameter("@SD", sDate.AddDays(-1)),
+                        new SqlParameter("@ED", eDate.AddDays(+1))
                    };
 
                 using (DataTable table = DBHelper.ParamSelect("SP_GetTravleLog",
@@ -2494,8 +2499,8 @@ namespace DAL
                 SqlParameter[] pars = new SqlParameter[]
                     {
                         new SqlParameter("@PID", profileID.ProfileID),
-                        new SqlParameter("@SD", sDate),
-                        new SqlParameter("@ED", eDate)
+                        new SqlParameter("@SD", sDate.AddDays(-1)),
+                        new SqlParameter("@ED", eDate.AddDays(+1))
                     };
 
 
@@ -2798,8 +2803,8 @@ namespace DAL
                 SqlParameter[] pars = new SqlParameter[]
                    {
                         new SqlParameter("@PID", newPeriod.ProfileID),
-                        new SqlParameter("@SD", newPeriod.StartDate),
-                        new SqlParameter("@ED", newPeriod.EndDate),
+                        new SqlParameter("@SD", newPeriod.StartDate.AddDays(-1)),
+                        new SqlParameter("@ED", newPeriod.EndDate.AddDays(+1)),
                         new SqlParameter("@T", newPeriod.Type)
                    };
 
@@ -2918,10 +2923,10 @@ namespace DAL
                 SqlParameter[] pars = new SqlParameter[]
                     {
                         new SqlParameter("@PID", profile.ProfileID),
-                        new SqlParameter("@SD", period.StartDate),
+                        new SqlParameter("@SD", period.StartDate.AddDays(-1)),
                         new SqlParameter("@PDID", period.PeriodID),
                         new SqlParameter("@VR", period.VATRate),
-                        new SqlParameter("@ED", period.EndDate)
+                        new SqlParameter("@ED", period.EndDate.AddDays(+1))
                     };
 
 
@@ -3071,8 +3076,8 @@ namespace DAL
                 SqlParameter[] pars = new SqlParameter[]
                     {
                         new SqlParameter("@PID", profile.ProfileID),
-                        new SqlParameter("@SD", period.StartDate),
-                        new SqlParameter("@ED", period.EndDate)
+                        new SqlParameter("@SD", period.StartDate.AddDays(-1)),
+                        new SqlParameter("@ED", period.EndDate.AddDays(+1))
                     };
 
 
@@ -3120,8 +3125,8 @@ namespace DAL
                 SqlParameter[] pars = new SqlParameter[]
                     {
                         new SqlParameter("@PID", profile.ProfileID),
-                        new SqlParameter("@SD", period.StartDate),
-                        new SqlParameter("@ED", period.EndDate),
+                        new SqlParameter("@SD", period.StartDate.AddDays(-1)),
+                        new SqlParameter("@ED", period.EndDate.AddDays(+1)),
                         new SqlParameter("@VR", period.VATRate),
                         new SqlParameter("@TR", 0)
                     };
@@ -3174,8 +3179,8 @@ namespace DAL
                 pars = new SqlParameter[]
                     {
                         new SqlParameter("@PID", profile.ProfileID),
-                        new SqlParameter("@SD", period.StartDate),
-                        new SqlParameter("@ED", period.EndDate),
+                        new SqlParameter("@SD", period.StartDate.AddDays(-1)),
+                        new SqlParameter("@ED", period.EndDate.AddDays(+1)),
                         new SqlParameter("@VR", period.VATRate),
                         new SqlParameter("@TR", braket.Rate)
                     };
@@ -3301,9 +3306,9 @@ namespace DAL
                 SqlParameter[] pars = new SqlParameter[]
                     {
                         new SqlParameter("@PID", profile.ProfileID),
-                        new SqlParameter("@SD", period.StartDate),
+                        new SqlParameter("@SD", period.StartDate.AddDays(-1)),
                         new SqlParameter("@RID", rate.Rate),
-                        new SqlParameter("@ED", period.EndDate)
+                        new SqlParameter("@ED", period.EndDate.AddDays(+1))
                     };
 
 
@@ -3593,8 +3598,8 @@ namespace DAL
                    {
                         new SqlParameter("@ST", term),
                         new SqlParameter("@PID", ProfileID),
-                        new SqlParameter("@SD", sDate),
-                        new SqlParameter("@ED", eDate)
+                        new SqlParameter("@SD", sDate.AddDays(-1)),
+                        new SqlParameter("@ED", eDate.AddDays(+1))
                    };
 
                 using (DataTable table = DBHelper.ParamSelect("SP_SearchJobs",
@@ -3625,8 +3630,8 @@ namespace DAL
                    {
                         new SqlParameter("@ST", term),
                         new SqlParameter("@PID", ProfileID),
-                        new SqlParameter("@SD", sDate),
-                        new SqlParameter("@ED", eDate)
+                        new SqlParameter("@SD", sDate.AddDays(-1)),
+                        new SqlParameter("@ED", eDate.AddDays(+1))
                    };
 
                 using (DataTable table = DBHelper.ParamSelect("SP_SearchWorkLog",
@@ -3684,8 +3689,8 @@ namespace DAL
                    {
                         new SqlParameter("@ST", term),
                         new SqlParameter("@PID", ProfileID),
-                        new SqlParameter("@SD", sDate),
-                        new SqlParameter("@ED", eDate)
+                        new SqlParameter("@SD", sDate.AddDays(-1)),
+                        new SqlParameter("@ED", eDate.AddDays(+1))
                    };
 
                 using (DataTable table = DBHelper.ParamSelect("SP_SearchInvoice",
@@ -3716,8 +3721,8 @@ namespace DAL
                    {
                         new SqlParameter("@ST", term),
                         new SqlParameter("@PID", ProfileID),
-                        new SqlParameter("@SD", sDate),
-                        new SqlParameter("@ED", eDate)
+                        new SqlParameter("@SD", sDate.AddDays(-1)),
+                        new SqlParameter("@ED", eDate.AddDays(+1))
                    };
 
                 using (DataTable table = DBHelper.ParamSelect("SP_SearchTravelLog",
@@ -3748,8 +3753,8 @@ namespace DAL
                    {
                         new SqlParameter("@ST", term),
                         new SqlParameter("@PID", ProfileID),
-                        new SqlParameter("@SD", sDate),
-                        new SqlParameter("@ED", eDate)
+                        new SqlParameter("@SD", sDate.AddDays(-1)),
+                        new SqlParameter("@ED", eDate.AddDays(+1))
                    };
 
                 using (DataTable table = DBHelper.ParamSelect("SP_SearchJobExpenses",
@@ -3808,8 +3813,8 @@ namespace DAL
                    {
                         new SqlParameter("@ST", term),
                         new SqlParameter("@PID", ProfileID),
-                        new SqlParameter("@SD", sDate),
-                        new SqlParameter("@ED", eDate)
+                        new SqlParameter("@SD", sDate.AddDays(-1)),
+                        new SqlParameter("@ED", eDate.AddDays(+1))
                    };
 
                 using (DataTable table = DBHelper.ParamSelect("SP_SearchGeneralExpenses",
@@ -3841,6 +3846,127 @@ namespace DAL
             }
 
             return results;
+        }
+        #endregion
+
+        #region Notifications
+        public bool newNotification(Notifications newNotification)
+        {
+            bool Result = false;
+
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@PID", newNotification.ProfileID),
+                        new SqlParameter("@D", newNotification.date),
+                        new SqlParameter("@Dets", newNotification.Details),
+                        new SqlParameter("@L", newNotification.Link)
+                   };
+
+                Result = DBHelper.NonQuery("SP_NewNotification", CommandType.StoredProcedure, pars);
+
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return Result;
+        }
+        public List<Notifications> getNotifications(Notifications getNotifications)
+        {
+            List<Notifications> Notifications = new List<Notifications>();
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@PID", getNotifications.ProfileID)
+                   };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetNotifications",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            Notifications notification = new Notifications();
+                            notification.notificationID = int.Parse(row["NotificationsID"].ToString());
+                            notification.ProfileID = int.Parse(row["ProfileID"].ToString());
+                            notification.date = DateTime.Parse(row["Date"].ToString());
+                            notification.Details = row["Details"].ToString();
+                            notification.Link = row["Link"].ToString();
+
+                            TimeSpan span = DateTime.Now.Subtract(notification.date);
+                            notification.timeSince = ((int)span.TotalDays).ToString();
+
+                            Notifications.Add(notification);
+                        }
+                    }
+                }
+
+                Notifications = Notifications.OrderBy(x => x.date).ToList();
+                return Notifications;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        public Notifications dismissNotifications(Notifications dismissNotification)
+        {
+            Notifications link = null;
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@NID", dismissNotification.notificationID)
+                   };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_DeleteNotification",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            link = new Notifications();
+                            link.Link = row["Link"].ToString();
+                        }
+                    }
+                }
+                return link;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        public bool UpdateJobNotiStatus(SP_GetJob_Result job)
+        {
+            bool Result = false;
+
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@75", job.Noti75),
+                        new SqlParameter("@90", job.Noti90),
+                        new SqlParameter("@95", job.Noti95),
+                        new SqlParameter("@100", job.noti100),
+                        new SqlParameter("@JID",job.JobID)
+                   };
+
+                Result = DBHelper.NonQuery("SP_EditJobNotiStatus", CommandType.StoredProcedure, pars);
+
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return Result;
         }
         #endregion
     }

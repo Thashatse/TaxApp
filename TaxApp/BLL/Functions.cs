@@ -1,6 +1,7 @@
 ﻿using Model;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -136,6 +137,86 @@ namespace BLL
             return success;
         }
 
+        public bool IsDigitsOnly(string str)
+        {
+            foreach (char c in str)
+            {
+                if (c < '0' || c > '9')
+                    return false;
+            }
+
+            return true;
+        }
+
+        #region Auto Functions
+        public void runAutoFunctions(object profileID)
+        {
+            repeatExpense();
+
+            budgetCheck(int.Parse(profileID.ToString()));
+        }
+        public void budgetCheck(int PID)
+        {
+            NotificationsFunctions notiFunctions = new NotificationsFunctions();
+
+            Profile profileID = new Profile();
+            profileID.ProfileID = PID;
+            List<SP_GetJob_Result> jobs = handler.getProfileJobs(profileID);
+
+            foreach(SP_GetJob_Result job in jobs)
+            {
+                bool createNewNoti = false;
+                Notifications newNoti = new Notifications();
+                newNoti.date = DateTime.Now;
+                newNoti.ProfileID =PID;
+                newNoti.Link = "../Job/Job?ID=" + job.JobID;
+
+                var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                nfi.NumberGroupSeparator = " ";
+
+                if (job.BudgetPercent > 100 && job.noti100 == false)
+                {
+                    createNewNoti = true;
+                    newNoti.Details = job.JobTitle +" for "+job.ClientFirstName+
+                        " is over budget by "+ decimal.Parse((job.BudgetPercent - 100).ToString()).ToString("#,0.##", nfi) + "%";
+                    job.noti100 = true;
+                }
+                else if (job.BudgetPercent > 95 && job.Noti95 == false)
+                {
+                    createNewNoti = true;
+                    newNoti.Details = job.JobTitle + " for " + job.ClientFirstName +
+                        " has " + decimal.Parse((100 - job.BudgetPercent).ToString()).ToString("#,0.##", nfi) + "% budget remaining";
+                    job.Noti95 = true;
+                }
+                else if (job.BudgetPercent > 90 && job.Noti90 == false)
+                {
+                    createNewNoti = true;
+                    newNoti.Details = job.JobTitle + " for " + job.ClientFirstName +
+                        " has " + decimal.Parse((100 - job.BudgetPercent).ToString()).ToString("#,0.##", nfi) + "% budget remaining";
+                    job.Noti90 = true;
+                }
+                else if (job.BudgetPercent > 75 && job.Noti75 == false)
+                {
+                    createNewNoti = true;
+                    newNoti.Details = job.JobTitle + " for " + job.ClientFirstName +
+                        " has " + decimal.Parse((100 - job.BudgetPercent).ToString()).ToString("#,0.##", nfi) + "% budget remaining";
+                    job.Noti75 = true;
+                }
+
+                if(createNewNoti == true)
+                    createNewNoti = notiFunctions.newNotification(newNoti);
+
+                try
+                {
+                    if (createNewNoti == true)
+                        createNewNoti = handler.UpdateJobNotiStatus(job);
+                }
+                catch (Exception err)
+                {
+                    logAnError("error creating budget notification Job ID: " + job.JobID +" details: "+err);
+                }
+            }
+        }
         public void repeatExpense()
         {
             try
@@ -161,7 +242,7 @@ namespace BLL
                             }
                             else
                             {
-                                logAnError("Error repeting general expense in functions - Expese ID: "+expense.ExpenseID);
+                                logAnError("Error repeting general expense in functions - Expese ID: " + expense.ExpenseID);
                             }
                         }
                         else
@@ -177,16 +258,6 @@ namespace BLL
                     "Error running repeatExpense in functions");
             }
         }
-
-        public bool IsDigitsOnly(string str)
-        {
-            foreach (char c in str)
-            {
-                if (c < '0' || c > '9')
-                    return false;
-            }
-
-            return true;
-        }
+        #endregion
     }
 }

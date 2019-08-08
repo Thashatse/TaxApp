@@ -131,5 +131,12 @@ namespace DAL
         #region Search
         List<SearchViewModel> getSearchResults(string term, int ProfileID, DateTime sDate, DateTime eDate, string Cat);
         #endregion
+
+        #region Notifications
+        bool newNotification(Notifications newNotification);
+        List<Notifications> getNotifications(Notifications getNotifications);
+        Notifications dismissNotifications(Notifications dismissNotification);
+        bool UpdateJobNotiStatus(SP_GetJob_Result job);
+        #endregion
     }
 }

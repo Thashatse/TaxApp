@@ -23,7 +23,7 @@
                         Date Range: @ViewBag.DateRange
                         @if (ViewBag.View != "DS")
                         {
-                            <a href="/Expense/TravleLog?view=DS"
+                            <a href="/Expense/GeneralExpenses?view=DS"
                                class="btn btn-sm btn-white"><i class="ni ni-settings-gear-65"></i></a>
                         }
                     </p>
@@ -111,7 +111,7 @@
     {
         <br />
         <div>
-            <a href="/Expense/TravleLog?ExpenseDisplayCount=@ViewBag.X"
+            <a href="/Expense/GeneralExpenses?ExpenseDisplayCount=@ViewBag.X"
                class="btn btn-sm btn-white">Show More</a>
         </div>
     }

@@ -15,6 +15,7 @@ namespace TaxApp.Controllers
         IDBHandler handler = new DBHandler();
         HttpCookie cookie;
         Functions function = new Functions();
+        NotificationsFunctions notiFunctions = new NotificationsFunctions();
         public void getCookie()
         {
             try
@@ -559,6 +560,13 @@ namespace TaxApp.Controllers
 
                 if (result == true)
                 {
+                    Notifications newNoti = new Notifications();
+                    newNoti.date = DateTime.Now;
+                    newNoti.ProfileID = int.Parse(cookie["ID"]);
+                    newNoti.Link = "../Incoice/Invoice?ID=" + ID;
+                    newNoti.Details = "Invoice Succesffuly sent to "+ toName;
+                    notiFunctions.newNotification(newNoti);
+
                     ViewBag.Processed = true;
                     return View();
                 }

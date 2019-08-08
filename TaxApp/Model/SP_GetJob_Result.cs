@@ -50,5 +50,9 @@ namespace Model
         [Display(Name = "Total Income Recived")]
         public decimal TotalPaid { get; set; }
         public string TotalPaidString { get; set; }
+        public bool Noti75 { get; set; }
+        public bool Noti90 { get; set; }
+        public bool Noti95 { get; set; }
+        public bool noti100 { get; set; }
     }
 }

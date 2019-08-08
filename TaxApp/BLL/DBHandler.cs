@@ -355,5 +355,12 @@ namespace BLL
             return db.getSearchResults(term, ProfileID, sDate, eDate, cat);
         }
         #endregion
+
+        #region Notifications
+        public bool newNotification(Model.Notifications newNotification) { return db.newNotification(newNotification); }
+        public List<Model.Notifications> getNotifications(Model.Notifications getNotifications) { return db.getNotifications(getNotifications); }
+        public Model.Notifications dismissNotifications(Model.Notifications dismissNotification) { return db.dismissNotifications(dismissNotification); }
+        public bool UpdateJobNotiStatus(SP_GetJob_Result job) { return db.UpdateJobNotiStatus(job); }
+        #endregion
     }
 }
