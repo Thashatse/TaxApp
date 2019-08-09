@@ -362,5 +362,10 @@ namespace BLL
         public Model.Notifications dismissNotifications(Model.Notifications dismissNotification) { return db.dismissNotifications(dismissNotification); }
         public bool UpdateJobNotiStatus(SP_GetJob_Result job) { return db.UpdateJobNotiStatus(job); }
         #endregion
+
+        #region Reports
+        public List<SP_GetJob_Result> getJobsReport(Profile profile, DateTime sDate, DateTime eDate)
+        { return db.getJobsReport(profile, sDate, eDate); }
+        #endregion
     }
 }

@@ -138,5 +138,9 @@ namespace DAL
         Notifications dismissNotifications(Notifications dismissNotification);
         bool UpdateJobNotiStatus(SP_GetJob_Result job);
         #endregion
+
+        #region Reports
+        List<SP_GetJob_Result> getJobsReport(Profile profile, DateTime sDate, DateTime eDate);
+        #endregion
     }
 }

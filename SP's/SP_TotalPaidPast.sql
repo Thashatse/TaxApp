@@ -1,3 +1,5 @@
+USE [TaxApp]
+GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16,7 +18,7 @@ BEGIN
 				   AND JobInvoice.JobID = Jobs.JobID
 				   AND Jobs.ClientID = Client.ClientID
 				   AND (Client.ProfileID = @PID or Jobs.ClientID = @CID)
-                   AND Invoice.Paid = 0
+                   AND Invoice.Paid = 1
 				and Jobs.StartDate between @SD and @ED
 			GROUP BY Invoice.VATRate, Jobs.JobID
 END
