@@ -18,12 +18,8 @@ namespace Model
         public string column4Name { get; set; }
         public string column5Name { get; set; }
         public string column6Name { get; set; }
-        public List<string> column1Data { get; set; }
-        public List<string> column2Data { get; set; }
-        public List<string> column3Data { get; set; }
-        public List<string> column4Data { get; set; }
-        public List<string> column5Data { get; set; }
-        public List<string> column6Data { get; set; }
+        public List<ReportDataList> ReportDataList { get; set; }
+        public List<ReportFixedFooterRowList> FooterRowList { get; set; }
         public string column1Total { get; set; }
         public string column2Total { get; set; }
         public string column3Total { get; set; }

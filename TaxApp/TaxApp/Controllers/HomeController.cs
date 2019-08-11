@@ -190,7 +190,7 @@ namespace TaxApp.Controllers
 
                 List<Model.DashboardExpense> dashboardExpenses = new List<Model.DashboardExpense>();
                 List<Model.TravelLog> ProfileTravelLog = handler.getProfileTravelLog(profile, sDate, eDate);
-                List<Model.SP_GetJobExpense_Result> ProfileJobExpenses = handler.getAllJobExpense(profile);
+                List<Model.SP_GetJobExpense_Result> ProfileJobExpenses = handler.getAllJobExpense(profile, DateTime.Now.AddYears(-100), DateTime.Now);
                 List<Model.SP_GetGeneralExpense_Result> ProfileGeneralExpenses = handler.getGeneralExpenses(profile, sDate, eDate);
                 foreach(Model.TravelLog item in ProfileTravelLog)
                 {

@@ -77,7 +77,7 @@ namespace TaxApp.Controllers
                 DateTime eDate = DateTime.Now;
 
                 List<Model.TravelLog> ProfileTravelLog = handler.getProfileTravelLog(getProfile, sDate, eDate);
-                List<Model.SP_GetJobExpense_Result> ProfileJobExpenses = handler.getAllJobExpense(getProfile);
+                List<Model.SP_GetJobExpense_Result> ProfileJobExpenses = handler.getAllJobExpense(getProfile, sDate, eDate);
                 List<Model.SP_GetGeneralExpense_Result> ProfileGeneralExpenses = handler.getGeneralExpenses(getProfile, sDate, eDate);
 
                 Model.ExpenseViewModel viewModel = new Model.ExpenseViewModel();

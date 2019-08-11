@@ -1,5 +1,5 @@
 
-TimeStamp: 8/9/2019 1:43:34 PM
+TimeStamp: 8/11/2019 7:05:14 PM
 Machine Name: TEFO-NTSAKO-HAS
 OS Version: Microsoft Windows NT 10.0.17134.0
 Curent User: thash
@@ -11,7 +11,7 @@ System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have b
    at System.Web.HttpResponseWrapper.Redirect(String url)
    at TaxApp.Controllers.TaxController.TaxCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\TaxController.cs:line 108Error loding Tax Center
 
-TimeStamp: 8/9/2019 1:43:39 PM
+TimeStamp: 8/11/2019 7:14:26 PM
 Machine Name: TEFO-NTSAKO-HAS
 OS Version: Microsoft Windows NT 10.0.17134.0
 Curent User: thash
@@ -21,36 +21,9 @@ Error:
 System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have been sent.
    at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
    at System.Web.HttpResponseWrapper.Redirect(String url)
-   at TaxApp.Controllers.VatController.VatCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\VatController.cs:line 174Error loding Vat Center
+   at TaxApp.Controllers.TaxController.TaxCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\TaxController.cs:line 108Error loding Tax Center
 
-TimeStamp: 8/9/2019 2:35:46 PM
-Machine Name: TEFO-NTSAKO-HAS
-OS Version: Microsoft Windows NT 10.0.17134.0
-Curent User: thash
-User Domain: TEFO-NTSAKO-HAS
-Curent Directory: C:\Program Files (x86)\IIS Express
-Error: 
-No report ID Supplied display report
-
-TimeStamp: 8/9/2019 2:36:54 PM
-Machine Name: TEFO-NTSAKO-HAS
-OS Version: Microsoft Windows NT 10.0.17134.0
-Curent User: thash
-User Domain: TEFO-NTSAKO-HAS
-Curent Directory: C:\Program Files (x86)\IIS Express
-Error: 
-No report ID Supplied display report
-
-TimeStamp: 8/9/2019 2:54:19 PM
-Machine Name: TEFO-NTSAKO-HAS
-OS Version: Microsoft Windows NT 10.0.17134.0
-Curent User: thash
-User Domain: TEFO-NTSAKO-HAS
-Curent Directory: C:\Program Files (x86)\IIS Express
-Error: 
-No report ID Supplied display report
-
-TimeStamp: 8/9/2019 3:00:17 PM
+TimeStamp: 8/11/2019 7:16:37 PM
 Machine Name: TEFO-NTSAKO-HAS
 OS Version: Microsoft Windows NT 10.0.17134.0
 Curent User: thash
@@ -60,94 +33,82 @@ Error:
 System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have been sent.
    at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
    at System.Web.HttpResponseWrapper.Redirect(String url)
-   at TaxApp.Controllers.VatController.VatCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\VatController.cs:line 174Error loding Vat Center
+   at TaxApp.Controllers.TaxController.TaxCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\TaxController.cs:line 108Error loding Tax Center
 
-TimeStamp: 8/9/2019 3:20:58 PM
+TimeStamp: 8/11/2019 7:20:36 PM
 Machine Name: TEFO-NTSAKO-HAS
 OS Version: Microsoft Windows NT 10.0.17134.0
 Curent User: thash
 User Domain: TEFO-NTSAKO-HAS
 Curent Directory: C:\Program Files (x86)\IIS Express
 Error: 
-No report ID Supplied display report
+System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have been sent.
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponseWrapper.Redirect(String url)
+   at TaxApp.Controllers.TaxController.TaxCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\TaxController.cs:line 108Error loding Tax Center
 
-TimeStamp: 8/9/2019 3:22:03 PM
+TimeStamp: 8/11/2019 7:23:55 PM
 Machine Name: TEFO-NTSAKO-HAS
 OS Version: Microsoft Windows NT 10.0.17134.0
 Curent User: thash
 User Domain: TEFO-NTSAKO-HAS
 Curent Directory: C:\Program Files (x86)\IIS Express
 Error: 
-No report ID Supplied display report
+System.ApplicationException: System.ApplicationException: An Error Occouerd When Comunicating With The DatabaseSystem.Data.SqlClient.SqlException (0x80131904): Connection Timeout Expired.  The timeout period elapsed while attempting to consume the pre-login handshake acknowledgement.  This could be because the pre-login handshake failed or the server was unable to respond back in time.  The duration spent while attempting to connect to this server was - [Pre-Login] initialization=34590; handshake=0;  ---> System.ComponentModel.Win32Exception (0x80004005): The wait operation timed out
+   at System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, DbConnectionPool pool, String accessToken, Boolean applyTransientFaultHandling, SqlAuthenticationProviderManager sqlAuthProviderManager)
+   at System.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpenInner(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at DAL.DBHelper.Select(String commandName, CommandType cmdType) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\DAL\DBHelper.cs:line 96
+ClientConnectionId:30834f8e-e7c3-43fd-9db5-23dbef18c07b
+Error Number:-2,State:0,Class:11
+   at DAL.DBHelper.Select(String commandName, CommandType cmdType) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\DAL\DBHelper.cs:line 106
+   at DAL.DBAccess.getRepeatGeneralExpenses() in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\DAL\DBAccess.cs:line 1944
+   at DAL.DBAccess.getRepeatGeneralExpenses() in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\DAL\DBAccess.cs:line 1972
+   at BLL.DBHandler.getRepeatGeneralExpenses() in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\BLL\DBHandler.cs:line 221
+   at BLL.Functions.repeatExpense() in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\BLL\Functions.cs:line 224Error running repeatExpense in functions
 
-TimeStamp: 8/9/2019 3:38:22 PM
+TimeStamp: 8/11/2019 7:24:06 PM
 Machine Name: TEFO-NTSAKO-HAS
 OS Version: Microsoft Windows NT 10.0.17134.0
 Curent User: thash
 User Domain: TEFO-NTSAKO-HAS
 Curent Directory: C:\Program Files (x86)\IIS Express
 Error: 
-No report ID Supplied display report
+System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have been sent.
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponseWrapper.Redirect(String url)
+   at TaxApp.Controllers.TaxController.TaxCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\TaxController.cs:line 108Error loding Tax Center
 
-TimeStamp: 8/9/2019 5:50:33 PM
+TimeStamp: 8/11/2019 7:25:05 PM
 Machine Name: TEFO-NTSAKO-HAS
 OS Version: Microsoft Windows NT 10.0.17134.0
 Curent User: thash
 User Domain: TEFO-NTSAKO-HAS
 Curent Directory: C:\Program Files (x86)\IIS Express
 Error: 
-No report ID Supplied display report
+System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have been sent.
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponseWrapper.Redirect(String url)
+   at TaxApp.Controllers.TaxController.TaxCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\TaxController.cs:line 108Error loding Tax Center
 
-TimeStamp: 8/9/2019 5:55:08 PM
+TimeStamp: 8/11/2019 7:39:58 PM
 Machine Name: TEFO-NTSAKO-HAS
 OS Version: Microsoft Windows NT 10.0.17134.0
 Curent User: thash
 User Domain: TEFO-NTSAKO-HAS
 Curent Directory: C:\Program Files (x86)\IIS Express
 Error: 
-No report ID Supplied display report
-
-TimeStamp: 8/9/2019 5:55:16 PM
-Machine Name: TEFO-NTSAKO-HAS
-OS Version: Microsoft Windows NT 10.0.17134.0
-Curent User: thash
-User Domain: TEFO-NTSAKO-HAS
-Curent Directory: C:\Program Files (x86)\IIS Express
-Error: 
-No report ID Supplied display report
-
-TimeStamp: 8/9/2019 5:55:57 PM
-Machine Name: TEFO-NTSAKO-HAS
-OS Version: Microsoft Windows NT 10.0.17134.0
-Curent User: thash
-User Domain: TEFO-NTSAKO-HAS
-Curent Directory: C:\Program Files (x86)\IIS Express
-Error: 
-No report ID Supplied display report
-
-TimeStamp: 8/9/2019 5:56:23 PM
-Machine Name: TEFO-NTSAKO-HAS
-OS Version: Microsoft Windows NT 10.0.17134.0
-Curent User: thash
-User Domain: TEFO-NTSAKO-HAS
-Curent Directory: C:\Program Files (x86)\IIS Express
-Error: 
-No report ID Supplied display report
-
-TimeStamp: 8/9/2019 5:57:54 PM
-Machine Name: TEFO-NTSAKO-HAS
-OS Version: Microsoft Windows NT 10.0.17134.0
-Curent User: thash
-User Domain: TEFO-NTSAKO-HAS
-Curent Directory: C:\Program Files (x86)\IIS Express
-Error: 
-No report ID Supplied display report
-
-TimeStamp: 8/9/2019 6:07:11 PM
-Machine Name: TEFO-NTSAKO-HAS
-OS Version: Microsoft Windows NT 10.0.17134.0
-Curent User: thash
-User Domain: TEFO-NTSAKO-HAS
-Curent Directory: C:\Program Files (x86)\IIS Express
-Error: 
-No report ID Supplied Print report
+System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have been sent.
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponseWrapper.Redirect(String url)
+   at TaxApp.Controllers.TaxController.TaxCenter(String view, String period) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\TaxController.cs:line 108Error loding Tax Center

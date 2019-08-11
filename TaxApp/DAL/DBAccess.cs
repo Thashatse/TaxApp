@@ -1773,12 +1773,14 @@ namespace DAL
                 throw new ApplicationException(e.ToString());
             }
         }
-        public List<SP_GetJobExpense_Result> getAllJobExpense(Profile profileID)
+        public List<SP_GetJobExpense_Result> getAllJobExpense(Profile profileID, DateTime SD, DateTime ED)
         {
             List<SP_GetJobExpense_Result> Expenses = new List<SP_GetJobExpense_Result>();
             SqlParameter[] pars = new SqlParameter[]
                 {
-                        new SqlParameter("@PID", profileID.ProfileID)
+                        new SqlParameter("@PID", profileID.ProfileID),
+                        new SqlParameter("@SD", SD),
+                        new SqlParameter("@ED", ED)
                 };
 
             try
@@ -3122,12 +3124,17 @@ namespace DAL
             {
                 var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
                 nfi.NumberGroupSeparator = " ";
+
+                List<TaxPeriodRates> brakets = getTaxPeriodBrakets(period);
+                brakets = brakets.OrderBy(x => x.Threashold).ToList();
+                string endbraketrange = "and above";
+                TaxPeriodRates braket = new TaxPeriodRates();
+
                 SqlParameter[] pars = new SqlParameter[]
                     {
                         new SqlParameter("@PID", profile.ProfileID),
                         new SqlParameter("@SD", period.StartDate.AddDays(-1)),
                         new SqlParameter("@ED", period.EndDate.AddDays(+1)),
-                        new SqlParameter("@VR", period.VATRate),
                         new SqlParameter("@TR", 0)
                     };
 
@@ -3140,69 +3147,6 @@ namespace DAL
                         {
                             dashboard = new TaxDashboard();
 
-                            if (row["IncomeRECEIVED"].ToString() != "")
-                            {
-                                dashboard.Income = decimal.Parse(row["IncomeRECEIVED"].ToString());
-                            }
-                            else
-                            {
-                                dashboard.Income = 2;
-                            }
-                        }
-                    }
-                }
-
-                List<TaxPeriodRates> brakets = getTaxPeriodBrakets(period);
-                brakets = brakets.OrderBy(x => x.Threashold).ToList();
-                string endbraketrange = "and above";
-                TaxPeriodRates braket = new TaxPeriodRates();
-
-                bool getUpperRange = false;
-                foreach (TaxPeriodRates item in brakets)
-                {
-                    if (getUpperRange == true)
-                    {
-                        endbraketrange = " - R" + (item.Threashold - 1).ToString("#,0.##", nfi);
-                        getUpperRange = false;
-                    }
-                    if (item.Threashold < dashboard.Income)
-                    {
-                        braket = item;
-                        getUpperRange = true;
-                    }
-                }
-                if (getUpperRange == true)
-                {
-                    endbraketrange = " and above";
-                }
-
-                pars = new SqlParameter[]
-                    {
-                        new SqlParameter("@PID", profile.ProfileID),
-                        new SqlParameter("@SD", period.StartDate.AddDays(-1)),
-                        new SqlParameter("@ED", period.EndDate.AddDays(+1)),
-                        new SqlParameter("@VR", period.VATRate),
-                        new SqlParameter("@TR", braket.Rate)
-                    };
-
-                using (DataTable table = DBHelper.ParamSelect("SP_getTAXCenterDashboard",
-            CommandType.StoredProcedure, pars))
-                {
-                    if (table.Rows.Count > 0)
-                    {
-                        foreach (DataRow row in table.Rows)
-                        {
-                            dashboard = new TaxDashboard();
-
-                            if (row["IncomeRECEIVED"].ToString() != "")
-                            {
-                                dashboard.Income = decimal.Parse(row["IncomeRECEIVED"].ToString());
-                            }
-                            else
-                            {
-                                dashboard.Income = 0;
-                            }
-
                             if (row["IncomeRECEIVEDPastPeriod"].ToString() != "")
                             {
                                 dashboard.IncomePercent = decimal.Parse(row["IncomeRECEIVEDPastPeriod"].ToString());
@@ -3212,22 +3156,70 @@ namespace DAL
                                 dashboard.IncomePercent = 0;
                             }
 
-                            if (row["TaxOwed"].ToString() != "")
+                            bool getUpperRange = false;
+                            foreach (TaxPeriodRates item in brakets)
                             {
-                                dashboard.TAXOwed = decimal.Parse(row["TaxOwed"].ToString());
+                                if (getUpperRange == true)
+                                {
+                                    endbraketrange = " - R" + (item.Threashold - 1).ToString("#,0.##", nfi);
+                                    getUpperRange = false;
+                                }
+                                if (item.Threashold < dashboard.IncomePercent)
+                                {
+                                    braket = item;
+                                    getUpperRange = true;
+                                }
                             }
-                            else
+                            if (getUpperRange == true)
                             {
-                                dashboard.TAXOwed = 0;
+                                endbraketrange = " and above";
                             }
 
                             if (row["TaxOwedPastPeriod"].ToString() != "")
                             {
-                                dashboard.TAXOwedPercent = decimal.Parse(row["TaxOwedPastPeriod"].ToString());
+                                dashboard.TAXOwedPercent = (dashboard.IncomePercent / 100) * braket.Rate; ;
                             }
                             else
                             {
                                 dashboard.TAXOwedPercent = 0;
+                            }
+
+
+                            if (row["IncomeRECEIVED"].ToString() != "")
+                            {
+                                dashboard.Income = decimal.Parse(row["IncomeRECEIVED"].ToString());
+                            }
+                            else
+                            {
+                                dashboard.Income = 2;
+                            }
+
+                            getUpperRange = false;
+                            foreach (TaxPeriodRates item in brakets)
+                            {
+                                if (getUpperRange == true)
+                                {
+                                    endbraketrange = " - R" + (item.Threashold - 1).ToString("#,0.##", nfi);
+                                    getUpperRange = false;
+                                }
+                                if (item.Threashold < dashboard.Income)
+                                {
+                                    braket = item;
+                                    getUpperRange = true;
+                                }
+                            }
+                            if (getUpperRange == true)
+                            {
+                                endbraketrange = " and above";
+                            }
+
+                            if (row["TaxOwed"].ToString() != "")
+                            {
+                                dashboard.TAXOwed = (dashboard.Income / 100) * braket.Rate;
+                            }
+                            else
+                            {
+                                dashboard.TAXOwed = 0;
                             }
 
                             if (dashboard.Income == 0

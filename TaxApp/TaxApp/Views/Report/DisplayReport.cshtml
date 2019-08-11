@@ -15,7 +15,7 @@
                     </h1>
                     <br />
                     <div>
-                        <a target="_blank" href="/Report/PrintReport?reportID=@ViewBag.reportID&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange"
+                        <a target="_blank" href="/Report/PrintReport?reportID=@ViewBag.reportID&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&SortBy=Col1&SortDirection=@ViewBag.SortDirection&period=@ViewBag.period"
                            class="btn btn-sm btn-white">Print</a>
                     </div>
                     <br />
@@ -32,10 +32,12 @@
                                 </div>
                             </div>
                         }
+                        if (ViewBag.DropDownFilter == null)
+                        {
                         <div class="text-white">
                             <div class="row">
                                 <div class="col-lg-5 col-sm-12">
-                                Start: <input name="StartDate" type="date" value="@ViewBag.StartDateRange" />
+                                    Start: <input name="StartDate" type="date" value="@ViewBag.StartDateRange" />
                                 </div>
                                 <div class="col-lg-5 col-sm-12">
                                     End: <input name="EndDate" type="date" value="@ViewBag.EndDateRange" />
@@ -45,6 +47,7 @@
                                 </div>
                             </div>
                         </div>
+                        }
                     }
                 </div>
             </div>
@@ -72,58 +75,70 @@
                             <tr>
                                 @if (Model.column1Name != null)
                                 {
-                                    <th scope="col">@Html.DisplayFor(model => model.column1Name)</th>
-                                }
+                                    <th scope="col">
+                                        <a href="/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col1&SortDirection=@ViewBag.SortDirection&period=@ViewBag.period">@Html.DisplayFor(model => model.column1Name)</a>
+                                </th>
+                            }
                                 @if (Model.column2Name != null)
                                 {
-                                    <th scope="col">@Html.DisplayFor(model => model.column2Name)</th>
+                            <th scope="col">
+                                <a href="/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col2&SortDirection=@ViewBag.SortDirection&period=@ViewBag.period">@Html.DisplayFor(model => model.column2Name)</a>
+                                </th>
                                 }
                                 @if (Model.column3Name != null)
                                 {
-                                    <th scope="col">@Html.DisplayFor(model => model.column3Name)</th>
+                            <th scope="col">
+                                <a href="/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col3&SortDirection=@ViewBag.SortDirection&period=@ViewBag.period">@Html.DisplayFor(model => model.column3Name)</a>
+                                </th>
                                 }
                                 @if (Model.column4Name != null)
                                 {
-                                    <th scope="col">@Html.DisplayFor(model => model.column4Name)</th>
+                            <th scope="col">
+                                <a href="/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col4&SortDirection=@ViewBag.SortDirection&period=@ViewBag.period">@Html.DisplayFor(model => model.column4Name)</a>
+                                </th>
                                 }
                                 @if (Model.column5Name != null)
                                 {
-                                    <th scope="col">@Html.DisplayFor(model => model.column5Name)</th>
+                            <th scope="col">
+                                <a href="/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col4&SortDirection=@ViewBag.SortDirection&period=@ViewBag.period">@Html.DisplayFor(model => model.column5Name)</a>
+                                </th>
                                 }
                                 @if (Model.column6Name != null)
                                 {
-                                    <th scope="col">@Html.DisplayFor(model => model.column6Name)</th>
+                            <th scope="col">
+                                <a href="/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col6&SortDirection=@ViewBag.SortDirection&period=@ViewBag.period">@Html.DisplayFor(model => model.column6Name)</a>
+                                </th>
                                 }
                             </tr>
                         </thead>
                         <tbody>
                             @{int i = 0;}
-                            @foreach (var item in Model.column1Data)
+                            @foreach (var item in Model.ReportDataList)
                             {
                                 <tr>
                                     @if (Model.column1Name != null)
                                     {
-                                        <td>@Html.DisplayFor(model => model.column1Data[i])</td>
+                                        <td>@Html.DisplayFor(model => model.ReportDataList[i].column1Data)</td>
                                     }
                                     @if (Model.column2Name != null)
                                     {
-                                        <td>@Html.DisplayFor(model => model.column2Data[i])</td>
+                                        <td>@Html.DisplayFor(model => model.ReportDataList[i].column2Data)</td>
                                     }
                                     @if (Model.column3Name != null)
                                     {
-                                        <td>@Html.DisplayFor(model => model.column3Data[i])</td>
+                                        <td>@Html.DisplayFor(model => model.ReportDataList[i].column3Data)</td>
                                     }
                                     @if (Model.column4Name != null)
                                     {
-                                        <td>@Html.DisplayFor(model => model.column4Data[i])</td>
+                                        <td>@Html.DisplayFor(model => model.ReportDataList[i].column4Data)</td>
                                     }
                                     @if (Model.column5Name != null)
                                     {
-                                        <td>@Html.DisplayFor(model => model.column5Data[i])</td>
+                                        <td>@Html.DisplayFor(model => model.ReportDataList[i].column5Data)</td>
                                     }
                                     @if (Model.column6Name != null)
                                     {
-                                        <td>@Html.DisplayFor(model => model.column6Data[i])</td>
+                                        <td>@Html.DisplayFor(model => model.ReportDataList[i].column6Data)</td>
                                     }
                                 </tr>
                                 { i = i + 1; }
@@ -156,6 +171,40 @@
                                     <th>@Html.DisplayFor(model => model.column6Total)</th>
                                 }
                             </tr>
+                            @{i = 0;}
+                            @if (Model.FooterRowList != null)
+                            {
+                                foreach (var item in Model.FooterRowList)
+                                {
+                                    <tr>
+                                        @if (Model.column1Name != null)
+                                        {
+                                            <th>@Html.DisplayFor(model => model.FooterRowList[i].column1Data)</th>
+                                        }
+                                        @if (Model.column2Name != null)
+                                        {
+                                            <th>@Html.DisplayFor(model => model.FooterRowList[i].column2Data)</th>
+                                        }
+                                        @if (Model.column3Name != null)
+                                        {
+                                            <th>@Html.DisplayFor(model => model.FooterRowList[i].column3Data)</th>
+                                        }
+                                        @if (Model.column4Name != null)
+                                        {
+                                            <th>@Html.DisplayFor(model => model.FooterRowList[i].column4Data)</th>
+                                        }
+                                        @if (Model.column5Name != null)
+                                        {
+                                            <th>@Html.DisplayFor(model => model.FooterRowList[i].column5Data)</th>
+                                        }
+                                        @if (Model.column6Name != null)
+                                        {
+                                            <th>@Html.DisplayFor(model => model.ReportDataList[i].column6Data)</th>
+                                        }
+                                    </tr>
+                                    { i = i + 1; }
+                                }
+                            }
                         </tfoot>
                     </table>
                 </div>

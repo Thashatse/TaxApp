@@ -104,7 +104,7 @@ namespace TaxApp.Controllers
 
                                 VATPaid = new List<Model.DashboardExpense>();
                                 List<Model.TravelLog> ProfileTravelLog = handler.getProfileTravelLog(profileID, sDate, eDate);
-                                List<Model.SP_GetJobExpense_Result> ProfileJobExpenses = handler.getAllJobExpense(profileID);
+                                List<Model.SP_GetJobExpense_Result> ProfileJobExpenses = handler.getAllJobExpense(profileID, sDate, eDate);
                                 List<Model.SP_GetGeneralExpense_Result> ProfileGeneralExpenses = handler.getGeneralExpenses(profileID, sDate, eDate);
                                 var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
                                 nfi.NumberGroupSeparator = " ";
