@@ -331,7 +331,7 @@ namespace TaxApp.Controllers
         #endregion
 
         #region Job Expense View
-        public ActionResult JobExpenses(string ID)
+        public ActionResult JobExpenses(string ID, string downloadAll)
         {
             try
             {
@@ -354,6 +354,19 @@ namespace TaxApp.Controllers
                     ViewBag.Complete = "NotDone";
                 }
 
+                    foreach (SP_GetJobExpense_Result file in JobExpenses)
+                    {
+                        if(file.Invoice_ReceiptCopy != null)
+                    {
+                        ViewBag.files = "True";
+                        if (downloadAll == "True")
+                        {
+                            string redirect = "<script>window.open('../Functions/DownloadFile?ID=" + file.ExpenseID + "&type=JE');</script>";
+                            Response.Write(redirect);
+                        }
+                    }
+                }
+
                 return View(JobExpenses);
             }
             catch (Exception e)
@@ -361,6 +374,76 @@ namespace TaxApp.Controllers
                 function.logAnError(e.ToString() +
                     "Error loding job expense List");
                 return Redirect("/job/job?ID="+ID);
+            }
+        }
+        public ActionResult AllJobExpenses(string view, string StartDateRange, string EndDateRange)
+        {
+            try
+            {
+                getCookie();
+
+                ViewBag.view = view;
+                ViewBag.cat = "JE";
+
+                int year = DateTime.Now.Year;
+                DateTime sDate = DateTime.Now.AddMonths(-6);
+                DateTime eDate = DateTime.Now;
+
+                if (StartDateRange != null && EndDateRange != null
+                    && DateTime.TryParse(StartDateRange, out sDate) && DateTime.TryParse(EndDateRange, out eDate)) { }
+
+                if (sDate > eDate)
+                {
+                    DateTime temp = sDate;
+                    sDate = eDate;
+                    eDate = temp;
+                }
+
+                ViewBag.DateRange = sDate.ToString("dd MMM yyyy") + " - " + eDate.ToString("dd MMM yyyy");
+                ViewBag.StartDateRange = sDate.ToString("yyyy-MM-dd");
+                ViewBag.EndDateRange = eDate.ToString("yyyy-MM-dd");
+
+                Profile profileID = new Profile();
+                profileID.ProfileID = int.Parse(cookie["ID"]);
+
+                List<Model.SP_GetJobExpense_Result> JobExpenses = handler.getAllJobExpense(profileID, sDate, eDate);
+
+                return View(JobExpenses);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding job expense List");
+                return Redirect("../Expense/Expenses");
+            }
+        }
+        [HttpPost]
+        public ActionResult AllJobExpenses(FormCollection collection, string view, string StartDateRange, string EndDateRange)
+        {
+            try
+            {
+                int year = DateTime.Now.Year;
+                DateTime sDate = DateTime.Now.AddMonths(-6);
+                DateTime eDate = DateTime.Now;
+
+                DateTime.TryParse(Request.Form["StartDate"], out sDate);
+                DateTime.TryParse(Request.Form["EndDate"], out eDate);
+
+                StartDateRange = sDate.ToString("yyyy-MM-dd");
+                EndDateRange = eDate.ToString("yyyy-MM-dd");
+
+                return RedirectToAction("AllJobExpenses", "Expense", new
+                {
+                    view,
+                    StartDateRange,
+                    EndDateRange
+                });
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error updating date range for all job expenses");
+                return RedirectToAction("../Shared/Error");
             }
         }
         public ActionResult JobExpense(string ID)
@@ -401,6 +484,87 @@ namespace TaxApp.Controllers
         }
         #endregion
 
+        #region Invoice And Recipts File View
+        public ActionResult InvoiceAndReceipts(string view, string StartDateRange, string EndDateRange, string downloadAll)
+        {
+            try
+            {
+                getCookie();
+
+                ViewBag.view = view;
+
+                int year = DateTime.Now.Year;
+                DateTime sDate = DateTime.Now.AddMonths(-6);
+                DateTime eDate = DateTime.Now;
+
+                if (StartDateRange != null && EndDateRange != null
+                    && DateTime.TryParse(StartDateRange, out sDate) && DateTime.TryParse(EndDateRange, out eDate)) { }
+
+                if (sDate > eDate)
+                {
+                    DateTime temp = sDate;
+                    sDate = eDate;
+                    eDate = temp;
+                }
+
+                ViewBag.DateRange = sDate.ToString("dd MMM yyyy") + " - " + eDate.ToString("dd MMM yyyy");
+                ViewBag.StartDateRange = sDate.ToString("yyyy-MM-dd");
+                ViewBag.EndDateRange = eDate.ToString("yyyy-MM-dd");
+
+                Profile profileID = new Profile();
+                profileID.ProfileID = int.Parse(cookie["ID"]);
+
+                List<InvoiceAndReciptesFile> files = handler.getInvoiceAndReciptesFiles(profileID, sDate, eDate);
+
+                if (downloadAll == "True")
+                {
+                    foreach(InvoiceAndReciptesFile file in files)
+                    {
+                        string redirect = "<script>window.open('../Functions/DownloadFile?ID="+file.ID+"&type="+file.Type+"');</script>";
+                        Response.Write(redirect);
+                    }
+                }
+
+                return View(files);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding Invoice And Reciptes List");
+                return Redirect("../Shared/Error");
+            }
+        }
+        [HttpPost]
+        public ActionResult InvoiceAndReceipts(FormCollection collection, string view, string StartDateRange, string EndDateRange)
+        {
+            try
+            {
+                int year = DateTime.Now.Year;
+                DateTime sDate = DateTime.Now.AddMonths(-6);
+                DateTime eDate = DateTime.Now;
+
+                DateTime.TryParse(Request.Form["StartDate"], out sDate);
+                DateTime.TryParse(Request.Form["EndDate"], out eDate);
+
+                StartDateRange = sDate.ToString("yyyy-MM-dd");
+                EndDateRange = eDate.ToString("yyyy-MM-dd");
+
+                return RedirectToAction("InvoiceAndReceipts", "Expense", new
+                {
+                    view,
+                    StartDateRange,
+                    EndDateRange
+                });
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error updating date range for Invoice And Reciptes in expense report");
+                return RedirectToAction("../Shared/Error");
+            }
+        }
+        #endregion
+
         #region General Expense View
         public ActionResult GeneralExpense(string ID)
         {
@@ -424,7 +588,7 @@ namespace TaxApp.Controllers
             }
         }
 
-        public ActionResult GeneralExpenses(string view, string ExpenseDisplayCount, string StartDateRange, string EndDateRange)
+        public ActionResult GeneralExpenses(string view, string ExpenseDisplayCount, string StartDateRange, string EndDateRange, string downloadAll)
         {
             try
             {
@@ -455,6 +619,19 @@ namespace TaxApp.Controllers
                 getProfile.ProfileID = int.Parse(cookie["ID"].ToString());
 
                 List<Model.SP_GetGeneralExpense_Result> ProfileGeneralExpenses = handler.getGeneralExpenses(getProfile, sDate, eDate);
+
+                foreach (SP_GetGeneralExpense_Result file in ProfileGeneralExpenses)
+                {
+                    if (file.Invoice_ReceiptCopy != null)
+                    {
+                        ViewBag.files = "True";
+                        if (downloadAll == "True")
+                        {
+                            string redirect = "<script>window.open('../Functions/DownloadFile?ID=" + file.ExpenseID + "&type=GE');</script>";
+                            Response.Write(redirect);
+                        }
+                    }
+                }
 
                 if (ProfileGeneralExpenses.Count > 6)
                 {

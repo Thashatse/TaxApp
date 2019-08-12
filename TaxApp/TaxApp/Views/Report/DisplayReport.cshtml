@@ -32,22 +32,23 @@
                                 </div>
                             </div>
                         }
-                        if (ViewBag.DropDownFilter == null)
-                        {
+                        
                         <div class="text-white">
                             <div class="row">
+                                @if (ViewBag.DropDownFilter == null)
+                                {
                                 <div class="col-lg-5 col-sm-12">
                                     Start: <input name="StartDate" type="date" value="@ViewBag.StartDateRange" />
                                 </div>
                                 <div class="col-lg-5 col-sm-12">
                                     End: <input name="EndDate" type="date" value="@ViewBag.EndDateRange" />
                                 </div>
+                                }
                                 <div class="col-lg-2 col-sm-12">
                                     <br /><input type="submit" value="Update" class="btn btn-sm btn-default" />
                                 </div>
                             </div>
                         </div>
-                        }
                     }
                 </div>
             </div>

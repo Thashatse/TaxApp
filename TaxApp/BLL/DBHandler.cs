@@ -320,21 +320,25 @@ namespace BLL
         #endregion
 
         #region File Upload Download
-        public bool addGeneralExpenseFile(FileUpload newFile)
+        public bool addGeneralExpenseFile(InvoiceAndReciptesFile newFile)
         {
             return db.addGeneralExpenseFile(newFile);
         }
-        public FileUpload getGeneralExpenseFile(FileUpload getFile)
+        public InvoiceAndReciptesFile getGeneralExpenseFile(InvoiceAndReciptesFile getFile)
         {
             return db.getGeneralExpenseFile(getFile);
         }
-        public bool addJobExpenseFile(FileUpload newFile)
+        public bool addJobExpenseFile(InvoiceAndReciptesFile newFile)
         {
             return db.addJobExpenseFile(newFile);
         }
-        public FileUpload getJobExpenseFile(FileUpload getFile)
+        public InvoiceAndReciptesFile getJobExpenseFile(InvoiceAndReciptesFile getFile)
         {
             return db.getJobExpenseFile(getFile);
+        }
+        public List<InvoiceAndReciptesFile> getInvoiceAndReciptesFiles(Profile profileID, DateTime SD, DateTime ED)
+        {
+            return db.getInvoiceAndReciptesFiles(profileID, SD, ED);
         }
         #endregion
 

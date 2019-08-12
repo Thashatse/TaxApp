@@ -117,10 +117,11 @@ namespace DAL
         #endregion
 
         #region File Upload Download
-        bool addGeneralExpenseFile(FileUpload newFile);
-        FileUpload getGeneralExpenseFile(FileUpload getFile);
-        bool addJobExpenseFile(FileUpload newFile);
-        FileUpload getJobExpenseFile(FileUpload getFile);
+        bool addGeneralExpenseFile(InvoiceAndReciptesFile newFile);
+        InvoiceAndReciptesFile getGeneralExpenseFile(InvoiceAndReciptesFile getFile);
+        bool addJobExpenseFile(InvoiceAndReciptesFile newFile);
+        InvoiceAndReciptesFile getJobExpenseFile(InvoiceAndReciptesFile getFile);
+        List<InvoiceAndReciptesFile> getInvoiceAndReciptesFiles(Profile profileID, DateTime SD, DateTime ED);
         #endregion
 
         #region Vehicle

@@ -219,6 +219,8 @@
     <Content Include="Views\Home\Search.cshtml" />
     <Content Include="Views\Report\DisplayReport.cshtml" />
     <Content Include="Views\Report\PrintReport.cshtml" />
+    <Content Include="Views\Expense\AllJobExpenses.cshtml" />
+    <Content Include="Views\Expense\InvoiceAndReceipts.cshtml" />
     <None Include="Views\Shared\Help.cshtml" />
     <Content Include="WebPages\Landing.aspx" />
     <Content Include="libman.json" />

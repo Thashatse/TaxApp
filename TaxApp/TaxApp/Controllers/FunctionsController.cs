@@ -86,7 +86,7 @@ namespace TaxApp.Controllers
                 BinaryReader Br = new BinaryReader(str);
                 Byte[] FileDet = Br.ReadBytes((Int32)str.Length);
 
-                FileUpload newFile = new FileUpload();
+                Model.InvoiceAndReciptesFile newFile = new Model.InvoiceAndReciptesFile();
                 newFile.fileByteArray = FileDet;
                 newFile.fileName = file.FileName;
 
@@ -126,7 +126,7 @@ namespace TaxApp.Controllers
         {
                 getCookie();
 
-                FileUpload getFile = new FileUpload();
+            Model.InvoiceAndReciptesFile getFile = new Model.InvoiceAndReciptesFile();
             getFile.ID = int.Parse(ID);
 
                 if (type == "GE")
@@ -137,6 +137,11 @@ namespace TaxApp.Controllers
                 {
                 getFile = handler.getJobExpenseFile(getFile);
                 }
+            else
+            {
+                function.logAnError("No Type Supplied - Doewnload FileFunctions controler");
+                Response.Redirect("../Shared/Error");
+            }
 
             return File(getFile.fileByteArray, System.Net.Mime.MediaTypeNames.Application.Octet, getFile.fileName);
         }

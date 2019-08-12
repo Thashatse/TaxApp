@@ -334,7 +334,7 @@ namespace TaxApp.Controllers
                     }
                     else
                     {
-                        ViewBag.TaxPeriodList = new SelectList(taxPeriod, "PeriodID", "PeriodString");
+                        ViewBag.DropDownFilter = new SelectList(taxPeriod, "PeriodID", "PeriodString");
 
                         if (period == null || period == "")
                             period = taxPeriod[0].PeriodID.ToString();
@@ -346,6 +346,8 @@ namespace TaxApp.Controllers
                             if (item.PeriodID.ToString() == period)
                             {
                                 dates = item;
+                                sDate = item.StartDate;
+                                eDate = item.EndDate;
                             }
                         }
 
@@ -475,10 +477,6 @@ namespace TaxApp.Controllers
             {
                 function.logAnError("No report ID Supplied display report");
                 return RedirectToAction("Reports", "Report");
-            }
-            else if(ID == "0004")
-            {
-                List<TaxAndVatPeriods> taxPeriod = handler.getTaxOrVatPeriodForProfile(ProfileID, 'T');
             }
 
             ReportViewModel report = getReportData(ID, StartDateRange, EndDateRange, period);

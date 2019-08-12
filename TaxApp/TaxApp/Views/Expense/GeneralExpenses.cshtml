@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Model.SP_GetGeneralExpense_Result>
 
 @{
-    ViewBag.Title = "GeneralExpenses";
+    ViewBag.Title = "General Expenses";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -17,6 +17,11 @@
                     <div>
                         <a href="/Expense/NewGeneralExpense"
                            class="btn btn-sm btn-white">New General Expense</a>
+                        @if (ViewBag.files == "True")
+                        {
+                            <a href="/Expense/GeneralExpenses?downloadAll=True"
+                               class="btn btn-sm btn-white">Download All Invoice and Receipts<i class="ni ni-cloud-download-95"></i></a>
+                        }
                     </div>
                     <br />
                     <p class="text-white">

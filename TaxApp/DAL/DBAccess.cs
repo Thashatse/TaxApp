@@ -1758,7 +1758,10 @@ namespace DAL
                             expense.Date = DateTime.Parse(row[5].ToString());
                             expense.DateString = expense.Date.ToString("dddd, dd MMMM yyyy");
                             expense.Amount = decimal.Parse(row[6].ToString());
-                            //expense.Invoice_ReceiptCopy = row[7].ToString();
+                            if (row["Invoice/ReceiptCopy"] != null && row["Invoice/ReceiptCopy"].ToString() != "")
+                            {
+                                expense.Invoice_ReceiptCopy = Encoding.ASCII.GetBytes(row["Invoice/ReceiptCopy"].ToString());
+                            }
                             expense.CatName = row[8].ToString();
                             expense.CatDescription = row[9].ToString();
                             expense.JobTitle = row["JobTitle"].ToString();
@@ -1921,7 +1924,10 @@ namespace DAL
                             expense.Date = DateTime.Parse(row[5].ToString());
                             expense.Amount = decimal.Parse(row[6].ToString());
                             expense.Repeat = bool.Parse(row[7].ToString());
-                            //expense.Invoice_ReceiptCopy = row[8].ToString();
+                            if (row["Invoice/ReceiptCopy"] != null && row["Invoice/ReceiptCopy"].ToString() != "")
+                            {
+                                expense.Invoice_ReceiptCopy = Encoding.ASCII.GetBytes(row["Invoice/ReceiptCopy"].ToString());
+                            }
                             expense.CatName = row[9].ToString();
                             expense.CatDescription = row[10].ToString();
                             expense.DateString = expense.Date.ToString("dddd, dd MMMM yyyy");
@@ -3338,7 +3344,7 @@ namespace DAL
         #endregion
 
         #region File Upload Download
-        public bool addGeneralExpenseFile(FileUpload newFile)
+        public bool addGeneralExpenseFile(Model.InvoiceAndReciptesFile newFile)
         {
             bool Result = false;
 
@@ -3361,9 +3367,9 @@ namespace DAL
 
             return Result;
         }
-        public FileUpload getGeneralExpenseFile(FileUpload getFile)
+        public InvoiceAndReciptesFile getGeneralExpenseFile(Model.InvoiceAndReciptesFile getFile)
         {
-            FileUpload file = null;
+            Model.InvoiceAndReciptesFile file = null;
 
             SqlParameter[] pars = new SqlParameter[]
                 {
@@ -3379,7 +3385,7 @@ namespace DAL
                     {
                         if (row != null)
                         {
-                            file = new FileUpload();
+                            file = new Model.InvoiceAndReciptesFile();
                             file.fileByteArray = (byte[])row["Invoice/ReceiptCopy"];
                             file.fileName = row["FileName"].ToString();
                             file.ID = getFile.ID;
@@ -3393,7 +3399,7 @@ namespace DAL
                 throw new ApplicationException(e.ToString());
             }
         }
-        public bool addJobExpenseFile(FileUpload newFile)
+        public bool addJobExpenseFile(Model.InvoiceAndReciptesFile newFile)
         {
             bool Result = false;
 
@@ -3416,9 +3422,9 @@ namespace DAL
 
             return Result;
         }
-        public FileUpload getJobExpenseFile(FileUpload getFile)
+        public InvoiceAndReciptesFile getJobExpenseFile(Model.InvoiceAndReciptesFile getFile)
         {
-            FileUpload file = null;
+            Model.InvoiceAndReciptesFile file = null;
 
             SqlParameter[] pars = new SqlParameter[]
                 {
@@ -3434,7 +3440,7 @@ namespace DAL
                     {
                         if (row != null)
                         {
-                            file = new FileUpload();
+                            file = new Model.InvoiceAndReciptesFile();
                             file.fileByteArray = (byte[])row["Invoice/ReceiptCopy"];
                             file.fileName = row["FileName"].ToString();
                             file.ID = getFile.ID;
@@ -3442,6 +3448,76 @@ namespace DAL
                     }
                 }
                 return file;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        public List<InvoiceAndReciptesFile> getInvoiceAndReciptesFiles(Profile profileID, DateTime SD, DateTime ED)
+        {
+            List<InvoiceAndReciptesFile> files = new List<InvoiceAndReciptesFile>();
+
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profileID.ProfileID),
+                        new SqlParameter("@SD", SD),
+                        new SqlParameter("@ED", ED)
+                    };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetInvoiceAndReciptesJobs",
+            CommandType.StoredProcedure, pars))
+                {
+                    foreach (DataRow row in table.Rows)
+                    {
+                        if (row != null)
+                        {
+                            InvoiceAndReciptesFile file = new InvoiceAndReciptesFile();
+                            file.fileByteArray = (byte[])row["Invoice/ReceiptCopy"];
+                            file.fileName = row["FileName"].ToString();
+                            file.expenseName = row["Name"].ToString();
+                            file.ID = int.Parse(row["ExpenseID"].ToString());
+                            file.ProfileID = int.Parse(row["ProfileID"].ToString());
+                            file.expenseDate = DateTime.Parse(row["Date"].ToString());
+                            file.expenseDateString = file.expenseDate.ToString("dd MMM yyyy");
+                            file.Type = "JE";
+                            files.Add(file);
+                        }
+                    }
+                }
+
+                pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profileID.ProfileID),
+                        new SqlParameter("@SD", SD),
+                        new SqlParameter("@ED", ED)
+                    };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetInvoiceAndReciptesGeneral",
+            CommandType.StoredProcedure, pars))
+                {
+                    foreach (DataRow row in table.Rows)
+                    {
+                        if (row != null)
+                        {
+                            InvoiceAndReciptesFile file = new InvoiceAndReciptesFile();
+                            file.fileByteArray = (byte[])row["Invoice/ReceiptCopy"];
+                            file.fileName = row["FileName"].ToString();
+                            file.expenseName = row["Name"].ToString();
+                            file.ID = int.Parse(row["ExpenseID"].ToString());
+                            file.ProfileID = int.Parse(row["ProfileID"].ToString());
+                            file.expenseDate = DateTime.Parse(row["Date"].ToString());
+                            file.expenseDateString = file.expenseDate.ToString("dd MMM yyyy");
+                            file.Type = "GE";
+                            files.Add(file);
+                        }
+                    }
+                }
+
+                files = files.OrderBy(x => x.expenseDate).ToList();
+                return files;
             }
             catch (Exception e)
             {

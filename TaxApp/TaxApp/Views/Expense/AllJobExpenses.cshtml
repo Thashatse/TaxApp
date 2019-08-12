@@ -1,0 +1,104 @@
+﻿@model IEnumerable<Model.SP_GetJobExpense_Result>
+
+@{
+    ViewBag.Title = "All Job Expenses";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="header bg-gradient-primary py-7 py-lg-8">
+    <div class="container">
+        <div class="header-body text-center mb-7">
+            <div class="row justify-content-center">
+                <div class="col-lg-5 col-md-6">
+                    <h1 class="text-white">Job Expenses</h1>
+                    <br />
+                    <div>
+                        <a href="../Job/JobSelector?Dest=New*Job*Expense"
+                           class="btn btn-sm btn-white">New Job Expense</a>
+                    </div>
+                    <br />
+                    <p class="text-white">
+                        Date Range: @ViewBag.DateRange
+                        @if (ViewBag.View != "DS")
+                        {
+                            <a href="/Expense/AllJobExpenses?view=DS"
+                               class="btn btn-sm btn-white"><i class="ni ni-settings-gear-65"></i></a>
+                        }
+                    </p>
+                    @if (ViewBag.View == "DS")
+                    {
+                        using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="text-white">
+                                <div class="row">
+                                    <div class="col-lg-5 col-sm-12">Start: <input name="StartDate" type="date" value="@ViewBag.StartDateRange" /></div>
+                                    <div class="col-lg-5 col-sm-12">
+                                        End: <input name="EndDate" type="date" value="@ViewBag.EndDateRange" />
+                                    </div>
+                                    <div class="col-lg-2 col-sm-12">
+                                        <br /><input type="submit" value="Select" class="btn btn-sm btn-default" />
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt--7">
+    <div class="row mt-5">
+        @foreach (var item in Model)
+        {
+            <div class="col-xl-4">
+                <div class="card shadow">
+                    <div class="card-header border-0">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h3 class="mb-0">@Html.DisplayFor(modelItem => item.Name)</h3>
+                            </div>
+                            <div class="col text-right">
+                                <a href="/Expense/JobExpense?ID=@Html.DisplayFor(modelItem => item.ExpenseID)" class="btn btn-sm btn-primary">Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <!-- Projects table -->
+                        <table class="table align-items-center table-flush">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">
+                                        Date:
+                                    </th>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DateString)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        Job:
+                                    </th>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.JobTitle)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        Price:
+                                    </th>
+                                    <td>
+                                        R @Html.DisplayFor(modelItem => item.Amount)
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <br />
+            </div>
+        }
+    </div>

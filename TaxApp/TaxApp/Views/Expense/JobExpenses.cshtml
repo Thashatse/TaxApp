@@ -19,6 +19,11 @@
                             <a href="/Expense/NewJobExpense?ID=@ViewBag.JobID"
                                class="btn btn-sm btn-secondary">Add Expense</a>
                         }
+                        @if (ViewBag.files == "True")
+                        {
+                    <a href="/Expense/JobExpenses?downloadAll=True&ID=@ViewBag.JobID"
+                       class="btn btn-sm btn-white">Download All Invoice and Receipts<i class="ni ni-cloud-download-95"></i></a>
+                        }
                     </div>
                 </div>
             </div>
