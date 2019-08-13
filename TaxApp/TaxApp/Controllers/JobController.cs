@@ -13,6 +13,7 @@ namespace TaxApp.Controllers
         IDBHandler handler = new DBHandler();
         HttpCookie cookie;
         Functions function = new Functions();
+        NotificationsFunctions notiFunctions = new NotificationsFunctions();
         public void getCookie()
         {
             try
@@ -39,6 +40,7 @@ namespace TaxApp.Controllers
                         }
 
                         ViewBag.ProfileName = checkProfile.FirstName + " " + checkProfile.LastName;
+                        ViewBag.NotificationList = notiFunctions.getNotifications(int.Parse(cookie["ID"]));
                     }
                     else
                     {
@@ -83,7 +85,7 @@ namespace TaxApp.Controllers
                     eDate = temp;
                 }
 
-                ViewBag.DateRange = sDate.ToString("dd MMM yyyy") + " - " + eDate.ToString("dd MMM yyyy");
+                ViewBag.DateRange = "From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
                 ViewBag.StartDateRange = sDate.ToString("yyyy-MM-dd");
                 ViewBag.EndDateRange = eDate.ToString("yyyy-MM-dd");
 

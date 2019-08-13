@@ -13,16 +13,6 @@
                     <h1 class="text-white">
                         @Html.DisplayFor(model => model.JobTitle)
                     </h1>
-                    <br />
-                    <div>
-                        @if (ViewBag.Complete == "NotDone")
-                        {
-                            <a href="/Job/MarkAsComplete?ID=@Html.DisplayFor(model => model.JobID)"
-                               class="btn btn-sm btn-white">Mark Job As Comlete</a>
-                            <a href="/Job/EditJob?ID=@Html.DisplayFor(model => model.JobID)"
-                               class="btn btn-sm btn-white">Edit</a>
-                        }
-                    </div>
                     </div>
                 </div>
         </div>
@@ -36,163 +26,171 @@
             <div class="col-lg-12 col-md-12">
                 <div class="card bg-secondary shadow border-0">
 
-                    <div>
-                        <div class="table-responsive">
-                            <!-- Projects table -->
-                            <table class="table align-items-center table-flush">
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">
-                                            @Html.DisplayNameFor(model => model.HourlyRate)
+                    <div class="table-responsive">
+                        <!-- Projects table -->
+                        <table class="table align-items-center table-flush">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">
+                                        @Html.DisplayNameFor(model => model.HourlyRate)
 
-                                        </th>
-                                        <td>
-                                            R @Html.DisplayFor(model => model.HourlyRate)
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            @Html.DisplayNameFor(model => model.Budget)
+                                    </th>
+                                    <td>
+                                        R @Html.DisplayFor(model => model.HourlyRate)
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        @Html.DisplayNameFor(model => model.Budget)
 
-                                        </th>
-                                        <td>
-                                            R @Html.DisplayFor(model => model.BudgetString)
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            Budget Used:
-                                        </th>
-                                        <td>
-                                            @Html.DisplayFor(model => model.BudgetPercent) %
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            @Html.DisplayNameFor(model => model.StartDate)
+                                    </th>
+                                    <td>
+                                        R @Html.DisplayFor(model => model.BudgetString)
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        Budget Used:
+                                    </th>
+                                    <td>
+                                        @Html.DisplayFor(model => model.BudgetPercent) %
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        @Html.DisplayNameFor(model => model.StartDate)
 
-                                        </th>
-                                        <td>
-                                            @Html.DisplayFor(model => model.StartDateString)
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            @Html.DisplayNameFor(model => model.EndDate)
-                                        </th>
-                                        <td>
-                                            @Html.DisplayFor(model => model.EndDateString)
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            @Html.DisplayNameFor(model => model.ClientFirstName)
-                                        </th>
-                                        <td>
-                                            <a href='/Client/ClientDetails?ID=@Html.DisplayFor(model => model.ClientID)'>
-                                                @Html.DisplayFor(model => model.ClientFirstName)
-                                            </a>
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            @Html.DisplayNameFor(model => model.WorkLogHours)
-                                        </th>
-                                        <td>
-                                            <a href='/Job/JobWorkLog?ID=@Html.DisplayFor(model => model.JobID)'>
-                                                @Html.DisplayFor(model => model.WorkLogHoursString)
-                                            </a>
-                                        </td>
-                                        <td>
-                                            @if (ViewBag.Complete == "NotDone")
-                                            {
-                                                <a href="/Job/NewWorkLogItem?ID=@ViewBag.JobID"
-                                                   class="btn btn-sm btn-secondary">Add Hours</a>
-                                            }
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            @Html.DisplayNameFor(model => model.ExpenseTotal)
-                                        </th>
-                                        <td>
-                                            <a href='/Expense/JobExpenses?ID=@Html.DisplayFor(model => model.JobID)'>
-                                                R  @Html.DisplayFor(model => model.AllExpenseTotalString)
-                                            </a>
-                                        </td>
-                                        <td>
-                                            @if (ViewBag.Complete == "NotDone")
-                                            {
-                                                <a href="/Expense/NewJobExpense?ID=@ViewBag.JobID"
-                                                   class="btn btn-sm btn-secondary">Add Expense</a>
-                                            }
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            @Html.DisplayNameFor(model => model.TravelLogCostTotal)
-                                        </th>
-                                        <td>
-                                            <a href='/Expense/JobTravelLog?ID=@Html.DisplayFor(model => model.JobID)'>
-                                                R @Html.DisplayFor(model => model.TravelLogCostTotalString)
-                                            </a>
-                                        </td>
-                                        <td>
-                                            @if (ViewBag.Complete == "NotDone")
-                                            {
-                                                <a href="../Expense/NewTravelExpense?ID=@ViewBag.JobID"
-                                                   class="btn btn-sm btn-secondary">New Log Item</a>
-                                            }
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            @Html.DisplayNameFor(model => model.TotalUnPaid)
-                                        </th>
-                                        <td>
-                                            <a href='/Invoice/JobInvoices?ID=@Html.DisplayFor(model => model.JobID)'>
-                                                R @Html.DisplayFor(model => model.TotalUnPaidString)
-                                            </a>
-                                        </td>
-                                        <td>
-                                            @if (ViewBag.Complete == "NotDone")
-                                            {
-                                                <a href="/Invoice/NewInvoice?ID=@ViewBag.JobID"
-                                                   class="btn btn-sm btn-secondary">New Invoice</a>
-                                            }
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            @Html.DisplayNameFor(model => model.TotalPaid)
-                                        </th>
-                                        <td>
-                                            <a href='/Invoice/JobInvoices?ID=@Html.DisplayFor(model => model.JobID)'>
-                                                R @Html.DisplayFor(model => model.TotalPaidString)
-                                            </a>
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            <p>
-                                                @Html.ActionLink("All Jobs", "Jobs")
-                                            </p>
-                                        </th>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                    </th>
+                                    <td>
+                                        @Html.DisplayFor(model => model.StartDateString)
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        @Html.DisplayNameFor(model => model.EndDate)
+                                    </th>
+                                    <td>
+                                        @Html.DisplayFor(model => model.EndDateString)
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        @Html.DisplayNameFor(model => model.ClientFirstName)
+                                    </th>
+                                    <td>
+                                        <a href='/Client/ClientDetails?ID=@Html.DisplayFor(model => model.ClientID)'>
+                                            @Html.DisplayFor(model => model.ClientFirstName)
+                                        </a>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        @Html.DisplayNameFor(model => model.WorkLogHours)
+                                    </th>
+                                    <td>
+                                        <a href='/Job/JobWorkLog?ID=@Html.DisplayFor(model => model.JobID)'>
+                                            @Html.DisplayFor(model => model.WorkLogHoursString)
+                                        </a>
+                                    </td>
+                                    <td>
+                                        @if (ViewBag.Complete == "NotDone")
+                                        {
+                                            <a href="/Job/NewWorkLogItem?ID=@ViewBag.JobID"
+                                               class="btn btn-sm btn-secondary">Add Hours</a>
+                                        }
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        @Html.DisplayNameFor(model => model.ExpenseTotal)
+                                    </th>
+                                    <td>
+                                        <a href='/Expense/JobExpenses?ID=@Html.DisplayFor(model => model.JobID)'>
+                                            R  @Html.DisplayFor(model => model.AllExpenseTotalString)
+                                        </a>
+                                    </td>
+                                    <td>
+                                        @if (ViewBag.Complete == "NotDone")
+                                        {
+                                            <a href="/Expense/NewJobExpense?ID=@ViewBag.JobID"
+                                               class="btn btn-sm btn-secondary">Add Expense</a>
+                                        }
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        @Html.DisplayNameFor(model => model.TravelLogCostTotal)
+                                    </th>
+                                    <td>
+                                        <a href='/Expense/JobTravelLog?ID=@Html.DisplayFor(model => model.JobID)'>
+                                            R @Html.DisplayFor(model => model.TravelLogCostTotalString)
+                                        </a>
+                                    </td>
+                                    <td>
+                                        @if (ViewBag.Complete == "NotDone")
+                                        {
+                                            <a href="../Expense/NewTravelExpense?ID=@ViewBag.JobID"
+                                               class="btn btn-sm btn-secondary">New Log Item</a>
+                                        }
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        @Html.DisplayNameFor(model => model.TotalUnPaid)
+                                    </th>
+                                    <td>
+                                        <a href='/Invoice/JobInvoices?ID=@Html.DisplayFor(model => model.JobID)'>
+                                            R @Html.DisplayFor(model => model.TotalUnPaidString)
+                                        </a>
+                                    </td>
+                                    <td>
+                                        @if (ViewBag.Complete == "NotDone")
+                                        {
+                                            <a href="/Invoice/NewInvoice?ID=@ViewBag.JobID"
+                                               class="btn btn-sm btn-secondary">New Invoice</a>
+                                        }
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        @Html.DisplayNameFor(model => model.TotalPaid)
+                                    </th>
+                                    <td>
+                                        <a href='/Invoice/JobInvoices?ID=@Html.DisplayFor(model => model.JobID)'>
+                                            R @Html.DisplayFor(model => model.TotalPaidString)
+                                        </a>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="card-header border-0">
+                        <div class="row align-items-center">
+                            <div class="col-2">
+                                <p class="mb-0">Actions: </p>
+                            </div>
+                            <div class="col-10 text-right">
+                                @if (ViewBag.Complete == "NotDone")
+                                {
+                                    <a href="/Job/MarkAsComplete?ID=@Html.DisplayFor(model => model.JobID)"
+                                       class="btn btn-sm btn-white">Mark Job As Comlete</a>
+                                    <a href="/Job/EditJob?ID=@Html.DisplayFor(model => model.JobID)"
+                                       class="btn btn-sm btn-white">Edit</a>
+                                }
+                                <a href="/Job/Jobs"
+                                   class="btn btn-sm btn-white">All Jobs</a>
                             </div>
                         </div>
                     </div>
-            </div>
-        </div>
+                </div>
+                </div>
+                </div>
     </div>

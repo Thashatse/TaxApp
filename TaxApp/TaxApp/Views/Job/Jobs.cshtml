@@ -129,14 +129,14 @@
                                     Past Jobs
                                 </h1>
                                 <br />
-                                <p>
-                                    Date Range: @ViewBag.DateRange
+                                <h3>
+                                    @ViewBag.DateRange
                                         @if (ViewBag.View != "DS")
                                         {
                                     <a href="../Job/Jobs?view=DS"
                                        class="btn btn-sm btn-white"><i class="ni ni-settings-gear-65"></i></a>
                                         }
-                                </p>
+                                </h3>
                                 if (ViewBag.View == "DS")
                                 {
                                     using (Html.BeginForm())
@@ -161,11 +161,11 @@
                                 <h1 class="text-white">
                                     Past Jobs
                                 </h1><br />
-                                <p class="text-white">
-                                    Date Range: @ViewBag.DateRange
+                                <h3 class="text-white">
+                                    @ViewBag.DateRange
                                     <a href="../Job/Jobs?view=DS"
                                        class="btn btn-sm btn-white"><i class="ni ni-settings-gear-65"></i></a>
-                                </p>
+                                </h3>
                                 if (ViewBag.View == "DS")
                                 {
                                     using (Html.BeginForm())

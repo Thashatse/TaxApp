@@ -206,14 +206,14 @@
                             </div>
                         }
                         <br />
-                        <p>
-                            Date Range: @ViewBag.DateRange
+                        <h3>
+                            @ViewBag.DateRange
                             @if (ViewBag.View != "DS")
                             {
                                 <a href="/Invoice/Income?view=DS"
                                    class="btn btn-sm btn-white"><i class="ni ni-settings-gear-65"></i></a>
                             }
-                        </p>
+                        </h3>
                         @if (ViewBag.View == "DS")
                         {
                             using (Html.BeginForm())

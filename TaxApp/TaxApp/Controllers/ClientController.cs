@@ -12,6 +12,7 @@ namespace TaxApp.Controllers
         IDBHandler handler = new DBHandler();
         HttpCookie cookie;
         Functions function = new Functions();
+        NotificationsFunctions notiFunctions = new NotificationsFunctions();
 
         public void getCookie()
         {
@@ -39,6 +40,7 @@ namespace TaxApp.Controllers
                         }
 
                         ViewBag.ProfileName = checkProfile.FirstName + " " + checkProfile.LastName;
+                        ViewBag.NotificationList = notiFunctions.getNotifications(int.Parse(cookie["ID"]));
                     }
                     else
                     {

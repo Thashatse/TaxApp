@@ -17,14 +17,14 @@
                            class="btn btn-sm btn-white">New Job Expense</a>
                     </div>
                     <br />
-                    <p class="text-white">
-                        Date Range: @ViewBag.DateRange
+                    <h3 class="text-white">
+                        @ViewBag.DateRange
                         @if (ViewBag.View != "DS")
                         {
                             <a href="/Expense/AllJobExpenses?view=DS"
                                class="btn btn-sm btn-white"><i class="ni ni-settings-gear-65"></i></a>
                         }
-                    </p>
+                    </h3>
                     @if (ViewBag.View == "DS")
                     {
                         using (Html.BeginForm())

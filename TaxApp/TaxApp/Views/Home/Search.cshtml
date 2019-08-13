@@ -13,14 +13,14 @@
                     Search Results
                 </h1>
                 <br />
-                <p class="text-white">
-                    Date Range: @ViewBag.DateRange
+                <h3 class="text-white">
+                    @ViewBag.DateRange
                     @if (ViewBag.View != "DS")
                     {
                         <a href="/Home/Search?view=DS&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&term=@ViewBag.term&cat=@ViewBag.cat"
                            class="btn btn-sm btn-white"><i class="ni ni-settings-gear-65"></i></a>
                     }
-                </p>
+                </h3>
                 @if (ViewBag.View == "DS")
                 {
                     using (Html.BeginForm())

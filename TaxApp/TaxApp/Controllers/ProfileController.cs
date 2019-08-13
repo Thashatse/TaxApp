@@ -14,6 +14,7 @@ namespace TaxApp.Controllers
         HttpCookie cookie;
         Functions function = new Functions();
         Authentication Auth = new Authentication();
+        NotificationsFunctions notiFunctions = new NotificationsFunctions();
         public void getCookie()
         {
             try
@@ -40,6 +41,7 @@ namespace TaxApp.Controllers
                         }
 
                         ViewBag.ProfileName = checkProfile.FirstName + " " + checkProfile.LastName;
+                        ViewBag.NotificationList = notiFunctions.getNotifications(int.Parse(cookie["ID"]));
                     }
                     else
                     {

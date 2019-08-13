@@ -11,9 +11,8 @@ namespace BLL
     {
         IDBHandler handler = new DBHandler();
         Functions function = new Functions();
-        public string getNotifications(int ProfileID)
+        public List<Notifications> getNotifications(int ProfileID)
         {
-            string notificationDisplayString = "No Notifications";
             List<Model.Notifications> notifications = new List<Model.Notifications>();
 
             try
@@ -25,23 +24,22 @@ namespace BLL
             catch(Exception Err)
             {
                 function.logAnError("Error Loading notifictaions " +Err);
-                notificationDisplayString = "Error Loading Notifications";
+                Notifications errorNoti = new Notifications();
+                errorNoti.notificationID = 0;
+                errorNoti.Details = "Error Loading Notifications";
+                notifications.Add(errorNoti);
             }
 
 
-            if(notifications.Count > 0)
+            if(notifications.Count <= 0)
             {
-                notificationDisplayString = "";
-
-                foreach (Model.Notifications noti in notifications)
-                {
-                    notificationDisplayString += " <a class='dropdown-item' href='../Notifications/dismissNotifications?ID=" + noti.notificationID + "'>"
-                                            + noti.Details + "</a> -"
-                                     + noti.timeSince + " days since.";
-                }
+                Notifications noNoti = new Notifications();
+                noNoti.notificationID = 0;
+                noNoti.Details = "No Notifications";
+                notifications.Add(noNoti);
             }
 
-            return notificationDisplayString;
+            return notifications;
         }
 
         public string dismissNotification(int getNotiID)

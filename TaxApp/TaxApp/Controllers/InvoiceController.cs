@@ -42,6 +42,7 @@ namespace TaxApp.Controllers
                         }
 
                         ViewBag.ProfileName = checkProfile.FirstName + " " + checkProfile.LastName;
+                        ViewBag.NotificationList = notiFunctions.getNotifications(int.Parse(cookie["ID"]));
                     }
                     else
                     {
@@ -278,7 +279,7 @@ namespace TaxApp.Controllers
                     eDate = temp;
                 }
 
-                ViewBag.DateRange = sDate.ToString("dd MMM yyyy") + " - " + eDate.ToString("dd MMM yyyy");
+                ViewBag.DateRange = "From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
                 ViewBag.StartDateRange = sDate.ToString("yyyy-MM-dd");
                 ViewBag.EndDateRange = eDate.ToString("yyyy-MM-dd");
 
@@ -563,7 +564,7 @@ namespace TaxApp.Controllers
                     Notifications newNoti = new Notifications();
                     newNoti.date = DateTime.Now;
                     newNoti.ProfileID = int.Parse(cookie["ID"]);
-                    newNoti.Link = "../Incoice/Invoice?ID=" + ID;
+                    newNoti.Link = "../Invoice/Invoice?ID=" + ID;
                     newNoti.Details = "Invoice Succesffuly sent to "+ toName;
                     notiFunctions.newNotification(newNoti);
 

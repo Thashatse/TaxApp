@@ -30,7 +30,9 @@ namespace Model
         public bool Repeat { get; set; }
         [Display(Name = "Invoice or Receipt Copy")]
         public byte[] Invoice_ReceiptCopy { get; set; }
+        [Display(Name = "Category")]
         public string CatName { get; set; }
+        [Display(Name = "Category Description")]
         public string CatDescription { get; set; }
         public string fileName { get; set; }
         public string DefultDate { get; set; }
