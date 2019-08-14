@@ -313,7 +313,7 @@ namespace TaxApp.Controllers
         }
         #endregion
 
-        #region ExpenseCatagories
+        #region Expense Catagories
         public ActionResult ExpenseCatagories()
         {
             try
@@ -635,14 +635,14 @@ namespace TaxApp.Controllers
                     }
                 }
 
-                if (ProfileGeneralExpenses.Count > 6)
+                if (ProfileGeneralExpenses.Count > 11)
                 {
                     int x;
                     if (ExpenseDisplayCount != null && ExpenseDisplayCount != "" 
                         && function.IsDigitsOnly(ExpenseDisplayCount))
                         x = int.Parse(ExpenseDisplayCount);
                     else
-                        x = 6;
+                        x = 11;
 
                     if (x < ProfileGeneralExpenses.Count)
                     {
@@ -655,7 +655,7 @@ namespace TaxApp.Controllers
                         ViewBag.SeeMore = false;
                     }
 
-                    ViewBag.X = x + 6;
+                    ViewBag.X = x + 11;
                 }
 
                 return View(ProfileGeneralExpenses);
@@ -1226,14 +1226,14 @@ namespace TaxApp.Controllers
                 List <Model.TravelLog> ProfileTravelLog = handler.getProfileTravelLog(getProfile, sDate, eDate);
 
 
-                if (ProfileTravelLog.Count > 6)
+                if (ProfileTravelLog.Count > 11)
                 {
                     int x;
                     if (ExpenseDisplayCount != null && ExpenseDisplayCount != ""
                         && function.IsDigitsOnly(ExpenseDisplayCount))
                         x = int.Parse(ExpenseDisplayCount);
                     else
-                        x = 6;
+                        x = 11;
 
                     if (x < ProfileTravelLog.Count)
                     {
@@ -1246,7 +1246,7 @@ namespace TaxApp.Controllers
                         ViewBag.SeeMore = false;
                     }
 
-                    ViewBag.X = x + 6;
+                    ViewBag.X = x + 11;
                 }
 
                 return View(ProfileTravelLog);

@@ -6,7 +6,6 @@
 }
 <!-- Header -->
 <div class="header bg-gradient-primary py-7 py-lg-8">
-    <div class="container">
         <div class="header-body text-center mb-7">
             <div class="row justify-content-center">
                 <div class="col-lg-5 col-md-6">
@@ -14,22 +13,34 @@
                         Job Travle Log
                     </h1>
                     <p class="text-white">For <a class="text-white" href="../Job/Job?ID=@ViewBag.JobID"> @ViewBag.JobTitle</a></p>
-                    <br />
-                    <div>
-                        @if (ViewBag.Complete == "NotDone")
-                        {
-                            <a href="../Expense/NewTravelExpense?ID=@ViewBag.JobID"
-                               class="btn btn-sm btn-secondary">New Log Item</a>
-                        }
-                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 <div class="container-fluid mt--7">
     <div class="row mt-5">
+        @if (ViewBag.Complete == "NotDone")
+        {
+            <div class="col-xl-4">
+                <div class="card shadow">
+                    <div class="card-header border-0">
+                        <div class="row align-items-center">
+                            <div class="col-9">
+                                <h3 class="mb-0">New</h3>
+                                <p>Create a new travel expense</p>
+                            </div>
+                            <div class="col-3 text-right">
+                                <a href="/Expense/NewTravelExpense?ID=@ViewBag.JobID" class="btn btn-primary">
+                                    <i class="ni ni-fat-add"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+            </div>
+        }
         @foreach (var item in Model)
         {
             <div class="col-xl-4">
@@ -38,42 +49,111 @@
                         <div class="row align-items-center">
                             <div class="col">
                                 <h3 class="mb-0">@Html.DisplayFor(modelItem => item.Reason)</h3>
+                                <p>
+                                    @Html.DisplayFor(modelItem => item.DateString)
+                                </p>
                             </div>
                             <div class="col text-right">
-                                <a href="TravleLogItem?ID=@Html.DisplayFor(modelItem => item.ExpenseID)" class="btn btn-sm btn-primary">Details</a>
+                                <button data-toggle="collapse" href="#demo3" class="btn btn-sm btn-white">Details</button>
                             </div>
                         </div>
                     </div>
-                    <div class="table-responsive">
-                        <!-- Projects table -->
-                        <table class="table align-items-center table-flush">
-                            <tbody>
-                                <tr>
-                                    <th scope="row">
-                                        Date:
-                                    </th>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.DateString)
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        Total Km's:
-                                    </th>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.TotalKMs) kMs
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        Cost to Customer:
-                                    </th>
-                                    <td>
-                                        R @Html.DisplayFor(modelItem => item.ClientCharge)
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div id="demo3" class="panel-collapse collapse">
+                        <div class="table-responsive">
+                            <!-- Projects table -->
+                            <table class="table align-items-center table-flush">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">
+                                            From
+                                        </th>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.From)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            To
+                                        </th>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.To)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            Opening Km's
+                                        </th>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.OpeningKMs) kMs
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            Closing Km's
+                                        </th>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ClosingKMs) kMs
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            Total Km's
+                                        </th>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TotalKMs) kMs
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            Vehicle
+                                        </th>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.VehicleName)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            SARS Fuel Cost
+                                        </th>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.SARSFuelCost)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            SARS Maintence Cost
+                                        </th>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.SARSMaintenceCost)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            Cost to Customer
+                                        </th>
+                                        <td>
+                                            R @Html.DisplayFor(modelItem => item.ClientCharge)
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        @if (item.Invoiced.Equals(false))
+                        {
+                            <div class="card-header border-0">
+                                <div class="row align-items-center">
+                                    <div class="col-3">
+                                        <p class="mb-0">Actions: </p>
+                                    </div>
+                                    <div class="col-9 text-right">
+                                        <a class="btn btn-sm btn-white" href='./EditTravleLogItem?ID=@Html.DisplayFor(modelItem => item.ExpenseID)'> Edit</a>
+                                        <a class="btn btn-sm btn-white" href='./DeleteTravleLogItem?ID=@Html.DisplayFor(modelItem => item.ExpenseID)'>Delete</a>
+
+                                        <a class="btn btn-sm btn-white" href='./JobTravelLog?ID=@Html.DisplayFor(modelItem => item.JobID)'> Job Travel Log</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
                 <br />

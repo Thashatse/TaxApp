@@ -212,17 +212,28 @@
         <div class="col">
             <div class="card shadow">
                 <div class="card-header bg-transparent">
-                    <h3 class="mb-0">Jobs</h3>
-                </div>
-                <div class="card-body">
-                    <div class="row icon-examples">
-                        <div class="col-lg-3 col-md-6">
-                            <button type="button" class="btn-icon-clipboard"  onclick="window.location.href = '../Report/DisplayReport?reportID=0001';">
-                                <div>
-                                    <i class="ni ni-align-left-2"></i>
-                                    <span>Jobs Report</span>
-                                </div>
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Jobs</h3>
+                        </div>
+                        <div class="col text-right">
+                            <button data-toggle="collapse" href="#jobs" class="btn btn-sm btn-primary">
+                                <i class="ni ni-bold-down"></i>
                             </button>
+                        </div>
+                    </div>
+                </div>
+                <div id="jobs" class="panel-collapse collapse">
+                    <div class="card-body">
+                        <div class="row icon-examples">
+                            <div class="col-lg-3 col-md-6">
+                                <button type="button" class="btn-icon-clipboard" onclick="window.location.href = '../Report/DisplayReport?reportID=0001';">
+                                    <div>
+                                        <i class="ni ni-align-left-2"></i>
+                                        <span>Jobs Report</span>
+                                    </div>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -235,48 +246,28 @@
         <div class="col">
             <div class="card shadow">
                 <div class="card-header bg-transparent">
-                    <h3 class="mb-0">Client</h3>
-                </div>
-                <div class="card-body">
-                    <div class="row icon-examples">
-                        <div class="col-lg-3 col-md-6">
-                            <button type="button" class="btn-icon-clipboard" onclick="window.location.href = '../Report/DisplayReport?reportID=0001';">
-                                <div>
-                                    <i class="ni ni-align-left-2"></i>
-                                    <span>Income per Client</span>
-                                </div>
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Client</h3>
+                        </div>
+                        <div class="col text-right">
+                            <button data-toggle="collapse" href="#Client" class="btn btn-sm btn-primary">
+                                <i class="ni ni-bold-down"></i>
                             </button>
                         </div>
                     </div>
                 </div>
-            </div>
-            <br />
-        </div>
-    </div>
-    
-    <div class="row">
-        <div class="col">
-            <div class="card shadow">
-                <div class="card-header bg-transparent">
-                    <h3 class="mb-0">Income</h3>
-                </div>
-                <div class="card-body">
-                    <div class="row icon-examples">
-                        <div class="col-lg-3 col-md-6">
-                            <button type="button" class="btn-icon-clipboard" onclick="window.location.href = '../Report/DisplayReport?reportID=0002';">
-                                <div>
-                                    <i class="ni ni-align-left-2"></i>
-                                    <span>Income Report</span>
-                                </div>
-                            </button>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <button type="button" class="btn-icon-clipboard" onclick="window.location.href = '../Report/DisplayReport?reportID=0004';">
-                                <div>
-                                    <i class="ni ni-align-left-2"></i>
-                                    <span>Net Income</span>
-                                </div>
-                            </button>
+                <div id="Client" class="panel-collapse collapse">
+                    <div class="card-body">
+                        <div class="row icon-examples">
+                            <div class="col-lg-3 col-md-6">
+                                <button type="button" class="btn-icon-clipboard" onclick="window.location.href = '../Report/DisplayReport?reportID=0001';">
+                                    <div>
+                                        <i class="ni ni-align-left-2"></i>
+                                        <span>Jobs Report</span>
+                                    </div>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -289,17 +280,36 @@
         <div class="col">
             <div class="card shadow">
                 <div class="card-header bg-transparent">
-                    <h3 class="mb-0">Expenses</h3>
-                </div>
-                <div class="card-body">
-                    <div class="row icon-examples">
-                        <div class="col-lg-3 col-md-6">
-                            <button type="button" class="btn-icon-clipboard" onclick="window.location.href = '../Report/DisplayReport?reportID=0003';">
-                                <div>
-                                    <i class="ni ni-align-left-2"></i>
-                                    <span>Expense Report</span>
-                                </div>
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Income</h3>
+                        </div>
+                        <div class="col text-right">
+                            <button data-toggle="collapse" href="#Income" class="btn btn-sm btn-primary">
+                                <i class="ni ni-bold-down"></i>
                             </button>
+                        </div>
+                    </div>
+                </div>
+                <div id="Income" class="panel-collapse collapse">
+                    <div class="card-body">
+                        <div class="row icon-examples">
+                            <div class="col-lg-3 col-md-6">
+                                <button type="button" class="btn-icon-clipboard" onclick="window.location.href = '../Report/DisplayReport?reportID=0002';">
+                                    <div>
+                                        <i class="ni ni-align-left-2"></i>
+                                        <span>Income Report</span>
+                                    </div>
+                                </button>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <button type="button" class="btn-icon-clipboard" onclick="window.location.href = '../Report/DisplayReport?reportID=0004';">
+                                    <div>
+                                        <i class="ni ni-align-left-2"></i>
+                                        <span>Net Income</span>
+                                    </div>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -312,17 +322,28 @@
         <div class="col">
             <div class="card shadow">
                 <div class="card-header bg-transparent">
-                    <h3 class="mb-0">Tax</h3>
-                </div>
-                <div class="card-body">
-                    <div class="row icon-examples">
-                        <div class="col-lg-3 col-md-6">
-                            <button type="button" class="btn-icon-clipboard" onclick="window.location.href = '../Report/DisplayReport?ID=0001';">
-                                <div>
-                                    <i class="ni ni-align-left-2"></i>
-                                    <span>Tax Report</span>
-                                </div>
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Expenses</h3>
+                        </div>
+                        <div class="col text-right">
+                            <button data-toggle="collapse" href="#Expenses" class="btn btn-sm btn-primary">
+                                <i class="ni ni-bold-down"></i>
                             </button>
+                        </div>
+                    </div>
+                </div>
+                <div id="Expenses" class="panel-collapse collapse">
+                    <div class="card-body">
+                        <div class="row icon-examples">
+                            <div class="col-lg-3 col-md-6">
+                                <button type="button" class="btn-icon-clipboard" onclick="window.location.href = '../Report/DisplayReport?reportID=0001';">
+                                    <div>
+                                        <i class="ni ni-align-left-2"></i>
+                                        <span>Jobs Report</span>
+                                    </div>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -335,17 +356,28 @@
         <div class="col">
             <div class="card shadow">
                 <div class="card-header bg-transparent">
-                    <h3 class="mb-0">Vat</h3>
-                </div>
-                <div class="card-body">
-                    <div class="row icon-examples">
-                        <div class="col-lg-3 col-md-6">
-                            <button type="button" class="btn-icon-clipboard" data-clipboard-text="active-40" title="Copy to clipboard">
-                                <div>
-                                    <i class="ni ni-align-left-2"></i>
-                                    <span>Report 1</span>
-                                </div>
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Tax</h3>
+                        </div>
+                        <div class="col text-right">
+                            <button data-toggle="collapse" href="#Tax" class="btn btn-sm btn-primary">
+                                <i class="ni ni-bold-down"></i>
                             </button>
+                        </div>
+                    </div>
+                </div>
+                <div id="Tax" class="panel-collapse collapse">
+                    <div class="card-body">
+                        <div class="row icon-examples">
+                            <div class="col-lg-3 col-md-6">
+                                <button type="button" class="btn-icon-clipboard" onclick="window.location.href = '../Report/DisplayReport?reportID=0001';">
+                                    <div>
+                                        <i class="ni ni-align-left-2"></i>
+                                        <span>Jobs Report</span>
+                                    </div>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -358,17 +390,62 @@
         <div class="col">
             <div class="card shadow">
                 <div class="card-header bg-transparent">
-                    <h3 class="mb-0">Other</h3>
-                </div>
-                <div class="card-body">
-                    <div class="row icon-examples">
-                        <div class="col-lg-3 col-md-6">
-                            <button type="button" class="btn-icon-clipboard" data-clipboard-text="active-40" title="Copy to clipboard">
-                                <div>
-                                    <i class="ni ni-align-left-2"></i>
-                                    <span>Report 1</span>
-                                </div>
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Vat</h3>
+                        </div>
+                        <div class="col text-right">
+                            <button data-toggle="collapse" href="#Vat" class="btn btn-sm btn-primary">
+                                <i class="ni ni-bold-down"></i>
                             </button>
+                        </div>
+                    </div>
+                </div>
+                <div id="Vat" class="panel-collapse collapse">
+                    <div class="card-body">
+                        <div class="row icon-examples">
+                            <div class="col-lg-3 col-md-6">
+                                <button type="button" class="btn-icon-clipboard" onclick="window.location.href = '../Report/DisplayReport?reportID=0001';">
+                                    <div>
+                                        <i class="ni ni-align-left-2"></i>
+                                        <span>Jobs Report</span>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <div class="card shadow">
+                <div class="card-header bg-transparent">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Other</h3>
+                        </div>
+                        <div class="col text-right">
+                            <button data-toggle="collapse" href="#Other" class="btn btn-sm btn-primary">
+                                <i class="ni ni-bold-down"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div id="Other" class="panel-collapse collapse">
+                    <div class="card-body">
+                        <div class="row icon-examples">
+                            <div class="col-lg-3 col-md-6">
+                                <button type="button" class="btn-icon-clipboard" onclick="window.location.href = '../Report/DisplayReport?reportID=0001';">
+                                    <div>
+                                        <i class="ni ni-align-left-2"></i>
+                                        <span>Jobs Report</span>
+                                    </div>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

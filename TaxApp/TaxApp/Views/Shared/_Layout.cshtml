@@ -145,10 +145,28 @@
                             <i class="ni ni-money-coins text-green"></i> Income
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../expense/Expenses">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="ni ni-credit-card text-red"></i> Expenses
+                            <i class="ni ni-bold-down"></i>
                         </a>
+                            <div class="dropdown-menu dropdown-menu-arrow dropdown-menu-left">
+                                <a href="../Expense/Expenses" class="dropdown-item">
+                                    <span>All Expenses</span>
+                                </a>
+                                <a href="../Expense/GeneralExpenses" class="dropdown-item">
+                                    <span>General Expenses</span>
+                                </a>
+                                <a href="../Expense/AllJobExpenses" class="dropdown-item">
+                                    <span>Job Expenses</span>
+                                </a>
+                                <a href="../Expense/TravleLog" class="dropdown-item">
+                                    <span>Travel Expenses</span>
+                                </a>
+                                <a href="../Expense/InvoiceAndReceipts" class="dropdown-item">
+                                    <span>Invoice And Receipts</span>
+                                </a>
+                            </div>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="../Tax/TaxCenter">
@@ -175,12 +193,7 @@
         <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
             <div class="container-fluid">
                 <!-- Brand -->
-                <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block">@ViewBag.Title   <br /></a>
-                @if (ViewBag.Title == "Expenses" || ViewBag.Title == "General Expenses"
-                    || ViewBag.Title == "All Job Expenses")
-                {
-                    <a href="/Expense/InvoiceAndReceipts" class="btn btn-sm btn-white">Invoices and Receipts</a>
-                }
+                <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block">@ViewBag.Title</a>
                 <!-- Form -->
                 <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
                     <div class="form-group mb-0">

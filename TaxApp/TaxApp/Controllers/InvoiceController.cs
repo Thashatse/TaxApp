@@ -290,14 +290,14 @@ namespace TaxApp.Controllers
                 List<SP_GetInvoice_Result> PastinvoiceDetails = handler.getInvoicesPast(profileID, sDate, eDate);
                 Model.DashboardIncome IncomeDashboard = handler.getIncomeDashboard(profileID);
 
-                if (PastinvoiceDetails.Count > 3)
+                if (PastinvoiceDetails.Count > 8)
                 {
                     int x;
                     if (PastInvoiceDisplayCount != null && PastInvoiceDisplayCount != "" 
                         && function.IsDigitsOnly(PastInvoiceDisplayCount))
                         x = int.Parse(PastInvoiceDisplayCount);
                     else
-                        x = 3;
+                        x = 8;
 
                     if (x < PastinvoiceDetails.Count)
                     {
@@ -310,7 +310,7 @@ namespace TaxApp.Controllers
                         ViewBag.SeeMore = false;
                     }
 
-                    ViewBag.X = x + 6;
+                    ViewBag.X = x + 8;
                 }
 
                 var viewModel = new Model.incomeViewModel();
