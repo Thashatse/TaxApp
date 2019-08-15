@@ -132,6 +132,13 @@
                                                 <p class="mb-0">Actions: </p>
                                             </div>
                                             <div class="col-9 text-right">
+                                                @if (item.RepeatOccurrences.Count != 0)
+                                                {
+                                                    <a href="../expense/GeneralExpense?ID=@Html.DisplayFor(model => item.ExpenseID)"
+                                                       class="btn btn-sm btn-white">View all @Html.DisplayFor(model => item.Name) occurrences</a>
+                                                    <br />
+                                                    <br />
+                                                }
                                                 <a href="../expense/editexpense?ID=@Html.DisplayFor(model => item.ExpenseID)"
                                                    class="btn btn-sm btn-white">Edit</a>
                                                 <a href="../expense/reapetexpense?ID=@Html.DisplayFor(model => item.ExpenseID)"

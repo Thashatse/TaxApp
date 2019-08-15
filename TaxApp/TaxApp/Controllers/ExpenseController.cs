@@ -140,6 +140,7 @@ namespace TaxApp.Controllers
                 newExpense.Date = DateTime.Parse(Request.Form["Date"].ToString());
                 newExpense.Amount = Decimal.Parse(Request.Form["Amount"].ToString());
                 newExpense.Repeat = bool.Parse(Request.Form["Repeat"].ToString().Split(',')[0]);
+                newExpense.PrimaryExpenseID = -1;
 
                 bool result = handler.newGeneralExpense(newExpense);
 
@@ -716,6 +717,9 @@ namespace TaxApp.Controllers
 
                     newExpense.Date = DateTime.Now;
                     newExpense.Repeat = false;
+                    
+                    if (newExpense.PrimaryExpenseID == 0)
+                        newExpense.PrimaryExpenseID = newExpense.ExpenseID;
 
                     bool result = handler.newGeneralExpense(newExpense);
 

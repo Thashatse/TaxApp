@@ -176,6 +176,10 @@ namespace BLL
         {
             return db.getGeneralExpenses(profileID, sDate, eDate);
         }
+        public List<SP_GetGeneralExpense_Result> getGeneralExpenseRepeatOccurrence(Expense expenseID)
+        {
+            return db.getGeneralExpenseRepeatOccurrence(expenseID);
+        }
         public List<ExpenseCategory> getExpenseCatagories()
         {
             return db.getExpenseCatagories();

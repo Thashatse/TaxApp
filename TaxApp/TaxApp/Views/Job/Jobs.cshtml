@@ -15,16 +15,11 @@
                     <h1 class="text-white">
                         Jobs
                     </h1>
-                    <br />
                     @if (Model.curentJobs.Count < 1 && Model.pastJobs.Count < 1)
                     {
+                        <br />
                         <div class="text-white"> No Jobs</div>
                     }
-                    <br />
-                    <div>
-                        <a href="/Job/NewJob"
-                           class="btn btn-sm btn-white">New Job</a>
-                    </div>
                 </div>
             </div>
         </div>
@@ -35,6 +30,23 @@
     <!-- Page content -->
     <div class="container-fluid mt--7">
         <div class="row">
+            <div class="col-xl-4">
+                <div class="card shadow">
+                    <div class="card-header border-0">
+                        <div class="row align-items-center">
+                            <div class="col-9">
+                                <h3 class="mb-0">New</h3>
+                                <p>Create a new job</p>
+                            </div>
+                            <div class="col-3 text-right">
+                                <a href="/Job/NewJob" class="btn btn-primary">
+                                    <i class="ni ni-fat-add"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             @if (Model.curentJobs != null)
             {
                 foreach (var item in Model.curentJobs)
@@ -52,7 +64,7 @@
                                     </div>
                                     <div class="col text-right">
                                         <a href="/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)"
-                                           class="btn btn-sm btn-primary">Details</a>
+                                           class="btn btn-sm btn-white">Details</a>
                                     </div>
                                 </div>
                             </div>
@@ -156,46 +168,10 @@
                                 }
                                 <br />
                             }
-                            else
-                            {
-                                <h1 class="text-white">
-                                    Past Jobs
-                                </h1><br />
-                                <h3 class="text-white">
-                                    @ViewBag.DateRange
-                                    <a href="../Job/Jobs?view=DS"
-                                       class="btn btn-sm btn-white"><i class="ni ni-settings-gear-65"></i></a>
-                                </h3>
-                                if (ViewBag.View == "DS")
-                                {
-                                    using (Html.BeginForm())
-                                    {
-                                        @Html.AntiForgeryToken()
-
-                                        <div class="text-white">
-                                            <div class="col-lg-5 col-sm-12">
-                                                Start: <input name="StartDate" type="date" value="@ViewBag.StartDateRange" /><br />
-                                            </div>
-                                            <div class="col-lg-5 col-sm-12">
-                                                End: <input name="EndDate" type="date" value="@ViewBag.EndDateRange" /><br /><br />
-                                            </div>
-                                            <div class="col-lg-2 col-sm-12">
-                                                <br /><input type="submit" value="Select" class="btn btn-sm btn-default" />
-                                            </div>
-                                        </div>
-
-                                    }
-                                }
-                                <br />
-                            }
 
                             @if (Model.pastJobs == null && Model.curentJobs != null)
                             {
                                 <th> No Past Jobs</th>
-                            }
-                            else if (Model.pastJobs == null && Model.curentJobs == null)
-                            {
-                                <th class="text-white">No Past Jobs</th>
                             }
                         </div>
                     </div>

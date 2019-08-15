@@ -1838,7 +1838,7 @@ namespace DAL
                         new SqlParameter("@Date", newGeneralExpense.Date),
                         new SqlParameter("@A", newGeneralExpense.Amount),
                         new SqlParameter("@R", newGeneralExpense.Repeat),
-                        //new SqlParameter("@IRC", newGeneralExpense.Invoice_ReceiptCopy),
+                        new SqlParameter("@PEID", newGeneralExpense.PrimaryExpenseID),
                    };
 
                 Result = DBHelper.NonQuery("SP_NewGeneralExpense", CommandType.StoredProcedure, pars);
@@ -1885,6 +1885,7 @@ namespace DAL
                             expense.CatName = row[9].ToString();
                             expense.CatDescription = row[10].ToString();
                             expense.DateString = expense.Date.ToString("dddd, dd MMMM yyyy");
+                            expense.RepeatOccurrences = getGeneralExpenseRepeatOccurrence(expenseID);
                         }
                     }
                 }
@@ -1931,6 +1932,56 @@ namespace DAL
                             expense.CatName = row[9].ToString();
                             expense.CatDescription = row[10].ToString();
                             expense.DateString = expense.Date.ToString("dddd, dd MMMM yyyy");
+                            expense.PrimaryExpenseID = int.Parse(row["PrimaryExpenseID"].ToString());
+                            Expense expenseID = new Expense();
+                            expenseID.ExpenseID = expense.ExpenseID;
+                            expense.RepeatOccurrences = getGeneralExpenseRepeatOccurrence(expenseID);
+                            Expenses.Add(expense);
+                        }
+                    }
+                }
+                return Expenses;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        public List<SP_GetGeneralExpense_Result> getGeneralExpenseRepeatOccurrence(Expense expenseID)
+        {
+            List<SP_GetGeneralExpense_Result> Expenses = new List<SP_GetGeneralExpense_Result>();
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@EID", expenseID.ExpenseID)
+                    };
+
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetGeneralExpensesRepeatOccurrence",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            SP_GetGeneralExpense_Result expense = new SP_GetGeneralExpense_Result();
+                            expense.ExpenseID = int.Parse(row[0].ToString());
+                            expense.CategoryID = int.Parse(row["CategoryID"].ToString());
+                            expense.Name = row[2].ToString();
+                            expense.Description = row[3].ToString();
+                            expense.ProfileID = int.Parse(row[4].ToString());
+                            expense.Date = DateTime.Parse(row[5].ToString());
+                            expense.Amount = decimal.Parse(row[6].ToString());
+                            expense.Repeat = bool.Parse(row[7].ToString());
+                            if (row["Invoice/ReceiptCopy"] != null && row["Invoice/ReceiptCopy"].ToString() != "")
+                            {
+                                expense.Invoice_ReceiptCopy = Encoding.ASCII.GetBytes(row["Invoice/ReceiptCopy"].ToString());
+                            }
+                            expense.CatName = row[9].ToString();
+                            expense.CatDescription = row[10].ToString();
+                            expense.DateString = expense.Date.ToString("dddd, dd MMMM yyyy");
+                            expense.PrimaryExpenseID = int.Parse(row["PrimaryExpenseID"].ToString());
                             Expenses.Add(expense);
                         }
                     }

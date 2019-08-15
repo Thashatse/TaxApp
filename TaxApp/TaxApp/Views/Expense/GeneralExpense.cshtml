@@ -124,3 +124,108 @@
             </div>
         </div>
     </div>
+
+        @if (Model.RepeatOccurrences != null)
+        {
+            foreach (var item in Model.RepeatOccurrences)
+            {
+                <br />
+                <div class="row">
+                    <div class="col">
+                        <div class="card shadow">
+                            <div class="card-header bg-transparent">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <h3 class="mb-0">
+                                            @Html.DisplayFor(model => item.DateString)
+                                        </h3>
+                                    </div>
+                                    <div class="col text-right">
+                                        <button data-toggle="collapse" href="#demo" class="btn btn-sm btn-white">
+                                            <i class="ni ni-bold-down"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="demo" class="panel-collapse collapse">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table align-items-center table-flush">
+                                            <tbody>
+                                                @if (Model.Description != "")
+                                                {
+                                                    <tr>
+                                                        <th scope="row">
+                                                            @Html.DisplayNameFor(model => item.Description)
+
+                                                        </th>
+                                                        <td>
+                                                            @Html.DisplayFor(model => item.Description)
+                                                        </td>
+                                                    </tr>
+                                                }
+                                                <tr>
+                                                    <th scope="row">
+                                                        @Html.DisplayNameFor(model => item.Amount)
+
+                                                    </th>
+                                                    <td>
+                                                        @Html.DisplayFor(model => item.Amount)
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">
+                                                        @Html.DisplayNameFor(model => item.CatName)
+
+                                                    </th>
+                                                    <td>
+                                                        @Html.DisplayFor(model => item.CatName)
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">
+                                                        @Html.DisplayNameFor(model => item.CatDescription)
+
+                                                    </th>
+                                                    <td>
+                                                        @Html.DisplayFor(model => item.CatDescription)
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="card-header border-0">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <p class="mb-0">Actions: </p>
+                                            </div>
+                                            <div class="col-10 text-right">
+                                                @if (item.Invoice_ReceiptCopy == null)
+                                                {
+                                                    <a href="../Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@ViewBag.Details"
+                                                       class="btn btn-sm btn-white">
+                                                        Add Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i>
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <a target="_blank" href="../Functions/DownloadFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=GE"
+                                                       class="btn btn-sm btn-white">
+                                                        Download Invoice or Receipt Copy <i class="ni ni-cloud-download-95"></i>
+                                                    </a>
+                                                    <a href="../Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@ViewBag.Details"
+                                                       class="btn btn-sm btn-white">
+                                                        Update Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i>
+                                                    </a>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            }

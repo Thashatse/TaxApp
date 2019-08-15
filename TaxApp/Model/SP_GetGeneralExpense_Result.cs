@@ -12,10 +12,13 @@ namespace Model
     using System;
     using System.ComponentModel.DataAnnotations;
     using System.Web;
+    using System.Collections.Generic;
 
     public partial class SP_GetGeneralExpense_Result
     {
+        public List<SP_GetGeneralExpense_Result> RepeatOccurrences { get; set; }
         public int ExpenseID { get; set; }
+        public int PrimaryExpenseID { get; set; }
         public int CategoryID { get; set; }
         [Required]
         public string Name { get; set; }

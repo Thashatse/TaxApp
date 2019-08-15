@@ -67,6 +67,7 @@ namespace DAL
         bool newGeneralExpense(SP_GetGeneralExpense_Result newGeneralExpense);
         SP_GetGeneralExpense_Result getGeneralExpense(Expense expenseID);
         List<SP_GetGeneralExpense_Result> getGeneralExpenses(Profile profileID, DateTime sDate, DateTime eDate);
+        List<SP_GetGeneralExpense_Result> getGeneralExpenseRepeatOccurrence(Expense expenseID);
         List<ExpenseCategory> getExpenseCatagories();
         bool NewTravelExpense(TravelLog newTravelLogExpense);
         bool DeleteTravelExpense(TravelLog TravelLogExpense);
