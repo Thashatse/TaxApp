@@ -706,6 +706,28 @@ namespace TaxApp.Controllers
         {
             try
             {
+                ViewBag.cat = "GE";
+                getCookie();
+                Model.Expense getExpense = new Model.Expense();
+                getExpense.ExpenseID = int.Parse(ID);
+                Model.SP_GetGeneralExpense_Result GeneralExpense = handler.getGeneralExpense(getExpense);
+                ViewBag.Details = GeneralExpense.Name + " Expense";
+                ViewBag.Title = "Invoice or Receipt";
+
+                return View(GeneralExpense);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding general expense Details for ");
+                return Redirect("/Expense/Expenses?ID=" + ID);
+            }
+        }
+        [HttpPost]
+        public ActionResult reapetexpense(FormCollection collection, string ID)
+        {
+            try
+            {
                 getCookie();
                 Model.Expense getExpense = new Model.Expense();
                 getExpense.ExpenseID = int.Parse(ID);
@@ -717,7 +739,10 @@ namespace TaxApp.Controllers
 
                     newExpense.Date = DateTime.Now;
                     newExpense.Repeat = false;
-                    
+
+                    newExpense.Amount = Decimal.Parse(Request.Form["Amount"].ToString());
+                    newExpense.Repeat = bool.Parse(Request.Form["Repeat"].ToString().Split(',')[0]);
+
                     if (newExpense.PrimaryExpenseID == 0)
                         newExpense.PrimaryExpenseID = newExpense.ExpenseID;
 

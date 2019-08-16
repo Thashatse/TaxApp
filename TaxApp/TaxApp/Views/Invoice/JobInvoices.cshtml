@@ -30,7 +30,7 @@
 
                     <br />
                     <div class="col text-right">
-                        @if (ViewBag.Complete == "NotDone")
+                        @if (ViewBag.Complete == "NotDone" && ViewBag.NoInvoice != "True")
                         {
 
                             <a href="/Invoice/NewInvoice?ID=@ViewBag.JobID"

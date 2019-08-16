@@ -40,25 +40,28 @@
                                     </td>
                                     <td></td>
                                 </tr>
-                                <tr>
-                                    <th scope="row">
-                                        @Html.DisplayNameFor(model => model.Budget)
+                                @if (Model.Budget != 0)
+                                {
+                                    <tr>
+                                        <th scope="row">
+                                            @Html.DisplayNameFor(model => model.Budget)
 
-                                    </th>
-                                    <td>
-                                        R @Html.DisplayFor(model => model.BudgetString)
-                                    </td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        Budget Used:
-                                    </th>
-                                    <td>
-                                        @Html.DisplayFor(model => model.BudgetPercent) %
-                                    </td>
-                                    <td></td>
-                                </tr>
+                                        </th>
+                                        <td>
+                                            R @Html.DisplayFor(model => model.BudgetString)
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            Budget Used:
+                                        </th>
+                                        <td>
+                                            @Html.DisplayFor(model => model.BudgetPercent) %
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                }
                                 <tr>
                                     <th scope="row">
                                         @Html.DisplayNameFor(model => model.StartDate)
@@ -150,7 +153,7 @@
                                         </a>
                                     </td>
                                     <td>
-                                        @if (ViewBag.Complete == "NotDone")
+                                        @if (ViewBag.Complete == "NotDone" && ViewBag.NoInvoice != "True")
                                         {
                                             <a href="/Invoice/NewInvoice?ID=@ViewBag.JobID"
                                                class="btn btn-sm btn-secondary">New Invoice</a>

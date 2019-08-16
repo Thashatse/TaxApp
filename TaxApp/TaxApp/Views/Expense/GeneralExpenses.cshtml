@@ -147,7 +147,7 @@
                                                 <br />
                                                 @if (item.Invoice_ReceiptCopy == null)
                                                 {
-                                                    <a href="../Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@ViewBag.Details"
+                                                    <a href="../Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@Html.DisplayFor(model => item.Name)"
                                                        class="btn btn-sm btn-white">Add Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i></a>
                                                 }
                                                 else
@@ -156,7 +156,7 @@
                                                        class="btn btn-sm btn-white">Download Invoice or Receipt Copy <i class="ni ni-cloud-download-95"></i></a>
                                                     <br />
                                                     <br />
-                                                    <a href="../Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@ViewBag.Details"
+                                                    <a href="../Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@Html.DisplayFor(model => item.Name)"
                                                        class="btn btn-sm btn-white">Update Invoice or Receipt Copy <i class="ni ni-cloud-upload-96"></i></a>
                                                 }
                                             </div>

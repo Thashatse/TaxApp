@@ -194,6 +194,12 @@ namespace TaxApp.Controllers
                     ViewBag.Complete = "NotDone";
                 }
 
+                List<List<SP_GetJobIntemsToInvoice_Result>> JobItemsForInvoice = handler.getJobItemsForInvoice(getJob);
+                if (JobItemsForInvoice.ElementAt(0).Count == 0
+                    && JobItemsForInvoice.ElementAt(1).Count == 0
+                    && JobItemsForInvoice.ElementAt(2).Count == 0)
+                    ViewBag.NoInvoice = "True";
+
                 return View(Job);
         }
             catch (Exception e)

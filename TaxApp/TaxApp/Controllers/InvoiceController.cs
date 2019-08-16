@@ -238,8 +238,17 @@ namespace TaxApp.Controllers
                         ViewBag.Complete = "NotDone";
                     }
 
-                    if (invoiceDetails.Count < 1)
+                    if (invoiceDetails.Count < 1
+                        && JobItemsForInvoice.ElementAt(0).Count != 0
+                    && JobItemsForInvoice.ElementAt(1).Count != 0
+                    && JobItemsForInvoice.ElementAt(2).Count != 0)
                         Response.Redirect("/Invoice/NewInvoice?ID="+id+"&ReturnTo=Job");
+
+                    if (invoiceDetails.Count < 1
+                        && JobItemsForInvoice.ElementAt(0).Count == 0
+                    && JobItemsForInvoice.ElementAt(1).Count == 0
+                    && JobItemsForInvoice.ElementAt(2).Count == 0)
+                        Response.Redirect("/job/job?ID=" + id);
 
                     return View(invoiceDetails);
                 }
