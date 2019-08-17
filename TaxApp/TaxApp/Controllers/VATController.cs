@@ -124,8 +124,8 @@ namespace TaxApp.Controllers
                                     expense.URL = "../Expense/TravleLogItem?ID=" + expenseItem.ExpenseID;
                                     expense.expenseType = "Travel";
                                     expense.VAT = ((expense.amount / 100) * item.VATRate);
-                                    expense.VATString = expense.VAT.ToString("#,0.##", nfi);
-                                    expense.TotalString = expense.amount.ToString("#,0.##", nfi);
+                                    expense.VATString = expense.VAT.ToString("#,0.00", nfi);
+                                    expense.TotalString = expense.amount.ToString("#,0.00", nfi);
 
                                     VATPaid.Add(expense);
                                 }
@@ -143,8 +143,8 @@ namespace TaxApp.Controllers
                                     expense.URL = "../Expense/JobExpense?ID=" + expenseItem.ExpenseID;
                                     expense.expenseType = "Job";
                                     expense.VAT = ((expense.amount / 100) * item.VATRate);
-                                    expense.VATString = expense.VAT.ToString("#,0.##", nfi);
-                                    expense.TotalString = expense.amount.ToString("#,0.##", nfi);
+                                    expense.VATString = expense.VAT.ToString("#,0.00", nfi);
+                                    expense.TotalString = expense.amount.ToString("#,0.00", nfi);
 
                                     VATPaid.Add(expense);
                                 }
@@ -162,8 +162,8 @@ namespace TaxApp.Controllers
                                     expense.URL = "../Expense/GeneralExpense?ID=" + expenseItem.ExpenseID;
                                     expense.expenseType = "General";
                                     expense.VAT = ((expense.amount / 100) * item.VATRate);
-                                    expense.VATString = expense.VAT.ToString("#,0.##", nfi);
-                                    expense.TotalString = expense.amount.ToString("#,0.##", nfi);
+                                    expense.VATString = expense.VAT.ToString("#,0.00", nfi);
+                                    expense.TotalString = expense.amount.ToString("#,0.00", nfi);
 
                                     VATPaid.Add(expense);
                                 }

@@ -121,10 +121,10 @@ namespace DAL
 
                             var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
                             nfi.NumberGroupSeparator = " ";
-                            dashboardIncomeExpense.IncomePast30DaysString = dashboardIncomeExpense.IncomePast30Days.ToString("#,0.##", nfi);
-                            dashboardIncomeExpense.ExpensePast30DaysString = dashboardIncomeExpense.ExpensePast30Days.ToString("#,0.##", nfi);
-                            dashboardIncomeExpense.IncomePast60to30DaysPercentString = dashboardIncomeExpense.IncomePast60to30DaysPercent.ToString("#,0.##", nfi);
-                            dashboardIncomeExpense.ExpensePast60to30DaysPercentString = dashboardIncomeExpense.ExpensePast60to30DaysPercent.ToString("#,0.##", nfi);
+                            dashboardIncomeExpense.IncomePast30DaysString = dashboardIncomeExpense.IncomePast30Days.ToString("#,0.00", nfi);
+                            dashboardIncomeExpense.ExpensePast30DaysString = dashboardIncomeExpense.ExpensePast30Days.ToString("#,0.00", nfi);
+                            dashboardIncomeExpense.IncomePast60to30DaysPercentString = dashboardIncomeExpense.IncomePast60to30DaysPercent.ToString("#,0.00", nfi);
+                            dashboardIncomeExpense.ExpensePast60to30DaysPercentString = dashboardIncomeExpense.ExpensePast60to30DaysPercent.ToString("#,0.00", nfi);
                         }
                     }
                 }
@@ -584,11 +584,11 @@ namespace DAL
 
                             var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
                             nfi.NumberGroupSeparator = " ";
-                            job.AllExpenseTotalString = job.AllExpenseTotal.ToString("#,0.##", nfi);
-                            job.TotalPaidString = job.TotalPaid.ToString("#,0.##", nfi);
-                            job.BudgetString = job.Budget.ToString("#,0.##", nfi);
-                            job.TravelLogCostTotalString = job.TravelLogCostTotal.ToString("#,0.##", nfi);
-                            job.TotalUnPaidString = job.TotalUnPaid.ToString("#,0.##", nfi);
+                            job.AllExpenseTotalString = job.AllExpenseTotal.ToString("#,0.00", nfi);
+                            job.TotalPaidString = job.TotalPaid.ToString("#,0.00", nfi);
+                            job.BudgetString = job.Budget.ToString("#,0.00", nfi);
+                            job.TravelLogCostTotalString = job.TravelLogCostTotal.ToString("#,0.00", nfi);
+                            job.TotalUnPaidString = job.TotalUnPaid.ToString("#,0.00", nfi);
                         }
                     }
                 }
@@ -819,11 +819,11 @@ namespace DAL
 
                             var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
                             nfi.NumberGroupSeparator = " ";
-                            job.AllExpenseTotalString = job.AllExpenseTotal.ToString("#,0.##", nfi);
-                            job.TotalPaidString = job.TotalPaid.ToString("#,0.##", nfi);
-                            job.BudgetString = job.Budget.ToString("#,0.##", nfi);
-                            job.TravelLogCostTotalString = job.TravelLogCostTotal.ToString("#,0.##", nfi);
-                            job.TotalUnPaidString = job.TotalUnPaid.ToString("#,0.##", nfi);
+                            job.AllExpenseTotalString = job.AllExpenseTotal.ToString("#,0.00", nfi);
+                            job.TotalPaidString = job.TotalPaid.ToString("#,0.00", nfi);
+                            job.BudgetString = job.Budget.ToString("#,0.00", nfi);
+                            job.TravelLogCostTotalString = job.TravelLogCostTotal.ToString("#,0.00", nfi);
+                            job.TotalUnPaidString = job.TotalUnPaid.ToString("#,0.00", nfi);
 
                         }
                     }
@@ -1063,11 +1063,11 @@ namespace DAL
 
                             var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
                             nfi.NumberGroupSeparator = " ";
-                            job.AllExpenseTotalString = job.AllExpenseTotal.ToString("#,0.##", nfi);
-                            job.TotalPaidString = job.TotalPaid.ToString("#,0.##", nfi);
-                            job.BudgetString = job.Budget.ToString("#,0.##", nfi);
-                            job.TravelLogCostTotalString = job.TravelLogCostTotal.ToString("#,0.##", nfi);
-                            job.TotalUnPaidString = job.TotalUnPaid.ToString("#,0.##", nfi);
+                            job.AllExpenseTotalString = job.AllExpenseTotal.ToString("#,0.00", nfi);
+                            job.TotalPaidString = job.TotalPaid.ToString("#,0.00", nfi);
+                            job.BudgetString = job.Budget.ToString("#,0.00", nfi);
+                            job.TravelLogCostTotalString = job.TravelLogCostTotal.ToString("#,0.00", nfi);
+                            job.TotalUnPaidString = job.TotalUnPaid.ToString("#,0.00", nfi);
 
                         }
                     }
@@ -1299,11 +1299,11 @@ namespace DAL
 
                             var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
                             nfi.NumberGroupSeparator = " ";
-                            job.AllExpenseTotalString = job.AllExpenseTotal.ToString("#,0.##", nfi);
-                            job.TotalPaidString = job.TotalPaid.ToString("#,0.##", nfi);
-                            job.BudgetString = job.Budget.ToString("#,0.##", nfi);
-                            job.TravelLogCostTotalString = job.TravelLogCostTotal.ToString("#,0.##", nfi);
-                            job.TotalUnPaidString = job.TotalUnPaid.ToString("#,0.##", nfi);
+                            job.AllExpenseTotalString = job.AllExpenseTotal.ToString("#,0.00", nfi);
+                            job.TotalPaidString = job.TotalPaid.ToString("#,0.00", nfi);
+                            job.BudgetString = job.Budget.ToString("#,0.00", nfi);
+                            job.TravelLogCostTotalString = job.TravelLogCostTotal.ToString("#,0.00", nfi);
+                            job.TotalUnPaidString = job.TotalUnPaid.ToString("#,0.00", nfi);
 
                         }
                     }
@@ -2363,7 +2363,7 @@ namespace DAL
                             int WorkHours = int.Parse(row[3].ToString()) / 60;
                             int Minutes = int.Parse(row[3].ToString()) % 60;
                             Hour.DisplayString = WorkHours + ":" + Minutes + "h of " 
-                                + Hour.Description +" at R"+ Hour.UnitCost.ToString("#,0.##", nfi) + " per Hour";
+                                + Hour.Description +" at R"+ Hour.UnitCost.ToString("#,0.00", nfi) + " per Hour";
                             Hours.Add(Hour);
                         }
                     }
@@ -2381,8 +2381,8 @@ namespace DAL
                             Travel.Description = row[1].ToString();
                             Travel.UnitCost = decimal.Parse(row[3].ToString());
                             Travel.UnitCount = decimal.Parse(row[2].ToString());
-                            Travel.DisplayString = Travel.Description + " - "+ Travel.UnitCount.ToString("0.##") + "KM at R" 
-                                + Travel.UnitCost.ToString("#,0.##", nfi) + " Per KM";
+                            Travel.DisplayString = Travel.Description + " - "+ Travel.UnitCount.ToString("0.00") + "KM at R" 
+                                + Travel.UnitCost.ToString("#,0.00", nfi) + " Per KM";
                             Travels.Add(Travel);
                         }
                     }
@@ -2401,7 +2401,7 @@ namespace DAL
                             Expense.UnitCost = decimal.Parse(row[2].ToString());
                             Expense.UnitCount = 1;
                             Expense.DisplayString = Expense.UnitCount + "* "
-                                + Expense.Description + " at R" + Expense.UnitCost.ToString("#,0.##", nfi) + " each";
+                                + Expense.Description + " at R" + Expense.UnitCost.ToString("#,0.00", nfi) + " each";
                             Expenses.Add(Expense);
                         }
                     }
@@ -2676,7 +2676,7 @@ namespace DAL
                             InvoiceLineItem.CompanyName = row["CompanyName"].ToString();
                             InvoiceLineItem.EmailAddress = row["EmailAddress"].ToString();
                             InvoiceLineItem.PhysiclaAddress = row["PhysiclaAddress"].ToString();
-                            InvoiceLineItem.UnitCostString = InvoiceLineItem.UnitCost.ToString("#.##");
+                            InvoiceLineItem.UnitCostString = InvoiceLineItem.UnitCost.ToString("#.00");
                             if(InvoiceLineItem.Type == 'H')
                             {
                                 InvoiceLineItem.UnitCountString += " h";
@@ -2688,8 +2688,8 @@ namespace DAL
 
                             var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
                             nfi.NumberGroupSeparator = " ";
-                            InvoiceLineItem.VATRateString = InvoiceLineItem.VATRate.ToString("#,0.##", nfi);
-                            InvoiceLineItem.TotalCostString = InvoiceLineItem.TotalCost.ToString("#,0.##", nfi);
+                            InvoiceLineItem.VATRateString = InvoiceLineItem.VATRate.ToString("#,0.00", nfi);
+                            InvoiceLineItem.TotalCostString = InvoiceLineItem.TotalCost.ToString("#,0.00", nfi);
                             InvoiceLineItems.Add(InvoiceLineItem);
                         }
                     }
@@ -2799,9 +2799,9 @@ namespace DAL
 
                             var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
                             nfi.NumberGroupSeparator = " ";
-                            dashboardIncome.IncomePast30DaysString = dashboardIncome.IncomePast30Days.ToString("#,0.##", nfi);
-                            dashboardIncome.TotalOutIncomeString = dashboardIncome.TotalOutIncome.ToString("#,0.##", nfi);
-                            dashboardIncome.IncomePast60to30DaysPercentString = dashboardIncome.IncomePast60to30DaysPercent.ToString("#,0.##", nfi);
+                            dashboardIncome.IncomePast30DaysString = dashboardIncome.IncomePast30Days.ToString("#,0.00", nfi);
+                            dashboardIncome.TotalOutIncomeString = dashboardIncome.TotalOutIncome.ToString("#,0.00", nfi);
+                            dashboardIncome.IncomePast60to30DaysPercentString = dashboardIncome.IncomePast60to30DaysPercent.ToString("#,0.00", nfi);
                         }
                     }
                 }
@@ -3111,12 +3111,12 @@ namespace DAL
 
                             var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
                             nfi.NumberGroupSeparator = " ";
-                            dashboard.VATPAIDString = dashboard.VATPAID.ToString("#,0.##", nfi);
-                            dashboard.VATRECEIVEDString = dashboard.VATRECEIVED.ToString("#,0.##", nfi);
-                            dashboard.VATPAIDOutstandingEstString = dashboard.VATPAIDOutstandingEst.ToString("#,0.##", nfi);
-                            dashboard.VATPAIDPercentString = dashboard.VATPAIDPercent.ToString("#,0.##", nfi);
-                            dashboard.VATRECEIVEDPercentString = dashboard.VATRECEIVEDPercent.ToString("#,0.##", nfi);
-                            dashboard.VATPAIDOutstandingEstPercentString = dashboard.VATPAIDOutstandingEstPercent.ToString("#,0.##", nfi);
+                            dashboard.VATPAIDString = dashboard.VATPAID.ToString("#,0.00", nfi);
+                            dashboard.VATRECEIVEDString = dashboard.VATRECEIVED.ToString("#,0.00", nfi);
+                            dashboard.VATPAIDOutstandingEstString = dashboard.VATPAIDOutstandingEst.ToString("#,0.00", nfi);
+                            dashboard.VATPAIDPercentString = dashboard.VATPAIDPercent.ToString("#,0.00", nfi);
+                            dashboard.VATRECEIVEDPercentString = dashboard.VATRECEIVEDPercent.ToString("#,0.00", nfi);
+                            dashboard.VATPAIDOutstandingEstPercentString = dashboard.VATPAIDOutstandingEstPercent.ToString("#,0.00", nfi);
                         }
                     }
                 }
@@ -3158,8 +3158,8 @@ namespace DAL
                             item.JobTitle = row["JobTitle"].ToString();
                             var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
                             nfi.NumberGroupSeparator = " ";
-                            item.TotalString = item.Total.ToString("#,0.##", nfi);
-                            item.VATorTAXString = item.VATorTAX.ToString("#,0.##", nfi);
+                            item.TotalString = item.Total.ToString("#,0.00", nfi);
+                            item.VATorTAXString = item.VATorTAX.ToString("#,0.00", nfi);
                             List.Add(item);
                         }
                     }
@@ -3218,7 +3218,7 @@ namespace DAL
                             {
                                 if (getUpperRange == true)
                                 {
-                                    endbraketrange = " - R" + (item.Threashold - 1).ToString("#,0.##", nfi);
+                                    endbraketrange = " - R" + (item.Threashold - 1).ToString("#,0.00", nfi);
                                     getUpperRange = false;
                                 }
                                 if (item.Threashold < dashboard.IncomePercent)
@@ -3256,7 +3256,7 @@ namespace DAL
                             {
                                 if (getUpperRange == true)
                                 {
-                                    endbraketrange = " - R" + (item.Threashold - 1).ToString("#,0.##", nfi);
+                                    endbraketrange = " - R" + (item.Threashold - 1).ToString("#,0.00", nfi);
                                     getUpperRange = false;
                                 }
                                 if (item.Threashold < dashboard.Income)
@@ -3327,13 +3327,13 @@ namespace DAL
                                 dashboard.TAXOwedPercent = -999999999;
                             }
                             
-                            dashboard.TaxBraketString = braket.Rate.ToString("#,0.##", nfi) + "% | R" +
-                            braket.Threashold.ToString("#,0.##", nfi) + endbraketrange;
+                            dashboard.TaxBraketString = braket.Rate.ToString("#,0.00", nfi) + "% | R" +
+                            braket.Threashold.ToString("#,0.00", nfi) + endbraketrange;
 
-                            dashboard.IncomePercentString = dashboard.IncomePercent.ToString("#,0.##", nfi);
-                            dashboard.TAXOwedPercentString = dashboard.TAXOwedPercent.ToString("#,0.##", nfi);
-                            dashboard.IncomeSTRING = dashboard.Income.ToString("#,0.##", nfi);
-                            dashboard.TAXOwedSTRING = dashboard.TAXOwed.ToString("#,0.##", nfi);
+                            dashboard.IncomePercentString = dashboard.IncomePercent.ToString("#,0.00", nfi);
+                            dashboard.TAXOwedPercentString = dashboard.TAXOwedPercent.ToString("#,0.00", nfi);
+                            dashboard.IncomeSTRING = dashboard.Income.ToString("#,0.00", nfi);
+                            dashboard.TAXOwedSTRING = dashboard.TAXOwed.ToString("#,0.00", nfi);
 
                             dashboard.TAXRate = braket.Rate;
                         }
@@ -3379,8 +3379,8 @@ namespace DAL
                             item.JobTitle = row["JobTitle"].ToString();
                             var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
                             nfi.NumberGroupSeparator = " ";
-                            item.TotalString = item.Total.ToString("#,0.##", nfi);
-                            item.VATorTAXString = item.VATorTAX.ToString("#,0.##", nfi);
+                            item.TotalString = item.Total.ToString("#,0.00", nfi);
+                            item.VATorTAXString = item.VATorTAX.ToString("#,0.00", nfi);
                             List.Add(item);
                         }
                     }
@@ -4318,16 +4318,81 @@ namespace DAL
 
                             var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
                             nfi.NumberGroupSeparator = " ";
-                            job.AllExpenseTotalString = job.AllExpenseTotal.ToString("#,0.##", nfi);
-                            job.TotalPaidString = job.TotalPaid.ToString("#,0.##", nfi);
-                            job.BudgetString = job.Budget.ToString("#,0.##", nfi);
-                            job.TravelLogCostTotalString = job.TravelLogCostTotal.ToString("#,0.##", nfi);
-                            job.TotalUnPaidString = job.TotalUnPaid.ToString("#,0.##", nfi);
+                            job.AllExpenseTotalString = job.AllExpenseTotal.ToString("#,0.00", nfi);
+                            job.TotalPaidString = job.TotalPaid.ToString("#,0.00", nfi);
+                            job.BudgetString = job.Budget.ToString("#,0.00", nfi);
+                            job.TravelLogCostTotalString = job.TravelLogCostTotal.ToString("#,0.00", nfi);
+                            job.TotalUnPaidString = job.TotalUnPaid.ToString("#,0.00", nfi);
 
                         }
                     }
                 }
                 return Jobs;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        public ReportViewModel getClientReport(Profile profile, DateTime sDate, DateTime eDate)
+        {
+            ReportViewModel report = null;
+            try
+            {
+                report = new ReportViewModel();
+
+                report.reportTitle = "Client Income and Expenses";
+                report.reportCondition = "From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
+                report.reportStartDate = sDate.ToString("yyyy-MM-dd");
+                report.reportEndDate = eDate.ToString("yyyy-MM-dd");
+
+                report.column1Name = "Client";
+                report.column2Name = "Expenses by client (R)";
+                report.column3Name = "Income by client (Excl. VAT) [R]";
+
+                SqlParameter[] pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profile.ProfileID),
+                        //***************************************//
+                        new SqlParameter("@CID", profile.ProfileID),
+                        //***************************************//
+                        new SqlParameter("@SD", sDate.AddDays(-1)),
+                        new SqlParameter("@ED", eDate.AddDays(+1)),
+                    };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetClientReport",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                    nfi.NumberGroupSeparator = " ";
+
+                    report.ReportDataList = new List<ReportDataList>();
+
+                        decimal c2Total = 0;
+                        decimal c3Total = 0;
+
+                        foreach (DataRow row in table.Rows)
+                        {
+                        ReportDataList Data = new ReportDataList();
+                                Data.column1Data = row["ClientName"].ToString();
+                                Data.column2Data = decimal.Parse(row["Expenses"].ToString()).ToString("#,0.00", nfi);
+                                Data.column3Data = decimal.Parse(row["Income"].ToString()).ToString("#,0.00", nfi);
+
+                                report.ReportDataList.Add(Data);
+
+                                c2Total += decimal.Parse(row["Expenses"].ToString());
+                                c3Total += decimal.Parse(row["Income"].ToString());
+                            }
+
+                            report.column2Total = (c2Total.ToString("#,0.00", nfi));
+                            report.column3Total = (c3Total.ToString("#,0.00", nfi));
+                    }
+                    else
+                        report = null;
+            }
+                return report;
             }
             catch (Exception e)
             {

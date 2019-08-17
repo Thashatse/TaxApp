@@ -178,28 +178,28 @@ namespace BLL
                 {
                     createNewNoti = true;
                     newNoti.Details = job.JobTitle +" for "+job.ClientFirstName+
-                        " is over budget by "+ decimal.Parse((job.BudgetPercent - 100).ToString()).ToString("#,0.##", nfi) + "%";
+                        " is over budget by "+ decimal.Parse((job.BudgetPercent - 100).ToString()).ToString("#,0.00", nfi) + "%";
                     job.noti100 = true;
                 }
                 else if (job.BudgetPercent > 95 && job.Noti95 == false)
                 {
                     createNewNoti = true;
                     newNoti.Details = job.JobTitle + " for " + job.ClientFirstName +
-                        " has " + decimal.Parse((100 - job.BudgetPercent).ToString()).ToString("#,0.##", nfi) + "% budget remaining";
+                        " has " + decimal.Parse((100 - job.BudgetPercent).ToString()).ToString("#,0.00", nfi) + "% budget remaining";
                     job.Noti95 = true;
                 }
                 else if (job.BudgetPercent > 90 && job.Noti90 == false)
                 {
                     createNewNoti = true;
                     newNoti.Details = job.JobTitle + " for " + job.ClientFirstName +
-                        " has " + decimal.Parse((100 - job.BudgetPercent).ToString()).ToString("#,0.##", nfi) + "% budget remaining";
+                        " has " + decimal.Parse((100 - job.BudgetPercent).ToString()).ToString("#,0.00", nfi) + "% budget remaining";
                     job.Noti90 = true;
                 }
                 else if (job.BudgetPercent > 75 && job.Noti75 == false)
                 {
                     createNewNoti = true;
                     newNoti.Details = job.JobTitle + " for " + job.ClientFirstName +
-                        " has " + decimal.Parse((100 - job.BudgetPercent).ToString()).ToString("#,0.##", nfi) + "% budget remaining";
+                        " has " + decimal.Parse((100 - job.BudgetPercent).ToString()).ToString("#,0.00", nfi) + "% budget remaining";
                     job.Noti75 = true;
                 }
 

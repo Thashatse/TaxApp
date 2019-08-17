@@ -143,6 +143,7 @@ namespace BLL
 
         #region Reports
         List<SP_GetJob_Result> getJobsReport(Profile profile, DateTime sDate, DateTime eDate);
+        ReportViewModel getClientReport(Profile profile, DateTime sDate, DateTime eDate);
         #endregion
     }
 }

@@ -161,16 +161,19 @@
                                             R @Html.DisplayFor(modelItem => item.AllExpenseTotalString)
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            Budget Used:
-                                        </th>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <span class="mr-2">@Html.DisplayFor(modelItem => item.BudgetPercent)%</span>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    @if (item.Budget != 0)
+                                    {
+                                        <tr>
+                                            <th scope="row">
+                                                Budget Used:
+                                            </th>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="mr-2">@Html.DisplayFor(modelItem => item.BudgetPercent)%</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>

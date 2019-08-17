@@ -9,15 +9,10 @@
     <div class="container">
         <div class="header-body text-center mb-7">
             <div class="row justify-content-center">
-                <div class="col-lg-5 col-md-6">
+                <div class="col-lg-6 col-md-7">
                     <h1 class="text-white">
                         @Html.DisplayFor(model => model.reportTitle)
                     </h1>
-                    <br />
-                    <div>
-                        <a target="_blank" href="/Report/PrintReport?reportID=@ViewBag.reportID&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&SortBy=Col1&SortDirection=@ViewBag.SortDirection&period=@ViewBag.period"
-                           class="btn btn-sm btn-white">Print</a>
-                    </div>
                     <br />
                     @using (Html.BeginForm())
                     {
@@ -37,16 +32,19 @@
                             <div class="row">
                                 @if (ViewBag.DropDownFilter == null)
                                 {
-                                <div class="col-lg-5 col-sm-12">
+                                <div class="col-lg-4 col-sm-12">
                                     Start: <input name="StartDate" type="date" value="@ViewBag.StartDateRange" />
                                 </div>
-                                <div class="col-lg-5 col-sm-12">
+                                <div class="col-lg-4 col-sm-12">
                                     End: <input name="EndDate" type="date" value="@ViewBag.EndDateRange" />
                                 </div>
                                 }
-                                <div class="col-lg-2 col-sm-12">
-                                    <br /><input type="submit" value="Update" class="btn btn-sm btn-default" />
-                                </div>
+                            <div class="col-lg-4 col-sm-12">
+                                <br />
+                                <input type="submit" value="Update" class="btn btn-sm btn-default" />
+                                <a target="_blank" href="/Report/PrintReport?reportID=@ViewBag.reportID&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&SortBy=Col1&SortDirection=@ViewBag.SortDirection&period=@ViewBag.period"
+                                   class="btn btn-sm btn-white">Print</a>
+                            </div>
                             </div>
                         </div>
                     }

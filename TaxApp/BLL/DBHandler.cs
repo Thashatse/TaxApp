@@ -374,6 +374,8 @@ namespace BLL
         #region Reports
         public List<SP_GetJob_Result> getJobsReport(Profile profile, DateTime sDate, DateTime eDate)
         { return db.getJobsReport(profile, sDate, eDate); }
+        public ReportViewModel getClientReport(Profile profile, DateTime sDate, DateTime eDate)
+        { return db.getClientReport(profile, sDate, eDate); }
         #endregion
     }
 }

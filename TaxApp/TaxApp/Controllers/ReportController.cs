@@ -61,7 +61,6 @@ namespace TaxApp.Controllers
             }
         }
 
-        // GET: Report
         public ActionResult Reports()
         {
             getCookie();
@@ -127,16 +126,16 @@ namespace TaxApp.Controllers
                 if (jobsReport != null)
                 {
                     report.reportTitle = "Jobs Report";
-                    report.reportCondition = "For date range: " + sDate.ToString("dd MMM yyyy") + " - " + eDate.ToString("dd MMM yyyy");
+                    report.reportCondition = "From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
                     report.reportStartDate = sDate.ToString("yyyy-MM-dd");
                     report.reportEndDate = eDate.ToString("yyyy-MM-dd");
 
                     report.column1Name = "Start Date";
                     report.column2Name = "Client";
                     report.column3Name = "Job";
-                    report.column4Name = "Income";
-                    report.column5Name = "Expenses";
-                    report.column6Name = "Earnings (before Tax & VAT)";
+                    report.column4Name = "Income (R)";
+                    report.column5Name = "Expenses (R)";
+                    report.column6Name = "Earnings (before Tax & VAT) (R)";
 
                     report.ReportDataList = new List<ReportDataList>();
 
@@ -150,9 +149,9 @@ namespace TaxApp.Controllers
                         Data.column1Data = (job.StartDateString);
                         Data.column2Data = (job.ClientFirstName);
                         Data.column3Data = (job.JobTitle);
-                        Data.column4Data = ("R " + job.TotalPaidString);
-                        Data.column5Data = ("R " + job.AllExpenseTotalString);
-                        Data.column6Data = ("R " + (job.TotalPaid - job.AllExpenseTotal).ToString("#,0.##", nfi));
+                        Data.column4Data = (job.TotalPaidString);
+                        Data.column5Data = (job.AllExpenseTotalString);
+                        Data.column6Data = ((job.TotalPaid - job.AllExpenseTotal).ToString("#,0.00", nfi));
 
                         report.ReportDataList.Add(Data);
 
@@ -161,9 +160,9 @@ namespace TaxApp.Controllers
                         c6Total += (job.TotalPaid - job.AllExpenseTotal);
                     }
 
-                    report.column4Total = ("R " + c4Total.ToString("#,0.##", nfi));
-                    report.column5Total = ("R " + c5Total.ToString("#,0.##", nfi));
-                    report.column6Total = ("R " + c6Total.ToString("#,0.##", nfi));
+                    report.column4Total = (c4Total.ToString("#,0.00", nfi));
+                    report.column5Total = (c5Total.ToString("#,0.00", nfi));
+                    report.column6Total = (c6Total.ToString("#,0.00", nfi));
                 }
                 else
                     report = null;
@@ -193,14 +192,14 @@ namespace TaxApp.Controllers
                 if (IncomeRecivedReport != null)
                 {
                     report.reportTitle = "Income Report";
-                    report.reportCondition = "For date range: " + sDate.ToString("dd MMM yyyy") + " - " + eDate.ToString("dd MMM yyyy");
+                    report.reportCondition = "From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
                     report.reportStartDate = sDate.ToString("yyyy-MM-dd");
                     report.reportEndDate = eDate.ToString("yyyy-MM-dd");
 
                     report.column1Name = "Invoice Date";
                     report.column2Name = "Client";
                     report.column3Name = "Job";
-                    report.column4Name = "Income (before Tax & VAT)";
+                    report.column4Name = "Income (before Tax & VAT) [R]";
 
                     report.ReportDataList = new List<ReportDataList>();
 
@@ -212,14 +211,14 @@ namespace TaxApp.Controllers
                         Data.column1Data = (item.InvoiceDateString);
                         Data.column2Data = (item.clientName);
                         Data.column3Data = (item.JobTitle);
-                        Data.column4Data = ("R " + item.TotalString);
+                        Data.column4Data = (item.TotalString);
 
                         report.ReportDataList.Add(Data);
 
                         c4Total += item.Total;
                     }
 
-                    report.column4Total = ("R " + c4Total.ToString("#,0.##", nfi));
+                    report.column4Total = (c4Total.ToString("#,0.00", nfi));
                 }
                 else
                     report = null;
@@ -247,7 +246,7 @@ namespace TaxApp.Controllers
                         expense.name = expenseItem.Reason;
                         expense.date = expenseItem.DateString;
                         expense.amount = expenseItem.ClientCharge;
-                        expense.TotalString = expense.amount.ToString("#,0.##", nfi);
+                        expense.TotalString = expense.amount.ToString("#,0.00", nfi);
 
                         ExpenseReport.Add(expense);
                     }
@@ -258,7 +257,7 @@ namespace TaxApp.Controllers
                         expense.name = expenseItem.Name;
                         expense.date = expenseItem.DateString;
                         expense.amount = expenseItem.Amount;
-                        expense.TotalString = expense.amount.ToString("#,0.##", nfi);
+                        expense.TotalString = expense.amount.ToString("#,0.00", nfi);
 
                         ExpenseReport.Add(expense);
                     }
@@ -269,7 +268,7 @@ namespace TaxApp.Controllers
                         expense.name = expenseItem.Name;
                         expense.date = expenseItem.DateString;
                         expense.amount = expenseItem.Amount;
-                        expense.TotalString = expense.amount.ToString("#,0.##", nfi);
+                        expense.TotalString = expense.amount.ToString("#,0.00", nfi);
 
                         ExpenseReport.Add(expense);
                     }
@@ -283,13 +282,13 @@ namespace TaxApp.Controllers
                 if (ExpenseReport != null)
                 {
                     report.reportTitle = "Expense Report";
-                    report.reportCondition = "For date range: " + sDate.ToString("dd MMM yyyy") + " - " + eDate.ToString("dd MMM yyyy");
+                    report.reportCondition = "From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
                     report.reportStartDate = sDate.ToString("yyyy-MM-dd");
                     report.reportEndDate = eDate.ToString("yyyy-MM-dd");
 
                     report.column1Name = "Date";
                     report.column2Name = "Title";
-                    report.column3Name = "Amount";
+                    report.column3Name = "Amount (R)";
 
                     report.ReportDataList = new List<ReportDataList>();
 
@@ -300,14 +299,14 @@ namespace TaxApp.Controllers
                         ReportDataList Data = new ReportDataList();
                         Data.column1Data = (item.date);
                         Data.column2Data = (item.name);
-                        Data.column3Data = ("R " + item.TotalString);
+                        Data.column3Data = (item.TotalString);
 
                         report.ReportDataList.Add(Data);
 
                         c3Total += item.amount;
                     }
 
-                    report.column3Total = ("R " + c3Total.ToString("#,0.##", nfi));
+                    report.column3Total = (c3Total.ToString("#,0.00", nfi));
                 }
                 else
                     report = null;
@@ -365,7 +364,7 @@ namespace TaxApp.Controllers
                             expense.name = expenseItem.Reason;
                             expense.date = expenseItem.DateString;
                             expense.amount = expenseItem.ClientCharge;
-                            expense.TotalString = expense.amount.ToString("#,0.##", nfi);
+                            expense.TotalString = expense.amount.ToString("#,0.00", nfi);
 
                             ExpenseReport.Add(expense);
                         }
@@ -376,7 +375,7 @@ namespace TaxApp.Controllers
                             expense.name = expenseItem.Name;
                             expense.date = expenseItem.DateString;
                             expense.amount = expenseItem.Amount;
-                            expense.TotalString = expense.amount.ToString("#,0.##", nfi);
+                            expense.TotalString = expense.amount.ToString("#,0.00", nfi);
 
                             ExpenseReport.Add(expense);
                         }
@@ -387,7 +386,7 @@ namespace TaxApp.Controllers
                             expense.name = expenseItem.Name;
                             expense.date = expenseItem.DateString;
                             expense.amount = expenseItem.Amount;
-                            expense.TotalString = expense.amount.ToString("#,0.##", nfi);
+                            expense.TotalString = expense.amount.ToString("#,0.00", nfi);
 
                             ExpenseReport.Add(expense);
                         }
@@ -403,14 +402,14 @@ namespace TaxApp.Controllers
                 if (ExpenseReport != null && IncomeRecivedReport != null && footers != null)
                 {
                     report.reportTitle = "Net income report";
-                    report.reportCondition = "For date range: " + sDate.ToString("dd MMM yyyy") + " - " + eDate.ToString("dd MMM yyyy");
+                    report.reportCondition = "From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
                     report.reportStartDate = sDate.ToString("yyyy-MM-dd");
                     report.reportEndDate = eDate.ToString("yyyy-MM-dd");
 
                     report.column1Name = "Date";
                     report.column2Name = "Title";
-                    report.column3Name = "Expense Amount";
-                    report.column4Name = "Income Amount";
+                    report.column3Name = "Expense Amount (R)";
+                    report.column4Name = "Income Amount (R)";
 
                     report.ReportDataList = new List<ReportDataList>();
 
@@ -422,7 +421,7 @@ namespace TaxApp.Controllers
                         ReportDataList Data = new ReportDataList();
                         Data.column1Data = (item.date);
                         Data.column2Data = (item.name);
-                        Data.column3Data = ("-R " + item.TotalString);
+                        Data.column3Data = ("-" + item.TotalString);
                         Data.column4Data = ("");
 
                         report.ReportDataList.Add(Data);
@@ -436,36 +435,55 @@ namespace TaxApp.Controllers
                         Data.column1Data = (item.InvoiceDateString);
                         Data.column2Data = (item.JobTitle + " for " + item.clientName);
                         Data.column3Data = ("");
-                        Data.column4Data = ("R " + item.TotalString);
+                        Data.column4Data = (item.TotalString);
 
                         report.ReportDataList.Add(Data);
 
                         c4Total += item.Total;
                     }
 
-                    report.column3Total = ("R " + c3Total.ToString("#,0.##", nfi));
-                    report.column4Total = ("R " + c4Total.ToString("#,0.##", nfi));
+                    report.column3Total = (c3Total.ToString("#,0.00", nfi));
+                    report.column4Total = (c4Total.ToString("#,0.00", nfi));
 
                     report.FooterRowList = new List<ReportFixedFooterRowList>();
                     ReportFixedFooterRowList fotter = new ReportFixedFooterRowList();
                     fotter.column1Data = "Subtotal:";
-                    fotter.column4Data = ("R " + (footers.Income).ToString("#,0.##", nfi));
+                    fotter.column4Data = ((footers.Income).ToString("#,0.00", nfi));
                     report.FooterRowList.Add(fotter);
                     fotter = new ReportFixedFooterRowList();
                     fotter.column1Data = "Income Tax " + footers.TaxBraketString + " (Est):";
-                    fotter.column4Data = ("R " + footers.TAXOwedSTRING);
+                    fotter.column4Data = (footers.TAXOwedSTRING);
                     report.FooterRowList.Add(fotter);
                     fotter = new ReportFixedFooterRowList();
                     fotter.column1Data = "Net income:";
-                    fotter.column4Data = ("R " + (footers.Income - footers.TAXOwed).ToString("#,0.##", nfi));
+                    fotter.column4Data = ((footers.Income - footers.TAXOwed).ToString("#,0.00", nfi));
                     report.FooterRowList.Add(fotter);
                 }
                 else
                     report = null;
             }
+            //Client Income and Expenses
+            else if (ID == "0005")
+            {
+                report = new ReportViewModel();
+
+                try
+                {
+                    report = handler.getClientReport(ProfileID, sDate, eDate);
+                }
+                catch (Exception e)
+                {
+                    function.logAnError(e.ToString() +
+                        "Error loading report 0005 in reports controler");
+                }
+
+                if (report.ReportDataList == null)
+                    report = null;
+            }
 
             return report;
         }
+
         public ActionResult DisplayReport(string StartDateRange, string EndDateRange, string SortBy, string SortDirection, string period, string reportID = "0")
         {
             getCookie();
@@ -535,7 +553,6 @@ namespace TaxApp.Controllers
             return View(report);
         }
         [HttpPost]
-
         public ActionResult DisplayReport(FormCollection collection, string StartDateRange, string EndDateRange, string SortBy, string period, string reportID = "0")
         {
             try
@@ -566,7 +583,7 @@ namespace TaxApp.Controllers
             }
         }
 
-        public ActionResult PrintReport(string StartDateRange, string EndDateRange, string period, string reportID = "0")
+        public ActionResult PrintReport(string StartDateRange, string EndDateRange, string SortBy, string SortDirection, string period, string reportID = "0")
         {
             getCookie();
 
@@ -574,11 +591,62 @@ namespace TaxApp.Controllers
 
             if (ID == "0")
             {
-                function.logAnError("No report ID Supplied Print report");
-                Response.Redirect("/Report/Reports");
+                function.logAnError("No report ID Supplied display report");
+                return RedirectToAction("Reports", "Report");
             }
 
-            return View(getReportData(ID, StartDateRange, EndDateRange, period));
+            ReportViewModel report = getReportData(ID, StartDateRange, EndDateRange, period);
+
+            if (report == null)
+                return RedirectToAction("Error", "Shared");
+
+            ViewBag.StartDateRange = report.reportStartDate;
+            ViewBag.EndDateRange = report.reportEndDate;
+            ViewBag.reportID = reportID;
+
+            #region Sort
+            if (SortDirection == null || SortDirection == "")
+                SortDirection = "A";
+
+            if (SortDirection == "D")
+            {
+                if (SortBy == "Col1")
+                    report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column1Data).ToList();
+                else if (SortBy == "Col2")
+                    report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column2Data).ToList();
+                else if (SortBy == "Col3")
+                    report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column3Data).ToList();
+                else if (SortBy == "Col4")
+                    report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column4Data).ToList();
+                else if (SortBy == "Col5")
+                    report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column5Data).ToList();
+                else if (SortBy == "Col6")
+                    report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column6Data).ToList();
+
+                SortDirection = "A";
+            }
+            else
+            {
+                if (SortBy == "Col1")
+                    report.ReportDataList = report.ReportDataList.OrderBy(o => o.column1Data).ToList();
+                else if (SortBy == "Col2")
+                    report.ReportDataList = report.ReportDataList.OrderBy(o => o.column2Data).ToList();
+                else if (SortBy == "Col3")
+                    report.ReportDataList = report.ReportDataList.OrderBy(o => o.column3Data).ToList();
+                else if (SortBy == "Col4")
+                    report.ReportDataList = report.ReportDataList.OrderBy(o => o.column4Data).ToList();
+                else if (SortBy == "Col5")
+                    report.ReportDataList = report.ReportDataList.OrderBy(o => o.column5Data).ToList();
+                else if (SortBy == "Col6")
+                    report.ReportDataList = report.ReportDataList.OrderBy(o => o.column6Data).ToList();
+
+                SortDirection = "D";
+            }
+
+            ViewBag.SortDirection = SortDirection;
+            #endregion
+
+            return View(report);
         }
     }
 }
