@@ -84,7 +84,7 @@ namespace TaxApp.Controllers
             return View(viewModel);
         }
 
-        public ReportViewModel getReportData(string ID, string StartDateRange, string EndDateRange, string period)
+        public ReportViewModel getReportData(string ID, string StartDateRange, string EndDateRange, string DropDownID)
         {
             ReportViewModel report = null;
 
@@ -337,14 +337,14 @@ namespace TaxApp.Controllers
                     {
                         ViewBag.DropDownFilter = new SelectList(taxPeriod, "PeriodID", "PeriodString");
 
-                        if (period == null || period == "")
-                            period = taxPeriod[0].PeriodID.ToString();
+                        if (DropDownID == null || DropDownID == "")
+                            DropDownID = taxPeriod[0].PeriodID.ToString();
 
-                        ViewBag.period = period;
+                        ViewBag.DropDownID = DropDownID;
 
                         foreach (TaxAndVatPeriods item in taxPeriod)
                         {
-                            if (item.PeriodID.ToString() == period)
+                            if (item.PeriodID.ToString() == DropDownID)
                             {
                                 dates = item;
                                 sDate = item.StartDate;
@@ -480,11 +480,81 @@ namespace TaxApp.Controllers
                 if (report.ReportDataList == null)
                     report = null;
             }
+            //Client Income
+            else if (ID == "0006")
+            {
+                report = new ReportViewModel();
+
+                try
+                {
+                    Client ProfileIDClient = new Client();
+                    ProfileIDClient.ProfileID = ProfileID.ProfileID;
+                    List<Client> clients = handler.getProfileClients(ProfileIDClient);
+                    clients = clients.OrderBy(o => o.FirstName).ToList();
+                    clients.Insert(0, new Client { FirstName = "All", ClientID = 0 });
+
+                    ViewBag.DropDownFilter = new SelectList(clients, "ClientID", "FirstName");
+                    ViewBag.AlsoShowDate = true;
+
+                        if (DropDownID == null || DropDownID == "")
+                            DropDownID = clients[0].ClientID.ToString();
+
+                        ViewBag.DropDownID = DropDownID;
+
+                    if (DropDownID != "0")
+                        report = handler.getIncomeByClientReport(ProfileID, sDate, eDate, DropDownID);
+                    else
+                        report = handler.getIncomeByClientReport(ProfileID, sDate, eDate);
+                }
+                catch (Exception e)
+                {
+                    function.logAnError(e.ToString() +
+                        "Error loading report 0005 in reports controler");
+                }
+
+                if (report.ReportDataList == null)
+                    report = null;
+            }
+            //Client Expenses
+            else if (ID == "0007")
+            {
+                report = new ReportViewModel();
+
+                try
+                {
+                    Client ProfileIDClient = new Client();
+                    ProfileIDClient.ProfileID = ProfileID.ProfileID;
+                    List<Client> clients = handler.getProfileClients(ProfileIDClient);
+                    clients = clients.OrderBy(o => o.FirstName).ToList();
+                    clients.Insert(0, new Client { FirstName = "All", ClientID = 0 });
+
+                    ViewBag.DropDownFilter = new SelectList(clients, "ClientID", "FirstName");
+                    ViewBag.AlsoShowDate = true;
+
+                    if (DropDownID == null || DropDownID == "")
+                        DropDownID = clients[0].ClientID.ToString();
+
+                    ViewBag.DropDownID = DropDownID;
+
+                    if (DropDownID != "0")
+                        report = handler.getExpensesByClientReport(ProfileID, sDate, eDate, DropDownID);
+                    else
+                        report = handler.getExpensesByClientReport(ProfileID, sDate, eDate);
+                }
+                catch (Exception e)
+                {
+                    function.logAnError(e.ToString() +
+                        "Error loading report 0005 in reports controler");
+                }
+
+                if (report.ReportDataList == null)
+                    report = null;
+            }
 
             return report;
         }
 
-        public ActionResult DisplayReport(string StartDateRange, string EndDateRange, string SortBy, string SortDirection, string period, string reportID = "0")
+        public ActionResult DisplayReport(string StartDateRange, string EndDateRange, string SortBy, string SortDirection, string DropDownID, string reportID = "0")
         {
             getCookie();
 
@@ -499,7 +569,7 @@ namespace TaxApp.Controllers
                 return RedirectToAction("Reports", "Report");
             }
 
-            ReportViewModel report = getReportData(ID, StartDateRange, EndDateRange, period);
+            ReportViewModel report = getReportData(ID, StartDateRange, EndDateRange, DropDownID);
 
             if(report == null)
                 return RedirectToAction("Error", "Shared");
@@ -553,7 +623,7 @@ namespace TaxApp.Controllers
             return View(report);
         }
         [HttpPost]
-        public ActionResult DisplayReport(FormCollection collection, string StartDateRange, string EndDateRange, string SortBy, string period, string reportID = "0")
+        public ActionResult DisplayReport(FormCollection collection, string StartDateRange, string EndDateRange, string SortBy, string DropDownID, string reportID = "0")
         {
             try
             {
@@ -566,13 +636,15 @@ namespace TaxApp.Controllers
                 StartDateRange = sDate.ToString("yyyy-MM-dd");
                 EndDateRange = eDate.ToString("yyyy-MM-dd");
 
+                DropDownID = Request.Form["DropDownFilter"].ToString();
+
                 return RedirectToAction("DisplayReport", "Report", new
                 {
                     StartDateRange,
                     EndDateRange,
                     reportID,
                     SortBy,
-                    period
+                    DropDownID
                 });
             }
             catch (Exception e)
@@ -583,7 +655,7 @@ namespace TaxApp.Controllers
             }
         }
 
-        public ActionResult PrintReport(string StartDateRange, string EndDateRange, string SortBy, string SortDirection, string period, string reportID = "0")
+        public ActionResult PrintReport(string StartDateRange, string EndDateRange, string SortBy, string SortDirection, string DropDownID, string reportID = "0")
         {
             getCookie();
 
@@ -595,7 +667,7 @@ namespace TaxApp.Controllers
                 return RedirectToAction("Reports", "Report");
             }
 
-            ReportViewModel report = getReportData(ID, StartDateRange, EndDateRange, period);
+            ReportViewModel report = getReportData(ID, StartDateRange, EndDateRange, DropDownID);
 
             if (report == null)
                 return RedirectToAction("Error", "Shared");

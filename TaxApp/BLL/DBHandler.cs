@@ -376,6 +376,16 @@ namespace BLL
         { return db.getJobsReport(profile, sDate, eDate); }
         public ReportViewModel getClientReport(Profile profile, DateTime sDate, DateTime eDate)
         { return db.getClientReport(profile, sDate, eDate); }
+        public ReportViewModel getIncomeByClientReport(Profile profile, DateTime sDate, DateTime eDate)
+        { return db.getIncomeByClientReport(profile, sDate, eDate); }
+        public ReportViewModel getExpensesByClientReport(Profile profile, DateTime sDate, DateTime eDate)
+        { return db.getExpensesByClientReport(profile, sDate, eDate); }
+        public ReportViewModel getClientReport(Profile profile, DateTime sDate, DateTime eDate, string DropDownID)
+        { return db.getClientReport(profile, sDate, eDate, DropDownID); }
+        public ReportViewModel getIncomeByClientReport(Profile profile, DateTime sDate, DateTime eDate, string DropDownID)
+        { return db.getIncomeByClientReport(profile, sDate, eDate, DropDownID); }
+        public ReportViewModel getExpensesByClientReport(Profile profile, DateTime sDate, DateTime eDate, string DropDownID)
+        { return db.getExpensesByClientReport(profile, sDate, eDate, DropDownID); }
         #endregion
     }
 }

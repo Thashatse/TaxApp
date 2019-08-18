@@ -21,7 +21,7 @@
                         {
                             <div class="text-white">
                                 <div class="row">
-                                    <div class="col-lg-3 col-sm-12">
+                                    <div class="col-lg-12 col-sm-12">
                                         @Html.DropDownList("DropDownFilter", ViewBag.DropDownFilter as SelectList)
                                     </div>
                                 </div>
@@ -30,7 +30,7 @@
                         
                         <div class="text-white">
                             <div class="row">
-                                @if (ViewBag.DropDownFilter == null)
+                                @if (ViewBag.DropDownFilter == null || ViewBag.AlsoShowDate == true)
                                 {
                                 <div class="col-lg-4 col-sm-12">
                                     Start: <input name="StartDate" type="date" value="@ViewBag.StartDateRange" />
@@ -42,7 +42,7 @@
                             <div class="col-lg-4 col-sm-12">
                                 <br />
                                 <input type="submit" value="Update" class="btn btn-sm btn-default" />
-                                <a target="_blank" href="/Report/PrintReport?reportID=@ViewBag.reportID&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&SortBy=Col1&SortDirection=@ViewBag.SortDirection&period=@ViewBag.period"
+                                <a target="_blank" href="/Report/PrintReport?reportID=@ViewBag.reportID&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&SortBy=Col1&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID"
                                    class="btn btn-sm btn-white">Print</a>
                             </div>
                             </div>
@@ -75,37 +75,37 @@
                                 @if (Model.column1Name != null)
                                 {
                                     <th scope="col">
-                                        <a href="/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col1&SortDirection=@ViewBag.SortDirection&period=@ViewBag.period">@Html.DisplayFor(model => model.column1Name)</a>
+                                        <a href="/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col1&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID">@Html.DisplayFor(model => model.column1Name)</a>
                                 </th>
                             }
                                 @if (Model.column2Name != null)
                                 {
                             <th scope="col">
-                                <a href="/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col2&SortDirection=@ViewBag.SortDirection&period=@ViewBag.period">@Html.DisplayFor(model => model.column2Name)</a>
+                                <a href="/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col2&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID">@Html.DisplayFor(model => model.column2Name)</a>
                                 </th>
                                 }
                                 @if (Model.column3Name != null)
                                 {
                             <th scope="col">
-                                <a href="/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col3&SortDirection=@ViewBag.SortDirection&period=@ViewBag.period">@Html.DisplayFor(model => model.column3Name)</a>
+                                <a href="/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col3&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID">@Html.DisplayFor(model => model.column3Name)</a>
                                 </th>
                                 }
                                 @if (Model.column4Name != null)
                                 {
                             <th scope="col">
-                                <a href="/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col4&SortDirection=@ViewBag.SortDirection&period=@ViewBag.period">@Html.DisplayFor(model => model.column4Name)</a>
+                                <a href="/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col4&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID">@Html.DisplayFor(model => model.column4Name)</a>
                                 </th>
                                 }
                                 @if (Model.column5Name != null)
                                 {
                             <th scope="col">
-                                <a href="/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col4&SortDirection=@ViewBag.SortDirection&period=@ViewBag.period">@Html.DisplayFor(model => model.column5Name)</a>
+                                <a href="/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col4&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID">@Html.DisplayFor(model => model.column5Name)</a>
                                 </th>
                                 }
                                 @if (Model.column6Name != null)
                                 {
                             <th scope="col">
-                                <a href="/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col6&SortDirection=@ViewBag.SortDirection&period=@ViewBag.period">@Html.DisplayFor(model => model.column6Name)</a>
+                                <a href="/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col6&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID">@Html.DisplayFor(model => model.column6Name)</a>
                                 </th>
                                 }
                             </tr>

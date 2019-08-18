@@ -4350,6 +4350,14 @@ namespace DAL
                 report.column2Name = "Expenses by client (R)";
                 report.column3Name = "Income by client (Excl. VAT) [R]";
 
+                var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                nfi.NumberGroupSeparator = " ";
+
+                report.ReportDataList = new List<ReportDataList>();
+
+                decimal c2Total = 0;
+                decimal c3Total = 0;
+
                 SqlParameter[] pars = new SqlParameter[]
                     {
                         new SqlParameter("@PID", profile.ProfileID),
@@ -4360,38 +4368,620 @@ namespace DAL
                         new SqlParameter("@ED", eDate.AddDays(+1)),
                     };
 
-                using (DataTable table = DBHelper.ParamSelect("SP_GetClientReport",
+                using (DataTable table = DBHelper.ParamSelect("SP_GetClientReportIncome",
             CommandType.StoredProcedure, pars))
                 {
                     if (table.Rows.Count > 0)
                     {
-                        var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
-                    nfi.NumberGroupSeparator = " ";
-
-                    report.ReportDataList = new List<ReportDataList>();
-
-                        decimal c2Total = 0;
-                        decimal c3Total = 0;
 
                         foreach (DataRow row in table.Rows)
                         {
                         ReportDataList Data = new ReportDataList();
                                 Data.column1Data = row["ClientName"].ToString();
-                                Data.column2Data = decimal.Parse(row["Expenses"].ToString()).ToString("#,0.00", nfi);
+                                Data.column4Data = row["ClientID"].ToString();
                                 Data.column3Data = decimal.Parse(row["Income"].ToString()).ToString("#,0.00", nfi);
+                            Data.column2Data = decimal.Parse("0").ToString("#,0.00", nfi);
 
-                                report.ReportDataList.Add(Data);
+                            report.ReportDataList.Add(Data);
 
-                                c2Total += decimal.Parse(row["Expenses"].ToString());
                                 c3Total += decimal.Parse(row["Income"].ToString());
                             }
 
-                            report.column2Total = (c2Total.ToString("#,0.00", nfi));
-                            report.column3Total = (c3Total.ToString("#,0.00", nfi));
                     }
-                    else
-                        report = null;
             }
+
+                pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profile.ProfileID),
+                        //***************************************//
+                        new SqlParameter("@CID", profile.ProfileID),
+                        //***************************************//
+                        new SqlParameter("@SD", sDate.AddDays(-1)),
+                        new SqlParameter("@ED", eDate.AddDays(+1)),
+                    };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetClientReportTravelExpense",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            int i = 0;
+                            bool added = false;
+
+                            foreach (ReportDataList item in report.ReportDataList)
+                            {
+                                if(item.column4Data == row["ClientID"].ToString())
+                                {
+                                    report.ReportDataList[i].column2Data = decimal.Parse(row["Expenses"].ToString()).ToString("#,0.00", nfi);
+                                    report.ReportDataList[i].column5Data = row["Expenses"].ToString();
+                                    added = true;
+                                }
+                                    i++;
+                            }
+
+                            if(added == false)
+                            {
+                                ReportDataList Data = new ReportDataList();
+                                Data.column1Data = row["ClientName"].ToString();
+                                Data.column4Data = row["ClientID"].ToString();
+                                Data.column2Data = decimal.Parse(row["Expenses"].ToString()).ToString("#,0.00", nfi);
+                                Data.column3Data = decimal.Parse("0").ToString("#,0.00", nfi);
+                                Data.column5Data = row["Expenses"].ToString();
+
+                                report.ReportDataList.Add(Data);
+                            }
+
+                            c2Total += decimal.Parse(row["Expenses"].ToString());
+                        }
+                    }
+                }
+
+                pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profile.ProfileID),
+                        //***************************************//
+                        new SqlParameter("@CID", profile.ProfileID),
+                        //***************************************//
+                        new SqlParameter("@SD", sDate.AddDays(-1)),
+                        new SqlParameter("@ED", eDate.AddDays(+1)),
+                    };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetClientReportJobExpense",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            int i = 0;
+                            bool added = false;
+
+                            foreach (ReportDataList item in report.ReportDataList)
+                            {
+                                if(item.column4Data == row["ClientID"].ToString())
+                                {
+                                    report.ReportDataList[i].column2Data = 
+                                        (decimal.Parse(report.ReportDataList[i].column5Data) + 
+                                        decimal.Parse(row["Expenses"].ToString())).ToString("#,0.00", nfi);
+                                    added = true;
+                                }
+                                    i++;
+                            }
+
+                            if(added == false)
+                            {
+                                ReportDataList Data = new ReportDataList();
+                                Data.column1Data = row["ClientName"].ToString();
+                                Data.column2Data = decimal.Parse(row["Expenses"].ToString()).ToString("#,0.00", nfi);
+                                Data.column3Data = decimal.Parse("0").ToString("#,0.00", nfi);
+                                report.ReportDataList.Add(Data);
+                            }
+
+                            c2Total += decimal.Parse(row["Expenses"].ToString());
+                        }
+                    }
+                }
+
+                report.column2Total = (c2Total.ToString("#,0.00", nfi));
+                report.column3Total = (c3Total.ToString("#,0.00", nfi));
+
+                return report;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        public ReportViewModel getIncomeByClientReport(Profile profile, DateTime sDate, DateTime eDate)
+        {
+            ReportViewModel report = null;
+            try
+            {
+                report = new ReportViewModel();
+
+                report.reportTitle = "Income by Client";
+                report.reportCondition = "From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
+                report.reportStartDate = sDate.ToString("yyyy-MM-dd");
+                report.reportEndDate = eDate.ToString("yyyy-MM-dd");
+
+                report.column1Name = "Client";
+                report.column2Name = "Income by client (Excl. VAT) [R]";
+
+                var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                nfi.NumberGroupSeparator = " ";
+
+                report.ReportDataList = new List<ReportDataList>();
+
+                decimal c2Total = 0;
+
+                SqlParameter[] pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profile.ProfileID),
+                        //***************************************//
+                        new SqlParameter("@CID", profile.ProfileID),
+                        //***************************************//
+                        new SqlParameter("@SD", sDate.AddDays(-1)),
+                        new SqlParameter("@ED", eDate.AddDays(+1)),
+                    };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetClientReportIncome",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+
+                        foreach (DataRow row in table.Rows)
+                        {
+                        ReportDataList Data = new ReportDataList();
+                                Data.column1Data = row["ClientName"].ToString();
+                                Data.column3Data = row["ClientID"].ToString();
+                                Data.column2Data = decimal.Parse(row["Income"].ToString()).ToString("#,0.00", nfi);
+
+                            report.ReportDataList.Add(Data);
+
+                                c2Total += decimal.Parse(row["Income"].ToString());
+                            }
+
+                    }
+            }
+
+                report.column2Total = (c2Total.ToString("#,0.00", nfi));
+
+                return report;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        public ReportViewModel getExpensesByClientReport(Profile profile, DateTime sDate, DateTime eDate)
+        {
+            ReportViewModel report = null;
+            try
+            {
+                report = new ReportViewModel();
+
+                report.reportTitle = "Expenses by Client";
+                report.reportCondition = "From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
+                report.reportStartDate = sDate.ToString("yyyy-MM-dd");
+                report.reportEndDate = eDate.ToString("yyyy-MM-dd");
+
+                report.column1Name = "Client";
+                report.column2Name = "Expenses by client (R)";
+
+                var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                nfi.NumberGroupSeparator = " ";
+
+                report.ReportDataList = new List<ReportDataList>();
+
+                decimal c2Total = 0;
+
+                SqlParameter[] pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profile.ProfileID),
+                        //***************************************//
+                        new SqlParameter("@CID", profile.ProfileID),
+                        //***************************************//
+                        new SqlParameter("@SD", sDate.AddDays(-1)),
+                        new SqlParameter("@ED", eDate.AddDays(+1)),
+                    };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetClientReportTravelExpense",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                                ReportDataList Data = new ReportDataList();
+                                Data.column1Data = row["ClientName"].ToString();
+                                Data.column4Data = row["ClientID"].ToString();
+                                Data.column2Data = decimal.Parse(row["Expenses"].ToString()).ToString("#,0.00", nfi);
+                                Data.column5Data = row["Expenses"].ToString();
+
+                                report.ReportDataList.Add(Data);
+
+                            c2Total += decimal.Parse(row["Expenses"].ToString());
+                        }
+                    }
+                }
+
+                pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profile.ProfileID),
+                        //***************************************//
+                        new SqlParameter("@CID", profile.ProfileID),
+                        //***************************************//
+                        new SqlParameter("@SD", sDate.AddDays(-1)),
+                        new SqlParameter("@ED", eDate.AddDays(+1)),
+                    };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetClientReportJobExpense",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            int i = 0;
+                            bool added = false;
+
+                            foreach (ReportDataList item in report.ReportDataList)
+                            {
+                                if(item.column4Data == row["ClientID"].ToString())
+                                {
+                                    report.ReportDataList[i].column2Data = 
+                                        (decimal.Parse(report.ReportDataList[i].column5Data) + 
+                                        decimal.Parse(row["Expenses"].ToString())).ToString("#,0.00", nfi);
+                                    added = true;
+                                }
+                                    i++;
+                            }
+
+                            if(added == false)
+                            {
+                                ReportDataList Data = new ReportDataList();
+                                Data.column1Data = row["ClientName"].ToString();
+                                Data.column2Data = decimal.Parse(row["Expenses"].ToString()).ToString("#,0.00", nfi);
+                                report.ReportDataList.Add(Data);
+                            }
+
+                            c2Total += decimal.Parse(row["Expenses"].ToString());
+                        }
+                    }
+                }
+
+                report.column2Total = (c2Total.ToString("#,0.00", nfi));
+
+                return report;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        public ReportViewModel getClientReport(Profile profile, DateTime sDate, DateTime eDate, string DropDownID)
+        {
+            ReportViewModel report = null;
+            try
+            {
+                report = new ReportViewModel();
+
+                report.reportTitle = "Client Income and Expenses";
+                report.reportCondition = "From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
+                report.reportStartDate = sDate.ToString("yyyy-MM-dd");
+                report.reportEndDate = eDate.ToString("yyyy-MM-dd");
+
+                report.column1Name = "Client";
+                report.column2Name = "Expenses by client (R)";
+                report.column3Name = "Income by client (Excl. VAT) [R]";
+
+                var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                nfi.NumberGroupSeparator = " ";
+
+                report.ReportDataList = new List<ReportDataList>();
+
+                decimal c2Total = 0;
+                decimal c3Total = 0;
+
+                SqlParameter[] pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profile.ProfileID),
+                        new SqlParameter("@SD", sDate.AddDays(-1)),
+                        new SqlParameter("@ED", eDate.AddDays(+1)),
+                        new SqlParameter("@CID", DropDownID)
+                    };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetClientReportIncomeByClient",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+
+                        foreach (DataRow row in table.Rows)
+                        {
+                        ReportDataList Data = new ReportDataList();
+                                Data.column1Data = row["ClientName"].ToString();
+                                Data.column4Data = row["ClientID"].ToString();
+                                Data.column3Data = decimal.Parse(row["Income"].ToString()).ToString("#,0.00", nfi);
+                            Data.column2Data = decimal.Parse("0").ToString("#,0.00", nfi);
+                            report.reportCondition = "For " + Data.column1Data + " From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
+                
+                            report.ReportDataList.Add(Data);
+
+                                c3Total += decimal.Parse(row["Income"].ToString());
+                            }
+
+                    }
+            }
+
+                pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profile.ProfileID),
+                        new SqlParameter("@SD", sDate.AddDays(-1)),
+                        new SqlParameter("@ED", eDate.AddDays(+1)),
+                        new SqlParameter("@CID", DropDownID)
+                    };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetClientReportTravelExpenseByClient",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            int i = 0;
+                            bool added = false;
+
+                            foreach (ReportDataList item in report.ReportDataList)
+                            {
+                                if(item.column4Data == row["ClientID"].ToString())
+                                {
+                                    report.ReportDataList[i].column2Data = decimal.Parse(row["Expenses"].ToString()).ToString("#,0.00", nfi);
+                                    report.ReportDataList[i].column5Data = row["Expenses"].ToString();
+                                    added = true;
+                                }
+                                    i++;
+                            }
+
+                            if(added == false)
+                            {
+                                ReportDataList Data = new ReportDataList();
+                                Data.column1Data = row["ClientName"].ToString();
+                                Data.column4Data = row["ClientID"].ToString();
+                                Data.column2Data = decimal.Parse(row["Expenses"].ToString()).ToString("#,0.00", nfi);
+                                Data.column3Data = decimal.Parse("0").ToString("#,0.00", nfi);
+                                Data.column5Data = row["Expenses"].ToString();
+                                report.reportCondition = "For " + Data.column1Data + " From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
+
+
+                                report.ReportDataList.Add(Data);
+                            }
+
+                            c2Total += decimal.Parse(row["Expenses"].ToString());
+                        }
+                    }
+                }
+
+                pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profile.ProfileID),
+                        new SqlParameter("@SD", sDate.AddDays(-1)),
+                        new SqlParameter("@ED", eDate.AddDays(+1)),
+                        new SqlParameter("@CID", DropDownID)
+                    };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetClientReportJobExpenseByClient",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            int i = 0;
+                            bool added = false;
+
+                            foreach (ReportDataList item in report.ReportDataList)
+                            {
+                                if(item.column4Data == row["ClientID"].ToString())
+                                {
+                                    report.ReportDataList[i].column2Data = 
+                                        (decimal.Parse(report.ReportDataList[i].column5Data) + 
+                                        decimal.Parse(row["Expenses"].ToString())).ToString("#,0.00", nfi);
+                                    added = true;
+                                }
+                                    i++;
+                            }
+
+                            if(added == false)
+                            {
+                                ReportDataList Data = new ReportDataList();
+                                Data.column1Data = row["ClientName"].ToString();
+                                Data.column2Data = decimal.Parse(row["Expenses"].ToString()).ToString("#,0.00", nfi);
+                                Data.column3Data = decimal.Parse("0").ToString("#,0.00", nfi);
+                                report.ReportDataList.Add(Data);
+                                report.reportCondition = "For " + Data.column1Data + " From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
+
+                            }
+
+                            c2Total += decimal.Parse(row["Expenses"].ToString());
+                        }
+                    }
+                }
+
+                report.column2Total = (c2Total.ToString("#,0.00", nfi));
+                report.column3Total = (c3Total.ToString("#,0.00", nfi));
+
+                return report;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        public ReportViewModel getIncomeByClientReport(Profile profile, DateTime sDate, DateTime eDate, string DropDownID)
+        {
+            ReportViewModel report = null;
+            try
+            {
+                report = new ReportViewModel();
+
+                report.reportTitle = "Income by Client";
+                report.reportCondition = "From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
+                report.reportStartDate = sDate.ToString("yyyy-MM-dd");
+                report.reportEndDate = eDate.ToString("yyyy-MM-dd");
+
+                report.column1Name = "Client";
+                report.column2Name = "Income by client (Excl. VAT) [R]";
+
+                var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                nfi.NumberGroupSeparator = " ";
+
+                report.ReportDataList = new List<ReportDataList>();
+
+                decimal c2Total = 0;
+
+                SqlParameter[] pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profile.ProfileID),
+                        new SqlParameter("@SD", sDate.AddDays(-1)),
+                        new SqlParameter("@ED", eDate.AddDays(+1)),
+                        new SqlParameter("@CID", DropDownID)
+                    };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetClientReportIncomeByClient",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+
+                        foreach (DataRow row in table.Rows)
+                        {
+                        ReportDataList Data = new ReportDataList();
+                                Data.column1Data = row["ClientName"].ToString();
+                                Data.column3Data = row["ClientID"].ToString();
+                                Data.column2Data = decimal.Parse(row["Income"].ToString()).ToString("#,0.00", nfi);
+
+                            report.ReportDataList.Add(Data);
+                            report.reportCondition = "For " + Data.column1Data + " From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
+
+
+                            c2Total += decimal.Parse(row["Income"].ToString());
+                            }
+
+                    }
+            }
+
+                report.column2Total = (c2Total.ToString("#,0.00", nfi));
+
+                return report;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        public ReportViewModel getExpensesByClientReport(Profile profile, DateTime sDate, DateTime eDate, string DropDownID)
+        {
+            ReportViewModel report = null;
+            try
+            {
+                report = new ReportViewModel();
+
+                report.reportTitle = "Expenses by Client";
+                report.reportCondition = "From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
+                report.reportStartDate = sDate.ToString("yyyy-MM-dd");
+                report.reportEndDate = eDate.ToString("yyyy-MM-dd");
+
+                report.column1Name = "Client";
+                report.column2Name = "Expenses by client (R)";
+
+                var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                nfi.NumberGroupSeparator = " ";
+
+                report.ReportDataList = new List<ReportDataList>();
+
+                decimal c2Total = 0;
+
+                SqlParameter[] pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profile.ProfileID),
+                        new SqlParameter("@SD", sDate.AddDays(-1)),
+                        new SqlParameter("@ED", eDate.AddDays(+1)),
+                        new SqlParameter("@CID", DropDownID)
+                    };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetClientReportTravelExpenseByClient",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                                ReportDataList Data = new ReportDataList();
+                                Data.column1Data = row["ClientName"].ToString();
+                                Data.column4Data = row["ClientID"].ToString();
+                                Data.column2Data = decimal.Parse(row["Expenses"].ToString()).ToString("#,0.00", nfi);
+                                Data.column5Data = row["Expenses"].ToString();
+
+                                report.ReportDataList.Add(Data);
+                            report.reportCondition = "For " + Data.column1Data + " From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
+
+
+                            c2Total += decimal.Parse(row["Expenses"].ToString());
+                        }
+                    }
+                }
+
+                pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profile.ProfileID),
+                        new SqlParameter("@SD", sDate.AddDays(-1)),
+                        new SqlParameter("@ED", eDate.AddDays(+1)),
+                        new SqlParameter("@CID", DropDownID)
+                    };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetClientReportJobExpenseByClient",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            int i = 0;
+                            bool added = false;
+
+                            foreach (ReportDataList item in report.ReportDataList)
+                            {
+                                if(item.column4Data == row["ClientID"].ToString())
+                                {
+                                    report.ReportDataList[i].column2Data = 
+                                        (decimal.Parse(report.ReportDataList[i].column5Data) + 
+                                        decimal.Parse(row["Expenses"].ToString())).ToString("#,0.00", nfi);
+                                    added = true;
+                                }
+                                    i++;
+                            }
+
+                            if(added == false)
+                            {
+                                ReportDataList Data = new ReportDataList();
+                                Data.column1Data = row["ClientName"].ToString();
+                                Data.column2Data = decimal.Parse(row["Expenses"].ToString()).ToString("#,0.00", nfi);
+                                report.ReportDataList.Add(Data);
+                                report.reportCondition = "For " + Data.column1Data + " From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
+
+                            }
+
+                            c2Total += decimal.Parse(row["Expenses"].ToString());
+                        }
+                    }
+                }
+
+                report.column2Total = (c2Total.ToString("#,0.00", nfi));
+
                 return report;
             }
             catch (Exception e)

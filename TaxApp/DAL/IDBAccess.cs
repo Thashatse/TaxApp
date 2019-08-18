@@ -144,6 +144,11 @@ namespace DAL
         #region Reports
         List<SP_GetJob_Result> getJobsReport(Profile profile, DateTime sDate, DateTime eDate);
         ReportViewModel getClientReport(Profile profile, DateTime sDate, DateTime eDate);
+        ReportViewModel getIncomeByClientReport(Profile profile, DateTime sDate, DateTime eDate);
+        ReportViewModel getExpensesByClientReport(Profile profile, DateTime sDate, DateTime eDate);
+        ReportViewModel getIncomeByClientReport(Profile profile, DateTime sDate, DateTime eDate, string DropDownID);
+        ReportViewModel getExpensesByClientReport(Profile profile, DateTime sDate, DateTime eDate, string DropDownID);
+        ReportViewModel getClientReport(Profile profile, DateTime sDate, DateTime eDate, string DropDownID);
         #endregion
     }
 }
