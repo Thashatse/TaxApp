@@ -4989,6 +4989,58 @@ namespace DAL
                 throw new ApplicationException(e.ToString());
             }
         }
+
+        public List<SP_GetGeneralExpense_Result> getGeneralExpensesReport(Profile profileID, DateTime sDate, DateTime eDate)
+        {
+            List<SP_GetGeneralExpense_Result> Expenses = new List<SP_GetGeneralExpense_Result>();
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profileID.ProfileID),
+                        new SqlParameter("@SD", sDate.AddDays(-1)),
+                        new SqlParameter("@ED", eDate.AddDays(+1))
+                    };
+
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetGeneralExpensesReport",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            SP_GetGeneralExpense_Result expense = new SP_GetGeneralExpense_Result();
+                            expense.ExpenseID = int.Parse(row[0].ToString());
+                            expense.CategoryID = int.Parse(row["CategoryID"].ToString());
+                            expense.Name = row[2].ToString();
+                            expense.Description = row[3].ToString();
+                            expense.ProfileID = int.Parse(row[4].ToString());
+                            expense.Date = DateTime.Parse(row[5].ToString());
+                            expense.Amount = decimal.Parse(row[6].ToString());
+                            expense.Repeat = bool.Parse(row[7].ToString());
+                            if (row["Invoice/ReceiptCopy"] != null && row["Invoice/ReceiptCopy"].ToString() != "")
+                            {
+                                expense.Invoice_ReceiptCopy = Encoding.ASCII.GetBytes(row["Invoice/ReceiptCopy"].ToString());
+                            }
+                            expense.CatName = row[9].ToString();
+                            expense.CatDescription = row[10].ToString();
+                            expense.DateString = expense.Date.ToString("dddd, dd MMMM yyyy");
+                            expense.PrimaryExpenseID = int.Parse(row["PrimaryExpenseID"].ToString());
+                            Expense expenseID = new Expense();
+                            expenseID.ExpenseID = expense.ExpenseID;
+                            expense.RepeatOccurrences = getGeneralExpenseRepeatOccurrence(expenseID);
+                            Expenses.Add(expense);
+                        }
+                    }
+                }
+                return Expenses;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
         #endregion
     }
 }                  

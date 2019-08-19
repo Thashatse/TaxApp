@@ -1,0 +1,10 @@
+
+TimeStamp: 8/19/2019 4:31:03 PM
+Machine Name: TEFO-NTSAKO-HAS
+OS Version: Microsoft Windows NT 10.0.18362.0
+Curent User: thash
+User Domain: TEFO-NTSAKO-HAS
+Curent Directory: C:\Program Files (x86)\IIS Express
+Error: 
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at TaxApp.Controllers.ReportController.DisplayReport(FormCollection collection, String StartDateRange, String EndDateRange, String SortBy, String DropDownID, String reportID) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\ReportController.cs:line 754Error updating date range for display reports page

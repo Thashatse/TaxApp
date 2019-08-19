@@ -550,6 +550,285 @@ namespace TaxApp.Controllers
                 if (report.ReportDataList == null)
                     report = null;
             }
+            //Expenses Report
+            else if (ID == "0008")
+            {
+                report = new ReportViewModel();
+
+                List<Model.TravelLog> ProfileTravelLog = null;
+                List<Model.SP_GetJobExpense_Result> ProfileJobExpenses = null;
+                List<Model.SP_GetGeneralExpense_Result> ProfileGeneralExpenses = null;
+
+                TaxAndVatPeriods dates = new TaxAndVatPeriods();
+                dates.StartDate = sDate;
+                dates.EndDate = eDate;
+
+                try
+                {
+                    ProfileTravelLog = handler.getProfileTravelLog(ProfileID, sDate, eDate);
+                    ProfileJobExpenses = handler.getAllJobExpense(ProfileID, sDate, eDate);
+                    ProfileGeneralExpenses = handler.getGeneralExpensesReport(ProfileID, sDate, eDate);
+                }
+                catch (Exception e)
+                {
+                    function.logAnError(e.ToString() +
+                        "Error loading report 0003 in reports controler");
+                }
+
+                if (ProfileTravelLog != null && ProfileJobExpenses != null && ProfileGeneralExpenses != null)
+                {
+                    report.reportTitle = "Expense";
+                    report.reportCondition = "From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
+                    report.reportStartDate = sDate.ToString("yyyy-MM-dd");
+                    report.reportEndDate = eDate.ToString("yyyy-MM-dd");
+
+                    report.column1Name = "Date";
+                    report.column2Name = "Title";
+                    report.column3Name = "Type";
+                    report.column4Name = "General Expense Amount (R)";
+                    report.column5Name = "Job Expense Amount (R)";
+                    report.column6Name = "Travel Expense Amount (R)";
+
+                    report.ReportDataList = new List<ReportDataList>();
+
+                    decimal c4Total = 0;
+                    decimal c5Total = 0;
+                    decimal c6Total = 0;
+                    decimal Total = 0;
+
+                    foreach (TravelLog item in ProfileTravelLog)
+                    {
+                        ReportDataList Data = new ReportDataList();
+                        Data.column1Data = (item.DateString);
+                        Data.column2Data = (item.Reason);
+                        Data.column3Data = "Travel Expense";
+                        Data.column4Data = ("");
+                        Data.column5Data = ("");
+                        Data.column6Data = (item.ClientCharge.ToString("#,0.00", nfi));
+                        Data.column7Data = item.Date.ToString();
+
+                        report.ReportDataList.Add(Data);
+
+                        c4Total += item.ClientCharge;
+                        Total += item.ClientCharge;
+                    }
+                    foreach (SP_GetJobExpense_Result item in ProfileJobExpenses)
+                    {
+                        ReportDataList Data = new ReportDataList();
+                        Data.column1Data = (item.DateString);
+                        Data.column2Data = (item.Name);
+                        Data.column3Data = "Job Expense";
+                        Data.column4Data = ("");
+                        Data.column5Data = (item.Amount.ToString("#,0.00", nfi));
+                        Data.column6Data = ("");
+                        Data.column7Data = item.Date.ToString();
+
+                        report.ReportDataList.Add(Data);
+
+                        c5Total += item.Amount;
+                        Total += item.Amount;
+                    }
+                    foreach (SP_GetGeneralExpense_Result item in ProfileGeneralExpenses)
+                    {
+                        ReportDataList Data = new ReportDataList();
+                        Data.column1Data = (item.DateString);
+                        Data.column2Data = (item.Name);
+                        Data.column3Data = "General Expense";
+                        Data.column4Data = (item.Amount.ToString("#,0.00", nfi));
+                        Data.column5Data = ("");
+                        Data.column6Data = ("");
+                        Data.column7Data = item.Date.ToString();
+
+                        report.ReportDataList.Add(Data);
+
+                        c6Total += item.Amount;
+                        Total += item.Amount;
+                    }
+
+                    report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column7Data).ToList();
+
+                    report.column1Total = ("Subtotal:");
+                    report.column4Total = (c4Total.ToString("#,0.00", nfi));
+                    report.column5Total = (c5Total.ToString("#,0.00", nfi));
+                    report.column6Total = (c6Total.ToString("#,0.00", nfi));
+
+                    report.FooterRowList = new List<ReportFixedFooterRowList>();
+                    ReportFixedFooterRowList fotter = new ReportFixedFooterRowList();
+                    fotter.column5Data = "All Expense Total (R):";
+                    fotter.column6Data = ((Total).ToString("#,0.00", nfi));
+                    report.FooterRowList.Add(fotter);
+                }
+                else
+                    report = null;
+            }
+            //General Expenses Report
+            else if (ID == "0009")
+            {
+                report = new ReportViewModel();
+
+                List<Model.SP_GetGeneralExpense_Result> ProfileGeneralExpenses = null;
+
+                TaxAndVatPeriods dates = new TaxAndVatPeriods();
+                dates.StartDate = sDate;
+                dates.EndDate = eDate;
+
+                try
+                {
+                    ProfileGeneralExpenses = handler.getGeneralExpensesReport(ProfileID, sDate, eDate);
+                }
+                catch (Exception e)
+                {
+                    function.logAnError(e.ToString() +
+                        "Error loading report 0003 in reports controler");
+                }
+
+                if (ProfileGeneralExpenses != null)
+                {
+                    report.reportTitle = "General Expense";
+                    report.reportCondition = "From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
+                    report.reportStartDate = sDate.ToString("yyyy-MM-dd");
+                    report.reportEndDate = eDate.ToString("yyyy-MM-dd");
+
+                    report.column1Name = "Date";
+                    report.column2Name = "Title";
+                    report.column4Name = "Amount (R)";
+
+                    report.ReportDataList = new List<ReportDataList>();
+
+                    decimal c4Total = 0;
+
+                    foreach (SP_GetGeneralExpense_Result item in ProfileGeneralExpenses)
+                    {
+                        ReportDataList Data = new ReportDataList();
+                        Data.column1Data = (item.DateString);
+                        Data.column2Data = (item.Name);
+                        Data.column4Data = (item.Amount.ToString("#,0.00", nfi));
+                        Data.column7Data = item.Date.ToString();
+
+                        report.ReportDataList.Add(Data);
+
+                        c4Total += item.Amount;
+                    }
+
+                    report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column7Data).ToList();
+
+                    report.column4Total = (c4Total.ToString("#,0.00", nfi));
+                }
+                else
+                    report = null;
+            }
+            //Job Expenses Report
+            else if (ID == "0010")
+            {
+                report = new ReportViewModel();
+
+                List<Model.SP_GetJobExpense_Result> ProfileJobExpenses = null;
+
+                TaxAndVatPeriods dates = new TaxAndVatPeriods();
+                dates.StartDate = sDate;
+                dates.EndDate = eDate;
+
+                try
+                {
+                    ProfileJobExpenses = handler.getAllJobExpense(ProfileID, sDate, eDate);
+                }
+                catch (Exception e)
+                {
+                    function.logAnError(e.ToString() +
+                        "Error loading report 0010 in reports controler");
+                }
+
+                if (ProfileJobExpenses != null)
+                {
+                    report.reportTitle = "Job Expenses";
+                    report.reportCondition = "From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
+                    report.reportStartDate = sDate.ToString("yyyy-MM-dd");
+                    report.reportEndDate = eDate.ToString("yyyy-MM-dd");
+
+                    report.column1Name = "Date";
+                    report.column2Name = "Title";
+                    report.column4Name = "Amount (R)";
+
+                    report.ReportDataList = new List<ReportDataList>();
+
+                    decimal c4Total = 0;
+
+                    foreach (SP_GetJobExpense_Result item in ProfileJobExpenses)
+                    {
+                        ReportDataList Data = new ReportDataList();
+                        Data.column1Data = (item.DateString);
+                        Data.column2Data = (item.Name);
+                        Data.column4Data = (item.Amount.ToString("#,0.00", nfi));
+                        Data.column7Data = item.Date.ToString();
+
+                        report.ReportDataList.Add(Data);
+
+                        c4Total += item.Amount;
+                    }
+
+                    report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column7Data).ToList();
+
+                    report.column4Total = (c4Total.ToString("#,0.00", nfi));
+                }
+                else
+                    report = null;
+            }
+            //Travel Expenses Report
+            else if (ID == "0011")
+            {
+                report = new ReportViewModel();
+
+                List<Model.TravelLog> ProfileTravelLog = null;
+
+                TaxAndVatPeriods dates = new TaxAndVatPeriods();
+                dates.StartDate = sDate;
+                dates.EndDate = eDate;
+
+                try
+                {
+                    ProfileTravelLog = handler.getProfileTravelLog(ProfileID, sDate, eDate);
+                }
+                catch (Exception e)
+                {
+                    function.logAnError(e.ToString() +
+                        "Error loading report 0011 in reports controler");
+                }
+
+                if (ProfileTravelLog != null)
+                {
+                    report.reportTitle = "Travel Expenses";
+                    report.reportCondition = "From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
+                    report.reportStartDate = sDate.ToString("yyyy-MM-dd");
+                    report.reportEndDate = eDate.ToString("yyyy-MM-dd");
+
+                    report.column1Name = "Date";
+                    report.column2Name = "Title";
+                    report.column4Name = "Amount (R)";
+
+                    report.ReportDataList = new List<ReportDataList>();
+
+                    decimal c4Total = 0;
+
+                    foreach (TravelLog item in ProfileTravelLog)
+                    {
+                        ReportDataList Data = new ReportDataList();
+                        Data.column1Data = (item.DateString);
+                        Data.column2Data = (item.Reason);
+                        Data.column4Data = (item.ClientCharge.ToString("#,0.00", nfi));
+                        Data.column7Data = item.Date.ToString();
+
+                        report.ReportDataList.Add(Data);
+
+                        c4Total += item.ClientCharge;
+                    }
+
+                    report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column7Data).ToList();
+
+                    report.column4Total = (c4Total.ToString("#,0.00", nfi));
+                }
+                else
+                    report = null;
+            }
 
             return report;
         }
@@ -596,6 +875,8 @@ namespace TaxApp.Controllers
                 report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column5Data).ToList();
             else if (SortBy == "Col6")
                 report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column6Data).ToList();
+            else if (SortBy == "Col7")
+                report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column7Data).ToList();
 
                 SortDirection = "A";
             }
@@ -613,6 +894,8 @@ namespace TaxApp.Controllers
                 report.ReportDataList = report.ReportDataList.OrderBy(o => o.column5Data).ToList();
             else if (SortBy == "Col6")
                 report.ReportDataList = report.ReportDataList.OrderBy(o => o.column6Data).ToList();
+            else if (SortBy == "Col7")
+                report.ReportDataList = report.ReportDataList.OrderBy(o => o.column7Data).ToList();
 
                 SortDirection = "D";
             }
@@ -636,7 +919,10 @@ namespace TaxApp.Controllers
                 StartDateRange = sDate.ToString("yyyy-MM-dd");
                 EndDateRange = eDate.ToString("yyyy-MM-dd");
 
+                if(Request.Form["DropDownFilter"] != null)
+                {
                 DropDownID = Request.Form["DropDownFilter"].ToString();
+                }
 
                 return RedirectToAction("DisplayReport", "Report", new
                 {

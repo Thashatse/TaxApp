@@ -18,6 +18,7 @@ namespace Model
         public string column4Name { get; set; }
         public string column5Name { get; set; }
         public string column6Name { get; set; }
+        public string column7Name { get; set; }
         public List<ReportDataList> ReportDataList { get; set; }
         public List<ReportFixedFooterRowList> FooterRowList { get; set; }
         public string column1Total { get; set; }
@@ -26,5 +27,6 @@ namespace Model
         public string column4Total { get; set; }
         public string column5Total { get; set; }
         public string column6Total { get; set; }
+        public string column7Total { get; set; }
     }
 }

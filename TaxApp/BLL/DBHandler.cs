@@ -386,6 +386,8 @@ namespace BLL
         { return db.getIncomeByClientReport(profile, sDate, eDate, DropDownID); }
         public ReportViewModel getExpensesByClientReport(Profile profile, DateTime sDate, DateTime eDate, string DropDownID)
         { return db.getExpensesByClientReport(profile, sDate, eDate, DropDownID); }
+        public List<SP_GetGeneralExpense_Result> getGeneralExpensesReport(Profile profileID, DateTime sDate, DateTime eDate)
+        { return db.getGeneralExpensesReport(profileID, sDate, eDate); }
         #endregion
     }
 }

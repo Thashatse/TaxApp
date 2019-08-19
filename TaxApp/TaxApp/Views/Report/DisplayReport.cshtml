@@ -108,6 +108,12 @@
                                 <a href="/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col6&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID">@Html.DisplayFor(model => model.column6Name)</a>
                                 </th>
                                 }
+                                @if (Model.column7Name != null)
+                                {
+                            <th scope="col">
+                                <a href="/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col7&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID">@Html.DisplayFor(model => model.column7Name)</a>
+                                </th>
+                                }
                             </tr>
                         </thead>
                         <tbody>
@@ -169,6 +175,10 @@
                                 {
                                     <th>@Html.DisplayFor(model => model.column6Total)</th>
                                 }
+                                @if (Model.column7Name != null)
+                                {
+                                    <th>@Html.DisplayFor(model => model.column7Total)</th>
+                                }
                             </tr>
                             @{i = 0;}
                             @if (Model.FooterRowList != null)
@@ -198,7 +208,11 @@
                                         }
                                         @if (Model.column6Name != null)
                                         {
-                                            <th>@Html.DisplayFor(model => model.ReportDataList[i].column6Data)</th>
+                                            <th>@Html.DisplayFor(model => model.FooterRowList[i].column6Data)</th>
+                                        }
+                                        @if (Model.column7Name != null)
+                                        {
+                                            <th>@Html.DisplayFor(model => model.FooterRowList[i].column7Data)</th>
                                         }
                                     </tr>
                                     { i = i + 1; }
