@@ -27,24 +27,24 @@
                                 </div>
                             </div>
                         }
-                        
+
                         <div class="text-white">
                             <div class="row">
                                 @if (ViewBag.DropDownFilter == null || ViewBag.AlsoShowDate == true)
                                 {
-                                <div class="col-lg-4 col-sm-12">
-                                    Start: <input name="StartDate" type="date" value="@ViewBag.StartDateRange" />
-                                </div>
-                                <div class="col-lg-4 col-sm-12">
-                                    End: <input name="EndDate" type="date" value="@ViewBag.EndDateRange" />
-                                </div>
+                                    <div class="col-lg-4 col-sm-12">
+                                        Start: <input name="StartDate" type="date" value="@ViewBag.StartDateRange" />
+                                    </div>
+                                    <div class="col-lg-4 col-sm-12">
+                                        End: <input name="EndDate" type="date" value="@ViewBag.EndDateRange" />
+                                    </div>
                                 }
-                            <div class="col-lg-4 col-sm-12">
-                                <br />
-                                <input type="submit" value="Update" class="btn btn-sm btn-default" />
-                                <a target="_blank" href="/Report/PrintReport?reportID=@ViewBag.reportID&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&SortBy=Col1&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID"
-                                   class="btn btn-sm btn-white">Print</a>
-                            </div>
+                                <div class="col-lg-4 col-sm-12">
+                                    <br />
+                                    <input type="submit" value="Update" class="btn btn-sm btn-default" />
+                                    <a target="_blank" href="/Report/PrintReport?reportID=@ViewBag.reportID&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&SortBy=Col1&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID"
+                                       class="btn btn-sm btn-white">Print</a>
+                                </div>
                             </div>
                         </div>
                     }
@@ -64,6 +64,9 @@
                             <h3 class="mb-0">
                                 @Html.DisplayFor(model => model.reportCondition)
                             </h3>
+                            <h4 class="mb-0">
+                                @Html.DisplayFor(model => model.reportSubHeading)
+                            </h4>
                         </div>
                     </div>
                 </div>
@@ -76,43 +79,43 @@
                                 {
                                     <th scope="col">
                                         <a href="/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col1&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID">@Html.DisplayFor(model => model.column1Name)</a>
-                                </th>
-                            }
+                                    </th>
+                                }
                                 @if (Model.column2Name != null)
                                 {
-                            <th scope="col">
-                                <a href="/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col2&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID">@Html.DisplayFor(model => model.column2Name)</a>
-                                </th>
+                                    <th scope="col">
+                                        <a href="/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col2&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID">@Html.DisplayFor(model => model.column2Name)</a>
+                                    </th>
                                 }
                                 @if (Model.column3Name != null)
                                 {
-                            <th scope="col">
-                                <a href="/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col3&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID">@Html.DisplayFor(model => model.column3Name)</a>
-                                </th>
+                                    <th scope="col">
+                                        <a href="/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col3&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID">@Html.DisplayFor(model => model.column3Name)</a>
+                                    </th>
                                 }
                                 @if (Model.column4Name != null)
                                 {
-                            <th scope="col">
-                                <a href="/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col4&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID">@Html.DisplayFor(model => model.column4Name)</a>
-                                </th>
+                                    <th scope="col">
+                                        <a href="/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col4&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID">@Html.DisplayFor(model => model.column4Name)</a>
+                                    </th>
                                 }
                                 @if (Model.column5Name != null)
                                 {
-                            <th scope="col">
-                                <a href="/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col4&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID">@Html.DisplayFor(model => model.column5Name)</a>
-                                </th>
+                                    <th scope="col">
+                                        <a href="/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col4&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID">@Html.DisplayFor(model => model.column5Name)</a>
+                                    </th>
                                 }
                                 @if (Model.column6Name != null)
                                 {
-                            <th scope="col">
-                                <a href="/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col6&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID">@Html.DisplayFor(model => model.column6Name)</a>
-                                </th>
+                                    <th scope="col">
+                                        <a href="/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col6&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID">@Html.DisplayFor(model => model.column6Name)</a>
+                                    </th>
                                 }
                                 @if (Model.column7Name != null)
                                 {
-                            <th scope="col">
-                                <a href="/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col7&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID">@Html.DisplayFor(model => model.column7Name)</a>
-                                </th>
+                                    <th scope="col">
+                                        <a href="/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col7&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID">@Html.DisplayFor(model => model.column7Name)</a>
+                                    </th>
                                 }
                             </tr>
                         </thead>
@@ -123,63 +126,167 @@
                                 <tr>
                                     @if (Model.column1Name != null)
                                     {
-                                        <td>@Html.DisplayFor(model => model.ReportDataList[i].column1Data)</td>
+                                        if (Model.column1DataAlignRight == true)
+                                        {
+                                            <td align="right">@Html.DisplayFor(model => model.ReportDataList[i].column1Data)</td>
+                                        }
+                                        else
+                                        {
+                                            <td>@Html.DisplayFor(model => model.ReportDataList[i].column1Data)</td>
+                                        }
                                     }
                                     @if (Model.column2Name != null)
                                     {
-                                        <td>@Html.DisplayFor(model => model.ReportDataList[i].column2Data)</td>
+                                        if (Model.column2DataAlignRight == true)
+                                        {
+                                            <td align="right">@Html.DisplayFor(model => model.ReportDataList[i].column2Data)</td>
+                                        }
+                                        else
+                                        {
+                                            <td>@Html.DisplayFor(model => model.ReportDataList[i].column2Data)</td>
+                                        }
                                     }
                                     @if (Model.column3Name != null)
                                     {
-                                        <td>@Html.DisplayFor(model => model.ReportDataList[i].column3Data)</td>
+                                        if (Model.column3DataAlignRight == true)
+                                        {
+                                            <td align="right">@Html.DisplayFor(model => model.ReportDataList[i].column3Data)</td>
+                                        }
+                                        else
+                                        {
+                                            <td>@Html.DisplayFor(model => model.ReportDataList[i].column3Data)</td>
+                                        }
                                     }
                                     @if (Model.column4Name != null)
                                     {
-                                        <td>@Html.DisplayFor(model => model.ReportDataList[i].column4Data)</td>
+                                        if (Model.column4DataAlignRight == true)
+                                        {
+                                            <td align="right">@Html.DisplayFor(model => model.ReportDataList[i].column4Data)</td>
+                                        }
+                                        else
+                                        {
+                                            <td>@Html.DisplayFor(model => model.ReportDataList[i].column4Data)</td>
+                                        }
                                     }
                                     @if (Model.column5Name != null)
                                     {
-                                        <td>@Html.DisplayFor(model => model.ReportDataList[i].column5Data)</td>
+                                        if (Model.column5DataAlignRight == true)
+                                        {
+                                            <td align="right">@Html.DisplayFor(model => model.ReportDataList[i].column5Data)</td>
+                                        }
+                                        else
+                                        {
+                                            <td>@Html.DisplayFor(model => model.ReportDataList[i].column5Data)</td>
+                                        }
                                     }
                                     @if (Model.column6Name != null)
                                     {
-                                        <td>@Html.DisplayFor(model => model.ReportDataList[i].column6Data)</td>
+                                        if (Model.column6DataAlignRight == true)
+                                        {
+                                            <td align="right">@Html.DisplayFor(model => model.ReportDataList[i].column6Data)</td>
+                                        }
+                                        else
+                                        {
+                                            <td>@Html.DisplayFor(model => model.ReportDataList[i].column6Data)</td>
+                                        }
+                                    }
+                                    @if (Model.column7Name != null)
+                                    {
+                                        if (Model.column7DataAlignRight == true)
+                                        {
+                                            <td align="right">@Html.DisplayFor(model => model.ReportDataList[i].column7Data)</td>
+                                        }
+                                        else
+                                        {
+                                            <td>@Html.DisplayFor(model => model.ReportDataList[i].column7Data)</td>
+                                        }
                                     }
                                 </tr>
                                 { i = i + 1; }
                             }
                         </tbody>
+
                         <tfoot class="thead-light">
-                            <tr>
-                                @if (Model.column1Name != null)
-                                {
-                                    <th>Total:</th>
-                                }
-                                @if (Model.column2Name != null)
-                                {
-                                    <th>@Html.DisplayFor(model => model.column2Total)</th>
-                                }
-                                @if (Model.column3Name != null)
-                                {
-                                    <th>@Html.DisplayFor(model => model.column3Total)</th>
-                                }
-                                @if (Model.column4Name != null)
-                                {
-                                    <th>@Html.DisplayFor(model => model.column4Total)</th>
-                                }
-                                @if (Model.column5Name != null)
-                                {
-                                    <th>@Html.DisplayFor(model => model.column5Total)</th>
-                                }
-                                @if (Model.column6Name != null)
-                                {
-                                    <th>@Html.DisplayFor(model => model.column6Total)</th>
-                                }
-                                @if (Model.column7Name != null)
-                                {
-                                    <th>@Html.DisplayFor(model => model.column7Total)</th>
-                                }
-                            </tr>
+                            @if (Model.column2Total != null
+                                    || Model.column3Total != null
+                                    || Model.column4Total != null
+                                    || Model.column5Total != null
+                                    || Model.column6Total != null
+                                    || Model.column7Total != null)
+                            {
+                                <tr>
+                                    @if (Model.column1Name != null)
+                                    {
+                                        <th>Total:</th>
+                                    }
+                                    @if (Model.column2Name != null)
+                                    {
+                                        if (Model.column2DataAlignRight == true)
+                                        {
+                                            <th style="text-align:right">@Html.DisplayFor(model => model.column2Total)</th>
+                                        }
+                                        else
+                                        {
+                                            <th>@Html.DisplayFor(model => model.column2Total)</th>
+                                        }
+                                    }
+                                    @if (Model.column3Name != null)
+                                    {
+                                        if (Model.column3DataAlignRight == true)
+                                        {
+                                            <th style="text-align:right">@Html.DisplayFor(model => model.column3Total)</th>
+                                        }
+                                        else
+                                        {
+                                            <th>@Html.DisplayFor(model => model.column3Total)</th>
+                                        }
+                                    }
+                                    @if (Model.column4Name != null)
+                                    {
+                                        if (Model.column4DataAlignRight == true)
+                                        {
+                                            <th style="text-align:right">@Html.DisplayFor(model => model.column4Total)</th>
+                                        }
+                                        else
+                                        {
+                                            <th>@Html.DisplayFor(model => model.column4Total)</th>
+                                        }
+                                    }
+                                    @if (Model.column5Name != null)
+                                    {
+                                        if (Model.column5DataAlignRight == true)
+                                        {
+                                            <th style="text-align:right">@Html.DisplayFor(model => model.column5Total)</th>
+                                        }
+                                        else
+                                        {
+                                            <th>@Html.DisplayFor(model => model.column5Total)</th>
+                                        }
+                                    }
+                                    @if (Model.column6Name != null)
+                                    {
+                                        if (Model.column6DataAlignRight == true)
+                                        {
+                                            <th style="text-align:right">@Html.DisplayFor(model => model.column6Total)</th>
+                                        }
+                                        else
+                                        {
+                                            <th>@Html.DisplayFor(model => model.column6Total)</th>
+                                        }
+                                    }
+                                    @if (Model.column7Name != null)
+                                    {
+                                        if (Model.column7DataAlignRight == true)
+                                        {
+                                            <th style="text-align:right">@Html.DisplayFor(model => model.column7Total)</th>
+                                        }
+                                        else
+                                        {
+                                            <th>@Html.DisplayFor(model => model.column7Total)</th>
+                                        }
+                                    }
+                                </tr>
+                            }
                             @{i = 0;}
                             @if (Model.FooterRowList != null)
                             {
@@ -188,31 +295,80 @@
                                     <tr>
                                         @if (Model.column1Name != null)
                                         {
-                                            <th>@Html.DisplayFor(model => model.FooterRowList[i].column1Data)</th>
+                                            if (Model.column1FotterAlignRight == true)
+                                            {
+                                                <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column1Data)</th>
+                                            }
+                                            else
+                                            {
+                                                <th>@Html.DisplayFor(model => model.FooterRowList[i].column1Data)</th>
+                                            }
                                         }
                                         @if (Model.column2Name != null)
                                         {
-                                            <th>@Html.DisplayFor(model => model.FooterRowList[i].column2Data)</th>
+                                            if (Model.column2FotterAlignRight == true)
+                                            {
+                                                <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column2Data)</th>
+                                            }
+                                            else
+                                            {
+                                                <th>@Html.DisplayFor(model => model.FooterRowList[i].column2Data)</th>
+                                            }
                                         }
                                         @if (Model.column3Name != null)
                                         {
-                                            <th>@Html.DisplayFor(model => model.FooterRowList[i].column3Data)</th>
+                                            if (Model.column3FotterAlignRight == true)
+                                            {
+                                                <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column3Data)</th>
+                                            }
+                                            else
+                                            {
+                                                <th>@Html.DisplayFor(model => model.FooterRowList[i].column3Data)</th>
+                                            }
                                         }
                                         @if (Model.column4Name != null)
                                         {
-                                            <th>@Html.DisplayFor(model => model.FooterRowList[i].column4Data)</th>
+                                            if (Model.column4FotterAlignRight == true)
+                                            {
+                                                <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column4Data)</th>
+                                            }
+                                            else
+                                            {
+                                                <th>@Html.DisplayFor(model => model.FooterRowList[i].column4Data)</th>
+                                            }
                                         }
                                         @if (Model.column5Name != null)
                                         {
-                                            <th>@Html.DisplayFor(model => model.FooterRowList[i].column5Data)</th>
+                                            if (Model.column5FotterAlignRight == true)
+                                            {
+                                                <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column5Data)</th>
+                                            }
+                                            else
+                                            {
+                                                <th>@Html.DisplayFor(model => model.FooterRowList[i].column5Data)</th>
+                                            }
                                         }
                                         @if (Model.column6Name != null)
                                         {
-                                            <th>@Html.DisplayFor(model => model.FooterRowList[i].column6Data)</th>
+                                            if (Model.column6FotterAlignRight == true)
+                                            {
+                                                <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column6Data)</th>
+                                            }
+                                            else
+                                            {
+                                                <th>@Html.DisplayFor(model => model.FooterRowList[i].column6Data)</th>
+                                            }
                                         }
                                         @if (Model.column7Name != null)
                                         {
-                                            <th>@Html.DisplayFor(model => model.FooterRowList[i].column7Data)</th>
+                                            if (Model.column7FotterAlignRight == true)
+                                            {
+                                                <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column7Data)</th>
+                                            }
+                                            else
+                                            {
+                                                <th>@Html.DisplayFor(model => model.FooterRowList[i].column7Data)</th>
+                                            }
                                         }
                                     </tr>
                                     { i = i + 1; }

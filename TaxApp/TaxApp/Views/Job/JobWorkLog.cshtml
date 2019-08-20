@@ -52,30 +52,30 @@
 
                         @foreach (var item in Model)
                         {
-                            <tr>
-                                <td>
-                                    <a href='/Job/JobWorkLogItem?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID'>
-                                        @Html.DisplayFor(modelItem => item.Description)
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href='/Job/JobWorkLogItem?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID'>
-                                        @Html.DisplayFor(modelItem => item.WorkLogHoursString)
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href='/Job/JobWorkLogItem?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID'>
-                                        @Html.DisplayFor(modelItem => item.DateString)
-                                    </a>
-                                </td>
-                                @if (ViewBag.Complete == "NotDone")
-                                {
-                                    <td>
-                                        <A href="/Job/EditJobWorkLog?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID">Edit</A> |
-                                        <A href="/Job/DeleteJobWorkLog?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID">Delete</A>
-                                    </td>
-                                }
-                            </tr>
+                    <tr>
+                        <td>
+                            <a href='/Job/JobWorkLogItem?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID'>
+                                @Html.DisplayFor(modelItem => item.DateString)
+                            </a>
+                        </td>
+                        <td>
+                            <a href='/Job/JobWorkLogItem?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID'>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </a>
+                        </td>
+                        <td>
+                            <a href='/Job/JobWorkLogItem?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID'>
+                                @Html.DisplayFor(modelItem => item.WorkLogHoursString)
+                            </a>
+                        </td>
+                        @if (ViewBag.Complete == "NotDone")
+                        {
+                            <td>
+                                <A href="/Job/EditJobWorkLog?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID">Edit</A> |
+                                <A href="/Job/DeleteJobWorkLog?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID">Delete</A>
+                            </td>
+                        }
+                    </tr>
                         }
 
                     </table>

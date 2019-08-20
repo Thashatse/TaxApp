@@ -12,8 +12,8 @@ alter PROCEDURE SP_GetIncomeRecivedList
 AS
 BEGIN
 	Select Jobs.JobID, Jobs.JobTitle, Client.FirstName + ' ' + Client.LastName as Client, Client.ClientID, Invoice.[DateTime], 
-	sum((((InvoiceLineItem.UnitCount * InvoiceLineItem.UnitCost)/100)*VATRate)+(InvoiceLineItem.UnitCount * InvoiceLineItem.UnitCost)) As Total,
-	sum((((((InvoiceLineItem.UnitCount * InvoiceLineItem.UnitCost)/100)*VATRate)+(InvoiceLineItem.UnitCount * InvoiceLineItem.UnitCost))/100)*@RID) As TAX
+	sum((InvoiceLineItem.UnitCount * InvoiceLineItem.UnitCost)) As Total,
+	sum((((InvoiceLineItem.UnitCount * InvoiceLineItem.UnitCost))/100)*@RID) As TAX
 From Jobs, Invoice, InvoiceLineItem, JobInvoice, Client
 WHERE Jobs.JobID = JobInvoice.JobID
 	AND JobInvoice.InvoiceNum = Invoice.InvoiceNum

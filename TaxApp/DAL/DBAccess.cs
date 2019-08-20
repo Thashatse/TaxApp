@@ -64,7 +64,8 @@ namespace DAL
                                 dashboardIncomeExpense.IncomePast60to30DaysPercent =
                                     (dashboardIncomeExpense.IncomePast30Days / dashboardIncomeExpense.IncomePast60to30DaysPercent) * 100;
                             }
-                            else if (dashboardIncomeExpense.IncomePast30Days < dashboardIncomeExpense.IncomePast60to30DaysPercent)
+                            else if (dashboardIncomeExpense.IncomePast30Days < dashboardIncomeExpense.IncomePast60to30DaysPercent
+                                && dashboardIncomeExpense.IncomePast30Days !=0)
                             {
                                 dashboardIncomeExpense.IncomePast60to30DaysUporDown = 'D';
                                 dashboardIncomeExpense.IncomePast60to30DaysPercent =
@@ -611,8 +612,10 @@ namespace DAL
                     {
                         new SqlParameter("@PID", profile.ProfileID),
                         //***************************************//
-                        new SqlParameter("@CID", profile.ProfileID)
+                        new SqlParameter("@CID", profile.ProfileID),
                         //***************************************//
+                        new SqlParameter("@SD", DateTime.Now.AddYears(-100)),
+                        new SqlParameter("@ED", DateTime.Now.AddYears(+100)),
                     };
 
                 using (DataTable table = DBHelper.ParamSelect("SP_WorklogHours",
@@ -1091,8 +1094,10 @@ namespace DAL
                     {
                         new SqlParameter("@PID", profile.ProfileID),
                         //***************************************//
-                        new SqlParameter("@CID", profile.ProfileID)
+                        new SqlParameter("@CID", profile.ProfileID),
                         //***************************************//
+                        new SqlParameter("@SD", DateTime.Now.AddYears(-100)),
+                        new SqlParameter("@ED", DateTime.Now.AddYears(+100)),
                     };
 
                 using (DataTable table = DBHelper.ParamSelect("SP_WorklogHours",
@@ -2775,7 +2780,8 @@ namespace DAL
                                 dashboardIncome.IncomePast60to30DaysPercent =
                                     (dashboardIncome.IncomePast30Days / dashboardIncome.IncomePast60to30DaysPercent) * 100;
                             }
-                            else if (dashboardIncome.IncomePast30Days < dashboardIncome.IncomePast60to30DaysPercent)
+                            else if (dashboardIncome.IncomePast30Days < dashboardIncome.IncomePast60to30DaysPercent
+                                && dashboardIncome.IncomePast30Days != 0)
                             {
                                 dashboardIncome.IncomePast60to30DaysUporDown = 'D';
                                 dashboardIncome.IncomePast60to30DaysPercent =
@@ -4334,6 +4340,7 @@ namespace DAL
                 throw new ApplicationException(e.ToString());
             }
         }
+
         public ReportViewModel getClientReport(Profile profile, DateTime sDate, DateTime eDate)
         {
             ReportViewModel report = null;
@@ -4349,6 +4356,8 @@ namespace DAL
                 report.column1Name = "Client";
                 report.column2Name = "Expenses by client (R)";
                 report.column3Name = "Income by client (Excl. VAT) [R]";
+                report.column2DataAlignRight = true;
+                report.column3DataAlignRight = true;
 
                 var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
                 nfi.NumberGroupSeparator = " ";
@@ -4508,6 +4517,7 @@ namespace DAL
 
                 report.column1Name = "Client";
                 report.column2Name = "Income by client (Excl. VAT) [R]";
+                report.column2DataAlignRight = true;
 
                 var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
                 nfi.NumberGroupSeparator = " ";
@@ -4570,6 +4580,7 @@ namespace DAL
 
                 report.column1Name = "Client";
                 report.column2Name = "Expenses by client (R)";
+                report.column2DataAlignRight = true;
 
                 var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
                 nfi.NumberGroupSeparator = " ";
@@ -4677,6 +4688,8 @@ namespace DAL
                 report.column1Name = "Client";
                 report.column2Name = "Expenses by client (R)";
                 report.column3Name = "Income by client (Excl. VAT) [R]";
+                report.column2DataAlignRight = true;
+                report.column3DataAlignRight = true;
 
                 var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
                 nfi.NumberGroupSeparator = " ";
@@ -4835,6 +4848,7 @@ namespace DAL
 
                 report.column1Name = "Client";
                 report.column2Name = "Income by client (Excl. VAT) [R]";
+                report.column2DataAlignRight = true;
 
                 var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
                 nfi.NumberGroupSeparator = " ";
@@ -4897,6 +4911,7 @@ namespace DAL
 
                 report.column1Name = "Client";
                 report.column2Name = "Expenses by client (R)";
+                report.column2DataAlignRight = true;
 
                 var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
                 nfi.NumberGroupSeparator = " ";
@@ -5035,6 +5050,116 @@ namespace DAL
                     }
                 }
                 return Expenses;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+
+        public ReportViewModel getJobEarningPerHourReport(Profile profile, DateTime sDate, DateTime eDate)
+        {
+            ReportViewModel report = null;
+            try
+            {
+                report = new ReportViewModel();
+
+                report.reportTitle = "Job Earnings per Hour";
+                report.reportSubHeading = "After expenses";
+                report.reportCondition = "From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
+                report.reportStartDate = sDate.ToString("yyyy-MM-dd");
+                report.reportEndDate = eDate.ToString("yyyy-MM-dd");
+
+                report.column1Name = "Start Date";
+                report.column2Name = "Job Title";
+                report.column3Name = "Income per Hour (Excl. VAT) [R]";
+                report.column3DataAlignRight = true;
+
+                var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                nfi.NumberGroupSeparator = " ";
+
+                report.ReportDataList = new List<ReportDataList>();
+
+                SqlParameter[] pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profile.ProfileID),
+                        new SqlParameter("@SD", sDate.AddDays(-1)),
+                        new SqlParameter("@ED", eDate.AddDays(+1)),
+                    };
+
+                #region Job Income
+                List<SP_GetJob_Result> TotalPaids = new List<SP_GetJob_Result>();
+
+                using (DataTable table = DBHelper.ParamSelect("SP_JobEarnings",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            SP_GetJob_Result TotalPaid = new Model.SP_GetJob_Result();
+
+                            TotalPaid.JobID = int.Parse(row["JobID"].ToString());
+
+                            if (row["TotalPaid"].ToString() != "" && row["TotalPaid"] != null)
+                            {
+                                TotalPaid.TotalPaid = decimal.Parse(row["TotalPaid"].ToString());
+                            }
+                            else
+                            {
+                                TotalPaid.TotalPaid = 0;
+                            }
+
+                            TotalPaids.Add(TotalPaid);
+                        }
+                    }
+                }
+                #endregion
+
+                pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profile.ProfileID),
+                        //***************************************//
+                        new SqlParameter("@CID", profile.ProfileID),
+                        //***************************************//
+                        new SqlParameter("@SD", sDate.AddDays(-1)),
+                        new SqlParameter("@ED", eDate.AddDays(+1)),
+                    };
+
+                #region jobHours
+                using (DataTable table = DBHelper.ParamSelect("SP_WorklogHours",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            foreach(SP_GetJob_Result item in TotalPaids)
+                            {
+                                if(item.JobID == int.Parse(row["JobID"].ToString()))
+                                {
+                                ReportDataList Data = new ReportDataList();
+                                Data.column2Data = row["JobTitle"].ToString();
+                                Data.column1Data = DateTime.Parse(row["StartDate"].ToString()).ToString("dd MMM yyyy");
+
+                                if (row["WorkLogHours"].ToString() != "" && row["WorkLogHours"] != null)
+                                {
+                                    Data.column3Data = (decimal.Parse(row["WorkLogHours"].ToString())/item.TotalPaid).ToString("#,0.00", nfi);
+                                }
+                                else
+                                {
+                                    Data.column3Data = "0";
+                                }
+
+                                report.ReportDataList.Add(Data);
+                                }
+                            }
+                        }
+                    }
+                }
+                #endregion
+
+                return report;
             }
             catch (Exception e)
             {

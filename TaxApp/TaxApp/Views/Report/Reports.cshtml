@@ -86,7 +86,7 @@
                                 <p class="mt-3 mb-0 text-muted text-sm">
                                     <span class="text-success mr-2">
                                         <i class="fa fa-arrow-up"></i>
-                                        UP @Model.DashboardIncomeExpense.ExpensePast60to30DaysPercent %
+                                        UP @Model.DashboardIncomeExpense.ExpensePast60to30DaysPercentString %
                                     </span>
                                     <span class="text-nowrap">Since last month</span>
                                 </p>
@@ -96,7 +96,7 @@
                                 <p class="mt-3 mb-0 text-muted text-sm">
                                     <span class="text-danger mr-2">
                                         <i class="fas fa-arrow-down"></i>
-                                        Down @Model.DashboardIncomeExpense.ExpensePast60to30DaysPercent %
+                                        Down @Model.DashboardIncomeExpense.ExpensePast60to30DaysPercentString %
                                     </span>
                                     <span class="text-nowrap">Since last month</span>
                                 </p>
@@ -229,6 +229,14 @@
                                     <div>
                                         <i class="ni ni-align-left-2"></i>
                                         <span>Jobs Report</span>
+                                    </div>
+                                </button>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <button type="button" class="btn-icon-clipboard" onclick="window.location.href = '../Report/DisplayReport?reportID=0014';">
+                                    <div>
+                                        <i class="ni ni-align-left-2"></i>
+                                        <span>Job Earnings per Hour</span>
                                     </div>
                                 </button>
                             </div>
@@ -401,6 +409,14 @@
                 <div id="Tax" class="panel-collapse collapse">
                     <div class="card-body">
                         <div class="row icon-examples">
+                            <div class="col-lg-3 col-md-6">
+                                <button type="button" class="btn-icon-clipboard" onclick="window.location.href = '../Report/DisplayReport?reportID=0012';">
+                                    <div>
+                                        <i class="ni ni-align-left-2"></i>
+                                        <span>Tax report</span>
+                                    </div>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -415,7 +431,7 @@
                 <div class="card-header bg-transparent" data-toggle="collapse" href="#Vat">
                     <div class="row align-items-center">
                         <div class="col">
-                            <h3 class="mb-0">Vat</h3>
+                            <h3 class="mb-0">VAT</h3>
                         </div>
                         <div class="col text-right">
                                 <i class="ni ni-bold-down"></i>
@@ -425,6 +441,14 @@
                 <div id="Vat" class="panel-collapse collapse">
                     <div class="card-body">
                         <div class="row icon-examples">
+                            <div class="col-lg-3 col-md-6">
+                                <button type="button" class="btn-icon-clipboard" onclick="window.location.href = '../Report/DisplayReport?reportID=0013';">
+                                    <div>
+                                        <i class="ni ni-align-left-2"></i>
+                                        <span>VAT report</span>
+                                    </div>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

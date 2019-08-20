@@ -136,6 +136,9 @@ namespace TaxApp.Controllers
                     report.column4Name = "Income (R)";
                     report.column5Name = "Expenses (R)";
                     report.column6Name = "Earnings (before Tax & VAT) (R)";
+                    report.column4DataAlignRight = true;
+                    report.column5DataAlignRight = true;
+                    report.column6DataAlignRight = true;
 
                     report.ReportDataList = new List<ReportDataList>();
 
@@ -200,6 +203,7 @@ namespace TaxApp.Controllers
                     report.column2Name = "Client";
                     report.column3Name = "Job";
                     report.column4Name = "Income (before Tax & VAT) [R]";
+                    report.column4DataAlignRight = true;
 
                     report.ReportDataList = new List<ReportDataList>();
 
@@ -289,6 +293,7 @@ namespace TaxApp.Controllers
                     report.column1Name = "Date";
                     report.column2Name = "Title";
                     report.column3Name = "Amount (R)";
+                    report.column3DataAlignRight = true;
 
                     report.ReportDataList = new List<ReportDataList>();
 
@@ -410,6 +415,8 @@ namespace TaxApp.Controllers
                     report.column2Name = "Title";
                     report.column3Name = "Expense Amount (R)";
                     report.column4Name = "Income Amount (R)";
+                    report.column3DataAlignRight = true;
+                    report.column4DataAlignRight = true;
 
                     report.ReportDataList = new List<ReportDataList>();
 
@@ -458,6 +465,7 @@ namespace TaxApp.Controllers
                     fotter.column1Data = "Net income:";
                     fotter.column4Data = ((footers.Income - footers.TAXOwed).ToString("#,0.00", nfi));
                     report.FooterRowList.Add(fotter);
+                    report.column4FotterAlignRight = true;
                 }
                 else
                     report = null;
@@ -588,6 +596,9 @@ namespace TaxApp.Controllers
                     report.column4Name = "General Expense Amount (R)";
                     report.column5Name = "Job Expense Amount (R)";
                     report.column6Name = "Travel Expense Amount (R)";
+                    report.column4DataAlignRight = true;
+                    report.column5DataAlignRight = true;
+                    report.column6DataAlignRight = true;
 
                     report.ReportDataList = new List<ReportDataList>();
 
@@ -657,6 +668,7 @@ namespace TaxApp.Controllers
                     fotter.column5Data = "All Expense Total (R):";
                     fotter.column6Data = ((Total).ToString("#,0.00", nfi));
                     report.FooterRowList.Add(fotter);
+                    report.column6FotterAlignRight = true;
                 }
                 else
                     report = null;
@@ -692,6 +704,7 @@ namespace TaxApp.Controllers
                     report.column1Name = "Date";
                     report.column2Name = "Title";
                     report.column4Name = "Amount (R)";
+                    report.column4DataAlignRight = true;
 
                     report.ReportDataList = new List<ReportDataList>();
 
@@ -748,6 +761,7 @@ namespace TaxApp.Controllers
                     report.column1Name = "Date";
                     report.column2Name = "Title";
                     report.column4Name = "Amount (R)";
+                    report.column4DataAlignRight = true;
 
                     report.ReportDataList = new List<ReportDataList>();
 
@@ -804,6 +818,7 @@ namespace TaxApp.Controllers
                     report.column1Name = "Date";
                     report.column2Name = "Title";
                     report.column4Name = "Amount (R)";
+                    report.column4DataAlignRight = true;
 
                     report.ReportDataList = new List<ReportDataList>();
 
@@ -827,6 +842,343 @@ namespace TaxApp.Controllers
                     report.column4Total = (c4Total.ToString("#,0.00", nfi));
                 }
                 else
+                    report = null;
+            }
+            //Tax report
+            else if (ID == "0012")
+            {
+                report = new ReportViewModel();
+                List<Model.DashboardExpense> ExpenseReport = null;
+                List<TAXorVATRecivedList> IncomeRecivedReport = null;
+
+                TaxPeriodRates rate = new TaxPeriodRates();
+                rate.Rate = 0;
+                TaxAndVatPeriods dates = new TaxAndVatPeriods();
+                dates.StartDate = sDate;
+                dates.EndDate = eDate;
+                TaxDashboard footers = null;
+
+                try
+                {
+                    List<TaxAndVatPeriods> taxPeriod = handler.getTaxOrVatPeriodForProfile(ProfileID, 'T');
+
+                    if (taxPeriod == null || taxPeriod.Count == 0)
+                    {
+                        Response.Redirect("../Tax/TaxVatPeriod?Type=T");
+                    }
+                    else
+                    {
+                        ViewBag.DropDownFilter = new SelectList(taxPeriod, "PeriodID", "PeriodString");
+
+                        if (DropDownID == null || DropDownID == "")
+                            DropDownID = taxPeriod[0].PeriodID.ToString();
+
+                        ViewBag.DropDownID = DropDownID;
+
+                        foreach (TaxAndVatPeriods item in taxPeriod)
+                        {
+                            if (item.PeriodID.ToString() == DropDownID)
+                            {
+                                dates = item;
+                                sDate = item.StartDate;
+                                eDate = item.EndDate;
+                            }
+                        }
+
+                        IncomeRecivedReport = handler.getTAXRecivedList(ProfileID, dates, rate);
+                        ExpenseReport = new List<Model.DashboardExpense>();
+                        List<Model.TravelLog> ProfileTravelLog = handler.getProfileTravelLog(ProfileID, sDate, eDate);
+                        List<Model.SP_GetJobExpense_Result> ProfileJobExpenses = handler.getAllJobExpense(ProfileID, sDate, eDate);
+                        List<Model.SP_GetGeneralExpense_Result> ProfileGeneralExpenses = handler.getGeneralExpenses(ProfileID, sDate, eDate);
+                        foreach (Model.TravelLog expenseItem in ProfileTravelLog)
+                        {
+                            Model.DashboardExpense expense = new Model.DashboardExpense();
+
+                            expense.name = expenseItem.Reason;
+                            expense.date = expenseItem.DateString;
+                            expense.amount = expenseItem.ClientCharge;
+                            expense.TotalString = expense.amount.ToString("#,0.00", nfi);
+
+                            ExpenseReport.Add(expense);
+                        }
+                        foreach (Model.SP_GetJobExpense_Result expenseItem in ProfileJobExpenses)
+                        {
+                            Model.DashboardExpense expense = new Model.DashboardExpense();
+
+                            expense.name = expenseItem.Name;
+                            expense.date = expenseItem.DateString;
+                            expense.amount = expenseItem.Amount;
+                            expense.TotalString = expense.amount.ToString("#,0.00", nfi);
+
+                            ExpenseReport.Add(expense);
+                        }
+                        foreach (Model.SP_GetGeneralExpense_Result expenseItem in ProfileGeneralExpenses)
+                        {
+                            Model.DashboardExpense expense = new Model.DashboardExpense();
+
+                            expense.name = expenseItem.Name;
+                            expense.date = expenseItem.DateString;
+                            expense.amount = expenseItem.Amount;
+                            expense.TotalString = expense.amount.ToString("#,0.00", nfi);
+
+                            ExpenseReport.Add(expense);
+                        }
+                        footers = handler.getTaxCenterDashboard(ProfileID, dates);
+                    }
+                }
+                catch (Exception e)
+                {
+                    function.logAnError(e.ToString() +
+                        "Error loading report 00012 in reports controler");
+                }
+
+                if (ExpenseReport != null && IncomeRecivedReport != null && footers != null)
+                {
+                    report.reportTitle = "Income Tax";
+                    report.reportCondition = "From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
+                    report.reportSubHeading = "All values in ZAR";
+                    report.reportStartDate = sDate.ToString("yyyy-MM-dd");
+                    report.reportEndDate = eDate.ToString("yyyy-MM-dd");
+
+                    report.column1Name = "Date";
+                    report.column2Name = "Title";
+                    report.column3Name = "Income Amount (R)";
+                    report.column3DataAlignRight = true;
+
+                    report.ReportDataList = new List<ReportDataList>();
+
+                    decimal c3Total = 0;
+                    decimal c7Total = 0;
+
+                    foreach (DashboardExpense item in ExpenseReport)
+                    {
+                        c7Total += item.amount * -1;
+                    }
+
+                    foreach (TAXorVATRecivedList item in IncomeRecivedReport)
+                    {
+                        ReportDataList Data = new ReportDataList();
+                        Data.column1Data = (item.InvoiceDateString);
+                        Data.column2Data = (item.JobTitle + " for " + item.clientName);
+                        Data.column3Data = (item.TotalString);
+
+                        report.ReportDataList.Add(Data);
+
+                        c3Total += item.Total;
+                    }
+
+                    report.FooterRowList = new List<ReportFixedFooterRowList>();
+                    ReportFixedFooterRowList fotter = new ReportFixedFooterRowList();
+                    fotter.column2Data = "Income:";
+                    fotter.column3Data = (c3Total.ToString("#,0.00", nfi));
+                    report.FooterRowList.Add(fotter);
+                    fotter = new ReportFixedFooterRowList();
+                    fotter.column2Data = "Expenses:";
+                    fotter.column3Data = (c7Total.ToString("#,0.00", nfi));
+                    report.FooterRowList.Add(fotter);
+                    fotter = new ReportFixedFooterRowList();
+                    fotter.column2Data = "Subtotal:";
+                    fotter.column3Data = ((footers.Income).ToString("#,0.00", nfi));
+                    report.FooterRowList.Add(fotter);
+                    fotter = new ReportFixedFooterRowList();
+                    fotter.column2Data = "Income Tax " + footers.TaxBraketString + " (Est):";
+                    fotter.column3Data = (footers.TAXOwedSTRING);
+                    report.FooterRowList.Add(fotter);
+                    report.column3FotterAlignRight = true;
+                }
+                else
+                    report = null;
+            }
+            //VAT report
+            else if (ID == "0013")
+            {
+                report = new ReportViewModel();
+
+                List<Model.DashboardExpense> ExpenseReport = null;
+                VATDashboard footers = null;
+                List<TAXorVATRecivedList> VATRecived = null;
+
+                TaxAndVatPeriods VATRate = null;
+
+                TaxAndVatPeriods dates = new TaxAndVatPeriods();
+                dates.StartDate = sDate;
+                dates.EndDate = eDate;
+
+                try
+                {
+                    List<TaxAndVatPeriods> vatPeriod = handler.getTaxOrVatPeriodForProfile(ProfileID, 'V');
+
+                    if (vatPeriod == null || vatPeriod.Count == 0)
+                    {
+                        Response.Redirect("../Tax/TaxVatPeriod?Type=V");
+                    }
+                    else
+                    {
+                        ViewBag.DropDownFilter = new SelectList(vatPeriod, "PeriodID", "PeriodString");
+
+                        if (DropDownID == null || DropDownID == "")
+                            DropDownID = vatPeriod[0].PeriodID.ToString();
+
+                        ViewBag.DropDownID = DropDownID;
+
+                        foreach (TaxAndVatPeriods item in vatPeriod)
+                        {
+                            if (item.PeriodID.ToString() == DropDownID)
+                            {
+                                dates = item;
+                                sDate = item.StartDate;
+                                eDate = item.EndDate;
+                                VATRate = item;
+                            }
+                        }
+
+                        ExpenseReport = new List<Model.DashboardExpense>();
+                        List<Model.TravelLog> ProfileTravelLog = handler.getProfileTravelLog(ProfileID, sDate, eDate);
+                        List<Model.SP_GetJobExpense_Result> ProfileJobExpenses = handler.getAllJobExpense(ProfileID, sDate, eDate);
+                        List<Model.SP_GetGeneralExpense_Result> ProfileGeneralExpenses = handler.getGeneralExpensesReport(ProfileID, sDate, eDate);
+                        foreach (Model.TravelLog expenseItem in ProfileTravelLog)
+                        {
+                            Model.DashboardExpense expense = new Model.DashboardExpense();
+
+                            expense.name = expenseItem.Reason;
+                            expense.date = expenseItem.DateString;
+                            expense.amount = expenseItem.ClientCharge;
+                            expense.TotalString = expense.amount.ToString("#,0.00", nfi);
+                            expense.VAT = ((expense.amount / 100) * VATRate.VATRate);
+                            expense.VATString = expense.VAT.ToString("#,0.00", nfi);
+
+                            ExpenseReport.Add(expense);
+                        }
+                        foreach (Model.SP_GetJobExpense_Result expenseItem in ProfileJobExpenses)
+                        {
+                            Model.DashboardExpense expense = new Model.DashboardExpense();
+
+                            expense.name = expenseItem.Name;
+                            expense.date = expenseItem.DateString;
+                            expense.amount = expenseItem.Amount;
+                            expense.TotalString = expense.amount.ToString("#,0.00", nfi);
+                            expense.VAT = ((expense.amount / 100) * VATRate.VATRate);
+                            expense.VATString = expense.VAT.ToString("#,0.00", nfi);
+
+                            ExpenseReport.Add(expense);
+                        }
+                        foreach (Model.SP_GetGeneralExpense_Result expenseItem in ProfileGeneralExpenses)
+                        {
+                            Model.DashboardExpense expense = new Model.DashboardExpense();
+
+                            expense.name = expenseItem.Name;
+                            expense.date = expenseItem.DateString;
+                            expense.amount = expenseItem.Amount;
+                            expense.TotalString = expense.amount.ToString("#,0.00", nfi);
+                            expense.VAT = ((expense.amount / 100) * VATRate.VATRate);
+                            expense.VATString = expense.VAT.ToString("#,0.00", nfi);
+
+                            ExpenseReport.Add(expense);
+                        }
+
+                        footers = handler.getVatCenterDashboard(ProfileID, VATRate);
+
+                        VATRecived = handler.getVATRecivedList(ProfileID, VATRate);
+                    }
+                }
+                catch (Exception e)
+                {
+                    function.logAnError(e.ToString() +
+                        "Error loading report 0003 in reports controler");
+                }
+
+                if (ExpenseReport != null && VATRecived != null && footers != null)
+                {
+                    report.reportTitle = "VAT";
+                    report.reportCondition = "From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
+                    report.reportStartDate = sDate.ToString("yyyy-MM-dd");
+                    report.reportSubHeading = "Vat Rate @ "+VATRate.VATRate.ToString("#,0.00", nfi) + "% & all values in ZAR";
+                    report.reportEndDate = eDate.ToString("yyyy-MM-dd");
+
+                    report.column1Name = "Date";
+                    report.column2Name = "Title";
+                    report.column3Name = "Income Amount (R)";
+                    report.column4Name = "VAT Received (R)";
+                    report.column5Name = "Expense Amount (R)";
+                    report.column6Name = "VAT Paid (R)";
+                    report.column3DataAlignRight = true;
+                    report.column4DataAlignRight = true;
+                    report.column5DataAlignRight = true;
+                    report.column6DataAlignRight = true;
+
+                    report.ReportDataList = new List<ReportDataList>();
+
+                    decimal c3Total = 0;
+                    decimal c4Total = 0;
+                    decimal c5Total = 0;
+                    decimal c6Total = 0;
+
+                    foreach (DashboardExpense item in ExpenseReport)
+                    {
+                        ReportDataList Data = new ReportDataList();
+                        Data.column1Data = (item.date);
+                        Data.column2Data = (item.name);
+                        Data.column5Data = ("-" + item.amount.ToString("#,0.00", nfi));
+                        Data.column6Data = ("-" + item.VATString);
+                        Data.column4Data = ("");
+                        Data.column3Data = ("");
+
+                        report.ReportDataList.Add(Data);
+
+                        c5Total += item.amount * -1;
+                        c6Total += item.VAT * -1;
+                    }
+
+                    foreach (TAXorVATRecivedList item in VATRecived)
+                    {
+                        ReportDataList Data = new ReportDataList();
+                        Data.column1Data = (item.InvoiceDateString);
+                        Data.column2Data = (item.JobTitle + " for " + item.clientName);
+                        Data.column3Data = (item.TotalString);
+                        Data.column4Data = (item.VATorTAXString);
+                        Data.column5Data = ("");
+                        Data.column6Data = ("");
+
+                        report.ReportDataList.Add(Data);
+
+                        c3Total += item.Total;
+                        c4Total += item.VATorTAX;
+                    }
+
+                    report.column3Total = (c3Total.ToString("#,0.00", nfi));
+                    report.column4Total = (c4Total.ToString("#,0.00", nfi));
+                    report.column5Total = (c5Total.ToString("#,0.00", nfi));
+                    report.column6Total = (c6Total.ToString("#,0.00", nfi));
+
+                    report.FooterRowList = new List<ReportFixedFooterRowList>();
+                    ReportFixedFooterRowList fotter = new ReportFixedFooterRowList();
+                    fotter.column5Data = "VAT Owed est.:";
+                    fotter.column6Data = ((footers.VATPAIDOutstandingEst).ToString("#,0.00", nfi));
+                    report.FooterRowList.Add(fotter);
+                    report.column6FotterAlignRight = true;
+                }
+                else
+                    report = null;
+            }
+            //JobEarningPerHourReport
+            else if (ID == "0014")
+            {
+                report = new ReportViewModel();
+
+                try
+                {
+                    Client ProfileIDClient = new Client();
+                    ProfileIDClient.ProfileID = ProfileID.ProfileID;
+
+                    report = handler.getJobEarningPerHourReport(ProfileID, sDate, eDate);
+                }
+                catch (Exception e)
+                {
+                    function.logAnError(e.ToString() +
+                        "Error loading report 0014 in reports controler");
+                }
+
+                if (report.ReportDataList == null)
                     report = null;
             }
 

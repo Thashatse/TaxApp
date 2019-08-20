@@ -388,6 +388,10 @@ namespace BLL
         { return db.getExpensesByClientReport(profile, sDate, eDate, DropDownID); }
         public List<SP_GetGeneralExpense_Result> getGeneralExpensesReport(Profile profileID, DateTime sDate, DateTime eDate)
         { return db.getGeneralExpensesReport(profileID, sDate, eDate); }
+        public ReportViewModel getJobEarningPerHourReport(Profile profile, DateTime sDate, DateTime eDate)
+        {
+            return db.getJobEarningPerHourReport(profile, sDate, eDate);
+        }
         #endregion
     }
 }

@@ -150,6 +150,7 @@ namespace DAL
         ReportViewModel getExpensesByClientReport(Profile profile, DateTime sDate, DateTime eDate, string DropDownID);
         ReportViewModel getClientReport(Profile profile, DateTime sDate, DateTime eDate, string DropDownID);
         List<SP_GetGeneralExpense_Result> getGeneralExpensesReport(Profile profileID, DateTime sDate, DateTime eDate);
+        ReportViewModel getJobEarningPerHourReport(Profile profile, DateTime sDate, DateTime eDate);
         #endregion
     }
 }
