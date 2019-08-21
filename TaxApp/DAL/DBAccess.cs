@@ -425,9 +425,9 @@ namespace DAL
         #endregion
 
         #region Job
-        public bool newJob(Job job)
+        public string newJob(Job job)
         {
-            bool Result = false;
+            string Result = "";
 
             try
             {
@@ -438,10 +438,20 @@ namespace DAL
                         new SqlParameter("@HR", job.HourlyRate),
                         new SqlParameter("@B", job.Budget),
                         new SqlParameter("@SD",job.StartDate),
+                        new SqlParameter("@S",job.Share)
                    };
 
-                Result = DBHelper.NonQuery("SP_NewJob", CommandType.StoredProcedure, pars);
-
+                using (DataTable table = DBHelper.ParamSelect("SP_NewJob",
+            CommandType.StoredProcedure, pars))
+                {
+                    foreach (DataRow row in table.Rows)
+                    {
+                        if (row != null)
+                        {
+                            Result = row[0].ToString();
+                        }
+                    }
+                }
             }
             catch (Exception e)
             {
@@ -513,6 +523,7 @@ namespace DAL
                             job.ClientFirstName = row[7].ToString();
                             job.StartDate = DateTime.Parse(row[4].ToString());
                             job.StartDateString = String.Format("{0:dddd, dd MMMM yyyy}", job.StartDate);
+                            job.Share = bool.Parse(row["Share"].ToString());
 
                             job.Noti95 = bool.Parse(row["Noti75"].ToString());
                             job.Noti90 = bool.Parse(row["Noti90"].ToString());
@@ -754,6 +765,7 @@ namespace DAL
                             job.ClientFirstName = row["FirstName"].ToString();
                             job.StartDate = DateTime.Parse(row["StartDate"].ToString());
                             job.StartDateString = String.Format("{0:dddd, dd MMMM yyyy}", job.StartDate);
+                            job.Share = bool.Parse(row["Share"].ToString());
 
                             if (row["EndDate"].ToString() != "" && row["EndDate"] != null)
                             {
@@ -998,6 +1010,7 @@ namespace DAL
                             job.ClientFirstName = row["FirstName"].ToString();
                             job.StartDate = DateTime.Parse(row["StartDate"].ToString());
                             job.StartDateString = String.Format("{0:dddd, dd MMMM yyyy}", job.StartDate);
+                            job.Share = bool.Parse(row["Share"].ToString());
 
                             if (row["EndDate"].ToString() != "" && row["EndDate"] != null)
                             {
@@ -1236,6 +1249,7 @@ namespace DAL
                             job.ClientFirstName = row["FirstName"].ToString();
                             job.StartDate = DateTime.Parse(row["StartDate"].ToString());
                             job.StartDateString = String.Format("{0:dddd, dd MMMM yyyy}", job.StartDate);
+                            job.Share = bool.Parse(row["Share"].ToString());
 
                             if (row["EndDate"].ToString() != "" && row["EndDate"] != null)
                             {
@@ -1333,6 +1347,27 @@ namespace DAL
                    };
 
                 Result = DBHelper.NonQuery("SP_MarkJobAsComplete", CommandType.StoredProcedure, pars);
+
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return Result;
+        }
+        public bool UpdateShareJob(Job JobID)
+        {
+            bool Result = false;
+
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@JID", JobID.JobID),
+                   };
+
+                Result = DBHelper.NonQuery("SP_UpdateSharePeriodJob", CommandType.StoredProcedure, pars);
 
             }
             catch (Exception e)
@@ -1568,8 +1603,8 @@ namespace DAL
                         if (row != null)
                         {
                             Client = new Model.Client();
-                            Client.FirstName = row[1].ToString();
-                            Client.LastName = row[2].ToString();
+                            Client.FirstName = row["FirstName"].ToString();
+                            Client.LastName = row["LastName"].ToString();
 
                             if (row["CompanyName"] != null)
                             {
@@ -1586,12 +1621,12 @@ namespace DAL
                             {
                                 Client.CompanyName = "None";
                             }
-                            Client.ContactNumber = row[4].ToString();
-                            Client.EmailAddress = row[5].ToString();
-                            Client.PreferedCommunicationChannel = row[7].ToString();
-                            Client.PhysiclaAddress = row[6].ToString();
-                            Client.ProfileID = int.Parse(row[8].ToString());
-                            Client.ClientID = int.Parse(row[0].ToString());
+                            Client.ContactNumber = row["ContactNumber"].ToString();
+                            Client.EmailAddress = row["EmailAddress"].ToString();
+                            Client.PreferedCommunicationChannel = row["PreferedCommunicationChannel"].ToString();
+                            Client.PhysiclaAddress = row["PhysiclaAddress"].ToString();
+                            Client.ProfileID = int.Parse(row["ProfileID"].ToString());
+                            Client.ClientID = int.Parse(row["ClientID"].ToString());
                         }
                     }
                 }
@@ -2820,7 +2855,7 @@ namespace DAL
         }
         #endregion
 
-        #region TaxAndVatPeriods
+        #region Tax And Vat Periods
         public List<TaxAndVatPeriods> getTaxOrVatPeriodForProfile(Profile profileID, char type)
         {
             List<TaxAndVatPeriods> Periods = new List<TaxAndVatPeriods>();
@@ -2847,6 +2882,7 @@ namespace DAL
                             Period.StartDate = DateTime.Parse(row["StartDate"].ToString());
                             Period.EndDate = DateTime.Parse(row["EndDate"].ToString());
                             Period.Type = row["Type"].ToString()[0];
+                            Period.Share = bool.Parse(row["Share"].ToString());
                             Period.PeriodString = Period.StartDate.ToString("dd MMM yyyy") + " - " + Period.EndDate.ToString("dd MMM yyyy");
                             Periods.Add(Period);
                         }
@@ -2870,7 +2906,8 @@ namespace DAL
                         new SqlParameter("@PID", newPeriod.ProfileID),
                         new SqlParameter("@SD", newPeriod.StartDate.AddDays(-1)),
                         new SqlParameter("@ED", newPeriod.EndDate.AddDays(+1)),
-                        new SqlParameter("@T", newPeriod.Type)
+                        new SqlParameter("@T", newPeriod.Type),
+                        new SqlParameter("@S", newPeriod.Share)
                    };
 
                 Result = DBHelper.NonQuery("SP_NewTaxOrVatPeriod", CommandType.StoredProcedure, pars);
@@ -2882,6 +2919,50 @@ namespace DAL
             }
 
             return Result;
+        }
+        public Tuple<TaxAndVatPeriods, TaxConsultant> UpdateShareTaxorVatPeriod(TaxAndVatPeriods PeriodID)
+        {
+            TaxAndVatPeriods Period = null;
+            TaxConsultant consultant = null;
+
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@PID", PeriodID.PeriodID),
+                   };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_UpdateSharePeriodTaxorVatPeriod",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            Period = new TaxAndVatPeriods();
+                            Period.ProfileID = int.Parse(row["ProfileID"].ToString());
+                            Period.PeriodID = int.Parse(row["PeriodID"].ToString());
+                            Period.VATRate = decimal.Parse(row["VATRate"].ToString());
+                            Period.StartDate = DateTime.Parse(row["StartDate"].ToString());
+                            Period.EndDate = DateTime.Parse(row["EndDate"].ToString());
+                            Period.Type = row["Type"].ToString()[0];
+                            Period.Share = bool.Parse(row["Share"].ToString());
+                            Period.PeriodString = "From " + Period.StartDate.ToString("dd MMM yyyy") + " to " + Period.EndDate.ToString("dd MMM yyyy");
+
+                            consultant = new Model.TaxConsultant();
+                            consultant.ProfileID = int.Parse(row["ProfileID"].ToString());
+                            consultant.Name = row["Name"].ToString();
+                            consultant.EmailAddress = row["EmailAddress"].ToString();
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return Tuple.Create(Period, consultant);
         }
         public TaxAndVatPeriods SP_GetLatestTaxAndVatPeriodID()
         {
@@ -5072,8 +5153,10 @@ namespace DAL
 
                 report.column1Name = "Start Date";
                 report.column2Name = "Job Title";
-                report.column3Name = "Income per Hour (Excl. VAT) [R]";
+                report.column3Name = "Job Hourly Rate (R)";
+                report.column4Name = "Income per Hour (Excl. VAT) [R]";
                 report.column3DataAlignRight = true;
+                report.column4DataAlignRight = true;
 
                 var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
                 nfi.NumberGroupSeparator = " ";
@@ -5110,6 +5193,20 @@ namespace DAL
                                 TotalPaid.TotalPaid = 0;
                             }
 
+                            if (row["ExpenseTotal"].ToString() != "" && row["ExpenseTotal"] != null)
+                            {
+                                TotalPaid.TotalPaid -= decimal.Parse(row["ExpenseTotal"].ToString());
+                            }
+
+                            if (row["TravelLogCostTotal"].ToString() != "" && row["TravelLogCostTotal"] != null)
+                            {
+                                TotalPaid.TotalPaid -= decimal.Parse(row["TravelLogCostTotal"].ToString());
+                            }
+                            else
+                            {
+                                TotalPaid.TotalPaid = 0;
+                            }
+
                             TotalPaids.Add(TotalPaid);
                         }
                     }
@@ -5134,25 +5231,44 @@ namespace DAL
                     {
                         foreach (DataRow row in table.Rows)
                         {
-                            foreach(SP_GetJob_Result item in TotalPaids)
+                            bool add = false;
+                            ReportDataList Data = new ReportDataList();
+                            Data.column2Data = row["JobTitle"].ToString();
+                            Data.column1Data = DateTime.Parse(row["StartDate"].ToString()).ToString("dd MMM yyyy");
+
+                            if (row["HourlyRate"].ToString() != "" && row["HourlyRate"] != null)
                             {
-                                if(item.JobID == int.Parse(row["JobID"].ToString()))
+                                Data.column3Data = decimal.Parse(row["HourlyRate"].ToString()).ToString("#,0.00", nfi);
+                            }
+                            else
+                            {
+                                Data.column3Data = "N/A";
+                            }
+
+                            foreach (SP_GetJob_Result item in TotalPaids)
+                            {
+                                if (item.JobID == int.Parse(row["JobID"].ToString()))
                                 {
-                                ReportDataList Data = new ReportDataList();
-                                Data.column2Data = row["JobTitle"].ToString();
-                                Data.column1Data = DateTime.Parse(row["StartDate"].ToString()).ToString("dd MMM yyyy");
 
                                 if (row["WorkLogHours"].ToString() != "" && row["WorkLogHours"] != null)
                                 {
-                                    Data.column3Data = (decimal.Parse(row["WorkLogHours"].ToString())/item.TotalPaid).ToString("#,0.00", nfi);
+                                    Data.column4Data = (item.TotalPaid/(decimal.Parse(row["WorkLogHours"].ToString())/60)).ToString("#,0.00", nfi);
                                 }
                                 else
                                 {
-                                    Data.column3Data = "0";
+                                    Data.column4Data = "N/A";
                                 }
 
                                 report.ReportDataList.Add(Data);
+                                    add = true;
                                 }
+                            }
+
+                            if (add == false)
+                            {
+                                Data.column4Data = "0";
+
+                                report.ReportDataList.Add(Data);
                             }
                         }
                     }

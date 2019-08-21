@@ -11,5 +11,6 @@ namespace Model
         public VATDashboard VATDashboard { get; set; }
         public List<TAXorVATRecivedList> VATRecivedList { get; set; }
         public List<Model.DashboardExpense> VATPaid { get; set; }
+        public TaxAndVatPeriods period { get; set; }
     }
 }

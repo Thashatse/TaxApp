@@ -67,6 +67,8 @@ namespace TaxApp.Controllers
 
             try
             {
+                TaxCenter viewModel = new TaxCenter();
+
                 TaxDashboard dashboard = null;
                 List<TAXorVATRecivedList> TAXRecived = null;
 
@@ -102,6 +104,8 @@ namespace TaxApp.Controllers
                             TaxPeriodRates rate = new TaxPeriodRates();
                             rate.Rate = dashboard.TAXRate;
                             TAXRecived = handler.getTAXRecivedList(profileID, item, rate);
+
+                            viewModel.period = item;
                         }
                     }
 
@@ -110,7 +114,6 @@ namespace TaxApp.Controllers
                         Response.Redirect("../Shared/Error?Err=An error occurred loading data for tax period");
                     }
 
-                    TaxCenter viewModel = new TaxCenter();
                     viewModel.TAXDashboard = dashboard;
                     viewModel.TAXRecivedList = TAXRecived;
 
@@ -204,6 +207,7 @@ namespace TaxApp.Controllers
 
                     period.StartDate = DateTime.Parse(Request.Form["StartDate"]);
                     period.EndDate = DateTime.Parse(Request.Form["EndDate"]);
+                    period.Share = bool.Parse(Request.Form["Share"].ToString());
                     period.Type = type[0];
                     period.ProfileID = int.Parse(cookie["ID"]);
 
@@ -427,6 +431,82 @@ namespace TaxApp.Controllers
             }
 
             return View(view);
+        }
+        #endregion
+
+        #region Update Period Share
+        public ActionResult Share(string ID, string type)
+        {
+            getCookie();
+
+            Tuple<TaxAndVatPeriods, TaxConsultant> tuple = null;
+
+            try
+            {
+                TaxAndVatPeriods periodID = new TaxAndVatPeriods();
+                periodID.PeriodID = int.Parse(ID);
+
+
+                tuple = handler.UpdateShareTaxorVatPeriod(periodID);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error Updating Tax or Vat Period share");
+            }
+
+            string period = ID;
+            string view = "DS";
+
+            if(tuple != null)
+            {
+if(tuple.Item1 != null && tuple.Item2 != null)
+            {
+                string subject = "";
+                string body = "";
+                if (tuple.Item1.Type == 'T')
+                {
+                    subject = ViewBag.ProfileName + " has shared information from their Tax period with you.";
+                    body = "Hello " + tuple.Item2.Name + " \n \n " +
+                        ViewBag.ProfileName + " has shared information from their Tax period dated " + tuple.Item1.PeriodString
+                        + " with you using Tax App. \n\n" +
+                        "Use the link bellow to gain access: \n http://localhost:54533/Track/verifyIdentity?ID=" + tuple.Item1.PeriodID + "&Type=T";
+                }
+                else if (tuple.Item1.Type == 'V')
+                {
+                    subject = ViewBag.ProfileName + " has shared information from their VAT period with you.";
+                    body = "Hello " + tuple.Item2.Name + " \n \n " +
+                        ViewBag.ProfileName + " has shared information from their VAT period dated " + tuple.Item1.PeriodString
+                        + " with you using Tax App. \n\n" +
+                        "Use the link bellow to gain access: \n http://localhost:54533/Track/verifyIdentity?ID=" + tuple.Item1.PeriodID + "&Type=V";
+                }
+
+                bool result = function.sendEmail(tuple.Item2.EmailAddress,
+                    tuple.Item2.Name,
+                    subject,
+                    body,
+                    ViewBag.ProfileName,
+                    int.Parse(cookie["ID"]));
+            }
+            }
+            
+
+            if (type == "T")
+            {
+                return RedirectToAction("TaxCenter", "Tax", new
+                {
+                    period,
+                    view
+                });
+            }
+            else
+            {
+                return RedirectToAction("VATCenter", "VAT", new
+                {
+                    period,
+                    view
+                });
+            }
         }
         #endregion
     }

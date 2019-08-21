@@ -40,5 +40,9 @@ namespace Model
         public Nullable<System.DateTime> EndDate { get; set; }
         public string DefultDate { get; set; }
         public string MinDate { get; set; }
+
+        [Required]
+        [Display(Name = "Share this job with the Client. Clients will be able to see hours, expenses and invoices.")]
+        public bool Share { get; set; }
     }
 }

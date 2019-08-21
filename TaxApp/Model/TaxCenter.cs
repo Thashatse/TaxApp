@@ -10,5 +10,6 @@ namespace Model
     {
         public TaxDashboard TAXDashboard { get; set; }
         public List<TAXorVATRecivedList> TAXRecivedList { get; set; }
+        public TaxAndVatPeriods period { get; set; }
     }
 }

@@ -332,13 +332,48 @@ namespace TaxApp.Controllers
                 newJob.ClientID = int.Parse(Request.Form["ClientList"].ToString());
                 newJob.JobTitle = Request.Form["JobTitle"].ToString();
                 newJob.HourlyRate = decimal.Parse(Request.Form["HourlyRate"].ToString());
+                newJob.Share = bool.Parse(Request.Form["Share"].ToString());
                 if(Request.Form["Budget"].ToString() != "")
                     newJob.Budget = decimal.Parse(Request.Form["Budget"].ToString());
                 else
                     newJob.Budget = 0;
                 newJob.StartDate = DateTime.Parse(Request.Form["StartDate"]);
 
-                bool result = handler.newJob(newJob);
+                string resultID = handler.newJob(newJob);
+
+                Client clientDetails = null;
+
+                Client getclient = new Client();
+                getclient.ClientID = newJob.ClientID;
+                handler.getClient(getclient);
+
+                bool result = false;
+
+                if (resultID != null && clientDetails != null && resultID != "" && newJob.Share)
+            {
+                    string subject = "";
+                    string body = "";
+
+                    subject = ViewBag.ProfileName + " has shared information about " + newJob.JobTitle + ".";
+                    body = "Hello " + clientDetails.FirstName + " " + clientDetails.LastName + " \n \n " +
+                        ViewBag.ProfileName + " has shared information about " + newJob.JobTitle
+                        + " with you using Tax App. \n" +
+                        "Use the link bellow to gain access: \n http://localhost:54533/Track/verifyIdentity?ID=" + resultID + "&Type=J";
+
+                    result = function.sendEmail(clientDetails.EmailAddress,
+                        clientDetails.FirstName + " " + clientDetails.LastName,
+                        subject,
+                        body,
+                        ViewBag.ProfileName,
+                        int.Parse(cookie["ID"]));
+
+                    if (!result)
+                        function.logAnError("Error emailing Job share");
+
+                    if (resultID != "" && resultID != null)
+                        result = true;
+                }
+
 
                 if (result == true)
                 {
@@ -798,6 +833,67 @@ namespace TaxApp.Controllers
                     "Error marking Job As Complete Job controller");
                 return Redirect("/job/job?ID=" + ID);
             }
+        }
+        #endregion
+
+        #region Update Job Share
+        public ActionResult Share(string ID)
+        {
+            getCookie();
+
+            Job getJob = new Job();
+            getJob.JobID = int.Parse(ID);
+
+            SP_GetJob_Result jobdetails = null;
+            Client clientDetails = null;
+
+            try
+            {
+                Job jobID = new Job();
+                jobID.JobID = int.Parse(ID);
+
+                if (!handler.UpdateShareJob(jobID))
+                    function.logAnError("Error Updating Job share");
+
+                jobdetails = handler.getJob(getJob);
+
+                Client getclient = new Client();
+                getclient.ClientID = jobdetails.ClientID;
+                clientDetails = handler.getClient(getclient);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error Updating job share");
+            }
+
+            if (jobdetails != null && clientDetails != null && jobdetails.Share)
+            {
+                string subject = "";
+                string body = "";
+
+                    subject = ViewBag.ProfileName + " has shared information about "+jobdetails.JobTitle +".";
+                    body = "Hello " + clientDetails.FirstName + " " + clientDetails.LastName + " \n \n " +
+                        ViewBag.ProfileName + " has shared information about " + jobdetails.JobTitle
+                        + " with you using Tax App. \n \n" +
+                        "Use the link bellow to gain access: \n http://localhost:54533/Track/verifyIdentity?ID=" + jobdetails.JobID+"&Type=J";
+
+                bool result = function.sendEmail(clientDetails.EmailAddress,
+                    clientDetails.FirstName + " " + clientDetails.LastName,
+                    subject,
+                    body,
+                    ViewBag.ProfileName,
+                    int.Parse(cookie["ID"]));
+
+                if(!result)
+                    function.logAnError("Error emailing Job share");
+            }
+
+            Response.Redirect("../Job/Job?ID=" + ID);
+                return RedirectToAction("Job", "Job", new
+                {
+                    ID
+                });
         }
         #endregion
     }

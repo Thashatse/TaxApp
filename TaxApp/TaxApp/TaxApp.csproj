@@ -152,6 +152,7 @@
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\SharedController.cs" />
     <Compile Include="Controllers\TaxController.cs" />
+    <Compile Include="Controllers\TrackController.cs" />
     <Compile Include="Controllers\VatController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -2219,6 +2220,10 @@
     <Content Include="Views\Client\Edit.cshtml" />
     <Content Include="Views\Profile\Profile.cshtml" />
     <Content Include="Views\Expense\Vehicles.cshtml" />
+    <Content Include="Views\Track\verifyIdentity.cshtml" />
+    <Content Include="Views\Track\Job.cshtml" />
+    <Content Include="Views\Track\TAX.cshtml" />
+    <Content Include="Views\Track\VAT.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

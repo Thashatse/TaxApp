@@ -117,6 +117,7 @@
     <Compile Include="ReportsViewModel.cs" />
     <Compile Include="ReportViewModel.cs" />
     <Compile Include="SearchViewModel.cs" />
+    <Compile Include="ShareVerifyIdentityModel.cs" />
     <Compile Include="SP_GetGeneralExpense_Result.cs">
       <DependentUpon>TaxAppModel.tt</DependentUpon>
     </Compile>
@@ -154,6 +155,9 @@
     <Compile Include="TaxDashboard.cs" />
     <Compile Include="TaxPeriodRates.cs" />
     <Compile Include="TAXRecivedList.cs" />
+    <Compile Include="TrackJobViewModel.cs" />
+    <Compile Include="TrackTaxViewModel.cs" />
+    <Compile Include="TrackVATViewModel.cs" />
     <Compile Include="TravelLog.cs">
       <DependentUpon>TaxAppModel.tt</DependentUpon>
     </Compile>

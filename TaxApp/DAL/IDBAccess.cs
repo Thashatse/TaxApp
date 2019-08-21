@@ -35,13 +35,14 @@ namespace DAL
         #endregion
 
         #region Job
-        bool newJob(Model.Job job);
+        string newJob(Model.Job job);
         bool editJob(Job job);
         Model.SP_GetJob_Result getJob(Model.Job job);
         List<SP_GetJob_Result> getProfileJobs(Profile profile);
         List<SP_GetJob_Result> getProfileJobsPast(Profile profile, DateTime sDate, DateTime eDate);
         List<SP_GetJob_Result> getProfileJobsDashboard(Profile profile);
         bool MarkJobAsComplete(Job job);
+        bool UpdateShareJob(Job JobID);
         #endregion
 
         #region WorkLog Item
@@ -99,6 +100,7 @@ namespace DAL
         #region TaxAndVatPeriods
         List<TaxAndVatPeriods> getTaxOrVatPeriodForProfile(Profile profileID, char type);
         bool newTaxOrVatPeriod(TaxAndVatPeriods newPeriod);
+        Tuple<TaxAndVatPeriods, TaxConsultant> UpdateShareTaxorVatPeriod(TaxAndVatPeriods PeriodID);
         #endregion
 
         #region Tax Period Brakets

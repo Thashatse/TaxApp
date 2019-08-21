@@ -190,7 +190,7 @@
                     <div class="card-header border-0">
                         <div class="row align-items-center">
                             <div class="col-9">
-                                <h3 class="mb-0">New</h3>
+                                <h3 class="mb-0">New Job</h3>
                                 <p>Create a new job</p>
                             </div>
                             <div class="col-3 text-right">
@@ -229,7 +229,7 @@
                                         </h3>
                                     </div>
                                     <div class="col text-right">
-                                        <a href="Invoice?ID=@Html.DisplayFor(modelItem => item.InvoiceNum)" class="btn btn-sm btn-primary">Details</a>
+                                        <a href="../Invoice/Invoice?ID=@Html.DisplayFor(modelItem => item.InvoiceNum)" class="btn btn-sm btn-primary">Details</a>
                                     </div>
                                 </div>
                             </div>
@@ -277,11 +277,14 @@
                     <div class="card shadow">
                         <div class="card-header border-0">
                             <div class="row align-items-center">
-                                <div class="col">
-                                    <h3 class="mb-0">Create A New Invoice</h3>
+                                <div class="col-9">
+                                    <h3 class="mb-0">New Invoice</h3>
+                                    <p>Generate a new invoice</p>
                                 </div>
-                                <div class="col text-right">
-                                    <a href="../Job/JobSelector?Dest=New*Invoice" class="btn btn-sm btn-primary">New Invoice</a>
+                                <div class="col-3 text-right">
+                                    <a href="../Job/JobSelector?Dest=New*Invoice" class="btn btn-primary">
+                                        <i class="ni ni-fat-add"></i>
+                                    </a>
                                 </div>
                             </div>
                         </div>

@@ -54,5 +54,9 @@ namespace Model
         public bool Noti90 { get; set; }
         public bool Noti95 { get; set; }
         public bool noti100 { get; set; }
+
+        [Required]
+        [Display(Name = "Share this job with the Client. Clients will be able to see hours, expenses and invoices.")]
+        public bool Share { get; set; }
     }
 }

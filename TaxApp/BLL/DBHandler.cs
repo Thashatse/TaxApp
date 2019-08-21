@@ -73,7 +73,7 @@ namespace BLL
         #endregion
         
         #region Job
-        public bool newJob(Model.Job job)
+        public string newJob(Model.Job job)
         {
             return db.newJob(job);
         }
@@ -282,6 +282,14 @@ namespace BLL
         public bool newTaxOrVatPeriod(TaxAndVatPeriods newPeriod)
         {
             return db.newTaxOrVatPeriod(newPeriod);
+        }
+        public Tuple<TaxAndVatPeriods, TaxConsultant> UpdateShareTaxorVatPeriod(TaxAndVatPeriods PeriodID)
+        {
+            return db.UpdateShareTaxorVatPeriod(PeriodID);
+        }
+        public bool UpdateShareJob(Job JobID)
+        {
+            return db.UpdateShareJob(JobID);
         }
         #endregion
 

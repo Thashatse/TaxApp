@@ -67,6 +67,8 @@ namespace TaxApp.Controllers
 
             try
             {
+                VatCenter viewModel = new VatCenter();
+
                 VATDashboard dashboard = null;
                 List<TAXorVATRecivedList> VATRecived = null;
                 List<Model.DashboardExpense> VATPaid = null;
@@ -168,7 +170,10 @@ namespace TaxApp.Controllers
                                     VATPaid.Add(expense);
                                 }
                                 VATPaid = VATPaid.OrderBy(x => x.dateSort).ToList();
-                            }
+
+
+                            viewModel.period = item;
+                        }
                         }
 
                     if(ViewBag.VatPeriod == null)
@@ -176,7 +181,6 @@ namespace TaxApp.Controllers
                         Response.Redirect("../Shared/Error?Err=An error occurred loading data for vat period");
                     }
 
-                    VatCenter viewModel = new VatCenter();
                     viewModel.VATDashboard = dashboard;
                     viewModel.VATRecivedList = VATRecived;
                     viewModel.VATPaid = VATPaid;
