@@ -401,5 +401,10 @@ namespace BLL
             return db.getJobEarningPerHourReport(profile, sDate, eDate);
         }
         #endregion
+
+        #region Verify External User
+        public int GetExternalUserOTP(int ID, string Type) { return db.GetExternalUserOTP(ID, Type); }
+        public Tuple<bool, string, string, int> NewExternalUserOTP(int ID, int OTP, string Type) { return db.NewExternalUserOTP(ID, OTP, Type); }
+        #endregion
     }
 }

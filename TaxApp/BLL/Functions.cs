@@ -148,6 +148,12 @@ namespace BLL
             return true;
         }
 
+        public int generateOTP()
+        {
+            Random generator = new Random();
+            return generator.Next(0, 999999);
+        }
+
         #region Auto Functions
         public void runAutoFunctions(object profileID)
         {

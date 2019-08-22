@@ -170,7 +170,8 @@ namespace TaxApp.Controllers
             getCookie();
 
             Thread zero = new Thread(function.runAutoFunctions);
-            zero.Start(cookie["ID"]);
+            if(cookie != null)
+                zero.Start(cookie["ID"]);
 
             ViewBag.Title = "Dashboard";
             

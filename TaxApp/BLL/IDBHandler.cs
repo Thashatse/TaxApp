@@ -153,6 +153,11 @@ namespace BLL
         List<SP_GetGeneralExpense_Result> getGeneralExpensesReport(Profile profileID, DateTime sDate, DateTime eDate);
         ReportViewModel getJobEarningPerHourReport(Profile profile, DateTime sDate, DateTime eDate);
         #endregion
+
+        #region Verify External User
+        int GetExternalUserOTP(int ID, string Type);
+        Tuple<bool, string, string, int> NewExternalUserOTP(int ID, int OTP, string Type);
+        #endregion
     }
 }
 

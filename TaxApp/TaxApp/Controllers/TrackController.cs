@@ -14,70 +14,61 @@ namespace TaxApp.Controllers
         HttpCookie cookie;
         Functions function = new Functions();
 
-        public void getCookie()
+        public string getCookie(string ID, string Type)
         {
             try
             {
                 //check if the user is loged in
-                cookie = Request.Cookies["TaxAppGeustUserID"];
+                cookie = Request.Cookies["TaxAppGuestUserID"];
 
-                if (cookie != null)
-                {
-                    //show the nav tabs menue only for customers
-                    if (cookie["ID"] != null || cookie["ID"] != "")
-                    {
-                        Client checkClient = new Client();
-
-                        checkProfile.ProfileID = int.Parse(cookie["ID"].ToString());
-                        checkProfile.EmailAddress = "";
-                        checkProfile.Username = "";
-
-                        checkProfile = handler.getProfile(checkProfile);
-
-                        if (checkProfile == null)
-                        {
-                            Response.Redirect("/Landing/Welcome");
-                        }
-
-                        ViewBag.ProfileName = checkProfile.FirstName + " " + checkProfile.LastName;
-                        ViewBag.NotificationList = notiFunctions.getNotifications(int.Parse(cookie["ID"]));
-                    }
-                    else
-                    {
-                        Response.Redirect("/Landing/Welcome");
-                    }
-                }
-                else
-                {
-                    Response.Redirect("/Landing/Welcome");
-                }
+                if (cookie == null)
+                    return ("../Track/verifyIdentity?ID="+ID+"&Type="+Type);
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
-                    "Error in get cookie Geust of Track (Share) contorler");
+                    "Error in welcome method of LandingControles");
                 Redirect("/Shared/Error");
             }
+
+                return "";
         }
 
         #region verify Identity
-        public ActionResult verifyIdentity(string ID, string Type)
+        public ActionResult verifyIdentity(string ID, string Type, string Err)
         {
             ShareVerifyIdentityModel data = new ShareVerifyIdentityModel();
-            data.userName = "Test First Test Last";
 
-            if (Type == "Job")
+            ViewBag.Message = Err;
+            
+            if (Type == "Job" || Type == "TAX" || Type == "VAT")
             {
+                try
+                {
+                int OTP = function.generateOTP();
+                Tuple<bool, string, string, int> check = handler.NewExternalUserOTP(int.Parse(ID), OTP, Type);
 
-            }
-            else if (Type == "TAX")
-            {
+                if (!check.Item1)
+                    Response.Redirect("../Shared/Error?Err=");
 
-            }
-            else if (Type == "VAT")
-            {
+                data.userName = check.Item2;
 
+                bool result = function.sendEmail(check.Item3,
+                        check.Item2,
+                        "Verify your identity - TaxApp",
+                        "Hello, \n\n Your OTP is: "+ OTP + "\n\n Regards, \n The TaxApp Team.",
+                        "TaxApp",
+                        0);
+                    ViewBag.UserID = check.Item4;
+                }
+                catch (Exception err)
+                {
+                    function.logAnError("Error creating OTP in Track controller Error: " + err);
+                    Response.Redirect("../Shared/Error?Err=Error generating OTP. Either sharing has been turned of or the link provided is broken.");
+                }
             }
+            else
+                Response.Redirect("../Shared/Error?Err=Broken link. The link provided cannot be found please try again.");
 
             return View(data);
         }
@@ -87,37 +78,74 @@ namespace TaxApp.Controllers
             ShareVerifyIdentityModel data = new ShareVerifyIdentityModel();
             data.userName = "Test First Test Last";
 
-            if (Type == "Job")
+            int OTP = 0;
+            int.TryParse(Request.Form["OTP"], out OTP);
+
+            if (OTP == handler.GetExternalUserOTP(int.Parse(ID), Type))
             {
+                cookie = new HttpCookie("TaxAppGuestUserID");
+                cookie.Expires = DateTime.Now.AddHours(3);
+                // Set the user id in it.
+                cookie["ID"] = Request.Form["userId"];
+                // Add it to the current web response.
+                Response.Cookies.Add(cookie);
 
+                if (Type == "Job")
+                    return RedirectToAction("Job", "Track", new
+                    {
+                        JobID = ID
+                    });
+                if (Type == "TAX")
+                    return RedirectToAction("TAX", "Track", new
+                    {
+                        TaxID = ID
+                    });
+                if (Type == "VAT")
+                    return RedirectToAction("VAT", "Track", new
+                    {
+                        VATID = ID
+                    });
             }
-            else if (Type == "TAX")
+            else
             {
-
+                string Err = "Incorrect OTP. We've sent you a new one, please try again";
+                return RedirectToAction("verifyIdentity", "Track", new
+                {
+                    Type,
+                    Err,
+                    ID
+                });
             }
-            else if (Type == "VAT")
-            {
 
-            }
-
+            ViewBag.Message = "An error occurred while processing your request.";
             return View(data);
         }
         #endregion
+
         public ActionResult Job(string ID)
         {
-            getCookie();
+            string link = getCookie(ID, "Job");
+            if (link != "")
+                Response.Redirect(link);
+
             return View();
         }
 
         public ActionResult TAX(string ID)
         {
-            getCookie();
+            string link = getCookie(ID, "Job");
+            if (link != "")
+                Response.Redirect(link);
+
             return View();
         }
 
         public ActionResult VAT(string ID)
         {
-            getCookie();
+            string link = getCookie(ID, "Job");
+            if (link != "")
+               Response.Redirect(link);
+
             return View();
         }
     }

@@ -5283,5 +5283,123 @@ namespace DAL
             }
         }
         #endregion
+
+        #region Verify External User
+        public int GetExternalUserOTP(int ID, string Type)
+        {
+            int OTP = -1;
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@ID", ID)
+                   };
+
+                if (Type == "Job")
+                {
+                    using (DataTable table = DBHelper.ParamSelect("SP_GetJobsOTP",
+                CommandType.StoredProcedure, pars))
+                    {
+                        if (table.Rows.Count > 0)
+                        {
+                            foreach (DataRow row in table.Rows)
+                            {
+                                OTP = int.Parse(row["OTP"].ToString());
+                            }
+                        }
+                    }
+                }
+                else if (Type == "TAX" || Type == "VAT")
+                {
+                    using (DataTable table = DBHelper.ParamSelect("SP_GetTaxOrVATOTP",
+                CommandType.StoredProcedure, pars))
+                    {
+                        if (table.Rows.Count > 0)
+                        {
+                            foreach (DataRow row in table.Rows)
+                            {
+                                OTP = int.Parse(row["OTP"].ToString());
+                            }
+                        }
+                    }
+                }
+
+                return OTP;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        public Tuple<bool, string, string, int> NewExternalUserOTP(int ID, int OTP, string Type)
+        {
+            bool Result = false;
+            string Name = "";
+            string Email = "";
+            int userID = 0;
+
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@ID", ID),
+                        new SqlParameter("@OTP", OTP)
+                   };
+
+                if (Type == "Job")
+                {
+                    Result = DBHelper.NonQuery("SP_NewJobOTP", CommandType.StoredProcedure, pars);
+
+                    pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@ID", ID)
+                   };
+
+                    using (DataTable table = DBHelper.ParamSelect("SP_GetExternalUserNameJob",
+                    CommandType.StoredProcedure, pars))
+                    {
+                        if (table.Rows.Count > 0)
+                        {
+                            foreach (DataRow row in table.Rows)
+                            {
+                                Name = row["userName"].ToString();
+                                Email = row["EmailAddress"].ToString();
+                                userID = int.Parse(row["ID"].ToString());
+                            }
+                        }
+                    }
+                }
+                else if (Type == "TAX" || Type == "VAT")
+                {
+                    Result = DBHelper.NonQuery("SP_NewTaxOrVATOTP", CommandType.StoredProcedure, pars);
+
+                    pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@ID", ID)
+                   };
+
+                    using (DataTable table = DBHelper.ParamSelect("SP_GetExternalUserNameTaxorVat",
+                    CommandType.StoredProcedure, pars))
+                    {
+                        if (table.Rows.Count > 0)
+                        {
+                            foreach (DataRow row in table.Rows)
+                            {
+                                Name = row["userName"].ToString();
+                                Email = row["EmailAddress"].ToString();
+                                userID = int.Parse(row["ID"].ToString());
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return new Tuple<bool, string, string, int>(Result, Name, Email, userID);
+        }
+        #endregion
     }
 }                  
