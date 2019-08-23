@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    public class TrackVATViewModel
+    public class TrackTAXandVATViewModel
     {
+        public VATDashboard VATDashboard { get; set; }
+        public TaxDashboard TAXDashboard { get; set; }
+        public ReportViewModel Report { get; set; }
     }
 }

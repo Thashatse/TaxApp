@@ -151,7 +151,7 @@ namespace BLL
         public int generateOTP()
         {
             Random generator = new Random();
-            return generator.Next(0, 999999);
+            return generator.Next(100000, 999999);
         }
 
         #region Auto Functions
