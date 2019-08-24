@@ -16,7 +16,7 @@ namespace TaxApp.Controllers
         Functions function = new Functions();
         NotificationsFunctions notiFunctions = new NotificationsFunctions();
 
-        public void getCookie()
+        public void getCookie(bool externalDownoladCheck)
         {
             try
             {
@@ -49,6 +49,17 @@ namespace TaxApp.Controllers
                         Response.Redirect("/Landing/Welcome");
                     }
                 }
+                else if (externalDownoladCheck == true)
+                {
+                    cookie = Request.Cookies["TaxAppGuestUserID"];
+
+                    if (cookie == null)
+                        Response.Redirect("/Landing/Welcome");
+                    if (cookie["ID"] == null)
+                        Response.Redirect("/Landing/Welcome");
+                    if (cookie["ID"] == "")
+                        Response.Redirect("/Landing/Welcome");
+                }
                 else
                 {
                     Response.Redirect("/Landing/Welcome");
@@ -65,7 +76,7 @@ namespace TaxApp.Controllers
         #region Upload File
         public ActionResult AttachFile(string ID, string type, string Title, string Details)
         {
-            getCookie();
+            getCookie(false);
             ViewBag.Heading = Title;
             ViewBag.Details = Details;
             ViewBag.type = type;
@@ -78,7 +89,7 @@ namespace TaxApp.Controllers
         {
             try
             {
-                getCookie();
+                getCookie(false);
 
                 ID = Request.Form["ID"];
                 type = Request.Form["type"];
@@ -127,7 +138,7 @@ namespace TaxApp.Controllers
         #region DownLoad File
         public FileResult DownloadFile(string ID, string type)
         {
-                getCookie();
+                getCookie(true);
 
             Model.InvoiceAndReciptesFile getFile = new Model.InvoiceAndReciptesFile();
             getFile.ID = int.Parse(ID);

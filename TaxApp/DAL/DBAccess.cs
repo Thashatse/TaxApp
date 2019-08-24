@@ -4174,6 +4174,40 @@ namespace DAL
 
             return Result;
         }
+        public List<OutstandingInvoiceReminders> getOverdueInvoices()
+        {
+            List<OutstandingInvoiceReminders> outstandingInvoiceReminders = new List<OutstandingInvoiceReminders>();
+            try
+            {
+                using (DataTable table = DBHelper.Select("SP_GetOverdueInvoices",
+            CommandType.StoredProcedure))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            OutstandingInvoiceReminders outstandingInvoiceReminder = new OutstandingInvoiceReminders();
+                            outstandingInvoiceReminder.InvoiceNum = row["InvoiceNum"].ToString();
+                            outstandingInvoiceReminder.ProfileID = int.Parse(row["ProfileID"].ToString());
+                            outstandingInvoiceReminder.DateTime = DateTime.Parse(row["DateTime"].ToString());
+                            outstandingInvoiceReminder.JobTitle = row["JobTitle"].ToString();
+                            outstandingInvoiceReminder.ClientName = row["name"].ToString();
+
+                            TimeSpan span = DateTime.Now.Subtract(outstandingInvoiceReminder.DateTime);
+                            outstandingInvoiceReminder.DaysSince = ((int)span.TotalDays);
+
+                            outstandingInvoiceReminders.Add(outstandingInvoiceReminder);
+                        }
+                    }
+                }
+
+                return outstandingInvoiceReminders;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
         #endregion
 
         #region Reports

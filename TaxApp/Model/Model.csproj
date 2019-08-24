@@ -108,6 +108,7 @@
     </Compile>
     <Compile Include="JobViewModel.cs" />
     <Compile Include="Notifications.cs" />
+    <Compile Include="OutstandingInvoiceReminders.cs" />
     <Compile Include="Profile.cs">
       <DependentUpon>TaxAppModel.tt</DependentUpon>
     </Compile>

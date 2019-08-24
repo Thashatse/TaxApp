@@ -171,7 +171,9 @@ namespace TaxApp.Controllers
 
             Thread zero = new Thread(function.runAutoFunctions);
             if(cookie != null)
+            {
                 zero.Start(cookie["ID"]);
+            }
 
             ViewBag.Title = "Dashboard";
             

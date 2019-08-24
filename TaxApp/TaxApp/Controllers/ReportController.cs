@@ -1160,7 +1160,7 @@ namespace TaxApp.Controllers
                 else
                     report = null;
             }
-            //JobEarningPerHourReport
+            //Job Earning Per Hour Report
             else if (ID == "0014")
             {
                 report = new ReportViewModel();

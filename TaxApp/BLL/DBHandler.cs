@@ -377,6 +377,7 @@ namespace BLL
         public List<Model.Notifications> getNotifications(Model.Notifications getNotifications) { return db.getNotifications(getNotifications); }
         public Model.Notifications dismissNotifications(Model.Notifications dismissNotification) { return db.dismissNotifications(dismissNotification); }
         public bool UpdateJobNotiStatus(SP_GetJob_Result job) { return db.UpdateJobNotiStatus(job); }
+        public List<OutstandingInvoiceReminders> getOverdueInvoices() { return db.getOverdueInvoices(); }
         #endregion
 
         #region Reports

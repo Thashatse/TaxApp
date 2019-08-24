@@ -13,6 +13,8 @@ namespace BLL
     public class Functions
     {
         IDBHandler handler = new DBHandler();
+        NotificationsFunctions notiFunctions = new NotificationsFunctions();
+
         public void logAnError(string Err)
         {
             /*
@@ -160,6 +162,8 @@ namespace BLL
             repeatExpense();
 
             budgetCheck(int.Parse(profileID.ToString()));
+
+            notiFunctions.OutstandingInvoiceReminders();
         }
         public void budgetCheck(int PID)
         {

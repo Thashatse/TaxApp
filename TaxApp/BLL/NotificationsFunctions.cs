@@ -10,7 +10,6 @@ namespace BLL
     public class NotificationsFunctions
     {
         IDBHandler handler = new DBHandler();
-        Functions function = new Functions();
         public List<Notifications> getNotifications(int ProfileID)
         {
             List<Model.Notifications> notifications = new List<Model.Notifications>();
@@ -23,7 +22,7 @@ namespace BLL
             }
             catch(Exception Err)
             {
-                function.logAnError("Error Loading notifictaions " +Err);
+                logAnError("Error Loading notifictaions " +Err);
                 Notifications errorNoti = new Notifications();
                 errorNoti.notificationID = 0;
                 errorNoti.Details = "Error Loading Notifications";
@@ -55,7 +54,7 @@ namespace BLL
             }
             catch (Exception Err)
             {
-                function.logAnError("Error Dissmissing notifictaion ID: "+notiID.notificationID+" Details:" + Err);
+                logAnError("Error Dissmissing notifictaion ID: "+notiID.notificationID+" Details:" + Err);
             }
 
 
@@ -77,13 +76,92 @@ namespace BLL
             }
             catch (Exception Err)
             {
-                function.logAnError("Error creating new notifictaion"+ " Details:" + Err);
+                logAnError("Error creating new notifictaion"+ " Details:" + Err);
             }
 
             if(result == false)
-                function.logAnError("Error creating new notifictaion");
+                logAnError("Error creating new notifictaion");
 
             return result;
+        }
+
+        public void OutstandingInvoiceReminders()
+        {
+            try
+            {
+                List<OutstandingInvoiceReminders> OIRs = handler.getOverdueInvoices();
+
+                if (OIRs.Count > 0)
+                {
+                    foreach (OutstandingInvoiceReminders OIR in OIRs)
+                    {
+                        if (OIR != null && OIR.InvoiceNum != null)
+                        {
+                            Notifications newNoti = new Notifications();
+                            newNoti.date = DateTime.Now;
+                            newNoti.ProfileID = OIR.ProfileID;
+                            newNoti.Link = "../Invoice/Invoice?id=" + OIR.InvoiceNum;
+                            newNoti.Details = OIR.ClientName + " has an outstanding invoice for job " + OIR.JobTitle + ".";
+
+                            if (OIR.DaysSince == 5)
+                                newNotification(newNoti);
+                            if (OIR.DaysSince == 12)
+                                newNotification(newNoti);
+                            if (OIR.DaysSince == 19)
+                                newNotification(newNoti);
+                            if (OIR.DaysSince == 26)
+                                newNotification(newNoti);
+                            if (OIR.DaysSince == 33)
+                                newNotification(newNoti);
+                            if (OIR.DaysSince == 60)
+                                newNotification(newNoti);
+                            if (OIR.DaysSince == 90)
+                                newNotification(newNoti);
+                            if (OIR.DaysSince == 180)
+                                newNotification(newNoti);
+                            if (OIR.DaysSince == 270)
+                                newNotification(newNoti);
+                            if (OIR.DaysSince == 360)
+                                newNotification(newNoti);
+                        }
+                        else
+                        {
+                            logAnError("Error loading outstanding invoice reminders ");
+                        }
+                    }
+                }
+            }
+            catch (Exception Err)
+            {
+                logAnError("Error loading outstanding invoice reminders " + " Details:" + Err);
+            }
+        }
+        
+        public void logAnError(string Err)
+        {
+            /*
+            * Logs Error Details in a text File
+            */
+            try
+            {
+                using (System.IO.StreamWriter file =
+                new System.IO.StreamWriter(@"" + AppDomain.CurrentDomain.BaseDirectory + "TaxAppErrorLog.txt", true))
+                {
+                    file.WriteLine();
+                    file.WriteLine("TimeStamp: " + DateTime.Now);
+                    file.WriteLine("Machine Name: " + Environment.MachineName);
+                    file.WriteLine("OS Version: " + Environment.OSVersion);
+                    file.WriteLine("Curent User: " + Environment.UserName);
+                    file.WriteLine("User Domain: " + Environment.UserDomainName);
+                    file.WriteLine("Curent Directory: " + Environment.CurrentDirectory);
+                    file.WriteLine("Error: ");
+                    file.WriteLine(Err);
+                }
+            }
+            catch
+            {
+
+            }
         }
     }
 }

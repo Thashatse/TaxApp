@@ -207,7 +207,6 @@ namespace TaxApp.Controllers
 
                     period.StartDate = DateTime.Parse(Request.Form["StartDate"]);
                     period.EndDate = DateTime.Parse(Request.Form["EndDate"]);
-                    period.Share = bool.Parse(Request.Form["Share"].ToString());
                     period.Type = type[0];
                     period.ProfileID = int.Parse(cookie["ID"]);
 

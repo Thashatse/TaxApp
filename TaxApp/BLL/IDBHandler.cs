@@ -140,6 +140,7 @@ namespace BLL
         List<Model.Notifications> getNotifications(Model.Notifications getNotifications);
         Model.Notifications dismissNotifications(Model.Notifications dismissNotification);
         bool UpdateJobNotiStatus(SP_GetJob_Result job);
+        List<OutstandingInvoiceReminders> getOverdueInvoices();
         #endregion
 
         #region Reports

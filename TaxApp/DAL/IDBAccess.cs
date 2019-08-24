@@ -141,6 +141,7 @@ namespace DAL
         List<Notifications> getNotifications(Notifications getNotifications);
         Notifications dismissNotifications(Notifications dismissNotification);
         bool UpdateJobNotiStatus(SP_GetJob_Result job);
+        List<OutstandingInvoiceReminders> getOverdueInvoices();
         #endregion
 
         #region Reports
