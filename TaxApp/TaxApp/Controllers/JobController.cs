@@ -208,7 +208,6 @@ namespace TaxApp.Controllers
                     "Error loding job details");
                 return Redirect("../Shared/Error?Err=Error Loading Job");
     }
-
 }
         #endregion
 

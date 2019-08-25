@@ -2,18 +2,244 @@
 
 @{
     ViewBag.Title = "Job";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "";
 }
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Tax App</title>
+    @Scripts.Render("~/bundles/modernizr")
 
-<h2>Job</h2>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link href="../Theam/img/brand/favicon.png" rel="icon" type="image/png">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <!-- Icons -->
+    <link href="../Theam/vendor/nucleo/css/nucleo.css" rel="stylesheet">
+    <link href="../Theam/vendor/fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <!-- Argon CSS -->
+    <link type="text/css" href="../Theam/css/argon.css?v=1.0.0" rel="stylesheet">
+</head>
+<body>
+    <div class="main-content">
+        <!-- Top navbar -->
+        <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
+            <div class="container-fluid">
+                <!-- Brand -->
+                <a class="navbar-brand pt-0">
+                    <img src="../Theam/img/brand/blue.png" class="navbar-brand-img" alt="..." width="60" height="30">
+                </a>
+                <!-- User -->
+                <ul class="navbar-nav align-items-center d-none d-md-flex">
+                    <li class="nav-item">
+                        <div class="media align-items-center">
+                            <div class="media-body text-white ml-2 d-none d-lg-block">
+                                <span class="mb-0 text-sm  font-weight-bold">@Model.jobDetails.ClientFirstName</span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
 
-<div>
-    <h4>TrackJobViewModel</h4>
-    <hr />
-    <dl class="dl-horizontal">
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+        <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+            <div class="container-fluid">
+                <div class="container">
+                    <div class="header-body text-center mb-7">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-5 col-md-6">
+                                <h1 class="text-white">
+                                    @Model.jobDetails.JobTitle
+                                </h1>
+                                <h3 class="text-white">
+                                    From @Model.jobDetails.StartDateString to @Model.jobDetails.EndDateString
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-body">
+                    <!-- Card stats -->
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-6">
+                            <div class="card card-stats mb-4 mb-xl-0">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5 class="card-title text-uppercase text-muted mb-0">@Html.DisplayNameFor(model => model.jobDetails.HourlyRate) </h5>
+                                            <span class="h2 font-weight-bold mb-0">R @Html.DisplayFor(model => model.jobDetails.HourlyRate)</span>
+                                            @if (Model.jobDetails.Budget != 0)
+                                            {
+                                                <br />
+                                                <br />
+                                                <h5 class="card-title text-uppercase text-muted mb-0">@Html.DisplayNameFor(model => model.jobDetails.Budget) </h5>
+                                                <span class="h2 font-weight-bold mb-0">R @Html.DisplayFor(model => model.jobDetails.BudgetString)</span>
+                                                <br />
+                                                <br />
+                                                <h5 class="card-title text-uppercase text-muted mb-0">Budget Used</h5>
+                                                <span class="h2 font-weight-bold mb-0">@Html.DisplayFor(model => model.jobDetails.BudgetPercent) %</span>
+                                            }
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="icon icon-shape bg-red text-white rounded-circle shadow">
+                                                <i class="ni ni-briefcase-24"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-6">
+                            <div class="card card-stats mb-4 mb-xl-0">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5 class="card-title text-uppercase text-muted mb-0">@Html.DisplayNameFor(model => model.jobDetails.WorkLogHours) </h5>
+                                            <span class="h2 font-weight-bold mb-0">@Html.DisplayFor(model => model.jobDetails.WorkLogHoursString)</span>
+                                            <br />
+                                            <br />
+                                            <h5 class="card-title text-uppercase text-muted mb-0">@Html.DisplayNameFor(model => model.jobDetails.ExpenseTotal) </h5>
+                                            <span class="h2 font-weight-bold mb-0">R @Html.DisplayFor(model => model.jobDetails.AllExpenseTotalString)</span>
+                                            <br />
+                                            <br />
+                                            <h5 class="card-title text-uppercase text-muted mb-0">@Html.DisplayNameFor(model => model.jobDetails.TravelLogCostTotal)</h5>
+                                            <span class="h2 font-weight-bold mb-0">R @Html.DisplayFor(model => model.jobDetails.TravelLogCostTotalString)</span>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="icon icon-shape bg-red text-white rounded-circle shadow">
+                                                <i class="ni ni-briefcase-24"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-6">
+                            <div class="card card-stats mb-4 mb-xl-0">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5 class="card-title text-uppercase text-muted mb-0">Total Owed </h5>
+                                            <span class="h2 font-weight-bold mb-0">@Html.DisplayFor(model => model.jobDetails.TotalUnPaidString)</span>
+                                            <br />
+                                            <br />
+                                            <h5 class="card-title text-uppercase text-muted mb-0">Total Paid </h5>
+                                            <span class="h2 font-weight-bold mb-0">R @Html.DisplayFor(model => model.jobDetails.TotalPaidString)</span>
+
+                                            <br />
+                                            <br />
+
+                                            <br />
+                                            <br />
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="icon icon-shape bg-red text-white rounded-circle shadow">
+                                                <i class="ni ni-briefcase-24"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid mt--7">
+
+            <div class="col-lg-12 col-md-12">
+                <div class="card shadow">
+                    <div class="card-header bg-transparent" data-toggle="collapse" href="#Hours">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h3 class="mb-0">Hours</h3>
+                            </div>
+                            <div class="col text-right">
+                                <i class="ni ni-bold-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="Hours" class="panel-collapse collapse">
+                        <div class="card-body">
+                            test
+                        </div>
+                    </div>
+                </div>
+                <br />
+            </div>
+
+            <div class="col-lg-12 col-md-12">
+                <div class="card shadow">
+                    <div class="card-header bg-transparent" data-toggle="collapse" href="#Expenses">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h3 class="mb-0">Expenses</h3>
+                            </div>
+                            <div class="col text-right">
+                                <i class="ni ni-bold-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="Expenses" class="panel-collapse collapse">
+                        <div class="card-body">
+
+                        </div>
+                    </div>
+                </div>
+                <br />
+            </div>
+
+            <div class="col-lg-12 col-md-12">
+                <div class="card shadow">
+                    <div class="card-header bg-transparent" data-toggle="collapse" href="#Travel">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h3 class="mb-0">Travel Log</h3>
+                            </div>
+                            <div class="col text-right">
+                                <i class="ni ni-bold-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="Travel" class="panel-collapse collapse">
+                        <div class="card-body">
+
+                        </div>
+                    </div>
+                </div>
+                <br />
+            </div>
+
+            <div class="col-lg-12 col-md-12">
+                <div class="card shadow">
+                    <div class="card-header bg-transparent" data-toggle="collapse" href="#Invoices">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h3 class="mb-0">Invoices</h3>
+                            </div>
+                            <div class="col text-right">
+                                <i class="ni ni-bold-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="Invoices" class="panel-collapse collapse">
+                        <div class="card-body">
+
+                        </div>
+                    </div>
+                </div>
+                <br />
+            </div>
+
+        </div>
+
+    </div>
+</body>
+</html>

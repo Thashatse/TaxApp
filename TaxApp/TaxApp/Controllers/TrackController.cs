@@ -134,14 +134,33 @@ namespace TaxApp.Controllers
             if (link != "")
                 Response.Redirect(link);
 
+            SP_GetJob_Result Job = null;
+
+            try
+            {
+                Model.Job getJob = new Model.Job();
+                getJob.JobID = int.Parse(JobID);
+
+                Job = handler.getJob(getJob);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding job details for external view");
+                Response.Redirect("/Shared/Error");
+            }
+
             Notifications newNoti = new Notifications();
             newNoti.date = DateTime.Now;
             newNoti.ProfileID = int.Parse(cookie["ID"]);
-            //newNoti.Link = "../Vat/VatCenter?period=" + VATID;
+            newNoti.Link = "../Job/Job?ID=" + JobID;
             newNoti.Details = ViewBag.ProfileName + " has accessed a Job. Manage sharing settings here.";
             notiFunctions.newNotification(newNoti);
 
-            return View();
+            TrackJobViewModel view = new TrackJobViewModel();
+            view.jobDetails = Job;
+
+            return View(view);
         }
 
         public ActionResult TAX(string TaxID, string SortDirection, string SortBy)
