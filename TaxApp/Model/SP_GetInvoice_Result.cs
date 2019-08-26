@@ -27,6 +27,7 @@ namespace Model
         public String VATRateString { get; set; }
         public bool Paid { get; set; }
         public int LineItemID { get; set; }
+        public int ProfileID { get; set; }
         public string Name { get; set; }
         [Display(Name = "Unit Count")]
         public decimal UnitCount { get; set; }

@@ -1,209 +1,391 @@
-﻿@model Model.SP_GetJob_Result
+﻿@model Model.TrackJobViewModel
 
 @{
     ViewBag.Title = "Job";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <!-- Header -->
-<div class="header bg-gradient-primary py-7 py-lg-8">
-    <div class="container">
-        <div class="header-body text-center mb-7">
-            <div class="row justify-content-center">
-                <div class="col-lg-5 col-md-6">
-                    <h1 class="text-white">
-                        @Html.DisplayFor(model => model.JobTitle)
-                    </h1>
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+        <div class="container">
+            <div class="header-body text-center mb-7">
+                <div class="row justify-content-center">
+                    <div class="col-lg-5 col-md-6">
+                        <h1 class="text-white">
+                            @Model.jobDetails.JobTitle
+                        </h1>
+                        <h4 class="text-white">
+                            <a class="text-white" href='/Client/ClientDetails?ID=@Html.DisplayFor(model => model.jobDetails.ClientID)'>
+                                Client: @Model.jobDetails.ClientFirstName
+                            </a>
+                            <br />
+                            From @Model.jobDetails.StartDateString to @Model.jobDetails.EndDateString
+                        </h4>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="header-body">
+            <!-- Card stats -->
+            <div class="row">
+                <div class="col-xl-4 col-lg-6">
+                    <div class="card card-stats mb-4 mb-xl-0">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0">@Html.DisplayNameFor(model => model.jobDetails.HourlyRate) </h5>
+                                    <span class="h2 font-weight-bold mb-0">R @Html.DisplayFor(model => model.jobDetails.HourlyRate)</span>
+                                    @if (Model.jobDetails.Budget != 0)
+                                    {
+                                        <br />
+                                        <br />
+                                        <h5 class="card-title text-uppercase text-muted mb-0">@Html.DisplayNameFor(model => model.jobDetails.Budget) </h5>
+                                        <span class="h2 font-weight-bold mb-0">R @Html.DisplayFor(model => model.jobDetails.BudgetString)</span>
+                                        <br />
+                                        <br />
+                                        <h5 class="card-title text-uppercase text-muted mb-0">Budget Used</h5>
+                                        <span class="h2 font-weight-bold mb-0">@Html.DisplayFor(model => model.jobDetails.BudgetPercent) %</span>
+                                    }
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-green text-white rounded-circle shadow">
+                                        <i class="ni ni-money-coins"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-6">
+                    <div class="card card-stats mb-4 mb-xl-0">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0">@Html.DisplayNameFor(model => model.jobDetails.WorkLogHours) </h5>
+                                    <span class="h2 font-weight-bold mb-0">@Html.DisplayFor(model => model.jobDetails.WorkLogHoursString)</span>
+                                    <br />
+                                    <br />
+                                    <h5 class="card-title text-uppercase text-muted mb-0">@Html.DisplayNameFor(model => model.jobDetails.ExpenseTotal) </h5>
+                                    <span class="h2 font-weight-bold mb-0">R @Html.DisplayFor(model => model.jobDetails.AllExpenseTotalString)</span>
+                                    <br />
+                                    <br />
+                                    <h5 class="card-title text-uppercase text-muted mb-0">@Html.DisplayNameFor(model => model.jobDetails.TravelLogCostTotal)</h5>
+                                    <span class="h2 font-weight-bold mb-0">R @Html.DisplayFor(model => model.jobDetails.TravelLogCostTotalString)</span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
+                                        <i class="ni ni-atom"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-6">
+                    <div class="card card-stats mb-4 mb-xl-0">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0">Total Owed </h5>
+                                    <span class="h2 font-weight-bold mb-0">@Html.DisplayFor(model => model.jobDetails.TotalUnPaidString)</span>
+                                    <br />
+                                    <br />
+                                    <h5 class="card-title text-uppercase text-muted mb-0">Total Paid </h5>
+                                    <span class="h2 font-weight-bold mb-0">R @Html.DisplayFor(model => model.jobDetails.TotalPaidString)</span>
+
+                                    <br />
+                                    <br />
+
+                                    <br />
+                                    <br />
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-red text-white rounded-circle shadow">
+                                        <i class="ni ni-credit-card"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <div class="container-fluid mt--7">
-    <!-- Page content -->
-    <div class="container mt--8 pb-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-12 col-md-12">
-                <div class="card bg-secondary shadow border-0">
+    <div class="row">
 
-                    <div class="table-responsive">
-                        <!-- Projects table -->
-                        <table class="table align-items-center table-flush">
-                            <tbody>
-                                <tr>
-                                    <th scope="row">
-                                        @Html.DisplayNameFor(model => model.HourlyRate)
-
-                                    </th>
-                                    <td>
-                                        R @Html.DisplayFor(model => model.HourlyRate)
-                                    </td>
-                                    <td></td>
-                                </tr>
-                                @if (Model.Budget != 0)
-                                {
-                                    <tr>
-                                        <th scope="row">
-                                            @Html.DisplayNameFor(model => model.Budget)
-
-                                        </th>
-                                        <td>
-                                            R @Html.DisplayFor(model => model.BudgetString)
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            Budget Used:
-                                        </th>
-                                        <td>
-                                            @Html.DisplayFor(model => model.BudgetPercent) %
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                }
-                                <tr>
-                                    <th scope="row">
-                                        @Html.DisplayNameFor(model => model.StartDate)
-
-                                    </th>
-                                    <td>
-                                        @Html.DisplayFor(model => model.StartDateString)
-                                    </td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        @Html.DisplayNameFor(model => model.EndDate)
-                                    </th>
-                                    <td>
-                                        @Html.DisplayFor(model => model.EndDateString)
-                                    </td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        @Html.DisplayNameFor(model => model.ClientFirstName)
-                                    </th>
-                                    <td>
-                                        <a href='/Client/ClientDetails?ID=@Html.DisplayFor(model => model.ClientID)'>
-                                            @Html.DisplayFor(model => model.ClientFirstName)
-                                        </a>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        @Html.DisplayNameFor(model => model.WorkLogHours)
-                                    </th>
-                                    <td>
-                                        <a href='/Job/JobWorkLog?ID=@Html.DisplayFor(model => model.JobID)'>
-                                            @Html.DisplayFor(model => model.WorkLogHoursString)
-                                        </a>
-                                    </td>
-                                    <td>
-                                        @if (ViewBag.Complete == "NotDone")
-                                        {
-                                            <a href="/Job/NewWorkLogItem?ID=@ViewBag.JobID"
-                                               class="btn btn-sm btn-secondary">Add Hours</a>
-                                        }
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        @Html.DisplayNameFor(model => model.ExpenseTotal)
-                                    </th>
-                                    <td>
-                                        <a href='/Expense/JobExpenses?ID=@Html.DisplayFor(model => model.JobID)'>
-                                            R  @Html.DisplayFor(model => model.AllExpenseTotalString)
-                                        </a>
-                                    </td>
-                                    <td>
-                                        @if (ViewBag.Complete == "NotDone")
-                                        {
-                                            <a href="/Expense/NewJobExpense?ID=@ViewBag.JobID"
-                                               class="btn btn-sm btn-secondary">Add Expense</a>
-                                        }
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        @Html.DisplayNameFor(model => model.TravelLogCostTotal)
-                                    </th>
-                                    <td>
-                                        <a href='/Expense/JobTravelLog?ID=@Html.DisplayFor(model => model.JobID)'>
-                                            R @Html.DisplayFor(model => model.TravelLogCostTotalString)
-                                        </a>
-                                    </td>
-                                    <td>
-                                        @if (ViewBag.Complete == "NotDone")
-                                        {
-                                            <a href="../Expense/NewTravelExpense?ID=@ViewBag.JobID"
-                                               class="btn btn-sm btn-secondary">New Log Item</a>
-                                        }
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        @Html.DisplayNameFor(model => model.TotalUnPaid)
-                                    </th>
-                                    <td>
-                                        <a href='/Invoice/JobInvoices?ID=@Html.DisplayFor(model => model.JobID)'>
-                                            R @Html.DisplayFor(model => model.TotalUnPaidString)
-                                        </a>
-                                    </td>
-                                    <td>
-                                        @if (ViewBag.Complete == "NotDone" && ViewBag.NoInvoice != "True")
-                                        {
-                                            <a href="/Invoice/NewInvoice?ID=@ViewBag.JobID"
-                                               class="btn btn-sm btn-secondary">New Invoice</a>
-                                        }
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        @Html.DisplayNameFor(model => model.TotalPaid)
-                                    </th>
-                                    <td>
-                                        <a href='/Invoice/JobInvoices?ID=@Html.DisplayFor(model => model.JobID)'>
-                                            R @Html.DisplayFor(model => model.TotalPaidString)
-                                        </a>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="card-header border-0">
-                        <div class="row align-items-center">
-                            <div class="col-2">
-                                <p class="mb-0">Actions: </p>
-                            </div>
-                            <div class="col-10 text-right">
-                                @if (ViewBag.Complete == "NotDone")
-                                {
-                                    <a href="/Job/MarkAsComplete?ID=@Html.DisplayFor(model => model.JobID)"
-                                       class="btn btn-sm btn-white">Mark Job As Comlete</a>
-                                    <a href="/Job/EditJob?ID=@Html.DisplayFor(model => model.JobID)"
-                                       class="btn btn-sm btn-white">Edit</a>
-                                }
-                                @if (Model.Share == true)
-                                {
-                            <a href="../Job/Share?ID=@Model.JobID"
-                               class="btn btn-sm btn-white">Stop sharing @Model.JobTitle with @Model.ClientFirstName</a>
-                                }
-                                else
-                                {
-                            <a href="../Job/Share?ID=@Model.JobID"
-                               class="btn btn-sm btn-white">Share @Model.JobTitle with @Model.ClientFirstName</a>
-                                }
-                                <a href="/Job/Jobs"
-                                   class="btn btn-sm btn-white">All Jobs</a>
-                            </div>
+        <div class="col-lg-12 col-md-12">
+            <div class="card shadow">
+                <div class="card-header bg-transparent" data-toggle="collapse" href="#Hours">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Hours: </h3>
+                        </div>
+                        <div class="col text-right">
+                            @if (ViewBag.Complete == "NotDone")
+                            {
+                                <a href="/Job/NewWorkLogItem?ID=@ViewBag.JobID"
+                                   class="btn btn-sm btn-secondary">Add Hours</a>
+                            }
+                            <i class="ni ni-bold-down"></i>
                         </div>
                     </div>
                 </div>
+                <div id="Hours" class="panel-collapse collapse">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table align-items-center table-flush">
+                                <tr>
+                                    <th>
+                                        Date
+                                    </th>
+                                    <th>
+                                        Description
+                                    </th>
+                                    <th>
+                                        Hours
+                                    </th>
+                                    </tr>
+
+                                @foreach (var item in Model.Worklog)
+                                {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DateString)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.WorkLogHoursString)
+                                </td>
+                            </tr>
+                                }
+
+                            </table>
+                        </div>
+                    </div>
                 </div>
+            </div>
+            <br />
+        </div>
+
+        <div class="col-lg-12 col-md-12">
+            <div class="card shadow">
+                <div class="card-header bg-transparent" data-toggle="collapse" href="#Expenses">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Expenses</h3>
+                        </div>
+                        <div class="col text-right">
+                            @if (ViewBag.Complete == "NotDone")
+                            {
+                                <a href="/Expense/NewJobExpense?ID=@ViewBag.JobID"
+                                   class="btn btn-sm btn-secondary">Add Expense</a>
+                            }
+                            <i class="ni ni-bold-down"></i>
+                        </div>
+                    </div>
                 </div>
+                <div id="Expenses" class="panel-collapse collapse">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <!-- Projects table -->
+                            <table class="table align-items-center table-flush">
+                                <tr>
+                                    <th>
+                                        Date
+                                    </th>
+                                    <th>
+                                        Description
+                                    </th>
+                                    <th>
+                                        Amount (R)
+                                    </th>
+                                </tr>
+                                @foreach (var item in Model.JobExpenses)
+                                {
+
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DateString)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Description)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Amount)
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+
+        <div class="col-lg-12 col-md-12">
+            <div class="card shadow">
+                <div class="card-header bg-transparent" data-toggle="collapse" href="#Travel">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Travel Log</h3>
+                        </div>
+                        <div class="col text-right">
+                            @if (ViewBag.Complete == "NotDone")
+                            {
+                                <a href="../Expense/NewTravelExpense?ID=@ViewBag.JobID"
+                                   class="btn btn-sm btn-secondary">New Log Item</a>
+                            }
+                            <i class="ni ni-bold-down"></i>
+                        </div>
+                    </div>
+                </div>
+                <div id="Travel" class="panel-collapse collapse">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <!-- Projects table -->
+                            <table class="table align-items-center table-flush">
+                                <tr>
+                                    <th>
+                                        Date
+                                    </th>
+                                    <th>
+                                        Reason
+                                    </th>
+                                    <th>
+                                        Total Kms (km)
+                                    </th>
+                                    <th>
+                                        Amount (R)
+                                    </th>
+                                </tr>
+                                @foreach (var item in Model.JobTravelLog)
+                                {
+
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DateString)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Reason)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TotalKMs)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ClientCharge)
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+
+        <div class="col-lg-12 col-md-12">
+            <div class="card shadow">
+                <div class="card-header bg-transparent" data-toggle="collapse" href="#Invoices">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Invoices</h3>
+                        </div>
+                        <div class="col text-right">
+                            @if (ViewBag.Complete == "NotDone" && ViewBag.NoInvoice != "True")
+                            {
+                                <a href="/Invoice/NewInvoice?ID=@ViewBag.JobID"
+                                   class="btn btn-sm btn-secondary">New Invoice</a>
+                            }
+                            <i class="ni ni-bold-down"></i>
+                        </div>
+                    </div>
+                </div>
+                <div id="Invoices" class="panel-collapse collapse">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <!-- Projects table -->
+                            <table class="table align-items-center table-flush">
+                                <tr>
+                                    <th>
+                                        Invoice Date
+                                    </th>
+                                    <th>
+                                        Paid
+                                    </th>
+                                    <th>
+                                        Amount
+                                    </th>
+                                    <th>
+
+                                    </th>
+                                </tr>
+
+                                @foreach (var item in Model.invoices)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DateTimeString)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Paid)
+                                        </td>
+                                        <td>
+                                            R @Html.DisplayFor(modelItem => item.TotalCostString)
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-sm btn-secondary" href='/Invoice/Invoice?ID=@Html.DisplayFor(modelItem => item.InvoiceNum)'>
+                                            View
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+
+        <div class="col-lg-12 col-md-12">
+            <div class="card shadow">
+                <div class="card-header bg-transparent">
+                    <div class="row align-items-center">
+                        <div class="col-2">
+                            <h3 class="mb-0">Actions: </h3>
+</div>
+                        <div class="col-10 text-right">
+                            @if (ViewBag.Complete == "NotDone")
+                            {
+                                <a href="/Job/MarkAsComplete?ID=@Html.DisplayFor(model => model.jobDetails.JobID)"
+                                   class="btn btn-sm btn-white">Mark Job As Comlete</a>
+                                <a href="/Job/EditJob?ID=@Html.DisplayFor(model => model.jobDetails.JobID)"
+                                   class="btn btn-sm btn-white">Edit</a>
+                            }
+                            @if (Model.jobDetails.Share == true)
+                            {
+                                <a href="../Job/Share?ID=@Model.jobDetails.JobID"
+                                   class="btn btn-sm btn-white">Stop sharing @Model.jobDetails.JobTitle with @Model.jobDetails.ClientFirstName</a>
+                            }
+                            else
+                            {
+                                <a href="../Job/Share?ID=@Model.jobDetails.JobID"
+                                   class="btn btn-sm btn-white">Share @Model.jobDetails.JobTitle with @Model.jobDetails.ClientFirstName</a>
+                            }
+                            <a href="/Job/Jobs"
+                               class="btn btn-sm btn-white">All Jobs</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
     </div>

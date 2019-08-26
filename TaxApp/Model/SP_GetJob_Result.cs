@@ -58,5 +58,6 @@ namespace Model
         [Required]
         [Display(Name = "Share this job with the Client. Clients will be able to see hours, expenses and invoices.")]
         public bool Share { get; set; }
+        public int ProfileID { get; set; }
     }
 }

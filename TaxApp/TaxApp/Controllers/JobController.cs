@@ -182,6 +182,14 @@ namespace TaxApp.Controllers
 
                 Model.SP_GetJob_Result Job = handler.getJob(getJob);
 
+                List<Model.Worklog> JobHours = handler.getJobHours(getJob);
+
+                List<Model.SP_GetJobExpense_Result> JobExpenses = handler.getJobExpenses(getJob);
+
+                List<Model.TravelLog> JobTravelLog = handler.getJobTravelLog(getJob);
+
+                List<SP_GetInvoice_Result> invoiceDetails = handler.getJobInvoices(getJob);
+
                 ViewBag.JobTitle = Job.JobTitle;
                 ViewBag.JobID = Job.JobID;
 
@@ -200,8 +208,14 @@ namespace TaxApp.Controllers
                     && JobItemsForInvoice.ElementAt(2).Count == 0)
                     ViewBag.NoInvoice = "True";
 
-                return View(Job);
-        }
+                TrackJobViewModel view = new TrackJobViewModel();
+                view.jobDetails = Job;
+                view.Worklog = JobHours;
+                view.JobExpenses = JobExpenses;
+                view.JobTravelLog = JobTravelLog;
+                view.invoices = invoiceDetails;
+                return View(view);
+            }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
@@ -219,8 +233,8 @@ namespace TaxApp.Controllers
                 ViewBag.cat = "WL";
                 getCookie();
             Model.Job getJob = new Model.Job();
-            getJob.JobID = int.Parse(ID);
             List<Model.Worklog> JobHours = handler.getJobHours(getJob);
+            getJob.JobID = int.Parse(ID);
                 ViewBag.JobID = ID;
 
                 Model.SP_GetJob_Result Job = handler.getJob(getJob);

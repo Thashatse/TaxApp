@@ -97,20 +97,51 @@ namespace TaxApp.Controllers
                 Response.Cookies.Add(cookie);
 
                 if (Type == "Job")
+                {
+                    Job getJob = new Model.Job();
+                    getJob.JobID = int.Parse(ID);
+                    SP_GetJob_Result Job = handler.getJob(getJob);
+
+                    Notifications newNoti = new Notifications();
+                    newNoti.date = DateTime.Now;
+                    newNoti.ProfileID = Job.ProfileID;
+                    newNoti.Link = "../Job/Job?ID=" + ID;
+                    newNoti.Details = ViewBag.ProfileName + " has accessed a Job. Manage sharing settings here.";
+                    notiFunctions.newNotification(newNoti);
+
                     return RedirectToAction("Job", "Track", new
                     {
                         JobID = ID
                     });
+                }
                 if (Type == "TAX")
+                {
+                    Notifications newNoti = new Notifications();
+                    newNoti.date = DateTime.Now;
+                    newNoti.ProfileID = int.Parse(cookie["ID"]);
+                    newNoti.Link = "../Tax/TaxCenter?period=" + ID;
+                    newNoti.Details = ViewBag.ProfileName + " has accessed a Tax Period. Manage sharing settings here.";
+                    notiFunctions.newNotification(newNoti);
+
                     return RedirectToAction("TAX", "Track", new
                     {
                         TaxID = ID
                     });
+                }
                 if (Type == "VAT")
+                {
+                    Notifications newNoti = new Notifications();
+                    newNoti.date = DateTime.Now;
+                    newNoti.ProfileID = int.Parse(cookie["ID"]);
+                    newNoti.Link = "../Vat/VatCenter?period=" + ID;
+                    newNoti.Details = ViewBag.ProfileName + " has accessed a VAT Period. Manage sharing settings here.";
+                    notiFunctions.newNotification(newNoti);
+
                     return RedirectToAction("VAT", "Track", new
                     {
                         VATID = ID
                     });
+                }
             }
             else
             {
@@ -133,34 +164,46 @@ namespace TaxApp.Controllers
             string link = getCookie(JobID, "Job");
             if (link != "")
                 Response.Redirect(link);
-
-            SP_GetJob_Result Job = null;
-
-            try
+            else
             {
-                Model.Job getJob = new Model.Job();
-                getJob.JobID = int.Parse(JobID);
+                SP_GetJob_Result Job = null;
+                List<Model.Worklog> JobHours = null;
+                List<Model.SP_GetJobExpense_Result> JobExpenses = null;
+                List<Model.TravelLog> JobTravelLog = null;
+                List<SP_GetInvoice_Result> invoiceDetails = null;
 
-                Job = handler.getJob(getJob);
-            }
-            catch (Exception e)
-            {
-                function.logAnError(e.ToString() +
-                    "Error loding job details for external view");
-                Response.Redirect("/Shared/Error");
-            }
+                try
+                {
+                    Model.Job getJob = new Model.Job();
+                    getJob.JobID = int.Parse(JobID);
 
-            Notifications newNoti = new Notifications();
-            newNoti.date = DateTime.Now;
-            newNoti.ProfileID = int.Parse(cookie["ID"]);
-            newNoti.Link = "../Job/Job?ID=" + JobID;
-            newNoti.Details = ViewBag.ProfileName + " has accessed a Job. Manage sharing settings here.";
-            notiFunctions.newNotification(newNoti);
+                    Job = handler.getJob(getJob);
 
-            TrackJobViewModel view = new TrackJobViewModel();
-            view.jobDetails = Job;
+                    JobHours = handler.getJobHours(getJob);
+                     
+                    JobExpenses = handler.getJobExpenses(getJob);
 
+                    JobTravelLog = handler.getJobTravelLog(getJob);
+
+                    invoiceDetails = handler.getJobInvoices(getJob);
+                }
+                catch (Exception e)
+                {
+                    function.logAnError(e.ToString() +
+                        "Error loding job details for external view");
+                    Response.Redirect("/Shared/Error");
+                }
+
+
+                TrackJobViewModel view = new TrackJobViewModel();
+                view.jobDetails = Job;
+                view.Worklog = JobHours;
+                view.JobExpenses = JobExpenses;
+                view.JobTravelLog = JobTravelLog;
+                view.invoices = invoiceDetails;
             return View(view);
+            }
+            return View();
         }
 
         public ActionResult TAX(string TaxID, string SortDirection, string SortBy)
@@ -373,12 +416,6 @@ namespace TaxApp.Controllers
             ViewBag.SortDirection = SortDirection;
                 #endregion
 
-                Notifications newNoti = new Notifications();
-                newNoti.date = DateTime.Now;
-                newNoti.ProfileID = int.Parse(cookie["ID"]);
-                newNoti.Link = "../Tax/TaxCenter?period="+TaxID;
-                newNoti.Details = ViewBag.ProfileName+ " has accessed a Tax Period. Manage sharing settings here.";
-                notiFunctions.newNotification(newNoti);
                 
 
                 TrackTAXandVATViewModel viewModel = new TrackTAXandVATViewModel();
@@ -615,12 +652,6 @@ namespace TaxApp.Controllers
                 ViewBag.SortDirection = SortDirection;
                 #endregion
 
-                Notifications newNoti = new Notifications();
-                newNoti.date = DateTime.Now;
-                newNoti.ProfileID = int.Parse(cookie["ID"]);
-                newNoti.Link = "../Vat/VatCenter?period=" + VATID;
-                newNoti.Details = ViewBag.ProfileName + " has accessed a VAT Period. Manage sharing settings here.";
-                notiFunctions.newNotification(newNoti);
 
                 viewModel.Report = report;
                 viewModel.VATDashboard = footers;

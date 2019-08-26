@@ -503,14 +503,14 @@ namespace DAL
                         if (row != null)
                         {
                             job = new SP_GetJob_Result();
-                            job.JobID = int.Parse(row[0].ToString());
-                            job.ClientID = int.Parse(row[6].ToString());
+                            job.JobID = int.Parse(row["JobID"].ToString());
+                            job.ClientID = int.Parse(row["ClientID"].ToString());
 
-                            if (row[8].ToString() != "" && row[8] != null)
+                            if (row["WorkLogHours"].ToString() != "" && row["WorkLogHours"] != null)
                             {
-                                job.WorkLogHours = int.Parse(row[8].ToString());
-                                int Hour = int.Parse(row[8].ToString()) / 60;
-                                int Minute = int.Parse(row[8].ToString()) % 60;
+                                job.WorkLogHours = int.Parse(row["WorkLogHours"].ToString());
+                                int Hour = int.Parse(row["WorkLogHours"].ToString()) / 60;
+                                int Minute = int.Parse(row["WorkLogHours"].ToString()) % 60;
                                 job.WorkLogHoursString = Hour +":" + Minute + " ";
                             }
                             else
@@ -519,9 +519,9 @@ namespace DAL
                                 job.WorkLogHoursString = "None";
                             }
 
-                            job.JobTitle = row[1].ToString();
-                            job.ClientFirstName = row[7].ToString();
-                            job.StartDate = DateTime.Parse(row[4].ToString());
+                            job.JobTitle = row["JobTitle"].ToString();
+                            job.ClientFirstName = row["FirstName"].ToString();
+                            job.StartDate = DateTime.Parse(row["StartDate"].ToString());
                             job.StartDateString = String.Format("{0:dddd, dd MMMM yyyy}", job.StartDate);
                             job.Share = bool.Parse(row["Share"].ToString());
 
@@ -529,6 +529,8 @@ namespace DAL
                             job.Noti90 = bool.Parse(row["Noti90"].ToString());
                             job.Noti75 = bool.Parse(row["Noti95"].ToString());
                             job.noti100 = bool.Parse(row["Noti100"].ToString());
+
+                            job.ProfileID = int.Parse(row["ProfileID"].ToString());
 
                             if (row["EndDate"].ToString() != "" && row["EndDate"] != null)
                             {
@@ -541,18 +543,18 @@ namespace DAL
                                 job.EndDateString = "Active";
                             }
 
-                            job.HourlyRate = decimal.Parse(row[2].ToString());
+                            job.HourlyRate = decimal.Parse(row["HourlyRate"].ToString());
 
-                            if (row[9].ToString() != "" && row[9] != null)
+                            if (row["ExpenseTotal"].ToString() != "" && row["ExpenseTotal"] != null)
                             {
-                                job.ExpenseTotal = decimal.Parse(row[9].ToString());
+                                job.ExpenseTotal = decimal.Parse(row["ExpenseTotal"].ToString());
                             }
                             else
                             {
                                 job.ExpenseTotal = 0;
                             }
 
-                            if (row[10].ToString() != "" && row[10] != null)
+                            if (row["TotalPaid"].ToString() != "" && row["TotalPaid"] != null)
                             {
                                 job.TotalPaid = decimal.Parse(row[10].ToString());
                             }
@@ -570,7 +572,7 @@ namespace DAL
                                 job.TotalUnPaid = 0;
                             }
 
-                            if (row[12].ToString() != "" && row[12] != null)
+                            if (row["TravelLogCostTotal"].ToString() != "" && row["TravelLogCostTotal"] != null)
                             {
                                 job.TravelLogCostTotal = decimal.Parse(row[12].ToString());
                             }
@@ -579,10 +581,10 @@ namespace DAL
                                 job.TravelLogCostTotal = 0;
                             }
 
-                            if ((row[3].ToString() != "" || row[3].ToString() != null)
+                            if ((row["Budget"].ToString() != "" || row["Budget"].ToString() != null)
                                 && decimal.Parse(row["Budget"].ToString()) != 0)
                             {
-                                job.Budget = decimal.Parse(row[3].ToString());
+                                job.Budget = decimal.Parse(row["Budget"].ToString());
                                 job.BudgetPercent = ((job.ExpenseTotal + job.TravelLogCostTotal +
                                     (job.WorkLogHours/60 * job.HourlyRate)) / job.Budget) * 100;
                             }
@@ -2535,6 +2537,11 @@ namespace DAL
                             Invoice.PhysiclaAddress = row[10].ToString();
                             Invoice.TotalCost = decimal.Parse(row["TotalCost"].ToString());
                             Invoice.TotalCost = Invoice.TotalCost + ((Invoice.TotalCost / 100) * 15);
+
+                            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                            nfi.NumberGroupSeparator = " ";
+                            Invoice.TotalCostString = Invoice.TotalCost.ToString("#,0.00", nfi);
+
                             JobInvoices.Add(Invoice);
                         }
                     }
@@ -2579,6 +2586,11 @@ namespace DAL
                             Invoice.PhysiclaAddress = row[10].ToString();
                             Invoice.TotalCost = decimal.Parse(row["TotalCost"].ToString());
                             Invoice.TotalCost = Invoice.TotalCost + ((Invoice.TotalCost / 100) * 15);
+
+                            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                            nfi.NumberGroupSeparator = " ";
+                            Invoice.TotalCostString = Invoice.TotalCost.ToString("#,0.00", nfi);
+
                             JobInvoices.Add(Invoice);
                         }
                     }
@@ -2625,6 +2637,11 @@ namespace DAL
                             Invoice.PhysiclaAddress = row[10].ToString();
                             Invoice.TotalCost = decimal.Parse(row["TotalCost"].ToString());
                             Invoice.TotalCost = Invoice.TotalCost + ((Invoice.TotalCost / 100) * 15);
+
+                            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                            nfi.NumberGroupSeparator = " ";
+                            Invoice.TotalCostString = Invoice.TotalCost.ToString("#,0.00", nfi);
+
                             JobInvoices.Add(Invoice);
                         }
                     }
@@ -2699,6 +2716,7 @@ namespace DAL
                         {
                             SP_GetInvoice_Result InvoiceLineItem = new SP_GetInvoice_Result();
                             InvoiceLineItem.InvoiceNum = row["InvoiceNum"].ToString();
+                            InvoiceLineItem.ProfileID = int.Parse(row["ProfileID"].ToString());
                             InvoiceLineItem.Type = row["Type"].ToString()[0];
                             InvoiceLineItem.DateTime = DateTime.Parse(row["DateTime"].ToString());
                             InvoiceLineItem.VATRate = decimal.Parse(row["VATRate"].ToString());

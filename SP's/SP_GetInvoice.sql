@@ -3,6 +3,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 alter PROCEDURE SP_GetInvoice
+
 	@IN nchar(11)
 AS
 BEGIN
@@ -10,7 +11,7 @@ BEGIN
 	   LineItemID, [Name], UnitCount, UnitCost, (UnitCount*UnitCost) as TotalCost,
 	   Jobs.JobID, Jobs.JobTitle,
 	   Client.ClientID, Client.FirstName +' '+ Client.LastName as [ClientName], Client.CompanyName,
-		Client.EmailAddress, Client.PhysiclaAddress
+		Client.EmailAddress, Client.PhysiclaAddress, Client.ProfileID
 	from Invoice, InvoiceLineItem, JobInvoice, Jobs, Client
 	where Invoice.InvoiceNum = InvoiceLineItem.InvoiceNum
 		AND Invoice.InvoiceNum = JobInvoice.InvoiceNum

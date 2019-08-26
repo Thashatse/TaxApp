@@ -16,7 +16,7 @@ namespace TaxApp.Controllers
         HttpCookie cookie;
         Functions function = new Functions();
         NotificationsFunctions notiFunctions = new NotificationsFunctions();
-        public void getCookie()
+        public void getCookie(bool externalPrintCheck)
         {
             try
             {
@@ -49,6 +49,17 @@ namespace TaxApp.Controllers
                         Response.Redirect("/Landing/Welcome");
                     }
                 }
+                else if (externalPrintCheck == true)
+                {
+                    cookie = Request.Cookies["TaxAppGuestUserID"];
+
+                    if (cookie == null)
+                        Response.Redirect("/Landing/Welcome");
+                    if (cookie["ID"] == null)
+                        Response.Redirect("/Landing/Welcome");
+                    if (cookie["ID"] == "")
+                        Response.Redirect("/Landing/Welcome");
+                }
                 else
                 {
                     Response.Redirect("/Landing/Welcome");
@@ -68,7 +79,8 @@ namespace TaxApp.Controllers
         {
             try
             {
-                getCookie();
+                getCookie(true);
+                
                 if (id == "0")
                 {
                     function.logAnError("Error loding Print invoice details - No ID Supplied");
@@ -94,7 +106,7 @@ namespace TaxApp.Controllers
                     ViewBag.TotalDue = total.ToString("0.00");
 
                     Profile getProfile = new Profile();
-                    getProfile.ProfileID = int.Parse(cookie["ID"]);
+                    getProfile.ProfileID = invoiceDetails[0].ProfileID;
                     getProfile.EmailAddress = "";
                     getProfile.Username = "";
                     getProfile = handler.getProfile(getProfile);
@@ -133,7 +145,7 @@ namespace TaxApp.Controllers
             try
             {
                 ViewBag.cat = 'I';
-                getCookie();
+                getCookie(false);
                 if (id == "0")
                 {
                     function.logAnError("Error loding invoice details - No ID Supplied");
@@ -209,7 +221,7 @@ namespace TaxApp.Controllers
             try
             {
                 ViewBag.cat = 'I';
-                getCookie();
+                getCookie(false);
                 if(id.ToString() == null || id.ToString() == "")
                 {
                     function.logAnError("Error loding all job invoices - No ID Supplied");
@@ -270,7 +282,7 @@ namespace TaxApp.Controllers
             {
                 ViewBag.cat = 'I';
 
-                getCookie();
+                getCookie(false);
 
                 ViewBag.view = view;
                 ViewBag.SeeMore = false;
@@ -376,7 +388,7 @@ namespace TaxApp.Controllers
         {
             try
             {
-                getCookie();
+                getCookie(false);
 
                 if (id == "0")
                 {
@@ -518,7 +530,7 @@ namespace TaxApp.Controllers
         {
             try
             {
-                getCookie();
+                getCookie(false);
 
                 Invoice invoiceNum = new Invoice();
                 invoiceNum.InvoiceNum = ID;
@@ -605,7 +617,7 @@ namespace TaxApp.Controllers
         {
             try
             {
-            getCookie();
+            getCookie(false);
 
                 ViewBag.ReturnTo = ReturnTo;
 
@@ -637,7 +649,7 @@ namespace TaxApp.Controllers
         {
             try
             {
-                getCookie();
+                getCookie(false);
 
                 Model.Job job = new Model.Job();
                 job.JobID = int.Parse(ID);
@@ -841,7 +853,7 @@ namespace TaxApp.Controllers
         {
             try
             {
-                getCookie();
+                getCookie(false);
 
                 if(ID != "0")
                 {
