@@ -106,7 +106,7 @@ namespace TaxApp.Controllers
                     newNoti.date = DateTime.Now;
                     newNoti.ProfileID = Job.ProfileID;
                     newNoti.Link = "../Job/Job?ID=" + ID;
-                    newNoti.Details = ViewBag.ProfileName + " has accessed a Job. Manage sharing settings here.";
+                    newNoti.Details = Job.ClientFirstName + " has accessed a Job. Manage sharing settings here.";
                     notiFunctions.newNotification(newNoti);
 
                     return RedirectToAction("Job", "Track", new
@@ -116,11 +116,15 @@ namespace TaxApp.Controllers
                 }
                 if (Type == "TAX")
                 {
+                    TaxConsultant taxConsultant = new TaxConsultant();
+                    taxConsultant.ProfileID = int.Parse(cookie["ID"]);
+                    taxConsultant = handler.getConsumtant(taxConsultant);
+
                     Notifications newNoti = new Notifications();
                     newNoti.date = DateTime.Now;
                     newNoti.ProfileID = int.Parse(cookie["ID"]);
                     newNoti.Link = "../Tax/TaxCenter?period=" + ID;
-                    newNoti.Details = ViewBag.ProfileName + " has accessed a Tax Period. Manage sharing settings here.";
+                    newNoti.Details = taxConsultant.Name + " has accessed a Tax Period. Manage sharing settings here.";
                     notiFunctions.newNotification(newNoti);
 
                     return RedirectToAction("TAX", "Track", new
@@ -130,11 +134,15 @@ namespace TaxApp.Controllers
                 }
                 if (Type == "VAT")
                 {
+                    TaxConsultant taxConsultant = new TaxConsultant();
+                    taxConsultant.ProfileID = int.Parse(cookie["ID"]);
+                    taxConsultant = handler.getConsumtant(taxConsultant);
+
                     Notifications newNoti = new Notifications();
                     newNoti.date = DateTime.Now;
                     newNoti.ProfileID = int.Parse(cookie["ID"]);
                     newNoti.Link = "../Vat/VatCenter?period=" + ID;
-                    newNoti.Details = ViewBag.ProfileName + " has accessed a VAT Period. Manage sharing settings here.";
+                    newNoti.Details = taxConsultant.Name + " has accessed a VAT Period. Manage sharing settings here.";
                     notiFunctions.newNotification(newNoti);
 
                     return RedirectToAction("VAT", "Track", new
@@ -218,44 +226,46 @@ namespace TaxApp.Controllers
             taxConsultant.ProfileID = int.Parse(cookie["ID"]);
             taxConsultant = handler.getConsumtant(taxConsultant);
 
-            ViewBag.UserName = taxConsultant.Name;
-            ViewBag.ID = TaxID;
-
-            Profile ProfileID = new Profile();
-            ProfileID.ProfileID = int.Parse(cookie["ID"]);
-            ProfileID.EmailAddress = cookie["ID"];
-            ProfileID.Username = cookie["ID"];
-            ProfileID = handler.getProfile(ProfileID);
-            ViewBag.ProfileName = ProfileID.FirstName + " " + ProfileID.LastName;
-
-            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
-            nfi.NumberGroupSeparator = " ";
-
-                ReportViewModel report = new ReportViewModel();
-                List<Model.DashboardExpense> ExpenseReport = null;
-                List<TAXorVATRecivedList> IncomeRecivedReport = null;
-                TaxDashboard footers = null;
-
-                try
-            {
-                List<TaxAndVatPeriods> taxPeriod = handler.getTaxOrVatPeriodForProfile(ProfileID, 'T');
-                TaxAndVatPeriods TaxRate = null;
-
-                foreach (TaxAndVatPeriods item in taxPeriod)
+                if (taxConsultant != null)
                 {
-                    if (item.PeriodID.ToString() == TaxID)
+                    ViewBag.UserName = taxConsultant.Name;
+                    ViewBag.ID = TaxID;
+
+                    Profile ProfileID = new Profile();
+                    ProfileID.ProfileID = int.Parse(cookie["ID"]);
+                    ProfileID.EmailAddress = cookie["ID"];
+                    ProfileID.Username = cookie["ID"];
+                    ProfileID = handler.getProfile(ProfileID);
+                    ViewBag.ProfileName = ProfileID.FirstName + " " + ProfileID.LastName;
+
+                    var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                    nfi.NumberGroupSeparator = " ";
+
+                    ReportViewModel report = new ReportViewModel();
+                    List<Model.DashboardExpense> ExpenseReport = null;
+                    List<TAXorVATRecivedList> IncomeRecivedReport = null;
+                    TaxDashboard footers = null;
+
+                    try
                     {
-                        TaxRate = item;
-                    }
-                }
-                
-                DateTime sDate = TaxRate.StartDate;
-                DateTime eDate = TaxRate.EndDate;
+                        List<TaxAndVatPeriods> taxPeriod = handler.getTaxOrVatPeriodForProfile(ProfileID, 'T');
+                        TaxAndVatPeriods TaxRate = null;
 
-                TaxPeriodRates rate = new TaxPeriodRates();
-                rate.Rate = 0;
+                        foreach (TaxAndVatPeriods item in taxPeriod)
+                        {
+                            if (item.PeriodID.ToString() == TaxID)
+                            {
+                                TaxRate = item;
+                            }
+                        }
 
-                    taxPeriod = handler.getTaxOrVatPeriodForProfile(ProfileID, 'T');
+                        DateTime sDate = TaxRate.StartDate;
+                        DateTime eDate = TaxRate.EndDate;
+
+                        TaxPeriodRates rate = new TaxPeriodRates();
+                        rate.Rate = 0;
+
+                        taxPeriod = handler.getTaxOrVatPeriodForProfile(ProfileID, 'T');
 
                         IncomeRecivedReport = handler.getTAXRecivedList(ProfileID, TaxRate, rate);
                         ExpenseReport = new List<Model.DashboardExpense>();
@@ -297,133 +307,135 @@ namespace TaxApp.Controllers
                         }
                         footers = handler.getTaxCenterDashboard(ProfileID, TaxRate);
 
-                    if (ExpenseReport != null && IncomeRecivedReport != null && footers != null)
+                        if (ExpenseReport != null && IncomeRecivedReport != null && footers != null)
+                        {
+                            report.reportTitle = "Net income report";
+                            report.reportCondition = "From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
+                            report.reportStartDate = sDate.ToString("yyyy-MM-dd");
+                            report.reportEndDate = eDate.ToString("yyyy-MM-dd");
+
+                            report.column1Name = "Date";
+                            report.column2Name = "Title";
+                            report.column3Name = "Expense Amount (R)";
+                            report.column4Name = "Income Amount (R)";
+                            report.column3DataAlignRight = true;
+                            report.column4DataAlignRight = true;
+
+                            report.ReportDataList = new List<ReportDataList>();
+
+                            decimal c3Total = 0;
+                            decimal c4Total = 0;
+
+                            foreach (DashboardExpense item in ExpenseReport)
+                            {
+                                ReportDataList Data = new ReportDataList();
+                                Data.column1Data = (item.date);
+                                Data.column2Data = (item.name);
+                                Data.column3Data = ("-" + item.TotalString);
+                                Data.column4Data = ("");
+
+                                report.ReportDataList.Add(Data);
+
+                                c3Total += item.amount * -1;
+                            }
+
+                            foreach (TAXorVATRecivedList item in IncomeRecivedReport)
+                            {
+                                ReportDataList Data = new ReportDataList();
+                                Data.column1Data = (item.InvoiceDateString);
+                                Data.column2Data = (item.JobTitle + " for " + item.clientName);
+                                Data.column3Data = ("");
+                                Data.column4Data = (item.TotalString);
+
+                                report.ReportDataList.Add(Data);
+
+                                c4Total += item.Total;
+                            }
+
+                            report.column3Total = (c3Total.ToString("#,0.00", nfi));
+                            report.column4Total = (c4Total.ToString("#,0.00", nfi));
+
+                            report.FooterRowList = new List<ReportFixedFooterRowList>();
+                            ReportFixedFooterRowList fotter = new ReportFixedFooterRowList();
+                            fotter.column1Data = "Subtotal:";
+                            fotter.column4Data = ((footers.Income).ToString("#,0.00", nfi));
+                            report.FooterRowList.Add(fotter);
+                            fotter = new ReportFixedFooterRowList();
+                            fotter.column1Data = "Income Tax " + footers.TaxBraketString + " (Est):";
+                            fotter.column4Data = (footers.TAXOwedSTRING);
+                            report.FooterRowList.Add(fotter);
+                            fotter = new ReportFixedFooterRowList();
+                            fotter.column1Data = "Net income:";
+                            fotter.column4Data = ((footers.Income - footers.TAXOwed).ToString("#,0.00", nfi));
+                            report.FooterRowList.Add(fotter);
+                            report.column4FotterAlignRight = true;
+                        }
+                        else
+                            report = null;
+                    }
+                    catch (Exception e)
                     {
-                        report.reportTitle = "Net income report";
-                        report.reportCondition = "From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
-                        report.reportStartDate = sDate.ToString("yyyy-MM-dd");
-                        report.reportEndDate = eDate.ToString("yyyy-MM-dd");
+                        function.logAnError(e.ToString() +
+                            "Error loading Track VAT in VAT of Track Conroler");
+                        Response.Redirect("/Shared/Error");
+                    }
 
-                        report.column1Name = "Date";
-                        report.column2Name = "Title";
-                        report.column3Name = "Expense Amount (R)";
-                        report.column4Name = "Income Amount (R)";
-                        report.column3DataAlignRight = true;
-                        report.column4DataAlignRight = true;
+                    #region Sort
+                    if (SortDirection == null || SortDirection == "")
+                        SortDirection = "A";
 
-                        report.ReportDataList = new List<ReportDataList>();
+                    if (SortDirection == "D")
+                    {
+                        if (SortBy == "Col1")
+                            report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column1Data).ToList();
+                        else if (SortBy == "Col2")
+                            report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column2Data).ToList();
+                        else if (SortBy == "Col3")
+                            report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column3Data).ToList();
+                        else if (SortBy == "Col4")
+                            report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column4Data).ToList();
+                        else if (SortBy == "Col5")
+                            report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column5Data).ToList();
+                        else if (SortBy == "Col6")
+                            report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column6Data).ToList();
+                        else if (SortBy == "Col7")
+                            report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column7Data).ToList();
 
-                        decimal c3Total = 0;
-                        decimal c4Total = 0;
-
-                        foreach (DashboardExpense item in ExpenseReport)
-                        {
-                            ReportDataList Data = new ReportDataList();
-                            Data.column1Data = (item.date);
-                            Data.column2Data = (item.name);
-                            Data.column3Data = ("-" + item.TotalString);
-                            Data.column4Data = ("");
-
-                            report.ReportDataList.Add(Data);
-
-                            c3Total += item.amount * -1;
-                        }
-
-                        foreach (TAXorVATRecivedList item in IncomeRecivedReport)
-                        {
-                            ReportDataList Data = new ReportDataList();
-                            Data.column1Data = (item.InvoiceDateString);
-                            Data.column2Data = (item.JobTitle + " for " + item.clientName);
-                            Data.column3Data = ("");
-                            Data.column4Data = (item.TotalString);
-
-                            report.ReportDataList.Add(Data);
-
-                            c4Total += item.Total;
-                        }
-
-                        report.column3Total = (c3Total.ToString("#,0.00", nfi));
-                        report.column4Total = (c4Total.ToString("#,0.00", nfi));
-
-                        report.FooterRowList = new List<ReportFixedFooterRowList>();
-                        ReportFixedFooterRowList fotter = new ReportFixedFooterRowList();
-                        fotter.column1Data = "Subtotal:";
-                        fotter.column4Data = ((footers.Income).ToString("#,0.00", nfi));
-                        report.FooterRowList.Add(fotter);
-                        fotter = new ReportFixedFooterRowList();
-                        fotter.column1Data = "Income Tax " + footers.TaxBraketString + " (Est):";
-                        fotter.column4Data = (footers.TAXOwedSTRING);
-                        report.FooterRowList.Add(fotter);
-                        fotter = new ReportFixedFooterRowList();
-                        fotter.column1Data = "Net income:";
-                        fotter.column4Data = ((footers.Income - footers.TAXOwed).ToString("#,0.00", nfi));
-                        report.FooterRowList.Add(fotter);
-                        report.column4FotterAlignRight = true;
+                        SortDirection = "A";
                     }
                     else
-                        report = null;
+                    {
+                        if (SortBy == "Col1")
+                            report.ReportDataList = report.ReportDataList.OrderBy(o => o.column1Data).ToList();
+                        else if (SortBy == "Col2")
+                            report.ReportDataList = report.ReportDataList.OrderBy(o => o.column2Data).ToList();
+                        else if (SortBy == "Col3")
+                            report.ReportDataList = report.ReportDataList.OrderBy(o => o.column3Data).ToList();
+                        else if (SortBy == "Col4")
+                            report.ReportDataList = report.ReportDataList.OrderBy(o => o.column4Data).ToList();
+                        else if (SortBy == "Col5")
+                            report.ReportDataList = report.ReportDataList.OrderBy(o => o.column5Data).ToList();
+                        else if (SortBy == "Col6")
+                            report.ReportDataList = report.ReportDataList.OrderBy(o => o.column6Data).ToList();
+                        else if (SortBy == "Col7")
+                            report.ReportDataList = report.ReportDataList.OrderBy(o => o.column7Data).ToList();
+
+                        SortDirection = "D";
+                    }
+
+                    ViewBag.SortDirection = SortDirection;
+                    #endregion
+
+
+
+                    TrackTAXandVATViewModel viewModel = new TrackTAXandVATViewModel();
+
+                    viewModel.Report = report;
+                    viewModel.TAXDashboard = footers;
+
+                    return View(viewModel);
                 }
-            catch (Exception e)
-            {
-                function.logAnError(e.ToString() +
-                    "Error loading Track VAT in VAT of Track Conroler");
-                Response.Redirect("/Shared/Error");
-            }
-
-            #region Sort
-            if (SortDirection == null || SortDirection == "")
-                SortDirection = "A";
-
-            if (SortDirection == "D")
-            {
-                if (SortBy == "Col1")
-                    report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column1Data).ToList();
-                else if (SortBy == "Col2")
-                    report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column2Data).ToList();
-                else if (SortBy == "Col3")
-                    report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column3Data).ToList();
-                else if (SortBy == "Col4")
-                    report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column4Data).ToList();
-                else if (SortBy == "Col5")
-                    report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column5Data).ToList();
-                else if (SortBy == "Col6")
-                    report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column6Data).ToList();
-                else if (SortBy == "Col7")
-                    report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column7Data).ToList();
-
-                SortDirection = "A";
-            }
-            else
-            {
-                if (SortBy == "Col1")
-                    report.ReportDataList = report.ReportDataList.OrderBy(o => o.column1Data).ToList();
-                else if (SortBy == "Col2")
-                    report.ReportDataList = report.ReportDataList.OrderBy(o => o.column2Data).ToList();
-                else if (SortBy == "Col3")
-                    report.ReportDataList = report.ReportDataList.OrderBy(o => o.column3Data).ToList();
-                else if (SortBy == "Col4")
-                    report.ReportDataList = report.ReportDataList.OrderBy(o => o.column4Data).ToList();
-                else if (SortBy == "Col5")
-                    report.ReportDataList = report.ReportDataList.OrderBy(o => o.column5Data).ToList();
-                else if (SortBy == "Col6")
-                    report.ReportDataList = report.ReportDataList.OrderBy(o => o.column6Data).ToList();
-                else if (SortBy == "Col7")
-                    report.ReportDataList = report.ReportDataList.OrderBy(o => o.column7Data).ToList();
-
-                SortDirection = "D";
-            }
-
-            ViewBag.SortDirection = SortDirection;
-                #endregion
-
-                
-
-                TrackTAXandVATViewModel viewModel = new TrackTAXandVATViewModel();
-
-            viewModel.Report = report;
-            viewModel.TAXDashboard = footers;
-
-            return View(viewModel);
+                    
             }
 
             return Redirect("/Shared/Error");
@@ -440,6 +452,8 @@ namespace TaxApp.Controllers
                 taxConsultant.ProfileID = int.Parse(cookie["ID"]);
                 taxConsultant = handler.getConsumtant(taxConsultant);
 
+                if (taxConsultant != null)
+                {
                 ViewBag.UserName = taxConsultant.Name;
                 ViewBag.ID = VATID;
 
@@ -657,6 +671,8 @@ namespace TaxApp.Controllers
                 viewModel.VATDashboard = footers;
 
             return View(viewModel);
+
+                }
             }
 
             return Redirect("/Shared/Error");
@@ -673,11 +689,13 @@ namespace TaxApp.Controllers
                 DateTime sDate = new DateTime();
                 DateTime eDate = new DateTime();
 
-                if (TAXID != "" || TAXID != null)
+                if (TAXID != "" && TAXID != null)
                 {
                 profileID.ProfileID = int.Parse(cookie["ID"]);
                     period = handler.getTaxOrVatPeriodForProfile(profileID, 'T');
 
+                    if(period.Count > 0)
+                    {
                     foreach (TaxAndVatPeriods item in period)
                     {
                         if (item.PeriodID.ToString() == TAXID)
@@ -687,31 +705,39 @@ namespace TaxApp.Controllers
                         sDate = TaxRate.StartDate;
                         eDate = TaxRate.EndDate;
                     }
+                    }
                 }
 
-                if (VATID != "" || VATID != null)
+                if (VATID != "" && VATID != null)
                 {
                 profileID.ProfileID = int.Parse(cookie["ID"]);
                     period = handler.getTaxOrVatPeriodForProfile(profileID, 'V');
 
-                    foreach (TaxAndVatPeriods item in period)
+                    if (period.Count > 0)
                     {
-                        if (item.PeriodID.ToString() == VATID)
+                        foreach (TaxAndVatPeriods item in period)
                         {
-                            TaxRate = item;
+                            if (item.PeriodID.ToString() == VATID)
+                            {
+                                TaxRate = item;
+                            }
+                            sDate = TaxRate.StartDate;
+                            eDate = TaxRate.EndDate;
                         }
-                        sDate = TaxRate.StartDate;
-                        eDate = TaxRate.EndDate;
                     }
                 }
 
-                List<InvoiceAndReciptesFile> files = handler.getInvoiceAndReciptesFiles(profileID, sDate, eDate);
+                if (period.Count > 0)
+                {
+                    List<InvoiceAndReciptesFile> files = handler.getInvoiceAndReciptesFiles(profileID, sDate, eDate);
+                
 
                     foreach (InvoiceAndReciptesFile file in files)
                     {
                         string redirect = "<script>window.open('../Functions/DownloadFile?ID=" + file.ID + "&type=" + file.Type + "');</script>";
                         Response.Write(redirect);
                     }
+                }
             }
 
             return Content(@"<body>

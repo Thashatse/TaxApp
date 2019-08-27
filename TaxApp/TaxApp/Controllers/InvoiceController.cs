@@ -99,11 +99,15 @@ namespace TaxApp.Controllers
                     {
                         total += item.TotalCost;
                     }
-                    ViewBag.TotalExcludingVAT = total.ToString("0.00");
+
+                    var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                    nfi.NumberGroupSeparator = " ";
+
+                    ViewBag.TotalExcludingVAT = total.ToString("#,0.00", nfi);
                     decimal totalVAT = ((total / 100) * invoiceDetails[0].VATRate);
-                    ViewBag.VAT = totalVAT.ToString("0.00");
+                    ViewBag.VAT = totalVAT.ToString("#,0.00", nfi);
                     total = (totalVAT) + total;
-                    ViewBag.TotalDue = total.ToString("0.00");
+                    ViewBag.TotalDue = total.ToString("#,0.00", nfi);
 
                     Profile getProfile = new Profile();
                     getProfile.ProfileID = invoiceDetails[0].ProfileID;
@@ -408,11 +412,15 @@ namespace TaxApp.Controllers
                     {
                         total += item.TotalCost;
                     }
-                    ViewBag.TotalExcludingVAT = total.ToString("0.00");
+
+                    var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                    nfi.NumberGroupSeparator = " ";
+
+                    ViewBag.TotalExcludingVAT = total.ToString("#,0.00", nfi);
                     decimal totalVAT = ((total / 100) * invoiceDetails[0].VATRate);
-                    ViewBag.VAT = totalVAT.ToString("0.00");
+                    ViewBag.VAT = totalVAT.ToString("#,0.00", nfi);
                     total = (totalVAT) + total;
-                    ViewBag.TotalDue = total.ToString("0.00");
+                    ViewBag.TotalDue = total.ToString("#,0.00", nfi);
 
                     Profile getProfile = new Profile();
                     getProfile.ProfileID = int.Parse(cookie["ID"]);
@@ -488,13 +496,17 @@ namespace TaxApp.Controllers
                     {
                         total += item.TotalCost;
                     }
-                    ViewBag.TotalExcludingVAT = total.ToString("0.00");
-                    decimal totalVAT = ((total / 100) * invoiceDetails[0].VATRate);
-                    ViewBag.VAT = totalVAT.ToString("0.00");
-                    total = (totalVAT) + total;
-                    ViewBag.TotalDue = total.ToString("0.00");
 
-                    Profile getProfile = new Profile();
+                var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                nfi.NumberGroupSeparator = " ";
+
+                ViewBag.TotalExcludingVAT = total.ToString("#,0.00", nfi);
+                decimal totalVAT = ((total / 100) * invoiceDetails[0].VATRate);
+                ViewBag.VAT = totalVAT.ToString("#,0.00", nfi);
+                total = (totalVAT) + total;
+                ViewBag.TotalDue = total.ToString("#,0.00", nfi);
+
+                Profile getProfile = new Profile();
                     getProfile.ProfileID = int.Parse(cookie["ID"]);
                     getProfile.EmailAddress = "";
                     getProfile.Username = "";
@@ -543,11 +555,15 @@ namespace TaxApp.Controllers
                 {
                     total += item.TotalCost;
                 }
-                ViewBag.TotalExcludingVAT = total.ToString("0.00");
+
+                var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                nfi.NumberGroupSeparator = " ";
+
+                ViewBag.TotalExcludingVAT = total.ToString("#,0.00", nfi);
                 decimal totalVAT = ((total / 100) * invoiceDetails[0].VATRate);
-                ViewBag.VAT = totalVAT.ToString("0.00");
+                ViewBag.VAT = totalVAT.ToString("#,0.00", nfi);
                 total = (totalVAT) + total;
-                ViewBag.TotalDue = total.ToString("0.00");
+                ViewBag.TotalDue = total.ToString("#,0.00", nfi);
 
                 Profile getProfile = new Profile();
                 getProfile.ProfileID = int.Parse(cookie["ID"]);
@@ -576,7 +592,7 @@ namespace TaxApp.Controllers
                 bool result = function.sendEmail(toAddress,
                     toName,
                     Request.Form["subject"],
-                    Request.Form["Message"] + invoice,
+                    Request.Form["Message"] +  " \n " + invoice,
                     getProfile.FirstName + " " + getProfile.LastName,
                     getProfile.ProfileID);
 

@@ -13,5 +13,9 @@ namespace TaxApp.Controllers
             ViewBag.Details = Err;
             return View();
         }
+        public ActionResult Help()
+        {
+            return View();
+        }
     }
 }
