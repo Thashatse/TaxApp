@@ -147,7 +147,12 @@
                                     <th>
                                         Hours
                                     </th>
-                                    </tr>
+
+                                    @if (ViewBag.Complete == "NotDone")
+                                    {
+                                        <th></th>
+                                    }
+                                </tr>
 
                                 @foreach (var item in Model.Worklog)
                                 {
@@ -161,6 +166,14 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.WorkLogHoursString)
                                 </td>
+
+                                @if (ViewBag.Complete == "NotDone")
+                                {
+                                    <td>
+                                        <A href="/Job/EditJobWorkLog?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID">Edit</A> |
+                                        <A href="/Job/DeleteJobWorkLog?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID">Delete</A>
+                                    </td>
+                                }
                             </tr>
                                 }
 

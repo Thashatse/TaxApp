@@ -142,6 +142,75 @@ namespace TaxApp.Controllers
         }
         #endregion
 
+        #region View Invoice (External)
+        // GET: Invoice
+        public ActionResult viewInvoice(string id = "0")
+        {
+            try
+            {
+                getCookie(true);
+                
+                if (id == "0")
+                {
+                    function.logAnError("Error loding Print invoice details - No ID Supplied");
+                    return Redirect("../Shared/error");
+                }
+                else
+                {
+                    Invoice invoiceNum = new Invoice();
+                    invoiceNum.InvoiceNum = id;
+
+                    List<SP_GetInvoice_Result> invoiceDetails = handler.getInvoiceDetails(invoiceNum);
+                    ViewBag.InvoiceItems = invoiceDetails;
+
+                    decimal total = new decimal();
+                    foreach (SP_GetInvoice_Result item in invoiceDetails)
+                    {
+                        total += item.TotalCost;
+                    }
+
+                    var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                    nfi.NumberGroupSeparator = " ";
+
+                    ViewBag.TotalExcludingVAT = total.ToString("#,0.00", nfi);
+                    decimal totalVAT = ((total / 100) * invoiceDetails[0].VATRate);
+                    ViewBag.VAT = totalVAT.ToString("#,0.00", nfi);
+                    total = (totalVAT) + total;
+                    ViewBag.TotalDue = total.ToString("#,0.00", nfi);
+
+                    Profile getProfile = new Profile();
+                    getProfile.ProfileID = invoiceDetails[0].ProfileID;
+                    getProfile.EmailAddress = "";
+                    getProfile.Username = "";
+                    getProfile = handler.getProfile(getProfile);
+                    ViewBag.VatNum = getProfile.VATNumber;
+                    ViewBag.ProfileName = getProfile.FirstName + " " + getProfile.LastName;
+                    ViewBag.ProfileEmail = getProfile.EmailAddress;
+                    ViewBag.ProfileNo = getProfile.ContactNumber;
+
+                    ViewBag.JobID = id;
+
+                    if (invoiceDetails[0].Paid == true)
+                    {
+                        ViewBag.Paid = "Paid";
+                    }
+                    else
+                    {
+                        ViewBag.Paid = "Unpaid";
+                    }
+
+                    return View(invoiceDetails[0]);
+                }
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding invoice details for Print");
+                return Redirect("../Shared/Error");
+            }
+        }
+        #endregion
+
         #region View Invoice
         // GET: Invoice
         public ActionResult Invoice(string id = "0")
@@ -455,6 +524,12 @@ namespace TaxApp.Controllers
                         ViewBag.To = invoiceDetails[0].ClientName + " - " + invoiceDetails[0].EmailAddress;
                     }
 
+                    ViewBag.Body = "\n\n Invoice Summary: \n\n" +
+                        "From: " + ViewBag.ProfileName + "\n" +
+                        "Billed To: " + invoiceDetails[0].ClientName + " " + invoiceDetails[0].CompanyName + "\n" +
+                        "Job: " + invoiceDetails[0].JobTitle + "\n\n" +
+                        "Total Due: R" + ViewBag.TotalDue;
+
                     return View(invoiceDetails[0]);
                 }
             }
@@ -592,7 +667,7 @@ namespace TaxApp.Controllers
                 bool result = function.sendEmail(toAddress,
                     toName,
                     Request.Form["subject"],
-                    Request.Form["Message"] +  " \n " + invoice,
+                    Request.Form["Message"] +  " \n\n " + "View invoice here: http://localhost:54533/invoice/viewInvoice?ID="+ invoiceDetails[0].InvoiceNum,
                     getProfile.FirstName + " " + getProfile.LastName,
                     getProfile.ProfileID);
 

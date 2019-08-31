@@ -568,7 +568,7 @@ namespace TaxApp.Controllers
 
                         if (result == true)
                         {
-                            return Redirect("/job/JobWorkLog?ID=" + ID);
+                            return Redirect("/job/Job?ID=" + ID);
                         }
                         else
                         {
@@ -649,7 +649,7 @@ namespace TaxApp.Controllers
 
                         if (result == true)
                         {
-                            return Redirect("/job/JobWorkLog?ID=" + JobID);
+                            return Redirect("/job/Job?ID=" + JobID);
                         }
                         else
                         {

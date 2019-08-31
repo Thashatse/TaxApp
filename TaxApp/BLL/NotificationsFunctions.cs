@@ -19,6 +19,7 @@ namespace BLL
                 Notifications getNoti = new Notifications();
                 getNoti.ProfileID = ProfileID;
                 notifications = handler.getNotifications(getNoti);
+                notifications = notifications.OrderBy(x => x.timeSince).ToList();
             }
             catch(Exception Err)
             {

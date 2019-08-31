@@ -216,6 +216,7 @@
     <Content Include="Views\Expense\AllJobExpenses.cshtml" />
     <Content Include="Views\Expense\InvoiceAndReceipts.cshtml" />
     <Content Include="Views\Expense\reapetexpense.cshtml" />
+    <Content Include="Views\Invoice\viewInvoice.cshtml" />
     <None Include="Views\Shared\Help.cshtml" />
     <Content Include="libman.json" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
