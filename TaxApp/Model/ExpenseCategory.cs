@@ -15,9 +15,12 @@ namespace Model
 
     public partial class ExpenseCategory
     {
+
+        [Display(Name = "Category")]
         public int CategoryID { get; set; }
 
         [Required]
+        [Display(Name = "Category")]
         public string Name { get; set; }
 
         public string Description { get; set; }

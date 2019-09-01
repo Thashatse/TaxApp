@@ -13,6 +13,7 @@
                 <div class="col-lg-5 col-md-6">
                     <h1 class="text-white">Email Settings</h1>
                     <h4 class="text-white">Add your Bussiness Email Setting</h4>
+                    <h4 class="text-white">If you would like Tax App to send invoices & reports from a custom email account, enter the email settings bellow else select to set up later. (You will still be able to send emails without a custom account)</h4>
                 </div>
             </div>
         </div>
@@ -42,7 +43,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-md-12">
-                                    @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })<p class="text-red">*</p>
+                                    @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })<p class="text-red">* Required</p>
                                     @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -56,7 +57,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-md-12">
-                                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })<p class="text-red">*</p>
+                                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })<p class="text-red">* Required</p>
                                     @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -70,7 +71,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-md-12">
-                                    @Html.EditorFor(model => model.Host, new { htmlAttributes = new { @class = "form-control" } })<p class="text-red">*</p>
+                                    @Html.EditorFor(model => model.Host, new { htmlAttributes = new { @class = "form-control" } })<p class="text-red">* Required</p>
                                     @Html.ValidationMessageFor(model => model.Host, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -84,7 +85,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-md-12">
-                                    @Html.EditorFor(model => model.Port, new { htmlAttributes = new { @class = "form-control" } })<p class="text-red">*</p>
+                                    @Html.EditorFor(model => model.Port, new { htmlAttributes = new { @class = "form-control" } })<p class="text-red">* Required</p>
                                     @Html.ValidationMessageFor(model => model.Port, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -114,7 +115,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-md-12">
-                                    @Html.EditorFor(model => model.DeliveryMethod, new { htmlAttributes = new { @class = "form-control" } })<p class="text-red">*</p>
+                                    @Html.EditorFor(model => model.DeliveryMethod, new { htmlAttributes = new { @class = "form-control" } })<p class="text-red">* Required</p>
                                     @Html.ValidationMessageFor(model => model.DeliveryMethod, "", new { @class = "text-danger" })
                                 </div>
                             </div>

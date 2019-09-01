@@ -40,7 +40,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.JobTitle, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.JobTitle, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.JobTitle, new { htmlAttributes = new { @class = "form-control" } })<p class="text-red">* Required</p>
                                 @Html.ValidationMessageFor(model => model.JobTitle, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -48,7 +48,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.HourlyRate, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.HourlyRate, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.HourlyRate, new { htmlAttributes = new { @class = "form-control" } })<p class="text-red">* Required</p>
                                 @Html.ValidationMessageFor(model => model.HourlyRate, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -65,7 +65,7 @@
                             @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
                                 <input name="StartDate" type="date" value="@Html.DisplayFor(model => model.DefultDate)"
-                                       min="@Html.DisplayFor(model => model.MinDate)" />
+                                       min="@Html.DisplayFor(model => model.MinDate)" /><p class="text-red">* Required</p>
                             </div>
                         </div>
                     <div class="form-group">

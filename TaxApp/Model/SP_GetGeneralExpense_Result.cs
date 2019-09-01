@@ -19,6 +19,8 @@ namespace Model
         public List<SP_GetGeneralExpense_Result> RepeatOccurrences { get; set; }
         public int ExpenseID { get; set; }
         public int PrimaryExpenseID { get; set; }
+
+        [Display(Name = "Category")]
         public int CategoryID { get; set; }
         [Required]
         public string Name { get; set; }

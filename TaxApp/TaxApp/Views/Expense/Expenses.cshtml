@@ -209,108 +209,109 @@
             {
                 if (G < 2)
                 {
-                    <div class="col-xl-4">
-                        <div class="card shadow">
-                            <div class="card-header border-0">
-                                <div class="row align-items-center">
-                                    <div class="col">
-                                        <h3 class="mb-0">@Html.DisplayFor(modelItem => item.Name)</h3>
-                                        <p>
-                                            @Html.DisplayFor(modelItem => item.DateString)
-                                        </p>
-                                    </div>
-                                    <div class="col text-right">
-                                        <button data-toggle="collapse" href="#demo2" class="btn btn-sm btn-white">Details</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="demo2" class="panel-collapse collapse">
-                                <div class="table-responsive">
-                                    <!-- Projects table -->
-                                    <table class="table align-items-center table-flush">
-                                        <tbody>
-                                            <tr>
-                                                <th scope="row">
-                                                    Job
-                                                </th>
-                                                <td>
-                                                    <a href="../Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)">
-                                                        @Html.DisplayFor(modelItem => item.JobTitle)
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">
-                                                    Description
-                                                </th>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Description)
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">
-                                                    Amount
-                                                </th>
-                                                <td>
-                                                    R @Html.DisplayFor(modelItem => item.Amount)
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">
-                                                    Category
-                                                </th>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.CatName)
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">
-                                                    Category Description
-                                                </th>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.CatDescription)
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="card-header border-0">
-                                    <div class="row align-items-center">
-                                        <div class="col-3">
-                                            <p class="mb-0">Actions: </p>
-                                        </div>
-                                        <div class="col-9 text-right">
-                                            @if (ViewBag.Complete != "NotDone")
-                                            {
-                                                <a href="../Expense/EditJobExpense?ID=@Html.DisplayFor(model => item.ExpenseID)"
-                                                   class="btn btn-sm btn-secondary">Edit</a>
-                                            }
-                                            <br />
-                                            <br />
-                                            @if (@item.Invoice_ReceiptCopy == null)
-                                            {
-                                                <a href="../Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=JE&Title=Invoice or Receipt&Details=@Html.DisplayFor(model => item.Name)"
-                                                   class="btn btn-sm btn-white">
-                                                    Add Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i>
-                                                </a>
-                                            }
-                                            else
-                                            {
-                                                <a target="_blank" href="../Functions/DownloadFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=JE"
-                                                   class="btn btn-sm btn-white">
-                                                    Download Invoice or Receipt Copy <i class="ni ni-cloud-download-95"></i>
-                                                </a>
-                                                <a href="../Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=JE&Title=Invoice or Receipt&Details=@Html.DisplayFor(model => item.Name)"
-                                                   class="btn btn-sm btn-white">
-                                                    Update Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i>
-                                                </a>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+    <div class="col-xl-4">
+        <div class="card shadow">
+            <div class="card-header border-0">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h3 class="mb-0">@Html.DisplayFor(modelItem => item.Name)</h3>
+                        <p>
+                            @Html.DisplayFor(modelItem => item.DateString)
+                        </p>
+                    </div>
+                    <div class="col text-right">
+                        <button data-toggle="collapse" href="#demo2" class="btn btn-sm btn-white">Details</button>
+                    </div>
+                </div>
+            </div>
+            <div id="demo2" class="panel-collapse collapse">
+                <div class="table-responsive">
+                    <!-- Projects table -->
+                    <table class="table align-items-center table-flush">
+                        <tbody>
+                            <tr>
+                                <th scope="row">
+                                    Job
+                                </th>
+                                <td>
+                                    <a href="../Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)">
+                                        @Html.DisplayFor(modelItem => item.JobTitle)
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">
+                                    Description
+                                </th>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">
+                                    Amount
+                                </th>
+                                <td>
+                                    R @Html.DisplayFor(modelItem => item.Amount)
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">
+                                    Category
+                                </th>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CatName)
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">
+                                    Category Description
+                                </th>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CatDescription)
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-header border-0">
+                    <div class="row align-items-center">
+                        <div class="col-3">
+                            <p class="mb-0">Actions: </p>
+                        </div>
+                        <div class="col-9 text-right">
+                            @if (ViewBag.Complete != "NotDone")
+                            {
+                                <a href="../Expense/EditJobExpense?ID=@Html.DisplayFor(model => item.ExpenseID)"
+                                   class="btn btn-sm btn-secondary">Edit</a>
+                            }
+                            <br />
+                            <br />
+                            @if (@item.Invoice_ReceiptCopy == null)
+                            {
+                                <a href="../Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=JE&Title=Invoice or Receipt&Details=@Html.DisplayFor(model => item.Name)"
+                                   class="btn btn-sm btn-white">
+                                    Add Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i>
+                                </a>
+                            }
+                            else
+                            {
+                                <a target="_blank" href="../Functions/DownloadFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=JE"
+                                   class="btn btn-sm btn-white">
+                                    Download Invoice or Receipt Copy <i class="ni ni-cloud-download-95"></i>
+                                </a>
+                                <a href="../Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=JE&Title=Invoice or Receipt&Details=@Html.DisplayFor(model => item.Name)"
+                                   class="btn btn-sm btn-white">
+                                    Update Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i>
+                                </a>
+                            }
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+        <br />
+    </div>
                     G++;
                 }
             }

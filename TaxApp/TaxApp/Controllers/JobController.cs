@@ -306,6 +306,10 @@ namespace TaxApp.Controllers
             Model.Client getClients = new Model.Client();
             getClients.ProfileID = int.Parse(cookie["ID"].ToString());
             List<Model.Client> Clients = handler.getProfileClients(getClients);
+
+                if (Clients.Count == 0)
+                    Response.Redirect("../Client/NewClient");
+
             ViewBag.ClientList = new SelectList(Clients, "ClientID", "FirstName");
 
                 Profile getProfile = new Profile();
@@ -345,8 +349,10 @@ namespace TaxApp.Controllers
                 newJob.ClientID = int.Parse(Request.Form["ClientList"].ToString());
                 newJob.JobTitle = Request.Form["JobTitle"].ToString();
                 newJob.HourlyRate = decimal.Parse(Request.Form["HourlyRate"].ToString());
-                newJob.Share = bool.Parse(Request.Form["Share"].ToString());
-                if(Request.Form["Budget"].ToString() != "")
+                newJob.Share = false;
+                if(Request.Form["Share"].ToString() == "true,false")
+                    newJob.Share = true;
+                if (Request.Form["Budget"].ToString() != "")
                     newJob.Budget = decimal.Parse(Request.Form["Budget"].ToString());
                 else
                     newJob.Budget = 0;
@@ -358,9 +364,15 @@ namespace TaxApp.Controllers
 
                 Client getclient = new Client();
                 getclient.ClientID = newJob.ClientID;
-                handler.getClient(getclient);
+                clientDetails = handler.getClient(getclient);
 
-                bool result = false;
+                bool result;
+                if (resultID == null && resultID == "")
+                    result = false;
+                else if (newJob.Share)
+                    result = false;
+                else
+                    result = true;
 
                 if (resultID != null && clientDetails != null && resultID != "" && newJob.Share)
             {
@@ -394,14 +406,14 @@ namespace TaxApp.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("../Shared/Error");
+                    return Redirect("../Shared/Error");
                 }
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error in email settings method of LandingControles");
-                return RedirectToAction("../Shared/Error?Err=An error occurred while creating new job.");
+                return Redirect("../Shared/Error?Err=An error occurred while creating new job.");
             }
         }
         #endregion

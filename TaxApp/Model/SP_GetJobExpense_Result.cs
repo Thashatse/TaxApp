@@ -15,6 +15,8 @@ namespace Model
     public partial class SP_GetJobExpense_Result
     {
         public int ExpenseID { get; set; }
+
+        [Display(Name = "Category")]
         public int CategoryID { get; set; }
 
         [Required]

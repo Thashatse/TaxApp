@@ -378,8 +378,8 @@
                         <div class="col-10 text-right">
                             @if (ViewBag.Complete == "NotDone")
                             {
-                                <a href="/Job/MarkAsComplete?ID=@Html.DisplayFor(model => model.jobDetails.JobID)"
-                                   class="btn btn-sm btn-white">Mark Job As Comlete</a>
+                            <a href="/Job/MarkAsComplete?ID=@Html.DisplayFor(model => model.jobDetails.JobID)"
+                               class="btn btn-sm btn-white">Mark Job As Complete</a>
                                 <a href="/Job/EditJob?ID=@Html.DisplayFor(model => model.jobDetails.JobID)"
                                    class="btn btn-sm btn-white">Edit</a>
                             }

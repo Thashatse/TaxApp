@@ -18,6 +18,7 @@ namespace Model
         public int ExpenseID { get; set; }
 
         [Required]
+        [Display(Name = "Category")]
         public int CategoryID { get; set; }
 
         [Required]

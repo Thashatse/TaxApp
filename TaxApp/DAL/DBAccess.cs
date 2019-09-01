@@ -154,6 +154,7 @@ namespace DAL
             new SqlParameter("@CNum", User.ContactNumber),
             new SqlParameter("@PA", User.PhysicalAddress),
             new SqlParameter("@VATNum", User.VATNumber),
+            new SqlParameter("@VR", User.VATRate),
             new SqlParameter("@DR", User.DefaultHourlyRate),
             new SqlParameter("@UN", User.Username),
             new SqlParameter("@Pass", User.Password)
@@ -438,7 +439,7 @@ namespace DAL
                         new SqlParameter("@HR", job.HourlyRate),
                         new SqlParameter("@B", job.Budget),
                         new SqlParameter("@SD",job.StartDate),
-                        new SqlParameter("@S",job.Share)
+                        new SqlParameter("@S",job.Share),
                    };
 
                 using (DataTable table = DBHelper.ParamSelect("SP_NewJob",
@@ -2584,8 +2585,15 @@ namespace DAL
                             Invoice.CompanyName = row[8].ToString();
                             Invoice.EmailAddress = row[9].ToString();
                             Invoice.PhysiclaAddress = row[10].ToString();
+                            if(row["TotalCost"] != null && row["TotalCost"].ToString() != "")
+                            {
                             Invoice.TotalCost = decimal.Parse(row["TotalCost"].ToString());
-                            Invoice.TotalCost = Invoice.TotalCost + ((Invoice.TotalCost / 100) * 15);
+                            }
+                            else
+                            {
+                                Invoice.TotalCost = 0;
+                            }
+                            Invoice.TotalCost = Invoice.TotalCost + ((Invoice.TotalCost / 100) * Invoice.VATRate);
 
                             var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
                             nfi.NumberGroupSeparator = " ";

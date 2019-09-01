@@ -58,6 +58,9 @@ namespace TaxApp.Controllers
                 Redirect("/Shared/Error");
             }
 
+            if (Err == "UserPassNA")
+                ViewBag.Message = "Username and password combination is incorrect error";
+
             return View(username);
         }
         // POST: Landing/Welcome
@@ -183,6 +186,7 @@ namespace TaxApp.Controllers
                     newProfile.ContactNumber = Request.Form["ContactNumber"];
                     newProfile.PhysicalAddress = Request.Form["PhysicalAddress"];
                     newProfile.VATNumber = Request.Form["VATNumber"];
+                    newProfile.VATRate = Convert.ToDecimal(Request.Form["VATRate"]);
                     newProfile.DefaultHourlyRate = Convert.ToDecimal(Request.Form["DefaultHourlyRate"]);
                     newProfile.Username = Request.Form["Username"];
                     newProfile.Password = Request.Form["Password"];

@@ -49,6 +49,8 @@ namespace Model
 
         [Display(Name = "VAT Number")]
         public string VATNumber { get; set; }
+
+        [Display(Name = "Current VAT Rate")]
         public decimal VATRate { get; set; }
 
         [Required]

@@ -917,7 +917,7 @@ namespace TaxApp.Controllers
                             }
                         }
 
-                        return RedirectToAction("Invoice", "Invoice", new { ID = newInvoice.InvoiceNum });
+                        Response.Redirect("../Invoice/Invoice?ID="+ newInvoice.InvoiceNum);
                     }
 
                     function.logAnError("Error creating new invoice");

@@ -71,7 +71,11 @@ namespace TaxApp.Controllers
             Model.Client getClients = new Model.Client();
             getClients.ProfileID = int.Parse(cookie["ID"].ToString());
             List<Model.Client> Clients = handler.getProfileClients(getClients);
-            return View(Clients);
+
+                if (Clients.Count == 0)
+                    Response.Redirect("../Client/NewClient");
+
+                return View(Clients);
             }
             catch (Exception e)
             {
