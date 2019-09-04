@@ -42,7 +42,7 @@ namespace BLL
 
         public string[] AuthenticateEmail(Model.Profile profileToCheck, string password)
         {
-            //array data 0 = ID, 1 = User Type, 2 = Name
+            //array data 0 = ID, 1 = Name
             string[] UserCookieDetails = { "Error", "" };
 
             //check if the account credentials are correct

@@ -1,3 +1,5 @@
+USE [TaxApp]
+GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -27,40 +29,44 @@ Where Invoice.[Datetime] Between DATEADD(Month, -2, getdate()) and DATEADD(Month
 	AND Jobs.ClientID = Client.ClientID
 	And Client.ProfileID = @PID) as TotalIncomePast60To30Days,
 
-((Select sum(Amount) 
+(Select sum(Amount)
 From Expense, JobExpense, Jobs, Client
 Where Expense.ExpenseID = JobExpense.ExpenseID
 	AND JobExpense.[Date] Between DATEADD(Month, -1, getdate()) and getdate()
 	AND JobExpense.JobID = Jobs.JobID
 	AND Jobs.ClientID = Client.ClientID
-	And Client.ProfileID = @PID) +
-(Select sum(Amount) 
+	And Client.ProfileID = @PID) as TotalExpensePast30DaysJob,
+
+(Select sum(Amount)
 From Expense, GeneralExpense
 Where Expense.ExpenseID = GeneralExpense.ExpenseID
 	And GeneralExpense.ProfileID = @PID
-	AND GeneralExpense.[Date] Between DATEADD(Month, -1, getdate()) and getdate()) +
+	AND GeneralExpense.[Date] Between DATEADD(Month, -1, getdate()) and getdate()) as TotalExpensePast30DaysGeneral,
+
 (Select Sum((ClosingKMs - OpeningKMs) * (ClientCharge))
 From TravelLog, Vehicle
 Where TravelLog.VehicleID = Vehicle.VehicleID 
 	And Vehicle.ProfileID = @PID
-	AND TravelLog.[Date] Between DATEADD(Month, -1, getdate()) and getdate())) as TotalExpensePast30Days,
+	AND TravelLog.[Date] Between DATEADD(Month, -1, getdate()) and getdate()) as TotalExpensePast30DaysTravel,
 
-((Select sum(Amount) 
+(Select sum(Amount)
 From Expense, JobExpense, Jobs, Client
 Where Expense.ExpenseID = JobExpense.ExpenseID
 	AND JobExpense.[Date] Between DATEADD(Month, -2, getdate()) and DATEADD(Month, -1, getdate())
 	AND JobExpense.JobID = Jobs.JobID
 	AND Jobs.ClientID = Client.ClientID
-	And Client.ProfileID = @PID) +
-(Select sum(Amount) 
+	And Client.ProfileID = @PID) as TotalExpensePast60To30DaysJob,
+
+(Select sum(Amount)
 From Expense, GeneralExpense
 Where Expense.ExpenseID = GeneralExpense.ExpenseID
 	And GeneralExpense.ProfileID = @PID
-	AND GeneralExpense.[Date] Between DATEADD(Month, -2, getdate()) and DATEADD(Month, -1, getdate()) +
+	AND GeneralExpense.[Date] Between DATEADD(Month, -2, getdate()) and DATEADD(Month, -1, getdate())) as TotalExpensePast60To30DaysGeneral,
+
 (Select Sum((ClosingKMs - OpeningKMs) * (ClientCharge))
 From TravelLog, Vehicle
 Where TravelLog.VehicleID = Vehicle.VehicleID 
-	AND TravelLog.[Date] Between DATEADD(Month, -2, getdate()) and DATEADD(Month, -1, getdate()))))  as TotalExpensePast60To30Days 
+	AND TravelLog.[Date] Between DATEADD(Month, -2, getdate()) and DATEADD(Month, -1, getdate())) as TotalExpensePast60To30DaysTravel
 
 END
 GO

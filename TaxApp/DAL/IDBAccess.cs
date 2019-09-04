@@ -38,8 +38,8 @@ namespace DAL
         string newJob(Model.Job job);
         bool editJob(Job job);
         Model.SP_GetJob_Result getJob(Model.Job job);
-        List<SP_GetJob_Result> getProfileJobs(Profile profile);
-        List<SP_GetJob_Result> getProfileJobsPast(Profile profile, DateTime sDate, DateTime eDate);
+        List<SP_GetJob_Result> getProfileJobs(Profile profile, Client client);
+        List<SP_GetJob_Result> getProfileJobsPast(Profile profile, Client client, DateTime sDate, DateTime eDate);
         List<SP_GetJob_Result> getProfileJobsDashboard(Profile profile);
         bool MarkJobAsComplete(Job job);
         bool UpdateShareJob(Job JobID);
@@ -88,7 +88,7 @@ namespace DAL
         bool newInvoiceDetailLine(InvoiceLineItem newInvoiceLineItem);
         bool newInvoice(Invoice newInvoice, Job jobID);
         List<SP_GetInvoice_Result> getJobInvoices (Job jobID);
-        List<SP_GetInvoice_Result> getInvoices (Profile profileID);
+        List<SP_GetInvoice_Result> getInvoices (Profile profileID, Client client);
         List<SP_GetInvoice_Result> getInvoicesOutsatanding (Profile profileID);
         List<SP_GetInvoice_Result> getInvoicesPast (Profile profileID, DateTime sDate, DateTime eDate);
         List<SP_GetInvoice_Result> getInvoiceDetails (Invoice invoiceNum);

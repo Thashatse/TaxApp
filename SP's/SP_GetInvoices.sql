@@ -3,7 +3,8 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 alter PROCEDURE SP_GetInvoices
-	@PID int
+	@PID int, 
+	@CID int
 AS
 BEGIN
 	select Invoice.InvoiceNum, [DateTime], VATRate, Paid,
@@ -17,6 +18,7 @@ BEGIN
 	where Invoice.InvoiceNum = JobInvoice.InvoiceNum
 		AND JobInvoice.JobID = Jobs.JobID
 		AND Jobs.ClientID = Client.ClientID
-		AND Client.ProfileID = @PID
+		AND (Client.ProfileID = @PID
+		or Client.ClientID = @CID)
 END
 GO

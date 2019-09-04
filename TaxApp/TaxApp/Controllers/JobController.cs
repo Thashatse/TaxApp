@@ -91,8 +91,10 @@ namespace TaxApp.Controllers
 
                 Model.Profile getJobs = new Model.Profile();
             getJobs.ProfileID = int.Parse(cookie["ID"].ToString());
-            List<Model.SP_GetJob_Result> pastJobs = handler.getProfileJobsPast(getJobs, sDate, eDate);
-            List<Model.SP_GetJob_Result> currentJobs = handler.getProfileJobs(getJobs);
+                Client client = new Model.Client();
+                client.ClientID = 0;
+                List<Model.SP_GetJob_Result> pastJobs = handler.getProfileJobsPast(getJobs, client, sDate, eDate);
+            List<Model.SP_GetJob_Result> currentJobs = handler.getProfileJobs(getJobs, client);
 
                 if(pastJobs.Count == 0)
                 {
@@ -767,7 +769,10 @@ namespace TaxApp.Controllers
                 Model.Profile getJobs = new Model.Profile();
                 getJobs.ProfileID = int.Parse(cookie["ID"].ToString());
 
-                List<Model.SP_GetJob_Result> currentJobs = handler.getProfileJobs(getJobs);
+                Client client = new Model.Client();
+                client.ClientID = 0;
+
+                List<Model.SP_GetJob_Result> currentJobs = handler.getProfileJobs(getJobs, client);
                 
                 ViewBag.JobList = new SelectList(currentJobs, "JobID", "JobTitle");
 
@@ -791,7 +796,10 @@ namespace TaxApp.Controllers
                 Model.Profile getJobs = new Model.Profile();
                 getJobs.ProfileID = int.Parse(cookie["ID"].ToString());
 
-                List<Model.SP_GetJob_Result> currentJobs = handler.getProfileJobs(getJobs);
+                Client client = new Model.Client();
+                client.ClientID = 0;
+
+                List<Model.SP_GetJob_Result> currentJobs = handler.getProfileJobs(getJobs, client);
 
                 ViewBag.JobList = new SelectList(currentJobs, "JobID", "JobTitle");
 

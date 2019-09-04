@@ -1,4 +1,4 @@
-﻿@model Model.Client
+﻿@model Model.ClientDetailsViewModel
 
 @{
     ViewBag.Title = "Client Details";
@@ -12,15 +12,9 @@
             <div class="row justify-content-center">
                 <div class="col-lg-5 col-md-6">
                     <h1 class="text-white">
-                        @Html.DisplayFor(model => model.FirstName)
-                        @Html.DisplayFor(model => model.LastName)
+                        @Html.DisplayFor(model => model.Client.FirstName)
+                        @Html.DisplayFor(model => model.Client.LastName)
                     </h1>
-                    <br />
-                    <div>
-                        <a class="btn btn-sm btn-white" href='/Client/Edit?ID=@Html.DisplayFor(model => model.ClientID)'>
-                            Edit
-                        </a>
-                    </div>
                 </div>
             </div>
         </div>
@@ -28,54 +22,203 @@
 </div>
 
 <div class="container-fluid mt--7">
-    <!-- Page content -->
-    <div class="container mt--8 pb-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-12 col-md-12">
-                <div class="card bg-secondary shadow border-0">
-                        <table class="table align-items-center table-flush">
-                            <tbody>
+    <div class="col-lg-12 col-md-12">
+        <div class="card bg-secondary shadow border-0">
+            <div class="card-header border-0">
+                <div class="row align-items-center">
+                    <div class="col-2">
+                        <p class="mb-0">Actions: </p>
+                    </div>
+                    <div class="col-10 text-right">
+                        <a class="btn btn-sm btn-white" href='/Client/Edit?ID=@Html.DisplayFor(model => model.Client.ClientID)'>
+                            Edit
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table align-items-center table-flush">
+                    <tbody>
+                        <tr>
+                            <th scope="row">
+                                @Html.DisplayNameFor(model => model.Client.CompanyName)
+                            </th>
+                            <td>
+                                @Html.DisplayFor(model => model.Client.CompanyName)
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                @Html.DisplayNameFor(model => model.Client.ContactNumber)
+                            </th>
+                            <td>
+                                <a href="tel:@Html.DisplayFor(model => model.Client.ContactNumber)">
+                                    @Html.DisplayFor(model => model.Client.ContactNumber)
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                @Html.DisplayNameFor(model => model.Client.EmailAddress)
+                            </th>
+                            <td>
+                                <a target="_blank" href="mailto:@Html.DisplayFor(model => model.Client.EmailAddress)" target="_blank">
+                                    @Html.DisplayFor(model => model.Client.EmailAddress)
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                @Html.DisplayNameFor(model => model.Client.PhysiclaAddress)
+                            </th>
+                            <td>
+                                <a target="_blank" href="https://www.google.com/maps/search/?api=1&@Html.DisplayFor(model => model.Client.PhysiclaAddress)">
+                                    @Html.DisplayFor(model => model.Client.PhysiclaAddress)
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            </div>
+            <br />
+        </div>
+
+    <div class="col-lg-12 col-md-12">
+        <div class="card shadow">
+            <div class="card-header bg-transparent" data-toggle="collapse" href="#Jobs">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h3 class="mb-0">Jobs: </h3>
+                    </div>
+                    <div class="col text-right">
+                        <i class="ni ni-bold-down"></i>
+                    </div>
+                </div>
+            </div>
+            <div id="Jobs" class="panel-collapse collapse">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        @if (Model.Jobs.Count < 1)
+                        {
+                        <p> No Jobs</p>
+                        }
+                        else
+                        {
+                            <table class="table align-items-center table-flush">
                                 <tr>
-                                    <th scope="row">
-                                        @Html.DisplayNameFor(model => model.CompanyName)
+                                    <th>
+                                        Title
                                     </th>
-                                    <td>
-                                        @Html.DisplayFor(model => model.CompanyName)
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        @Html.DisplayNameFor(model => model.ContactNumber)
+                                    <th>
+                                        Hours
                                     </th>
-                                    <td>
-                                        <a href="tel:@Html.DisplayFor(model => model.ContactNumber)">
-                                            @Html.DisplayFor(model => model.ContactNumber)
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        @Html.DisplayNameFor(model => model.EmailAddress)
+                                    <th>
+                                        Income
                                     </th>
-                                    <td>
-                                        <a target="_blank" href="mailto:@Html.DisplayFor(model => model.EmailAddress)" target="_blank">
-                                            @Html.DisplayFor(model => model.EmailAddress)
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        @Html.DisplayNameFor(model => model.PhysiclaAddress)
+                                    <th>
+                                        Expenses
                                     </th>
-                                    <td>
-                                        <a target="_blank" href="https://www.google.com/maps/search/?api=1&@Html.DisplayFor(model => model.PhysiclaAddress)">
-                                            @Html.DisplayFor(model => model.PhysiclaAddress)
-                                        </a>
-                                    </td>
+                                    <th>
+                                        Budget Used
+                                    </th>
+                                    <th></th>
                                 </tr>
-                            </tbody>
-                        </table>
+                                @foreach (var item in Model.Jobs)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.JobTitle)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.WorkLogHoursString)
+                                        </td>
+                                        <td>
+                                            R @Html.DisplayFor(modelItem => item.TotalPaidString)
+                                        </td>
+                                        <td>
+                                            R @Html.DisplayFor(modelItem => item.AllExpenseTotalString)
+                                        </td>
+                                        <td>
+                                            <span class="mr-2">@Html.DisplayFor(modelItem => item.BudgetPercent)%</span>
+                                        </td>
+                                        <td>
+                                            <a href="/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)"
+                                               class="btn btn-sm btn-white">Details</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
+        <br />
+    </div>
+
+    <div class="col-lg-12 col-md-12">
+        <div class="card shadow">
+            <div class="card-header bg-transparent" data-toggle="collapse" href="#Invoices">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h3 class="mb-0">Invoices: </h3>
+                    </div>
+                    <div class="col text-right">
+                        <i class="ni ni-bold-down"></i>
+                    </div>
+                </div>
+            </div>
+            <div id="Invoices" class="panel-collapse collapse">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        @if (Model.Invoices.Count < 1)
+                        {
+                            <p> No Invoices</p>
+                        }
+                        else
+                        {
+                            <table class="table align-items-center table-flush">
+                                <tr>
+                                    <th>
+                                        Job Title
+                                    </th>
+                                    <th>
+                                        Date
+                                    </th>
+                                    <th>
+                                        Paid
+                                    </th>
+                                    <th>
+                                        Amount
+                                    </th>
+                                    <th></th>
+                                </tr>
+                                @foreach (var item in Model.Invoices)
+                                {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.JobTitle)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DateTimeString)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Paid)
+                                </td>
+                                <td>
+                                    R @Html.DisplayFor(modelItem => item.TotalCost)
+                                </td>
+                                <td>
+                                    <a href="../Invoice/Invoice?ID=@Html.DisplayFor(modelItem => item.InvoiceNum)" class="btn btn-sm btn-white">View</a>
+                                </td>
+                            </tr>
+                                }
+                            </table>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
     </div>

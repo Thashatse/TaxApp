@@ -171,7 +171,9 @@ namespace BLL
 
             Profile profileID = new Profile();
             profileID.ProfileID = PID;
-            List<SP_GetJob_Result> jobs = handler.getProfileJobs(profileID);
+            Client client = new Model.Client();
+            client.ClientID = 0;
+            List<SP_GetJob_Result> jobs = handler.getProfileJobs(profileID, client);
 
             foreach(SP_GetJob_Result job in jobs)
             {

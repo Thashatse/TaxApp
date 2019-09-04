@@ -292,7 +292,7 @@ namespace TaxApp.Controllers
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
-                    "Error loding job details");
+                    "Error loding Home page");
                 return RedirectToAction("../Shared/Error");
             }
         }

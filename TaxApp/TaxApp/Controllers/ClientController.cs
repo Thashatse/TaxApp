@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Model;
 
 namespace TaxApp.Controllers
 {
@@ -86,15 +87,42 @@ namespace TaxApp.Controllers
         }
 
         // GET: Client/Details/5
-        public ActionResult ClientDetails(int ID)
+        public ActionResult ClientDetails(int ID = 0)
         {
+            if(ID == 0)
+                return RedirectToAction("Client", "Client");
+
             try
             {
             getCookie();
             Model.Client getClient = new Model.Client();
             getClient.ClientID = ID;
             Model.Client client = handler.getClient(getClient);
-            return View(client);
+
+                if (client == null || client.FirstName == "")
+                    return RedirectToAction("Client", "Client");
+
+                DateTime sDate = DateTime.Now.AddYears(-100);
+                DateTime eDate = DateTime.Now;
+
+                Model.Profile getJobs = new Model.Profile();
+                getJobs.ProfileID = 0;
+                List<Model.SP_GetJob_Result> Jobs = handler.getProfileJobsPast(getJobs, client, sDate, eDate);
+                Jobs.AddRange(handler.getProfileJobs(getJobs, client));
+                Jobs.OrderBy(x => x.StartDate).ToList();
+
+                Profile profileID = new Model.Profile();
+                profileID.ProfileID = 0;
+
+                List<SP_GetInvoice_Result> invoices = handler.getInvoices(profileID, client);
+                invoices.OrderBy(x => x.DateTime).ToList();
+
+                ClientDetailsViewModel view = new ClientDetailsViewModel();
+                view.Client = client;
+                view.Jobs = Jobs;
+                view.Invoices = invoices;
+
+            return View(view);
             }
             catch (Exception e)
             {

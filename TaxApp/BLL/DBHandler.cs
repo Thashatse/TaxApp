@@ -86,13 +86,13 @@ namespace BLL
             return db.getJob(job);
         }
 
-        public List<SP_GetJob_Result> getProfileJobs(Profile profile)
+        public List<SP_GetJob_Result> getProfileJobs(Profile profile, Client client)
         {
-            return db.getProfileJobs(profile);
+            return db.getProfileJobs(profile, client);
         }
-        public List<SP_GetJob_Result> getProfileJobsPast(Profile profile, DateTime sDate, DateTime eDate)
+        public List<SP_GetJob_Result> getProfileJobsPast(Profile profile, Client client, DateTime sDate, DateTime eDate)
         {
-            return db.getProfileJobsPast(profile, sDate, eDate);
+            return db.getProfileJobsPast(profile, client, sDate, eDate);
         }
         public List<SP_GetJob_Result> getProfileJobsDashboard(Profile profile)
         {
@@ -249,9 +249,9 @@ namespace BLL
         {
             return db.getJobInvoices(jobID);
         }
-        public List<SP_GetInvoice_Result> getInvoices(Profile profileID)
+        public List<SP_GetInvoice_Result> getInvoices(Profile profileID, Client client)
         {
-            return db.getInvoices(profileID);
+            return db.getInvoices(profileID, client);
         }public List<SP_GetInvoice_Result> getInvoicesOutsatanding(Profile profileID)
         {
             return db.getInvoicesOutsatanding(profileID);

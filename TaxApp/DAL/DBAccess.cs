@@ -78,22 +78,38 @@ namespace DAL
                             }
 
 
-                            if (row["TotalExpensePast30Days"].ToString() != "")
+                            if (row["TotalExpensePast30DaysJob"].ToString() != "")
                             {
-                                dashboardIncomeExpense.ExpensePast30Days = decimal.Parse(row["TotalExpensePast30Days"].ToString());
+                                dashboardIncomeExpense.ExpensePast30Days = decimal.Parse(row["TotalExpensePast30DaysJob"].ToString());
                             }
                             else
                             {
                                 dashboardIncomeExpense.ExpensePast30Days = 0;
                             }
-
-                            if (row["TotalExpensePast60To30Days"].ToString() != "")
+                            if (row["TotalExpensePast30DaysGeneral"].ToString() != "")
                             {
-                                dashboardIncomeExpense.ExpensePast60to30DaysPercent = decimal.Parse(row["TotalExpensePast60To30Days"].ToString());
+                                dashboardIncomeExpense.ExpensePast30Days += decimal.Parse(row["TotalExpensePast30DaysGeneral"].ToString());
+                            }
+                            if (row["TotalExpensePast30DaysTravel"].ToString() != "")
+                            {
+                                dashboardIncomeExpense.ExpensePast30Days += decimal.Parse(row["TotalExpensePast30DaysTravel"].ToString());
+                            }
+
+                            if (row["TotalExpensePast60To30DaysJob"].ToString() != "")
+                            {
+                                dashboardIncomeExpense.ExpensePast60to30DaysPercent = decimal.Parse(row["TotalExpensePast60To30DaysJob"].ToString());
                             }
                             else
                             {
                                 dashboardIncomeExpense.ExpensePast60to30DaysPercent = 0;
+                            }
+                            if (row["TotalExpensePast60To30DaysGeneral"].ToString() != "")
+                            {
+                                dashboardIncomeExpense.ExpensePast60to30DaysPercent += decimal.Parse(row["TotalExpensePast60To30DaysGeneral"].ToString());
+                            }
+                            if (row["TotalExpensePast60To30DaysTravel"].ToString() != "")
+                            {
+                                dashboardIncomeExpense.ExpensePast60to30DaysPercent += decimal.Parse(row["TotalExpensePast60To30DaysTravel"].ToString());
                             }
 
                             if(dashboardIncomeExpense.ExpensePast30Days ==0 
@@ -108,11 +124,12 @@ namespace DAL
                                 dashboardIncomeExpense.ExpensePast60to30DaysPercent = 
                                     (dashboardIncomeExpense.ExpensePast30Days / dashboardIncomeExpense.ExpensePast60to30DaysPercent) * 100;
                             }
-                            else if (dashboardIncomeExpense.ExpensePast30Days < dashboardIncomeExpense.ExpensePast60to30DaysPercent)
+                            else if (dashboardIncomeExpense.ExpensePast30Days < dashboardIncomeExpense.ExpensePast60to30DaysPercent
+                                && dashboardIncomeExpense.ExpensePast30Days != 0)
                             {
                                 dashboardIncomeExpense.ExpensePast60to30DaysUporDown = 'D';
                                 dashboardIncomeExpense.ExpensePast60to30DaysPercent =
-                                    (dashboardIncomeExpense.ExpensePast60to30DaysPercent / dashboardIncomeExpense.ExpensePast60to30DaysPercent)*100;
+                                    (dashboardIncomeExpense.ExpensePast60to30DaysPercent / dashboardIncomeExpense.ExpensePast30Days) *100;
                             }
                             else
                             {
@@ -614,7 +631,7 @@ namespace DAL
                 throw new ApplicationException(e.ToString());
             }
         }
-        public List<SP_GetJob_Result> getProfileJobs(Profile profile)
+        public List<SP_GetJob_Result> getProfileJobs(Profile profile, Client client)
         {
             List<SP_GetJob_Result> Jobs = new List<SP_GetJob_Result>();
             try
@@ -735,9 +752,7 @@ namespace DAL
                 pars = new SqlParameter[]
                     {
                         new SqlParameter("@PID", profile.ProfileID),
-                        //***************************************//
-                        new SqlParameter("@CID", profile.ProfileID)
-                        //***************************************//
+                        new SqlParameter("@CID", client.ClientID)
                     };
 
                 using (DataTable table = DBHelper.ParamSelect("SP_GetProfileJobsCurrent",
@@ -853,7 +868,7 @@ namespace DAL
                 throw new ApplicationException(e.ToString());
             }
         }
-        public List<SP_GetJob_Result> getProfileJobsPast(Profile profile, DateTime sDate, DateTime eDate)
+        public List<SP_GetJob_Result> getProfileJobsPast(Profile profile, Client client, DateTime sDate, DateTime eDate)
         {
             List<SP_GetJob_Result> Jobs = new List<SP_GetJob_Result>();
             try
@@ -978,9 +993,7 @@ namespace DAL
                 pars = new SqlParameter[]
                     {
                         new SqlParameter("@PID", profile.ProfileID),
-                        //***************************************//
-                        new SqlParameter("@CID", profile.ProfileID),
-                        //***************************************//
+                        new SqlParameter("@CID", client.ClientID),
                         new SqlParameter("@SD", sDate.AddDays(-1)),
                         new SqlParameter("@ED", eDate.AddDays(+1)),
                     };
@@ -2661,14 +2674,15 @@ namespace DAL
                 throw new ApplicationException(e.ToString());
             }
         }
-        public List<SP_GetInvoice_Result> getInvoices(Profile profileID)
+        public List<SP_GetInvoice_Result> getInvoices(Profile profileID, Client client)
         {
             List<SP_GetInvoice_Result> JobInvoices = new List<SP_GetInvoice_Result>();
             try
             {
                 SqlParameter[] pars = new SqlParameter[]
                     {
-                        new SqlParameter("@PID", profileID.ProfileID)
+                        new SqlParameter("@PID", profileID.ProfileID),
+                        new SqlParameter("@CID", client.ClientID)
                     };
 
 
@@ -2682,6 +2696,7 @@ namespace DAL
                             SP_GetInvoice_Result Invoice = new SP_GetInvoice_Result();
                             Invoice.InvoiceNum = row[0].ToString();
                             Invoice.DateTime = DateTime.Parse(row[1].ToString());
+                            Invoice.DateTimeString = Invoice.DateTime.ToString("hh:mm dd MMM yyyy");
                             Invoice.VATRate = decimal.Parse(row[2].ToString());
                             Invoice.Paid = bool.Parse(row[3].ToString());
                             Invoice.JobID = int.Parse(row[4].ToString());
@@ -2693,6 +2708,11 @@ namespace DAL
                             Invoice.PhysiclaAddress = row[10].ToString();
                             Invoice.TotalCost = decimal.Parse(row["TotalCost"].ToString());
                             Invoice.TotalCost = Invoice.TotalCost + ((Invoice.TotalCost / 100) * 15);
+
+                            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                            nfi.NumberGroupSeparator = " ";
+                            Invoice.TotalCostString = Invoice.TotalCost.ToString("#,0.00", nfi);
+
                             JobInvoices.Add(Invoice);
                         }
                     }

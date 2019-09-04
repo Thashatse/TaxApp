@@ -55,7 +55,7 @@ namespace TaxApp.Controllers
                 Tuple<bool, string, string, int> check = handler.NewExternalUserOTP(int.Parse(ID), OTP, Type);
 
                 if (!check.Item1)
-                    Response.Redirect("../Shared/Error?Err=");
+                    Response.Redirect("../Shared/Error");
 
                 data.userName = check.Item2;
 
