@@ -71,9 +71,19 @@ namespace TaxApp.Controllers
             DashboardIncomeExpense IncomeExpense = handler.getDashboardIncomeExpense(profile);
 
             List<TaxAndVatPeriods> taxAndvatPeriod = handler.getTaxOrVatPeriodForProfile(profile, 'T');
+            if (taxAndvatPeriod == null || taxAndvatPeriod.Count == 0)
+                return RedirectToAction("TaxVatPeriod", "Tax", new
+                {
+                    Type = "T"
+                });
             TaxDashboard Tax = handler.getTaxCenterDashboard(profile, taxAndvatPeriod[0]);
 
             taxAndvatPeriod = handler.getTaxOrVatPeriodForProfile(profile, 'V');
+            if (taxAndvatPeriod == null || taxAndvatPeriod.Count == 0)
+                return RedirectToAction("TaxVatPeriod", "Tax", new
+                {
+                    Type = "V"
+                });
             VATDashboard Vat = handler.getVatCenterDashboard(profile, taxAndvatPeriod[0]);
 
             ReportsViewModel viewModel = new ReportsViewModel();

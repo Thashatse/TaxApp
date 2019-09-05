@@ -80,7 +80,10 @@ namespace TaxApp.Controllers
 
                 if(vatPeriod == null || vatPeriod.Count == 0)
                 {
-                    Response.Redirect("../Tax/TaxVatPeriod?Type=V");
+                    return RedirectToAction("TaxVatPeriod", "Tax", new
+                    {
+                        Type = "V"
+                    });
                 }
                 else
                 {

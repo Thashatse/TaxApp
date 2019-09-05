@@ -79,7 +79,10 @@ namespace TaxApp.Controllers
 
                 if (taxPeriod == null || taxPeriod.Count == 0)
                 {
-                    Response.Redirect("../Tax/TaxVatPeriod?Type=T");
+                    return RedirectToAction("TaxVatPeriod", "Tax", new
+                    {
+                        Type = "T"
+                    });
                 }
                 else
                 {
@@ -119,8 +122,6 @@ namespace TaxApp.Controllers
 
                     return View(viewModel);
                 }
-
-                return Redirect("../Shared/Error?Err=An error occurred loading the Tax center");
             }
             catch (Exception e)
             {
@@ -221,7 +222,7 @@ namespace TaxApp.Controllers
                         else if (type == "T")
                         {
                             Response.Redirect("../Tax/TaxBrakets?ID="+handler.SP_GetLatestTaxAndVatPeriodID().PeriodID+ "&period="+
-                                period.StartDate.ToString("dd MMM yyyy")+" - "+ period.EndDate.ToString("dd MMM yyyy"));
+                                period.StartDate.ToString("dd MMM yyyy")+" to "+ period.EndDate.ToString("dd MMM yyyy"));
                         }
                         else
                         {

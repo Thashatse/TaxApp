@@ -2929,7 +2929,7 @@ namespace DAL
                             Period.EndDate = DateTime.Parse(row["EndDate"].ToString());
                             Period.Type = row["Type"].ToString()[0];
                             Period.Share = bool.Parse(row["Share"].ToString());
-                            Period.PeriodString = Period.StartDate.ToString("dd MMM yyyy") + " - " + Period.EndDate.ToString("dd MMM yyyy");
+                            Period.PeriodString = Period.StartDate.ToString("dd MMM yyyy") + " to " + Period.EndDate.ToString("dd MMM yyyy");
                             Periods.Add(Period);
                         }
                     }

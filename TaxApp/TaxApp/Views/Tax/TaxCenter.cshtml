@@ -142,92 +142,63 @@
                         <p class="text-white">
                             For Period @ViewBag.TaxPeriod
                         </p>
-                        <div>
-                            <a href="#"
-                               class="btn btn-sm btn-white">Send Report to Consultant</a>
-                            <a href="../TAX/TaxCenter?view=DS"
-                               class="btn btn-sm btn-white"><i class="ni ni-settings-gear-65"></i></a>
-                        </div>
-                        <div>
-                            @if (ViewBag.View == "DS")
-                            {
-                                using (Html.BeginForm())
-                                {
-                                    @Html.AntiForgeryToken()
-                                    @Html.DropDownList("TaxPeriodList", ViewBag.VATPeriodList as SelectList)
-                                    <input type="submit" value="Select" class="btn btn-sm btn-default" />
-
-                                    if (Model.period.Share == true)
-                                    {
-                                        <a href="../Tax/Share?ID=@Model.period.PeriodID&type=T"
-                                           class="btn btn-sm btn-white">Stop sharing Period with Consultant</a>
-                                    }
-                                    else
-                                    {
-                                        <a href="../Tax/Share?ID=@Model.period.PeriodID&type=T"
-                                           class="btn btn-sm btn-white">Share Period with Consultant</a>
-                                    }
-
-                                    <a href="../Tax/TaxVatPeriod?Type=T"
-                                       class="btn btn-sm btn-white">New Period</a>
-                                }
-                            }
-                        </div>
-                        </div>
                     </div>
+                </div>
             </div>
         </div>
     </div>
-
+    
     <div class="row mt-5">
         @if (Model.TAXRecivedList != null && Model.TAXRecivedList.Count > 0)
         {
             <div class="col-xl-12 mb-5 mb-xl-0">
                 <div class="card shadow">
-                    <div class="card-header border-0">
+                    <div class="card-header border-0" data-toggle="collapse" href="#Recived">
                         <div class="row align-items-center">
                             <div class="col">
                                 <h3 class="mb-0">Income Recived</h3>
                             </div>
                         </div>
                     </div>
-                    <div class="table-responsive">
-                        <!-- Projects table -->
-                        <table class="table align-items-center table-flush">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th scope="col">Invoice Date</th>
-                                    <th scope="col">Job</th>
-                                    <th scope="col">Client</th>
-                                    <th scope="col">Total Recived</th>
-                                    <th scope="col">TAX Est.</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model.TAXRecivedList)
-                                {
+                    <div id="Recived" class="panel-collapse collapse">
+                        <div class="table-responsive">
+                            <!-- Projects table -->
+                            <table class="table align-items-center table-flush">
+                                <thead class="thead-light">
                                     <tr>
-                                        <th scope="row">
-                                            @Html.DisplayFor(modelItem => item.InvoiceDateString)
-                                        </th>
-                                        <td>
-                                            <a href="/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)">@Html.DisplayFor(modelItem => item.JobTitle)</a>
-                                        </td>
-                                        <td>
-                                            <a href='/Client/ClientDetails?ID=@Html.DisplayFor(modelItem => item.clientID)'>
-                                                @Html.DisplayFor(modelItem => item.clientName)
-                                            </a>
-                                        </td>
-                                        <td>
-                                            R @Html.DisplayFor(modelItem => item.TotalString)
-                                        </td>
-                                        <td>
-                                            R @Html.DisplayFor(modelItem => item.VATorTAXString)
-                                        </td>
+                                        <th scope="col">Invoice Date</th>
+                                        <th scope="col">Job</th>
+                                        <th scope="col">Client</th>
+                                        <th scope="col">Total Recived</th>
+                                        <th scope="col">TAX Est.</th>
                                     </tr>
-                                }
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.TAXRecivedList)
+                                    {
+                                        <tr>
+                                            <th scope="row">
+                                                @Html.DisplayFor(modelItem => item.InvoiceDateString)
+                                            </th>
+                                            <td>
+                                                <a href="/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)">@Html.DisplayFor(modelItem => item.JobTitle)</a>
+                                            </td>
+                                            <td>
+                                                <a href='/Client/ClientDetails?ID=@Html.DisplayFor(modelItem => item.clientID)'>
+                                                    @Html.DisplayFor(modelItem => item.clientName)
+                                                </a>
+                                            </td>
+                                            <td>
+                                                R @Html.DisplayFor(modelItem => item.TotalString)
+                                            </td>
+                                            <td>
+                                                R @Html.DisplayFor(modelItem => item.VATorTAXString)
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <br />
@@ -237,4 +208,40 @@
         {
             <p>No Vat Recived this period </p>
         }
+
+        <div class="col-lg-12 col-md-12">
+            <br />
+            <div class="card shadow">
+                <div class="card-header bg-transparent">
+                    <div class="row align-items-center">
+                        <div class="col-2">
+                            <h3 class="mb-0">Actions: </h3>
+                        </div>
+                        <div class="col-10 text-right">
+                            @using (Html.BeginForm())
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.DropDownList("TaxPeriodList", ViewBag.VATPeriodList as SelectList)
+                                <input type="submit" value="Select" class="btn btn-sm btn-default" />
+
+                                <a href="../Tax/TaxVatPeriod?Type=T"
+                                   class="btn btn-sm btn-white">New Period</a>
+
+                                if (Model.period.Share == true)
+                                {
+                                    <a href="../Tax/Share?ID=@Model.period.PeriodID&type=T"
+                                       class="btn btn-sm btn-white">Stop sharing Period with Consultant</a>
+                                }
+                                else
+                                {
+                                    <a href="../Tax/Share?ID=@Model.period.PeriodID&type=T"
+                                       class="btn btn-sm btn-white">Share Period with Consultant</a>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
     </div>
