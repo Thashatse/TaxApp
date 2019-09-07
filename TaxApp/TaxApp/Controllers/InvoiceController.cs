@@ -556,6 +556,21 @@ namespace TaxApp.Controllers
             }
         }
 
+        public string ToHtml(string viewToRender, ViewDataDictionary viewData, ControllerContext controllerContext)
+        {
+            var result = ViewEngines.Engines.FindView(controllerContext, viewToRender, null);
+
+            StringWriter output;
+            using (output = new StringWriter())
+            {
+                var viewContext = new ViewContext(controllerContext, result.View, viewData, controllerContext.Controller.TempData, output);
+                result.View.Render(viewContext, output);
+                result.ViewEngine.ReleaseView(controllerContext, result.View);
+            }
+
+            return output.ToString();
+        }
+
         public ActionResult Email(string id)
         {
             try
@@ -662,12 +677,13 @@ namespace TaxApp.Controllers
                     toName = invoiceDetails[0].ClientName;
                 }
 
-                string invoice = RenderRazorViewToString(this.ControllerContext, "Email", null);
+                //string invoice = RenderRazorViewToString(this.ControllerContext, "Email", null);
+                string invoice = ToHtml("Email", this.ViewData, this.ControllerContext);
 
                 bool result = function.sendEmail(toAddress,
                     toName,
                     Request.Form["subject"],
-                    Request.Form["Message"] +  " \n\n " + "View invoice here: http://localhost:54533/invoice/viewInvoice?ID="+ invoiceDetails[0].InvoiceNum,
+                    invoice,
                     getProfile.FirstName + " " + getProfile.LastName,
                     getProfile.ProfileID);
 

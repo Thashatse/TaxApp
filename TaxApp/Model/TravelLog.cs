@@ -41,5 +41,6 @@ namespace Model
         public string DefultDate { get; set; }
         public string MinDate { get; set; }
         public string MaxDate { get; set; }
+        public string dropDownID { get; set; }
     }
 }

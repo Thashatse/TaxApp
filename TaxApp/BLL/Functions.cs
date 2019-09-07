@@ -156,6 +156,22 @@ namespace BLL
             return generator.Next(100000, 999999);
         }
 
+        public string removeNumericalDigit(string value)
+        {
+            value = value.Replace("0", "");
+            value = value.Replace("1", "");
+            value = value.Replace("2", "");
+            value = value.Replace("3", "");
+            value = value.Replace("4", "");
+            value = value.Replace("5", "");
+            value = value.Replace("6", "");
+            value = value.Replace("7", "");
+            value = value.Replace("8", "");
+            value = value.Replace("9", "");
+
+            return value;
+        }
+
         #region Auto Functions
         public void runAutoFunctions(object profileID)
         {

@@ -1868,6 +1868,8 @@ namespace DAL
                             expense.CatName = row[8].ToString();
                             expense.CatDescription = row[9].ToString();
                             expense.JobTitle = row["JobTitle"].ToString();
+                            expense.dropDownID = expense.Name.Replace(" ", "");
+                            expense.dropDownID = removeNumericalDigit(expense.dropDownID);
                             Expenses.Add(expense);
                         }
                     }
@@ -1992,6 +1994,8 @@ namespace DAL
                             Expense expenseID = new Expense();
                             expenseID.ExpenseID = expense.ExpenseID;
                             expense.RepeatOccurrences = getGeneralExpenseRepeatOccurrence(expenseID);
+                            expense.dropDownID = expense.Name.Replace(" ", "");
+                            expense.dropDownID = removeNumericalDigit(expense.dropDownID);
                             Expenses.Add(expense);
                         }
                     }
@@ -2246,6 +2250,8 @@ namespace DAL
                             travelLogItem.DateString = travelLogItem.Date.ToString("dddd, dd MMMM yyyy");
                             travelLogItem.Invoiced = bool.Parse(row["Invoiced"].ToString());
                             travelLogItem.JobTitle = row["JobTitle"].ToString();
+                            travelLogItem.dropDownID = travelLogItem.Reason.Replace(" ", "");
+                            travelLogItem.dropDownID = removeNumericalDigit(travelLogItem.dropDownID);
                             TravelLog.Add(travelLogItem);
                         }
                     }
@@ -5481,5 +5487,21 @@ namespace DAL
             return new Tuple<bool, string, string, int>(Result, Name, Email, userID);
         }
         #endregion
+
+        public string removeNumericalDigit(string value)
+        {
+            value = value.Replace("0", "");
+            value = value.Replace("1", "");
+            value = value.Replace("2", "");
+            value = value.Replace("3", "");
+            value = value.Replace("4", "");
+            value = value.Replace("5", "");
+            value = value.Replace("6", "");
+            value = value.Replace("7", "");
+            value = value.Replace("8", "");
+            value = value.Replace("9", "");
+
+            return value;
+        }
     }
 }                  
