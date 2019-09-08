@@ -736,7 +736,7 @@ namespace TaxApp.Controllers
 
                     if (result == true)
                     {
-                        return Redirect("/job/JobWorkLog?ID=" + JobID);
+                        return Redirect("/job/Job?ID=" + JobID);
                     }
                     else
                     {

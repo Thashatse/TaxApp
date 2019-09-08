@@ -32,7 +32,6 @@
     <div class="row justify-content-center">
         <div class="col-lg-12 col-md-12">
             <div class="card bg-secondary shadow border-0">
-                <div class="container">
                     <div class="card-header border-0">
                         <div class="row align-items-center">
                             <div class="col">
@@ -79,8 +78,25 @@
                                     {
                                         <th scope="col">@Html.DisplayFor(model => model.column6Name)</th>
                                     }
+                                    @if (Model.column7Name != null)
+                                    {
+                                        <th scope="col">@Html.DisplayFor(model => model.column7Name)</th>
+                                    }
+                                    @if (Model.column8Name != null)
+                                    {
+                                        <th scope="col">@Html.DisplayFor(model => model.column8Name)</th>
+                                    }
+                                    @if (Model.column9Name != null)
+                                    {
+                                        <th scope="col">@Html.DisplayFor(model => model.column9Name)</th>
+                                    }
+                                    @if (Model.column10Name != null)
+                                    {
+                                        <th scope="col">@Html.DisplayFor(model => model.column10Name)</th>
+                                    }
                                 </tr>
                             </thead>
+
                             <tbody>
                                 @{int i = 0;}
                                 @foreach (var item in Model.ReportDataList)
@@ -163,6 +179,39 @@
                                                 <td>@Html.DisplayFor(model => model.ReportDataList[i].column7Data)</td>
                                             }
                                         }
+                                        @if (Model.column8Name != null)
+                                        {
+                                            if (Model.column8DataAlignRight == true)
+                                            {
+                                                <td align="right">@Html.DisplayFor(model => model.ReportDataList[i].column8Data)</td>
+                                            }
+                                            else
+                                            {
+                                                <td>@Html.DisplayFor(model => model.ReportDataList[i].column8Data)</td>
+                                            }
+                                        }
+                                        @if (Model.column9Name != null)
+                                        {
+                                            if (Model.column9DataAlignRight == true)
+                                            {
+                                                <td align="right">@Html.DisplayFor(model => model.ReportDataList[i].column9Data)</td>
+                                            }
+                                            else
+                                            {
+                                                <td>@Html.DisplayFor(model => model.ReportDataList[i].column9Data)</td>
+                                            }
+                                        }
+                                        @if (Model.column10Name != null)
+                                        {
+                                            if (Model.column10DataAlignRight == true)
+                                            {
+                                                <td align="right">@Html.DisplayFor(model => model.ReportDataList[i].column10Data)</td>
+                                            }
+                                            else
+                                            {
+                                                <td>@Html.DisplayFor(model => model.ReportDataList[i].column10Data)</td>
+                                            }
+                                        }
                                     </tr>
                                     { i = i + 1; }
                                 }
@@ -170,11 +219,14 @@
 
                             <tfoot class="thead-light">
                                 @if (Model.column2Total != null
-                                        || Model.column2Total != null
-                                        || Model.column2Total != null
-                                        || Model.column2Total != null
-                                        || Model.column2Total != null
-                                        || Model.column2Total != null)
+                                        || Model.column3Total != null
+                                        || Model.column4Total != null
+                                        || Model.column5Total != null
+                                        || Model.column6Total != null
+                                        || Model.column7Total != null
+                                        || Model.column8Total != null
+                                        || Model.column9Total != null
+                                        || Model.column10Total != null)
                                 {
                                     <tr>
                                         @if (Model.column1Name != null)
@@ -185,7 +237,7 @@
                                         {
                                             if (Model.column2DataAlignRight == true)
                                             {
-                                                <th align="right">@Html.DisplayFor(model => model.column2Total)</th>
+                                                <th style="text-align:right">@Html.DisplayFor(model => model.column2Total)</th>
                                             }
                                             else
                                             {
@@ -196,7 +248,7 @@
                                         {
                                             if (Model.column3DataAlignRight == true)
                                             {
-                                                <th align="right">@Html.DisplayFor(model => model.column3Total)</th>
+                                                <th style="text-align:right">@Html.DisplayFor(model => model.column3Total)</th>
                                             }
                                             else
                                             {
@@ -207,7 +259,7 @@
                                         {
                                             if (Model.column4DataAlignRight == true)
                                             {
-                                                <th align="right">@Html.DisplayFor(model => model.column4Total)</th>
+                                                <th style="text-align:right">@Html.DisplayFor(model => model.column4Total)</th>
                                             }
                                             else
                                             {
@@ -218,7 +270,7 @@
                                         {
                                             if (Model.column5DataAlignRight == true)
                                             {
-                                                <th align="right">@Html.DisplayFor(model => model.column5Total)</th>
+                                                <th style="text-align:right">@Html.DisplayFor(model => model.column5Total)</th>
                                             }
                                             else
                                             {
@@ -229,7 +281,7 @@
                                         {
                                             if (Model.column6DataAlignRight == true)
                                             {
-                                                <th align="right">@Html.DisplayFor(model => model.column6Total)</th>
+                                                <th style="text-align:right">@Html.DisplayFor(model => model.column6Total)</th>
                                             }
                                             else
                                             {
@@ -240,11 +292,44 @@
                                         {
                                             if (Model.column7DataAlignRight == true)
                                             {
-                                                <th align="right">@Html.DisplayFor(model => model.column7Total)</th>
+                                                <th style="text-align:right">@Html.DisplayFor(model => model.column7Total)</th>
                                             }
                                             else
                                             {
                                                 <th>@Html.DisplayFor(model => model.column7Total)</th>
+                                            }
+                                        }
+                                        @if (Model.column8Name != null)
+                                        {
+                                            if (Model.column8DataAlignRight == true)
+                                            {
+                                                <th style="text-align:right">@Html.DisplayFor(model => model.column8Total)</th>
+                                            }
+                                            else
+                                            {
+                                                <th>@Html.DisplayFor(model => model.column8Total)</th>
+                                            }
+                                        }
+                                        @if (Model.column9Name != null)
+                                        {
+                                            if (Model.column9DataAlignRight == true)
+                                            {
+                                                <th style="text-align:right">@Html.DisplayFor(model => model.column9Total)</th>
+                                            }
+                                            else
+                                            {
+                                                <th>@Html.DisplayFor(model => model.column9Total)</th>
+                                            }
+                                        }
+                                        @if (Model.column10Name != null)
+                                        {
+                                            if (Model.column10DataAlignRight == true)
+                                            {
+                                                <th style="text-align:right">@Html.DisplayFor(model => model.column10Total)</th>
+                                            }
+                                            else
+                                            {
+                                                <th>@Html.DisplayFor(model => model.column10Total)</th>
                                             }
                                         }
                                     </tr>
@@ -332,6 +417,39 @@
                                                     <th>@Html.DisplayFor(model => model.FooterRowList[i].column7Data)</th>
                                                 }
                                             }
+                                            @if (Model.column8Name != null)
+                                            {
+                                                if (Model.column8FotterAlignRight == true)
+                                                {
+                                                    <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column8Data)</th>
+                                                }
+                                                else
+                                                {
+                                                    <th>@Html.DisplayFor(model => model.FooterRowList[i].column8Data)</th>
+                                                }
+                                            }
+                                            @if (Model.column9Name != null)
+                                            {
+                                                if (Model.column9FotterAlignRight == true)
+                                                {
+                                                    <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column9Data)</th>
+                                                }
+                                                else
+                                                {
+                                                    <th>@Html.DisplayFor(model => model.FooterRowList[i].column9Data)</th>
+                                                }
+                                            }
+                                            @if (Model.column10Name != null)
+                                            {
+                                                if (Model.column10FotterAlignRight == true)
+                                                {
+                                                    <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column10Data)</th>
+                                                }
+                                                else
+                                                {
+                                                    <th>@Html.DisplayFor(model => model.FooterRowList[i].column10Data)</th>
+                                                }
+                                            }
                                         </tr>
                                         { i = i + 1; }
                                     }
@@ -339,7 +457,6 @@
                             </tfoot>
                         </table>
                     </div>
-                </div>
                 <br />
             </div>
         </div>

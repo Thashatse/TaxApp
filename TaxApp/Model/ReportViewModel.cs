@@ -21,6 +21,9 @@ namespace Model
         public string column5Name { get; set; }
         public string column6Name { get; set; }
         public string column7Name { get; set; }
+        public string column8Name { get; set; }
+        public string column9Name { get; set; }
+        public string column10Name { get; set; }
 
         public List<ReportDataList> ReportDataList { get; set; }
 
@@ -33,6 +36,9 @@ namespace Model
         public string column5Total { get; set; }
         public string column6Total { get; set; }
         public string column7Total { get; set; }
+        public string column8Total { get; set; }
+        public string column9Total { get; set; }
+        public string column10Total { get; set; }
 
         public bool column1DataAlignRight { get; set; } = false;
         public bool column2DataAlignRight { get; set; } = false;
@@ -41,6 +47,9 @@ namespace Model
         public bool column5DataAlignRight { get; set; } = false;
         public bool column6DataAlignRight { get; set; } = false;
         public bool column7DataAlignRight { get; set; } = false;
+        public bool column8DataAlignRight { get; set; } = false;
+        public bool column9DataAlignRight { get; set; } = false;
+        public bool column10DataAlignRight { get; set; } = false;
         public bool column1FotterAlignRight { get; set; } = false;
         public bool column2FotterAlignRight { get; set; } = false;
         public bool column3FotterAlignRight { get; set; } = false;
@@ -48,5 +57,8 @@ namespace Model
         public bool column5FotterAlignRight { get; set; } = false;
         public bool column6FotterAlignRight { get; set; } = false;
         public bool column7FotterAlignRight { get; set; } = false;
+        public bool column8FotterAlignRight { get; set; } = false;
+        public bool column9FotterAlignRight { get; set; } = false;
+        public bool column10FotterAlignRight { get; set; } = false;
     }
 }

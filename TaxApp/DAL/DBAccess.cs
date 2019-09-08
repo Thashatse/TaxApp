@@ -1821,6 +1821,8 @@ namespace DAL
                             expense.CatName = row[8].ToString();
                             expense.CatDescription = row[9].ToString();
                             expense.JobTitle = row["JobTitle"].ToString();
+                            expense.dropDownID = expense.Name.Replace(" ", "");
+                            expense.dropDownID = removeNumericalDigit(expense.dropDownID);
                             Expenses.Add(expense);
                         }
                     }
@@ -2250,6 +2252,7 @@ namespace DAL
                             travelLogItem.DateString = travelLogItem.Date.ToString("dddd, dd MMMM yyyy");
                             travelLogItem.Invoiced = bool.Parse(row["Invoiced"].ToString());
                             travelLogItem.JobTitle = row["JobTitle"].ToString();
+                            travelLogItem.VehicleName = row["Name"].ToString();
                             travelLogItem.dropDownID = travelLogItem.Reason.Replace(" ", "");
                             travelLogItem.dropDownID = removeNumericalDigit(travelLogItem.dropDownID);
                             TravelLog.Add(travelLogItem);
@@ -2344,6 +2347,9 @@ namespace DAL
                             travelLogItem.SARSFuelCost = decimal.Parse(row["SARSFuelCost"].ToString());
                             travelLogItem.SARSMaintenceCost = decimal.Parse(row["SARSMaintenceCost"].ToString());
                             travelLogItem.ClientCharge = decimal.Parse(row["ClientCharge"].ToString());
+                            travelLogItem.VehicleName = row["Name"].ToString();
+                            travelLogItem.dropDownID = travelLogItem.Reason.Replace(" ", "");
+                            travelLogItem.dropDownID = removeNumericalDigit(travelLogItem.dropDownID);
                             TravelLog.Add(travelLogItem);
                         }
                     }

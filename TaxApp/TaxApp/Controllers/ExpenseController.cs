@@ -785,7 +785,14 @@ namespace TaxApp.Controllers
                 Model.Profile getProfileVehicles = new Model.Profile();
                 getProfileVehicles.ProfileID = int.Parse(cookie["ID"]);
                 List<Model.Vehicle> Vehicles = handler.getVehicles(getProfileVehicles);
-                ViewBag.Vehicles = new SelectList(Vehicles, "VehicleID", "Name");
+
+                if (Vehicles.Count <= 0)
+                {
+                    return RedirectToAction("NewVehicle", "Expense");
+                }
+                else
+                {
+                    ViewBag.Vehicles = new SelectList(Vehicles, "VehicleID", "Name");
 
                 Model.Job getJob = new Model.Job();
                 getJob.JobID = int.Parse(ID);
@@ -798,6 +805,7 @@ namespace TaxApp.Controllers
                 defaultData.MaxDate = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
 
                 return View(defaultData);
+                }
             }
             catch (Exception e)
             {
@@ -1094,7 +1102,7 @@ namespace TaxApp.Controllers
 
                 if (result == true)
                 {
-                    return Redirect("/Expense/TravelExpenses");
+                    return RedirectToAction("TravleLog", "Expense");
                 }
                 else
                 {
@@ -1121,7 +1129,15 @@ namespace TaxApp.Controllers
                 Profile getVehicles = new Profile();
                 getVehicles.ProfileID = int.Parse(cookie["ID"].ToString());
                 List<Vehicle> vehicles = handler.getVehicles(getVehicles);
-                return View(vehicles);
+
+                if (vehicles.Count <= 0)
+                {
+                    return RedirectToAction("NewVehicle", "Expense");
+                }
+                else
+                {
+                    return View(vehicles);
+                }
             }
             catch (Exception e)
             {

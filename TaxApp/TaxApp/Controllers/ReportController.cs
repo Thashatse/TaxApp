@@ -127,7 +127,7 @@ namespace TaxApp.Controllers
                 {
                     jobsReport = handler.getJobsReport(ProfileID, sDate, eDate);
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     function.logAnError(e.ToString() +
                         "Error loading report 0001 in reports controler");
@@ -196,7 +196,7 @@ namespace TaxApp.Controllers
                 {
                     IncomeRecivedReport = handler.getTAXRecivedList(ProfileID, dates, rate);
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     function.logAnError(e.ToString() +
                         "Error loading report 0002 in reports controler");
@@ -443,7 +443,7 @@ namespace TaxApp.Controllers
 
                         report.ReportDataList.Add(Data);
 
-                        c3Total += item.amount*-1;
+                        c3Total += item.amount * -1;
                     }
 
                     foreach (TAXorVATRecivedList item in IncomeRecivedReport)
@@ -514,10 +514,10 @@ namespace TaxApp.Controllers
                     ViewBag.DropDownFilter = new SelectList(clients, "ClientID", "FirstName");
                     ViewBag.AlsoShowDate = true;
 
-                        if (DropDownID == null || DropDownID == "")
-                            DropDownID = clients[0].ClientID.ToString();
+                    if (DropDownID == null || DropDownID == "")
+                        DropDownID = clients[0].ClientID.ToString();
 
-                        ViewBag.DropDownID = DropDownID;
+                    ViewBag.DropDownID = DropDownID;
 
                     if (DropDownID != "0")
                         report = handler.getIncomeByClientReport(ProfileID, sDate, eDate, DropDownID);
@@ -827,7 +827,7 @@ namespace TaxApp.Controllers
 
                     report.column1Name = "Date";
                     report.column2Name = "Title";
-                    report.column4Name = "Amount (R)";
+                    report.column4Name = "Amount (Client charge | R)";
                     report.column4DataAlignRight = true;
 
                     report.ReportDataList = new List<ReportDataList>();
@@ -1102,7 +1102,7 @@ namespace TaxApp.Controllers
                     report.reportTitle = "VAT";
                     report.reportCondition = "From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
                     report.reportStartDate = sDate.ToString("yyyy-MM-dd");
-                    report.reportSubHeading = "Vat Rate @ "+VATRate.VATRate.ToString("#,0.00", nfi) + "% & all values in ZAR";
+                    report.reportSubHeading = "Vat Rate @ " + VATRate.VATRate.ToString("#,0.00", nfi) + "% & all values in ZAR";
                     report.reportEndDate = eDate.ToString("yyyy-MM-dd");
 
                     report.column1Name = "Date";
@@ -1191,6 +1191,86 @@ namespace TaxApp.Controllers
                 if (report.ReportDataList == null)
                     report = null;
             }
+            //SARS Travel Logbook report
+            else if (ID == "0015")
+            {
+                report = new ReportViewModel();
+
+                List<Model.TravelLog> ProfileTravelLog = null;
+
+                TaxAndVatPeriods dates = new TaxAndVatPeriods();
+                dates.StartDate = sDate;
+                dates.EndDate = eDate;
+
+                try
+                {
+                    ProfileTravelLog = handler.getProfileTravelLog(ProfileID, sDate, eDate);
+                }
+                catch (Exception e)
+                {
+                    function.logAnError(e.ToString() +
+                        "Error loading report 0011 in reports controler");
+                }
+
+                if (ProfileTravelLog != null)
+                {
+                    report.reportTitle = "SARS Travel Logbook";
+                    report.reportSubHeading = "DAILY BUSINESS TRAVEL RECORDS";
+                    report.reportCondition = "From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
+                    report.reportStartDate = sDate.ToString("yyyy-MM-dd");
+                    report.reportEndDate = eDate.ToString("yyyy-MM-dd");
+
+                    report.column1Name = "Date";
+                    report.column2Name = "Opening KM's";
+                    report.column3Name = "Closing KM's";
+                    report.column4Name = "Total KM's";
+                    report.column5Name = "From";
+                    report.column6Name = "To";
+                    report.column7Name = "Reason";
+                    report.column8Name = "Fuel Cost (R)";
+                    report.column9Name = "Maintenance Cost (R)";
+                    report.column2DataAlignRight = true;
+                    report.column3DataAlignRight = true;
+                    report.column4DataAlignRight = true;
+                    report.column8DataAlignRight = true;
+                    report.column9DataAlignRight = true;
+
+                    report.ReportDataList = new List<ReportDataList>();
+
+                    double c4Total = 0;
+                    decimal c8Total = 0;
+                    decimal c9Total = 0;
+
+                    foreach (TravelLog item in ProfileTravelLog)
+                    {
+                        ReportDataList Data = new ReportDataList();
+                        Data.column1Data = (item.DateString);
+                        Data.column2Data = (item.OpeningKMs.ToString("#,0.00", nfi));
+                        Data.column3Data = (item.ClosingKMs.ToString("#,0.00", nfi));
+                        Data.column4Data = (item.TotalKMs.ToString("#,0.00", nfi));
+                        Data.column5Data = (item.From);
+                        Data.column6Data = (item.To);
+                        Data.column7Data = item.Reason.ToString();
+                        Data.column8Data = (item.SARSFuelCost.ToString("#,0.00", nfi));
+                        Data.column9Data = (item.SARSMaintenceCost.ToString("#,0.00", nfi));
+                        Data.columnSortData = item.Date.ToString();
+
+                        report.ReportDataList.Add(Data);
+
+                        c4Total += item.TotalKMs;
+                        c8Total += item.SARSFuelCost;
+                        c9Total += item.SARSMaintenceCost;
+                    }
+
+                    report.ReportDataList = report.ReportDataList.OrderBy(o => o.columnSortData).ToList();
+
+                    report.column4Total = (c4Total.ToString("#,0.00", nfi));
+                    report.column8Total = (c8Total.ToString("#,0.00", nfi));
+                    report.column9Total = (c9Total.ToString("#,0.00", nfi));
+                }
+                else
+                    report = null;
+            }
 
             return report;
         }
@@ -1212,7 +1292,7 @@ namespace TaxApp.Controllers
 
             ReportViewModel report = getReportData(ID, StartDateRange, EndDateRange, DropDownID);
 
-            if(report == null)
+            if (report == null)
                 return RedirectToAction("Error", "Shared");
 
             ViewBag.StartDateRange = report.reportStartDate;
@@ -1225,39 +1305,39 @@ namespace TaxApp.Controllers
 
             if (SortDirection == "D")
             {
-            if(SortBy == "Col1")
-                report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column1Data).ToList();
-            else if (SortBy == "Col2")
-                report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column2Data).ToList();
-            else if (SortBy == "Col3")
-                report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column3Data).ToList();
-            else if (SortBy == "Col4")
-                report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column4Data).ToList();
-            else if (SortBy == "Col5")
-                report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column5Data).ToList();
-            else if (SortBy == "Col6")
-                report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column6Data).ToList();
-            else if (SortBy == "Col7")
-                report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column7Data).ToList();
+                if (SortBy == "Col1")
+                    report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column1Data).ToList();
+                else if (SortBy == "Col2")
+                    report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column2Data).ToList();
+                else if (SortBy == "Col3")
+                    report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column3Data).ToList();
+                else if (SortBy == "Col4")
+                    report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column4Data).ToList();
+                else if (SortBy == "Col5")
+                    report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column5Data).ToList();
+                else if (SortBy == "Col6")
+                    report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column6Data).ToList();
+                else if (SortBy == "Col7")
+                    report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column7Data).ToList();
 
                 SortDirection = "A";
             }
             else
             {
-            if(SortBy == "Col1")
-                report.ReportDataList = report.ReportDataList.OrderBy(o => o.column1Data).ToList();
-            else if (SortBy == "Col2")
-                report.ReportDataList = report.ReportDataList.OrderBy(o => o.column2Data).ToList();
-            else if (SortBy == "Col3")
-                report.ReportDataList = report.ReportDataList.OrderBy(o => o.column3Data).ToList();
-            else if (SortBy == "Col4")
-                report.ReportDataList = report.ReportDataList.OrderBy(o => o.column4Data).ToList();
-            else if (SortBy == "Col5")
-                report.ReportDataList = report.ReportDataList.OrderBy(o => o.column5Data).ToList();
-            else if (SortBy == "Col6")
-                report.ReportDataList = report.ReportDataList.OrderBy(o => o.column6Data).ToList();
-            else if (SortBy == "Col7")
-                report.ReportDataList = report.ReportDataList.OrderBy(o => o.column7Data).ToList();
+                if (SortBy == "Col1")
+                    report.ReportDataList = report.ReportDataList.OrderBy(o => o.column1Data).ToList();
+                else if (SortBy == "Col2")
+                    report.ReportDataList = report.ReportDataList.OrderBy(o => o.column2Data).ToList();
+                else if (SortBy == "Col3")
+                    report.ReportDataList = report.ReportDataList.OrderBy(o => o.column3Data).ToList();
+                else if (SortBy == "Col4")
+                    report.ReportDataList = report.ReportDataList.OrderBy(o => o.column4Data).ToList();
+                else if (SortBy == "Col5")
+                    report.ReportDataList = report.ReportDataList.OrderBy(o => o.column5Data).ToList();
+                else if (SortBy == "Col6")
+                    report.ReportDataList = report.ReportDataList.OrderBy(o => o.column6Data).ToList();
+                else if (SortBy == "Col7")
+                    report.ReportDataList = report.ReportDataList.OrderBy(o => o.column7Data).ToList();
 
                 SortDirection = "D";
             }
@@ -1281,9 +1361,9 @@ namespace TaxApp.Controllers
                 StartDateRange = sDate.ToString("yyyy-MM-dd");
                 EndDateRange = eDate.ToString("yyyy-MM-dd");
 
-                if(Request.Form["DropDownFilter"] != null)
+                if (Request.Form["DropDownFilter"] != null)
                 {
-                DropDownID = Request.Form["DropDownFilter"].ToString();
+                    DropDownID = Request.Form["DropDownFilter"].ToString();
                 }
 
                 return RedirectToAction("DisplayReport", "Report", new

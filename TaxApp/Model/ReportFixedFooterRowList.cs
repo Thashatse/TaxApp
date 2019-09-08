@@ -15,5 +15,8 @@ namespace Model
         public string column5Data { get; set; }
         public string column6Data { get; set; }
         public string column7Data { get; set; }
+        public string column8Data { get; set; }
+        public string column9Data { get; set; }
+        public string column10Data { get; set; }
     }
 }
