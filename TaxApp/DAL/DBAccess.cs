@@ -880,7 +880,7 @@ namespace DAL
                     {
                         new SqlParameter("@PID", profile.ProfileID),
                         //***************************************//
-                        new SqlParameter("@CID", profile.ProfileID),
+                        new SqlParameter("@CID", client.ClientID),
                         //***************************************//
                         new SqlParameter("@SD", sDate.AddDays(-1)),
                         new SqlParameter("@ED", eDate.AddDays(+1)),
@@ -919,7 +919,7 @@ namespace DAL
                     {
                         new SqlParameter("@PID", profile.ProfileID),
                         //***************************************//
-                        new SqlParameter("@CID", profile.ProfileID),
+                        new SqlParameter("@CID", client.ClientID),
                         //***************************************//
                         new SqlParameter("@SD", sDate.AddDays(-1)),
                         new SqlParameter("@ED", eDate.AddDays(+1))
@@ -958,7 +958,7 @@ namespace DAL
                     {
                         new SqlParameter("@PID", profile.ProfileID),
                         //***************************************//
-                        new SqlParameter("@CID", profile.ProfileID),
+                        new SqlParameter("@CID", client.ClientID),
                         //***************************************//
                         new SqlParameter("@SD", sDate.AddDays(-1)),
                         new SqlParameter("@ED", eDate.AddDays(+1))
@@ -3393,7 +3393,7 @@ namespace DAL
                             }
                             else
                             {
-                                dashboard.Income = 2;
+                                dashboard.Income = 0;
                             }
 
                             getUpperRange = false;
@@ -3472,8 +3472,11 @@ namespace DAL
                                 dashboard.TAXOwedPercent = -999999999;
                             }
                             
-                            dashboard.TaxBraketString = braket.Rate.ToString("#,0.00", nfi) + "% | R" +
-                            braket.Threashold.ToString("#,0.00", nfi) + endbraketrange;
+                            if(dashboard.TAXOwed == 0)
+                                dashboard.TaxBraketString = "N/A";
+                            else
+                                dashboard.TaxBraketString = braket.Rate.ToString("#,0.00", nfi) + "% | R" +
+                                braket.Threashold.ToString("#,0.00", nfi) + endbraketrange;
 
                             dashboard.IncomePercentString = dashboard.IncomePercent.ToString("#,0.00", nfi);
                             dashboard.TAXOwedPercentString = dashboard.TAXOwedPercent.ToString("#,0.00", nfi);

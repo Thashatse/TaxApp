@@ -100,8 +100,8 @@ namespace TaxApp.Controllers
                         {
                             if (item.PeriodID.ToString() == period)
                         {
-                            DateTime sDate = DateTime.Now.AddYears(-1);
-                            DateTime eDate = DateTime.Now;
+                            DateTime sDate = item.StartDate;
+                            DateTime eDate = item.EndDate;
 
                             ViewBag.VatPeriod = item.PeriodString;
 
