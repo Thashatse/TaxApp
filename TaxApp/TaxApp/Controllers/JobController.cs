@@ -634,6 +634,8 @@ namespace TaxApp.Controllers
                 Item.MaxDateStart = DateTime.Now.ToString("yyyy-MM-dd");
                 Item.MaxDateEnd = DateTime.Now.ToString("yyyy-MM-dd");
 
+                ViewBag.JobID = JobID;
+
                 return View(Item);
             }
             catch (Exception e)

@@ -92,6 +92,9 @@ namespace TaxApp.Controllers
 
                     ViewBag.VatPeriod = null;
 
+                    var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                    nfi.NumberGroupSeparator = " ";
+
                     if (period == null || period == "")
                     {
                         Response.Redirect("../Vat/VatCenter?period=" + vatPeriod[0].PeriodID + "&view=" + view);
@@ -107,14 +110,24 @@ namespace TaxApp.Controllers
 
                                 dashboard = handler.getVatCenterDashboard(profileID, item);
 
-                                VATRecived = handler.getVATRecivedList(profileID, item);
+                            decimal totalAmount = 0;
+                            decimal vatTotalAmount = 0;
+                            VATRecived = handler.getVATRecivedList(profileID, item);
+                            foreach (TAXorVATRecivedList vatRecived in VATRecived)
+                            {
+                                totalAmount += vatRecived.Total;
+                                vatTotalAmount += vatRecived.VATorTAX;
+                            }
+                            ViewBag.totalAmountRecived = totalAmount.ToString("#,0.00", nfi);
+                            ViewBag.vatTotalAmountRecived = vatTotalAmount.ToString("#,0.00", nfi);
 
-                                VATPaid = new List<Model.DashboardExpense>();
+                            totalAmount = 0;
+                            vatTotalAmount = 0;
+
+                            VATPaid = new List<Model.DashboardExpense>();
                                 List<Model.TravelLog> ProfileTravelLog = handler.getProfileTravelLog(profileID, sDate, eDate);
                                 List<Model.SP_GetJobExpense_Result> ProfileJobExpenses = handler.getAllJobExpense(profileID, sDate, eDate);
-                                List<Model.SP_GetGeneralExpense_Result> ProfileGeneralExpenses = handler.getGeneralExpenses(profileID, sDate, eDate);
-                                var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
-                                nfi.NumberGroupSeparator = " ";
+                                List<Model.SP_GetGeneralExpense_Result> ProfileGeneralExpenses = handler.getGeneralExpensesReport(profileID, sDate, eDate);
                                 foreach (Model.TravelLog expenseItem in ProfileTravelLog)
                                 {
                                     Model.DashboardExpense expense = new Model.DashboardExpense();
@@ -128,9 +141,12 @@ namespace TaxApp.Controllers
                                     expense.amount = expenseItem.ClientCharge;
                                     expense.URL = "../Expense/TravleLogItem?ID=" + expenseItem.ExpenseID;
                                     expense.expenseType = "Travel";
-                                    expense.VAT = ((expense.amount / 100) * item.VATRate);
+                                    expense.VAT = expense.amount - (expense.amount / ((item.VATRate/100)+1));
                                     expense.VATString = expense.VAT.ToString("#,0.00", nfi);
                                     expense.TotalString = expense.amount.ToString("#,0.00", nfi);
+
+                                totalAmount += expense.amount;
+                                vatTotalAmount += expense.VAT;
 
                                     VATPaid.Add(expense);
                                 }
@@ -147,11 +163,14 @@ namespace TaxApp.Controllers
                                     expense.amount = expenseItem.Amount;
                                     expense.URL = "../Expense/JobExpense?ID=" + expenseItem.ExpenseID;
                                     expense.expenseType = "Job";
-                                    expense.VAT = ((expense.amount / 100) * item.VATRate);
+                                    expense.VAT = expense.amount - (expense.amount / ((item.VATRate / 100) + 1));
                                     expense.VATString = expense.VAT.ToString("#,0.00", nfi);
                                     expense.TotalString = expense.amount.ToString("#,0.00", nfi);
 
-                                    VATPaid.Add(expense);
+                                totalAmount += expense.amount;
+                                vatTotalAmount += expense.VAT;
+
+                                VATPaid.Add(expense);
                                 }
                                 foreach (Model.SP_GetGeneralExpense_Result expenseItem in ProfileGeneralExpenses)
                                 {
@@ -166,13 +185,19 @@ namespace TaxApp.Controllers
                                     expense.amount = expenseItem.Amount;
                                     expense.URL = "../Expense/GeneralExpense?ID=" + expenseItem.ExpenseID;
                                     expense.expenseType = "General";
-                                    expense.VAT = ((expense.amount / 100) * item.VATRate);
+                                    expense.VAT = expense.amount - (expense.amount / ((item.VATRate / 100) + 1));
                                     expense.VATString = expense.VAT.ToString("#,0.00", nfi);
                                     expense.TotalString = expense.amount.ToString("#,0.00", nfi);
 
-                                    VATPaid.Add(expense);
+                                totalAmount += expense.amount;
+                                vatTotalAmount += expense.VAT;
+
+                                VATPaid.Add(expense);
                                 }
                                 VATPaid = VATPaid.OrderBy(x => x.dateSort).ToList();
+
+                            ViewBag.totalAmountPaid = totalAmount.ToString("#,0.00", nfi);
+                            ViewBag.vatTotalAmountPaid = vatTotalAmount.ToString("#,0.00", nfi);
 
 
                             viewModel.period = item;
@@ -190,8 +215,6 @@ namespace TaxApp.Controllers
 
                     return View(viewModel);
                 }
-
-                return Redirect("../Shared/Error");
             }
             catch (Exception e)
             {

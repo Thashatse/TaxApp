@@ -28,9 +28,8 @@
                                 <p class="mt-3 mb-0 text-muted text-sm">
                                     <span class="text-success mr-2">
                                         <i class="fa fa-arrow-up"></i>
-                                        UP
                                     </span>
-                                    <span class="text-nowrap">Since last month</span>
+                                    <span class="text-nowrap">Since last Tax Period</span>
                                 </p>
                             }
                             else if (@Model.TAXDashboard.IncomeUporDown == 'U')
@@ -38,9 +37,9 @@
                                 <p class="mt-3 mb-0 text-muted text-sm">
                                     <span class="text-success mr-2">
                                         <i class="fa fa-arrow-up"></i>
-                                        UP @Model.TAXDashboard.IncomePercentString %
+                                        @Model.TAXDashboard.IncomePercentString %
                                     </span>
-                                    <span class="text-nowrap">Since last month</span>
+                                    <span class="text-nowrap">Since last Tax Period</span>
                                 </p>
                             }
                             else if (@Model.TAXDashboard.IncomeUporDown == 'D')
@@ -48,9 +47,9 @@
                                 <p class="mt-3 mb-0 text-muted text-sm">
                                     <span class="text-danger mr-2">
                                         <i class="fas fa-arrow-down"></i>
-                                        DOWN @Model.TAXDashboard.IncomePercentString %
+                                        @Model.TAXDashboard.IncomePercentString %
                                     </span>
-                                    <span class="text-nowrap">Since last month</span>
+                                    <span class="text-nowrap">Since last Tax Period</span>
                                 </p>
                             }
                         </div>
@@ -95,9 +94,8 @@
                                 <p class="mt-3 mb-0 text-muted text-sm">
                                     <span class="text-danger mr-2">
                                         <i class="fa fa-arrow-up"></i>
-                                        UP
                                     </span>
-                                    <span class="text-nowrap">Since last month</span>
+                                    <span class="text-nowrap">Since last Tax Period</span>
                                 </p>
                             }
                             else if (@Model.TAXDashboard.TAXOwedUporDown == 'U')
@@ -105,9 +103,9 @@
                                 <p class="mt-3 mb-0 text-muted text-sm">
                                     <span class="text-danger mr-2">
                                         <i class="fa fa-arrow-up"></i>
-                                        UP @Model.TAXDashboard.TAXOwedPercentString %
+                                        @Model.TAXDashboard.TAXOwedPercentString %
                                     </span>
-                                    <span class="text-nowrap">Since last month</span>
+                                    <span class="text-nowrap">Since last Tax Period</span>
                                 </p>
                             }
                             else if (@Model.TAXDashboard.TAXOwedUporDown == 'D')
@@ -115,9 +113,9 @@
                                 <p class="mt-3 mb-0 text-muted text-sm">
                                     <span class="text-success mr-2">
                                         <i class="fas fa-arrow-down"></i>
-                                        DOWN @Model.TAXDashboard.TAXOwedPercentString %
+                                        @Model.TAXDashboard.TAXOwedPercentString %
                                     </span>
-                                    <span class="text-nowrap">Since last month</span>
+                                    <span class="text-nowrap">Since last Tax Period</span>
                                 </p>
                             }
                         </div>
@@ -172,17 +170,17 @@
                                         <th scope="col">Invoice Date</th>
                                         <th scope="col">Job</th>
                                         <th scope="col">Client</th>
-                                        <th scope="col">Total Recived</th>
-                                        <th scope="col">TAX Est.</th>
+                                        <th scope="col">Total Recived (R)</th>
+                                        <th scope="col">TAX Est. (R)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var item in Model.TAXRecivedList)
                                     {
                                         <tr>
-                                            <th scope="row">
+                                            <td scope="row">
                                                 @Html.DisplayFor(modelItem => item.InvoiceDateString)
-                                            </th>
+                                            </td>
                                             <td>
                                                 <a href="/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)">@Html.DisplayFor(modelItem => item.JobTitle)</a>
                                             </td>
@@ -192,14 +190,23 @@
                                                 </a>
                                             </td>
                                             <td>
-                                                R @Html.DisplayFor(modelItem => item.TotalString)
+                                                @Html.DisplayFor(modelItem => item.TotalString)
                                             </td>
                                             <td>
-                                                R @Html.DisplayFor(modelItem => item.VATorTAXString)
+                                                @Html.DisplayFor(modelItem => item.VATorTAXString)
                                             </td>
                                         </tr>
                                     }
                                 </tbody>
+                                <tfoot class="thead-light">
+                                    <tr>
+                                        <th>Total:</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th>@ViewBag.totalAmount</th>
+                                        <th>@ViewBag.totalAmountTax</th>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>

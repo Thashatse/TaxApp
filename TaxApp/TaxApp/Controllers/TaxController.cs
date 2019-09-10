@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -72,6 +73,9 @@ namespace TaxApp.Controllers
                 TaxDashboard dashboard = null;
                 List<TAXorVATRecivedList> TAXRecived = null;
 
+                var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                nfi.NumberGroupSeparator = " ";
+
                 Profile profileID = new Profile();
                 profileID.ProfileID = int.Parse(cookie["ID"]);
 
@@ -116,6 +120,16 @@ namespace TaxApp.Controllers
                     {
                         Response.Redirect("../Shared/Error?Err=An error occurred loading data for tax period");
                     }
+
+                    decimal totalAmount = 0;
+                    decimal totalAmountTAX = 0;
+                    foreach (TAXorVATRecivedList taxItem in TAXRecived)
+                    {
+                        totalAmount += taxItem.Total;
+                        totalAmountTAX += taxItem.VATorTAX;
+                    }
+                    ViewBag.totalAmount = totalAmount.ToString("#,0.00", nfi);
+                    ViewBag.totalAmountTax = totalAmountTAX.ToString("#,0.00", nfi);
 
                     viewModel.TAXDashboard = dashboard;
                     viewModel.TAXRecivedList = TAXRecived;

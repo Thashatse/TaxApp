@@ -1005,7 +1005,6 @@ namespace TaxApp.Controllers
                 report = new ReportViewModel();
 
                 List<Model.DashboardExpense> ExpenseReport = null;
-                VATDashboard footers = null;
                 List<TAXorVATRecivedList> VATRecived = null;
 
                 TaxAndVatPeriods VATRate = null;
@@ -1054,7 +1053,7 @@ namespace TaxApp.Controllers
                             expense.date = expenseItem.DateString;
                             expense.amount = expenseItem.ClientCharge;
                             expense.TotalString = expense.amount.ToString("#,0.00", nfi);
-                            expense.VAT = ((expense.amount / 100) * VATRate.VATRate);
+                            expense.VAT = expense.amount - (expense.amount / ((VATRate.VATRate / 100) + 1));
                             expense.VATString = expense.VAT.ToString("#,0.00", nfi);
 
                             ExpenseReport.Add(expense);
@@ -1067,7 +1066,7 @@ namespace TaxApp.Controllers
                             expense.date = expenseItem.DateString;
                             expense.amount = expenseItem.Amount;
                             expense.TotalString = expense.amount.ToString("#,0.00", nfi);
-                            expense.VAT = ((expense.amount / 100) * VATRate.VATRate);
+                            expense.VAT = expense.amount - (expense.amount / ((VATRate.VATRate / 100) + 1));
                             expense.VATString = expense.VAT.ToString("#,0.00", nfi);
 
                             ExpenseReport.Add(expense);
@@ -1080,13 +1079,11 @@ namespace TaxApp.Controllers
                             expense.date = expenseItem.DateString;
                             expense.amount = expenseItem.Amount;
                             expense.TotalString = expense.amount.ToString("#,0.00", nfi);
-                            expense.VAT = ((expense.amount / 100) * VATRate.VATRate);
+                            expense.VAT = expense.amount - (expense.amount / ((VATRate.VATRate / 100) + 1));
                             expense.VATString = expense.VAT.ToString("#,0.00", nfi);
 
                             ExpenseReport.Add(expense);
                         }
-
-                        footers = handler.getVatCenterDashboard(ProfileID, VATRate);
 
                         VATRecived = handler.getVATRecivedList(ProfileID, VATRate);
                     }
@@ -1097,7 +1094,7 @@ namespace TaxApp.Controllers
                         "Error loading report 0003 in reports controler");
                 }
 
-                if (ExpenseReport != null && VATRecived != null && footers != null)
+                if (ExpenseReport != null && VATRecived != null)
                 {
                     report.reportTitle = "VAT";
                     report.reportCondition = "From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
@@ -1163,7 +1160,7 @@ namespace TaxApp.Controllers
                     report.FooterRowList = new List<ReportFixedFooterRowList>();
                     ReportFixedFooterRowList fotter = new ReportFixedFooterRowList();
                     fotter.column5Data = "VAT Owed est.:";
-                    fotter.column6Data = ((footers.VATPAIDOutstandingEst).ToString("#,0.00", nfi));
+                    fotter.column6Data = ((c4Total + c6Total).ToString("#,0.00", nfi));
                     report.FooterRowList.Add(fotter);
                     report.column6FotterAlignRight = true;
                 }

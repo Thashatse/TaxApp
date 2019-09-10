@@ -29,9 +29,8 @@
                                 <p class="mt-3 mb-0 text-muted text-sm">
                                     <span class="text-success mr-2">
                                         <i class="fa fa-arrow-up"></i>
-                                        UP
                                     </span>
-                                    <span class="text-nowrap">Since last month</span>
+                                    <span class="text-nowrap">Since last VAT Period</span>
                                 </p>
                             }
                             else if (@Model.VATDashboard.VATRECEIVEDUporDown == 'U')
@@ -39,9 +38,9 @@
                                 <p class="mt-3 mb-0 text-muted text-sm">
                                     <span class="text-success mr-2">
                                         <i class="fa fa-arrow-up"></i>
-                                        UP @Model.VATDashboard.VATRECEIVEDPercentString %
+                                        @Model.VATDashboard.VATRECEIVEDPercentString %
                                     </span>
-                                    <span class="text-nowrap">Since last month</span>
+                                    <span class="text-nowrap">Since last VAT Period</span>
                                 </p>
                             }
                             else if (@Model.VATDashboard.VATRECEIVEDUporDown == 'D')
@@ -49,9 +48,9 @@
                                 <p class="mt-3 mb-0 text-muted text-sm">
                                     <span class="text-danger mr-2">
                                         <i class="fas fa-arrow-down"></i>
-                                        DOWN @Model.VATDashboard.VATRECEIVEDPercentString %
+                                        @Model.VATDashboard.VATRECEIVEDPercentString %
                                     </span>
-                                    <span class="text-nowrap">Since last month</span>
+                                    <span class="text-nowrap">Since last VAT Period</span>
                                 </p>
                             }
                         </div>
@@ -76,9 +75,8 @@
                                 <p class="mt-3 mb-0 text-muted text-sm">
                                     <span class="text-success mr-2">
                                         <i class="fa fa-arrow-up"></i>
-                                        UP
                                     </span>
-                                    <span class="text-nowrap">Since last month</span>
+                                    <span class="text-nowrap">Since last VAT Period</span>
                                 </p>
                             }
                             else if (@Model.VATDashboard.VATPAIDUporDown == 'U')
@@ -86,9 +84,9 @@
                                 <p class="mt-3 mb-0 text-muted text-sm">
                                     <span class="text-success mr-2">
                                         <i class="fa fa-arrow-up"></i>
-                                        UP @Model.VATDashboard.VATPAIDPercentString %
+                                        @Model.VATDashboard.VATPAIDPercentString %
                                     </span>
-                                    <span class="text-nowrap">Since last month</span>
+                                    <span class="text-nowrap">Since last VAT Period</span>
                                 </p>
                             }
                             else if (@Model.VATDashboard.VATPAIDUporDown == 'D')
@@ -96,9 +94,9 @@
                                 <p class="mt-3 mb-0 text-muted text-sm">
                                     <span class="text-danger mr-2">
                                         <i class="fas fa-arrow-down"></i>
-                                        DOWN @Model.VATDashboard.VATPAIDPercentString %
+                                        @Model.VATDashboard.VATPAIDPercentString %
                                     </span>
-                                    <span class="text-nowrap">Since last month</span>
+                                    <span class="text-nowrap">Since last VAT Period</span>
                                 </p>
                             }
                         </div>
@@ -123,9 +121,8 @@
                                 <p class="mt-3 mb-0 text-muted text-sm">
                                     <span class="text-danger mr-2">
                                         <i class="fa fa-arrow-up"></i>
-                                        UP
                                     </span>
-                                    <span class="text-nowrap">Since last month</span>
+                                    <span class="text-nowrap">Since last VAT Period</span>
                                 </p>
                             }
                             else if (@Model.VATDashboard.VATPAIDOutstandingEstUporDown == 'U')
@@ -133,9 +130,9 @@
                                 <p class="mt-3 mb-0 text-muted text-sm">
                                     <span class="text-danger mr-2">
                                         <i class="fa fa-arrow-up"></i>
-                                        UP @Model.VATDashboard.VATPAIDOutstandingEstPercentString %
+                                        @Model.VATDashboard.VATPAIDOutstandingEstPercentString %
                                     </span>
-                                    <span class="text-nowrap">Since last month</span>
+                                    <span class="text-nowrap">Since last VAT Period</span>
                                 </p>
                             }
                             else if (@Model.VATDashboard.VATPAIDOutstandingEstUporDown == 'D')
@@ -143,9 +140,9 @@
                                 <p class="mt-3 mb-0 text-muted text-sm">
                                     <span class="text-success mr-2">
                                         <i class="fas fa-arrow-down"></i>
-                                        DOWN @Model.VATDashboard.VATPAIDOutstandingEstPercentString %
+                                        @Model.VATDashboard.VATPAIDOutstandingEstPercentString %
                                     </span>
-                                    <span class="text-nowrap">Since last month</span>
+                                    <span class="text-nowrap">Since last VAT Period</span>
                                 </p>
                             }
                         </div>
@@ -201,17 +198,17 @@
                                         <th scope="col">Invoice Date</th>
                                         <th scope="col">Job</th>
                                         <th scope="col">Client</th>
-                                        <th scope="col">Total Recived</th>
-                                        <th scope="col">VAT</th>
+                                        <th scope="col">Total Recived (R)</th>
+                                        <th scope="col">VAT (R)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var item in Model.VATRecivedList)
                                     {
                                         <tr>
-                                            <th scope="row">
+                                            <td scope="row">
                                                 @Html.DisplayFor(modelItem => item.InvoiceDateString)
-                                            </th>
+                                            </td>
                                             <td>
                                                 <a href="/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)">@Html.DisplayFor(modelItem => item.JobTitle)</a>
                                             </td>
@@ -221,14 +218,23 @@
                                                 </a>
                                             </td>
                                             <td>
-                                                R @Html.DisplayFor(modelItem => item.TotalString)
+                                                @Html.DisplayFor(modelItem => item.TotalString)
                                             </td>
                                             <td>
-                                                R @Html.DisplayFor(modelItem => item.VATorTAXString)
+                                                @Html.DisplayFor(modelItem => item.VATorTAXString)
                                             </td>
                                         </tr>
                                     }
                                 </tbody>
+                                <tfoot class="thead-light">
+                                    <tr>
+                                        <th>Total: </th>
+                                        <th></th>
+                                        <th></th>
+                                        <th>@ViewBag.totalAmountRecived</th>
+                                        <th>@ViewBag.vatTotalAmountRecived</th>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
@@ -275,29 +281,37 @@
                                     <tr>
                                         <th scope="col">Date</th>
                                         <th scope="col">Title</th>
-                                        <th scope="col">Total Paid</th>
-                                        <th scope="col">VAT</th>
+                                        <th scope="col">Total Paid (R)</th>
+                                        <th scope="col">VAT (R)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var item in Model.VATPaid)
                                     {
                                         <tr>
-                                            <th scope="row">
+                                            <td scope="row">
                                                 @Html.DisplayFor(modelItem => item.date)
-                                            </th>
+                                            </td>
                                             <td>
                                                 <a href="@Html.DisplayFor(modelItem => item.URL)">@Html.DisplayFor(modelItem => item.name)</a>
                                             </td>
                                             <td>
-                                                R @Html.DisplayFor(modelItem => item.TotalString)
+                                                @Html.DisplayFor(modelItem => item.TotalString)
                                             </td>
                                             <td>
-                                                R @Html.DisplayFor(modelItem => item.VATString)
+                                                @Html.DisplayFor(modelItem => item.VATString)
                                             </td>
                                         </tr>
                                     }
                                 </tbody>
+                                <tfoot  class="thead-light">
+                                    <tr>
+                                        <th>Total: </th>
+                                        <th></th>
+                                        <th>@ViewBag.totalAmountPaid</th>
+                                        <th>@ViewBag.vatTotalAmountPaid</th>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>

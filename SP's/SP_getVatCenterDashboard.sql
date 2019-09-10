@@ -8,7 +8,6 @@ alter PROCEDURE SP_getVatCenterDashboard
 	@PID int,
 	@SD  date,
 	@ED date,
-	@PDID int,
 	@VR decimal(4,2)
 AS
 BEGIN
@@ -32,80 +31,44 @@ Where Invoice.[Datetime] Between DATEADD(DAY, (SELECT DATEDIFF(DAY, @ED, @SD)), 
 	AND Jobs.ClientID = Client.ClientID
 	And Client.ProfileID = @PID) as VATRECEIVEDPastPeriod,
 
-(((Select sum(Amount) 
+(Select sum(Amount) 
 From Expense, JobExpense, Jobs, Client
 Where Expense.ExpenseID = JobExpense.ExpenseID
 	AND JobExpense.[Date] Between @SD and @ED
 	AND JobExpense.JobID = Jobs.JobID
 	AND Jobs.ClientID = Client.ClientID
-	And Client.ProfileID = @PID) +
-((Select sum(Amount) 
+	And Client.ProfileID = @PID) as VATPAIDJob,
+
+(Select sum(Amount) 
 From Expense, GeneralExpense
 Where Expense.ExpenseID = GeneralExpense.ExpenseID
 	And GeneralExpense.ProfileID = @PID
-	AND GeneralExpense.[Date] Between @SD and @ED) +
+	AND GeneralExpense.[Date] Between @SD and @ED) as VATPAIDGeneral,
+
 (Select Sum((ClosingKMs - OpeningKMs) * (ClientCharge))
 From TravelLog, Vehicle
 Where TravelLog.VehicleID = Vehicle.VehicleID 
 	And Vehicle.ProfileID = @PID
-	AND TravelLog.[Date] Between @SD and @ED))) -
+	AND TravelLog.[Date] Between @SD and @ED) as VATPAIDTravel,
 
-((Select sum(Amount) 
-From Expense, JobExpense, Jobs, Client
-Where Expense.ExpenseID = JobExpense.ExpenseID
-	AND JobExpense.[Date] Between @SD and @ED
-	AND JobExpense.JobID = Jobs.JobID
-	AND Jobs.ClientID = Client.ClientID
-	And Client.ProfileID = @PID) +
-((Select sum(Amount) 
-From Expense, GeneralExpense
-Where Expense.ExpenseID = GeneralExpense.ExpenseID
-	And GeneralExpense.ProfileID = @PID
-	AND GeneralExpense.[Date] Between @SD and @ED) +
-(Select Sum((ClosingKMs - OpeningKMs) * (ClientCharge))
-From TravelLog, Vehicle
-Where TravelLog.VehicleID = Vehicle.VehicleID 
-	And Vehicle.ProfileID = @PID
-	AND TravelLog.[Date] Between @SD and @ED))) / 
-	(((@VR)/100)+1))
-	 as VATPAID,
-
-	 (((Select sum(Amount) 
+	 (Select sum(Amount) 
 From Expense, JobExpense, Jobs, Client
 Where Expense.ExpenseID = JobExpense.ExpenseID
 	AND JobExpense.[Date] Between DATEADD(DAY, (SELECT DATEDIFF(DAY, @ED, @SD)), @SD) and @SD
 	AND JobExpense.JobID = Jobs.JobID
 	AND Jobs.ClientID = Client.ClientID
-	And Client.ProfileID = @PID) +
-((Select sum(Amount) 
-From Expense, GeneralExpense
-Where Expense.ExpenseID = GeneralExpense.ExpenseID
-	And GeneralExpense.ProfileID = @PID
-	AND GeneralExpense.[Date] Between DATEADD(DAY, (SELECT DATEDIFF(DAY, @ED, @SD)), @SD) and @SD) +
-(Select Sum((ClosingKMs - OpeningKMs) * (ClientCharge))
-From TravelLog, Vehicle
-Where TravelLog.VehicleID = Vehicle.VehicleID 
-	And Vehicle.ProfileID = @PID
-	AND TravelLog.[Date] Between DATEADD(DAY, (SELECT DATEDIFF(DAY, @ED, @SD)), @SD) and @SD))) -
+	And Client.ProfileID = @PID) as VATPAIDPreviousPeriodJob,
 
-((Select sum(Amount) 
-From Expense, JobExpense, Jobs, Client
-Where Expense.ExpenseID = JobExpense.ExpenseID
-	AND JobExpense.[Date] Between DATEADD(DAY, (SELECT DATEDIFF(DAY, @ED, @SD)), @SD) and @SD
-	AND JobExpense.JobID = Jobs.JobID
-	AND Jobs.ClientID = Client.ClientID
-	And Client.ProfileID = @PID) +
-((Select sum(Amount) 
+(Select sum(Amount) 
 From Expense, GeneralExpense
 Where Expense.ExpenseID = GeneralExpense.ExpenseID
 	And GeneralExpense.ProfileID = @PID
-	AND GeneralExpense.[Date] Between DATEADD(DAY, (SELECT DATEDIFF(DAY, @ED, @SD)), @SD) and @SD) +
+	AND GeneralExpense.[Date] Between DATEADD(DAY, (SELECT DATEDIFF(DAY, @ED, @SD)), @SD) and @SD) as VATPAIDPreviousPeriodGeneral,
+
 (Select Sum((ClosingKMs - OpeningKMs) * (ClientCharge))
 From TravelLog, Vehicle
 Where TravelLog.VehicleID = Vehicle.VehicleID 
 	And Vehicle.ProfileID = @PID
-	AND TravelLog.[Date] Between DATEADD(DAY, (SELECT DATEDIFF(DAY, @ED, @SD)), @SD) and @SD))) / 
-	(((@VR)/100)+1))
-	 as VATPAIDPreviousPeriod
+	AND TravelLog.[Date] Between DATEADD(DAY, (SELECT DATEDIFF(DAY, @ED, @SD)), @SD) and @SD) as VATPAIDPreviousPeriodTravel
 END
 GO

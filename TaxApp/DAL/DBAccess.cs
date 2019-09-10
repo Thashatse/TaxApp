@@ -3128,12 +3128,10 @@ namespace DAL
                     {
                         new SqlParameter("@PID", profile.ProfileID),
                         new SqlParameter("@SD", period.StartDate.AddDays(-1)),
-                        new SqlParameter("@PDID", period.PeriodID),
                         new SqlParameter("@VR", period.VATRate),
                         new SqlParameter("@ED", period.EndDate.AddDays(+1))
                     };
-
-
+                
                 using (DataTable table = DBHelper.ParamSelect("SP_getVatCenterDashboard",
             CommandType.StoredProcedure, pars))
                 {
@@ -3161,23 +3159,24 @@ namespace DAL
                                 dashboard.VATRECEIVEDPercent = 0;
                             }
 
-                            if (row["VATPAID"].ToString() != "")
-                            {
-                                dashboard.VATPAID = decimal.Parse(row["VATPAID"].ToString());
-                            }
-                            else
-                            {
-                                dashboard.VATPAID = 0;
-                            }
+                            dashboard.VATPAID = 0;
+                            decimal vatRateForCalculations = (period.VATRate / 100) + 1;
+                            if (row["VATPAIDJob"].ToString() != "")
+                                dashboard.VATPAID += decimal.Parse(row["VATPAIDJob"].ToString());
+                            if (row["VATPAIDGeneral"].ToString() != "")
+                                dashboard.VATPAID += decimal.Parse(row["VATPAIDGeneral"].ToString());
+                            if (row["VATPAIDTravel"].ToString() != "")
+                                dashboard.VATPAID += decimal.Parse(row["VATPAIDTravel"].ToString());
+                            dashboard.VATPAID = dashboard.VATPAID - (dashboard.VATPAID / vatRateForCalculations);
 
-                            if (row["VATPAIDPreviousPeriod"].ToString() != "")
-                            {
-                                dashboard.VATRECEIVEDPercent = decimal.Parse(row["VATPAIDPreviousPeriod"].ToString());
-                            }
-                            else
-                            {
-                                dashboard.VATRECEIVEDPercent = 0;
-                            }
+                            dashboard.VATRECEIVEDPercent = 0;
+                            if (row["VATPAIDPreviousPeriodJob"].ToString() != "")
+                                dashboard.VATRECEIVEDPercent += decimal.Parse(row["VATPAIDPreviousPeriodJob"].ToString());
+                            if (row["VATPAIDPreviousPeriodGeneral"].ToString() != "")
+                                dashboard.VATRECEIVEDPercent += decimal.Parse(row["VATPAIDPreviousPeriodGeneral"].ToString());
+                            if (row["VATPAIDPreviousPeriodTravel"].ToString() != "")
+                                dashboard.VATRECEIVEDPercent += decimal.Parse(row["VATPAIDPreviousPeriodTravel"].ToString());
+                            dashboard.VATRECEIVEDPercent = dashboard.VATRECEIVEDPercent - (dashboard.VATRECEIVEDPercent / vatRateForCalculations);
 
                             dashboard.VATPAIDOutstandingEst = dashboard.VATRECEIVED - dashboard.VATPAID;
                             dashboard.VATPAIDOutstandingEstPercent = dashboard.VATRECEIVEDPercent - dashboard.VATPAIDPercent;
@@ -3296,7 +3295,7 @@ namespace DAL
                             item.JobID = int.Parse(row["JobID"].ToString());
                             item.clientID = int.Parse(row["ClientID"].ToString());
                             item.InvoiceDate = DateTime.Parse(row["DateTime"].ToString());
-                            item.InvoiceDateString = item.InvoiceDate.ToString("dd MMM yyyy");
+                            item.InvoiceDateString = item.InvoiceDate.ToString("dddd, dd MMMM yyyy");
                             item.Total = decimal.Parse(row["Total"].ToString());
                             item.VATorTAX = decimal.Parse(row["VAT"].ToString());
                             item.clientName = row["Client"].ToString();
@@ -3349,14 +3348,15 @@ namespace DAL
                         {
                             dashboard = new TaxDashboard();
 
-                            if (row["IncomeRECEIVEDPastPeriod"].ToString() != "")
-                            {
-                                dashboard.IncomePercent = decimal.Parse(row["IncomeRECEIVEDPastPeriod"].ToString());
-                            }
-                            else
-                            {
                                 dashboard.IncomePercent = 0;
-                            }
+                            if (row["IncomeRECEIVEDPastPeriod"].ToString() != "")
+                                dashboard.IncomePercent = decimal.Parse(row["IncomeRECEIVEDPastPeriod"].ToString());
+                            if (row["IncomeRECEIVEDPastPeriodGeneral"].ToString() != "")
+                                dashboard.IncomePercent -= decimal.Parse(row["IncomeRECEIVEDPastPeriodGeneral"].ToString());
+                            if (row["IncomeRECEIVEDPastPeriodTravel"].ToString() != "")
+                                dashboard.IncomePercent -= decimal.Parse(row["IncomeRECEIVEDPastPeriodTravel"].ToString());
+                            if (row["IncomeRECEIVEDPastPeriodJob"].ToString() != "")
+                                dashboard.IncomePercent -= decimal.Parse(row["IncomeRECEIVEDPastPeriodJob"].ToString());
 
                             bool getUpperRange = false;
                             foreach (TaxPeriodRates item in brakets)
@@ -3386,15 +3386,15 @@ namespace DAL
                                 dashboard.TAXOwedPercent = 0;
                             }
 
-
+                            dashboard.Income = 0;
                             if (row["IncomeRECEIVED"].ToString() != "")
-                            {
                                 dashboard.Income = decimal.Parse(row["IncomeRECEIVED"].ToString());
-                            }
-                            else
-                            {
-                                dashboard.Income = 0;
-                            }
+                            if (row["IncomeRECEIVEDGeneral"].ToString() != "")
+                                dashboard.Income -= decimal.Parse(row["IncomeRECEIVEDGeneral"].ToString());
+                            if (row["IncomeRECEIVEDTravel"].ToString() != "")
+                                dashboard.Income -= decimal.Parse(row["IncomeRECEIVEDTravel"].ToString());
+                            if (row["IncomeRECEIVEDJob"].ToString() != "")
+                                dashboard.Income -= decimal.Parse(row["IncomeRECEIVEDJob"].ToString());
 
                             getUpperRange = false;
                             foreach (TaxPeriodRates item in brakets)
@@ -3520,7 +3520,7 @@ namespace DAL
                             item.JobID = int.Parse(row["JobID"].ToString());
                             item.clientID = int.Parse(row["ClientID"].ToString());
                             item.InvoiceDate = DateTime.Parse(row["DateTime"].ToString());
-                            item.InvoiceDateString = item.InvoiceDate.ToString("dd MMM yyyy");
+                            item.InvoiceDateString = item.InvoiceDate.ToString("dddd, dd MMMM yyyy");
                             item.Total = decimal.Parse(row["Total"].ToString());
                             item.VATorTAX = decimal.Parse(row["TAX"].ToString());
                             item.clientName = row["Client"].ToString();
@@ -4516,7 +4516,6 @@ namespace DAL
                 throw new ApplicationException(e.ToString());
             }
         }
-
         public ReportViewModel getClientReport(Profile profile, DateTime sDate, DateTime eDate)
         {
             ReportViewModel report = null;
@@ -5180,7 +5179,6 @@ namespace DAL
                 throw new ApplicationException(e.ToString());
             }
         }
-
         public List<SP_GetGeneralExpense_Result> getGeneralExpensesReport(Profile profileID, DateTime sDate, DateTime eDate)
         {
             List<SP_GetGeneralExpense_Result> Expenses = new List<SP_GetGeneralExpense_Result>();
@@ -5232,7 +5230,6 @@ namespace DAL
                 throw new ApplicationException(e.ToString());
             }
         }
-
         public ReportViewModel getJobEarningPerHourReport(Profile profile, DateTime sDate, DateTime eDate)
         {
             ReportViewModel report = null;

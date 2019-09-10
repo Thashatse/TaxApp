@@ -61,10 +61,32 @@
                                             for @Html.DisplayFor(modelItem => item.ClientFirstName)
                                             @if (item.Budget != 0)
                                             {
-                                                <br />
-                                            <span class="mr-2">Budget Used: @Html.DisplayFor(modelItem => item.BudgetPercent)%</span>
-                                            }
+                                                <br /><span>Budget Used: @Html.DisplayFor(modelItem => item.BudgetPercent)%</span>
+                                             }
                                         </p>
+                                        @if (item.Budget != 0)
+                                        {
+                                            <div class="progress">
+                                                @if (item.BudgetPercent < 50)
+                                                {
+                                                    <div class="progress-bar bg-gradient-success" role="progressbar"
+                                                         aria-valuenow="@Html.DisplayFor(modelItem => item.BudgetPercent)" aria-valuemin="0"
+                                                         aria-valuemax="100" style="width: @Html.DisplayFor(modelItem => item.BudgetPercent)%;"></div>
+                                                }
+                                                else if (item.BudgetPercent < 75)
+                                                {
+                                                    <div class="progress-bar bg-gradient-warning" role="progressbar"
+                                                         aria-valuenow="@Html.DisplayFor(modelItem => item.BudgetPercent)" aria-valuemin="0"
+                                                         aria-valuemax="100" style="width: @Html.DisplayFor(modelItem => item.BudgetPercent)%;"></div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="progress-bar bg-gradient-danger" role="progressbar"
+                                                         aria-valuenow="@Html.DisplayFor(modelItem => item.BudgetPercent)" aria-valuemin="0"
+                                                         aria-valuemax="100" style="width: @Html.DisplayFor(modelItem => item.BudgetPercent)%;"></div>
+                                                }
+                                            </div>
+                                        }
                                     </div>
                                     <div class="col text-right">
                                         <a href="/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)"
@@ -98,11 +120,11 @@
                                 <br />
                                 <h3>
                                     @ViewBag.DateRange
-                                        @if (ViewBag.View != "DS")
-                                        {
-                                    <a href="../Job/Jobs?view=DS"
-                                       class="btn btn-sm btn-white"><i class="ni ni-settings-gear-65"></i></a>
-                                        }
+                                    @if (ViewBag.View != "DS")
+                                    {
+                                        <a href="../Job/Jobs?view=DS"
+                                           class="btn btn-sm btn-white"><i class="ni ni-settings-gear-65"></i></a>
+                                    }
                                 </h3>
                                 if (ViewBag.View == "DS")
                                 {
@@ -113,7 +135,7 @@
                                         <div>
                                             <div class="col-lg-12 col-sm-12">
                                                 Start: <input name="StartDate" type="date" value="@ViewBag.StartDateRange" /><br />
-                                            
+
                                                 End: <input name="EndDate" type="date" value="@ViewBag.EndDateRange" /><br />
                                                 <br /><input type="submit" value="Select" class="btn btn-sm btn-default" />
                                             </div>
@@ -154,10 +176,32 @@
                                                 for @Html.DisplayFor(modelItem => item.ClientFirstName)
                                                 @if (item.Budget != 0)
                                                 {
-                                                    <br />
-                                                    <span class="mr-2">Budget Used: @Html.DisplayFor(modelItem => item.BudgetPercent)%</span>
+                                                    <br /><span>Budget Used: @Html.DisplayFor(modelItem => item.BudgetPercent)%</span>
                                                 }
                                             </p>
+                                            @if (item.Budget != 0)
+                                            {
+                                                <div class="progress">
+                                                    @if (item.BudgetPercent < 50)
+                                                    {
+                                                        <div class="progress-bar bg-gradient-success" role="progressbar"
+                                                             aria-valuenow="@Html.DisplayFor(modelItem => item.BudgetPercent)" aria-valuemin="0"
+                                                             aria-valuemax="100" style="width: @Html.DisplayFor(modelItem => item.BudgetPercent)%;"></div>
+                                                    }
+                                                    else if (item.BudgetPercent < 75)
+                                                    {
+                                                        <div class="progress-bar bg-gradient-warning" role="progressbar"
+                                                             aria-valuenow="@Html.DisplayFor(modelItem => item.BudgetPercent)" aria-valuemin="0"
+                                                             aria-valuemax="100" style="width: @Html.DisplayFor(modelItem => item.BudgetPercent)%;"></div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="progress-bar bg-gradient-danger" role="progressbar"
+                                                             aria-valuenow="@Html.DisplayFor(modelItem => item.BudgetPercent)" aria-valuemin="0"
+                                                             aria-valuemax="100" style="width: @Html.DisplayFor(modelItem => item.BudgetPercent)%;"></div>
+                                                    }
+                                                </div>
+                                            }
                                         </div>
                                         <div class="col text-right">
                                             <a href="/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)"

@@ -28,7 +28,6 @@
                                 <p class="mt-3 mb-0 text-muted text-sm">
                                     <span class="text-success mr-2">
                                         <i class="fa fa-arrow-up"></i>
-                                        UP
                                     </span>
                                     <span class="text-nowrap">Since last month</span>
                                 </p>
@@ -38,7 +37,7 @@
                                 <p class="mt-3 mb-0 text-muted text-sm">
                                     <span class="text-success mr-2">
                                         <i class="fa fa-arrow-up"></i>
-                                        UP @Model.DashboardIncomeExpense.IncomePast60to30DaysPercentString %
+                                        @Model.DashboardIncomeExpense.IncomePast60to30DaysPercentString %
                                     </span>
                                     <span class="text-nowrap">Since last month</span>
                                 </p>
@@ -48,7 +47,7 @@
                                 <p class="mt-3 mb-0 text-muted text-sm">
                                     <span class="text-danger mr-2">
                                         <i class="fas fa-arrow-down"></i>
-                                        DOWN @Model.DashboardIncomeExpense.IncomePast60to30DaysPercentString %
+                                        @Model.DashboardIncomeExpense.IncomePast60to30DaysPercentString %
                                     </span>
                                     <span class="text-nowrap">Since last month</span>
                                 </p>
@@ -74,9 +73,8 @@
                             @if (@Model.DashboardIncomeExpense.ExpensePast60to30DaysPercent == -999999999)
                             {
                                 <p class="mt-3 mb-0 text-muted text-sm">
-                                    <span class="text-success mr-2">
+                                    <span class="text-danger mr-2">
                                         <i class="fa fa-arrow-up"></i>
-                                        UP
                                     </span>
                                     <span class="text-nowrap">Since last month</span>
                                 </p>
@@ -84,9 +82,9 @@
                             else if (@Model.DashboardIncomeExpense.ExpensePast60to30DaysUporDown == 'U')
                             {
                                 <p class="mt-3 mb-0 text-muted text-sm">
-                                    <span class="text-success mr-2">
+                                    <span class="text-danger mr-2">
                                         <i class="fa fa-arrow-up"></i>
-                                        UP @Model.DashboardIncomeExpense.ExpensePast60to30DaysPercentString %
+                                        @Model.DashboardIncomeExpense.ExpensePast60to30DaysPercentString %
                                     </span>
                                     <span class="text-nowrap">Since last month</span>
                                 </p>
@@ -94,9 +92,9 @@
                             else if (@Model.DashboardIncomeExpense.ExpensePast60to30DaysUporDown == 'D')
                             {
                                 <p class="mt-3 mb-0 text-muted text-sm">
-                                    <span class="text-danger mr-2">
+                                    <span class="text-success mr-2">
                                         <i class="fas fa-arrow-down"></i>
-                                        Down @Model.DashboardIncomeExpense.ExpensePast60to30DaysPercentString %
+                                        @Model.DashboardIncomeExpense.ExpensePast60to30DaysPercentString %
                                     </span>
                                     <span class="text-nowrap">Since last month</span>
                                 </p>
@@ -122,31 +120,30 @@
                             @if (@Model.TAXDashboard.TAXOwedPercent == -999999999)
                             {
                                 <p class="mt-3 mb-0 text-muted text-sm">
-                                    <span class="text-success mr-2">
+                                    <span class="text-danger mr-2">
                                         <i class="fa fa-arrow-up"></i>
-                                        UP
                                     </span>
-                                    <span class="text-nowrap">Since last month</span>
+                                    <span class="text-nowrap">Since Tax Period</span>
                                 </p>
                             }
                             else if (@Model.TAXDashboard.TAXOwedUporDown == 'U')
                             {
                                 <p class="mt-3 mb-0 text-muted text-sm">
-                                    <span class="text-success mr-2">
+                                    <span class="text-danger mr-2">
                                         <i class="fa fa-arrow-up"></i>
-                                        UP @Model.TAXDashboard.TAXOwedPercentString %
+                                        @Model.TAXDashboard.TAXOwedPercentString %
                                     </span>
-                                    <span class="text-nowrap">Since last month</span>
+                                    <span class="text-nowrap">Since Tax Period</span>
                                 </p>
                             }
                             else if (@Model.TAXDashboard.TAXOwedUporDown == 'D')
                             {
                                 <p class="mt-3 mb-0 text-muted text-sm">
-                                    <span class="text-danger mr-2">
+                                    <span class="text-success mr-2">
                                         <i class="fas fa-arrow-down"></i>
-                                        DOWN @Model.TAXDashboard.TAXOwedPercentString %
+                                        @Model.TAXDashboard.TAXOwedPercentString %
                                     </span>
-                                    <span class="text-nowrap">Since last month</span>
+                                    <span class="text-nowrap">Since last Tax Period</span>
                                 </p>
                             }
                         </div>
@@ -170,31 +167,30 @@
                             @if (@Model.VATDashboard.VATPAIDOutstandingEstPercent == -999999999)
                             {
                                 <p class="mt-3 mb-0 text-muted text-sm">
-                                    <span class="text-success mr-2">
+                                    <span class="text-danger mr-2">
                                         <i class="fa fa-arrow-up"></i>
-                                        UP
                                     </span>
-                                    <span class="text-nowrap">Since last month</span>
+                                    <span class="text-nowrap">Since VAT Period</span>
                                 </p>
                             }
                             else if (@Model.VATDashboard.VATPAIDOutstandingEstUporDown == 'U')
                             {
                                 <p class="mt-3 mb-0 text-muted text-sm">
-                                    <span class="text-success mr-2">
+                                    <span class="text-danger mr-2">
                                         <i class="fa fa-arrow-up"></i>
-                                        UP @Model.VATDashboard.VATPAIDOutstandingEstPercentString %
+                                        @Model.VATDashboard.VATPAIDOutstandingEstPercentString %
                                     </span>
-                                    <span class="text-nowrap">Since last month</span>
+                                    <span class="text-nowrap">Since last VAT Period</span>
                                 </p>
                             }
                             else if (@Model.VATDashboard.VATPAIDOutstandingEstUporDown == 'D')
                             {
                                 <p class="mt-3 mb-0 text-muted text-sm">
-                                    <span class="text-danger mr-2">
+                                    <span class="text-success mr-2">
                                         <i class="fas fa-arrow-down"></i>
-                                        DOWN @Model.VATDashboard.VATPAIDOutstandingEstPercentString %
+                                        @Model.VATDashboard.VATPAIDOutstandingEstPercentString %
                                     </span>
-                                    <span class="text-nowrap">Since last month</span>
+                                    <span class="text-nowrap">Since last VAT Period</span>
                                 </p>
                             }
                         </div>
