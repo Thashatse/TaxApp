@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Threading;
 using Model;
+using System.Globalization;
 
 namespace TaxApp.Controllers
 {
@@ -190,6 +191,9 @@ namespace TaxApp.Controllers
 
                 Model.DashboardIncomeExpense dashboardIncomeExpense = handler.getDashboardIncomeExpense(profile);
 
+                var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                nfi.NumberGroupSeparator = " ";
+
                 List<Model.DashboardExpense> dashboardExpenses = new List<Model.DashboardExpense>();
                 List<Model.TravelLog> ProfileTravelLog = handler.getProfileTravelLog(profile, sDate, eDate);
                 List<Model.SP_GetJobExpense_Result> ProfileJobExpenses = handler.getAllJobExpense(profile, DateTime.Now.AddYears(-100), DateTime.Now);
@@ -205,6 +209,7 @@ namespace TaxApp.Controllers
                     expense.deatilTitle = "Total Km's:";
                     expense.amountTital = "Cost to Customer:";
                     expense.amount = item.ClientCharge;
+                    expense.TotalString = expense.amount.ToString("#,0.00", nfi);
                     expense.URL = "../Expense/TravleLogItem?ID=" + item.ExpenseID;
                     expense.expenseType = "Travel";
 
@@ -221,6 +226,7 @@ namespace TaxApp.Controllers
                     expense.deatilTitle = "Job:";
                     expense.amountTital = "Price:";
                     expense.amount = item.Amount;
+                    expense.TotalString = expense.amount.ToString("#,0.00", nfi);
                     expense.URL = "../Expense/JobExpense?ID="+item.ExpenseID;
                     expense.expenseType = "Job";
 
@@ -237,6 +243,7 @@ namespace TaxApp.Controllers
                     expense.deatilTitle = "Recuring:";
                     expense.amountTital = "Price:";
                     expense.amount = item.Amount;
+                    expense.TotalString = expense.amount.ToString("#,0.00", nfi);
                     expense.URL = "../Expense/GeneralExpense?ID=" + item.ExpenseID;
                     expense.expenseType = "General";
 

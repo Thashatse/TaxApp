@@ -350,6 +350,8 @@
                                 @Html.AntiForgeryToken()
                                 @Html.DropDownList("VatPeriodList", ViewBag.VATPeriodList as SelectList)
                                 <input type="submit" value="Select" class="btn btn-sm btn-default" />
+                                <a href="../Tax/EditTaxVatPeriod?Type=V&Period=@ViewBag.PeriodID"
+                                   class="btn btn-sm btn-white">Edit Period</a>
                                 <a href="../Tax/TaxVatPeriod?Type=V"
                                    class="btn btn-sm btn-white">New Period</a>
 

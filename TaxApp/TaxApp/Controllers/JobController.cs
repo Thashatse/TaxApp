@@ -235,8 +235,8 @@ namespace TaxApp.Controllers
                 ViewBag.cat = "WL";
                 getCookie();
             Model.Job getJob = new Model.Job();
-            List<Model.Worklog> JobHours = handler.getJobHours(getJob);
             getJob.JobID = int.Parse(ID);
+            List<Model.Worklog> JobHours = handler.getJobHours(getJob);
                 ViewBag.JobID = ID;
 
                 Model.SP_GetJob_Result Job = handler.getJob(getJob);

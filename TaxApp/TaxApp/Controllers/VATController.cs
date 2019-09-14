@@ -201,6 +201,7 @@ namespace TaxApp.Controllers
 
 
                             viewModel.period = item;
+                    ViewBag.PeriodID = item.PeriodID;
                         }
                         }
 
@@ -208,6 +209,7 @@ namespace TaxApp.Controllers
                     {
                         Response.Redirect("../Shared/Error?Err=An error occurred loading data for vat period");
                     }
+
 
                     viewModel.VATDashboard = dashboard;
                     viewModel.VATRecivedList = VATRecived;

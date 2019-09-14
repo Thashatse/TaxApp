@@ -34,10 +34,13 @@ namespace Model
         public int JobID { get; set; }
         [Display(Name = "SARS Fuel Cost")]
         public decimal SARSFuelCost { get; set; }
+        public string SARSFuelCostString { get; set; }
         [Display(Name = "SARS Maintence Cost")]
         public decimal SARSMaintenceCost { get; set; }
+        public string SARSMaintenceCostString { get; set; }
         [Display(Name = "Client Charge")]
         public decimal ClientCharge { get; set; }
+        public string ClientChargeString { get; set; }
         public string DefultDate { get; set; }
         public string MinDate { get; set; }
         public string MaxDate { get; set; }

@@ -701,7 +701,7 @@ namespace TaxApp.Controllers
                 }
                 else
                 {
-                    function.logAnError("Error creating new invoice");
+                    function.logAnError("Error sending invoice");
                     Response.Redirect("../Shared/Error?Err=An Error Occured Sending Your Email, Please Try Again Later.");
                 }
 

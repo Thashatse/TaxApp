@@ -93,10 +93,14 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Threashold)
                                 </td>
+                                <td>
+                                    <a href="/Tax/DeleteTaxBraket?RateID=@Html.DisplayFor(modelItem => item.RateID)&ID=@ViewBag.ID&period=@ViewBag.Period" class="btn btn-sm btn-secondary">Delete</a>
+                                </td>
                             </tr>
                         }
                         <tr>
                             <td><a href="../Tax/TaxCenter?period=@ViewBag.ID" class="btn btn-sm btn-primary">Done</a></td>
+                            <td></td>
                             <td></td>
                         </tr>
                     </table>

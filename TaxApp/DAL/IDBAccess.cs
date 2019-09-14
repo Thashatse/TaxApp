@@ -101,11 +101,13 @@ namespace DAL
         List<TaxAndVatPeriods> getTaxOrVatPeriodForProfile(Profile profileID, char type);
         bool newTaxOrVatPeriod(TaxAndVatPeriods newPeriod);
         Tuple<TaxAndVatPeriods, TaxConsultant> UpdateShareTaxorVatPeriod(TaxAndVatPeriods PeriodID);
+        bool editTaxOrVatPeriod(TaxAndVatPeriods editPeriod);
         #endregion
 
         #region Tax Period Brakets
         List<TaxPeriodRates> getTaxPeriodBrakets(TaxAndVatPeriods getBrakets);
         bool newPeriodTaxBraket(TaxPeriodRates newBraket);
+        bool deletePeriodTaxBraket(TaxPeriodRates deleteBraket);
         #endregion
 
         #region VAT Center

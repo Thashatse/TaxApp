@@ -174,50 +174,57 @@
                 </div>
                 <div id="Hours" class="panel-collapse collapse">
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table align-items-center table-flush">
-                                <tr>
-                                    <th>
-                                        Date
-                                    </th>
-                                    <th>
-                                        Description
-                                    </th>
-                                    <th>
-                                        Hours
-                                    </th>
-
-                                    @if (ViewBag.Complete == "NotDone")
-                                    {
-                                        <th></th>
-                                    }
-                                </tr>
-
-                                @foreach (var item in Model.Worklog)
-                                {
+                        @if (Model.Worklog.Count > 0)
+                        {
+                            <div class="table-responsive">
+                                <table class="table align-items-center table-flush">
                                     <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.DateString)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Description)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.WorkLogHoursString)
-                                        </td>
+                                        <th>
+                                            Date
+                                        </th>
+                                        <th>
+                                            Description
+                                        </th>
+                                        <th>
+                                            Hours
+                                        </th>
 
                                         @if (ViewBag.Complete == "NotDone")
                                         {
-                                            <td>
-                                                <A href="/Job/EditJobWorkLog?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID">Edit</A> |
-                                                <A href="/Job/DeleteJobWorkLog?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID">Delete</A>
-                                            </td>
+                                            <th></th>
                                         }
                                     </tr>
-                                }
 
-                            </table>
-                        </div>
+                                    @foreach (var item in Model.Worklog)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.DateString)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Description)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.WorkLogHoursString)
+                                            </td>
+
+                                            @if (ViewBag.Complete == "NotDone")
+                                            {
+                                                <td>
+                                                    <A href="/Job/EditJobWorkLog?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID">Edit</A> |
+                                                    <A href="/Job/DeleteJobWorkLog?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID">Delete</A>
+                                                </td>
+                                            }
+                                        </tr>
+                                    }
+
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <p>No Hours</p>
+                        }
                     </div>
                 </div>
             </div>
@@ -243,37 +250,44 @@
                 </div>
                 <div id="Expenses" class="panel-collapse collapse">
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <!-- Projects table -->
-                            <table class="table align-items-center table-flush">
-                                <tr>
-                                    <th>
-                                        Date
-                                    </th>
-                                    <th>
-                                        Description
-                                    </th>
-                                    <th>
-                                        Amount (R)
-                                    </th>
-                                </tr>
-                                @foreach (var item in Model.JobExpenses)
-                                {
-
+                        @if (Model.JobExpenses.Count > 0)
+                        {
+                            <div class="table-responsive">
+                                <!-- Projects table -->
+                                <table class="table align-items-center table-flush">
                                     <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.DateString)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Description)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Amount)
-                                        </td>
+                                        <th>
+                                            Date
+                                        </th>
+                                        <th>
+                                            Description
+                                        </th>
+                                        <th>
+                                            Amount (R)
+                                        </th>
                                     </tr>
-                                }
-                            </table>
-                        </div>
+                                    @foreach (var item in Model.JobExpenses)
+                                    {
+
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.DateString)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Description)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Amount)
+                                            </td>
+                                        </tr>
+                                    }
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <p>No Expenses</p>
+                        }
                     </div>
                 </div>
             </div>
@@ -299,44 +313,51 @@
                 </div>
                 <div id="Travel" class="panel-collapse collapse">
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <!-- Projects table -->
-                            <table class="table align-items-center table-flush">
-                                <tr>
-                                    <th>
-                                        Date
-                                    </th>
-                                    <th>
-                                        Reason
-                                    </th>
-                                    <th>
-                                        Total Kms (km)
-                                    </th>
-                                    <th>
-                                        Amount (R)
-                                    </th>
-                                </tr>
-                                @foreach (var item in Model.JobTravelLog)
-                                {
-
+                        @if (Model.JobTravelLog.Count > 0)
+                        {
+                            <div class="table-responsive">
+                                <!-- Projects table -->
+                                <table class="table align-items-center table-flush">
                                     <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.DateString)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Reason)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.TotalKMs)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ClientCharge)
-                                        </td>
+                                        <th>
+                                            Date
+                                        </th>
+                                        <th>
+                                            Reason
+                                        </th>
+                                        <th>
+                                            Total Kms (km)
+                                        </th>
+                                        <th>
+                                            Amount (R)
+                                        </th>
                                     </tr>
-                                }
-                            </table>
+                                    @foreach (var item in Model.JobTravelLog)
+                                    {
+
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.DateString)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Reason)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.TotalKMs)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ClientCharge)
+                                            </td>
+                                        </tr>
+                                    }
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                           <p>No Log Items</p>
+                        }
                         </div>
-                    </div>
                 </div>
             </div>
             <br />
@@ -361,46 +382,53 @@
                 </div>
                 <div id="Invoices" class="panel-collapse collapse">
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <!-- Projects table -->
-                            <table class="table align-items-center table-flush">
-                                <tr>
-                                    <th>
-                                        Invoice Date
-                                    </th>
-                                    <th>
-                                        Paid
-                                    </th>
-                                    <th>
-                                        Amount
-                                    </th>
-                                    <th>
-
-                                    </th>
-                                </tr>
-
-                                @foreach (var item in Model.invoices)
-                                {
+                        @if (Model.invoices.Count > 0)
+                        {
+                            <div class="table-responsive">
+                                <!-- Projects table -->
+                                <table class="table align-items-center table-flush">
                                     <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.DateTimeString)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Paid)
-                                        </td>
-                                        <td>
-                                            R @Html.DisplayFor(modelItem => item.TotalCostString)
-                                        </td>
-                                        <td>
-                                            <a class="btn btn-sm btn-secondary" href='/Invoice/Invoice?ID=@Html.DisplayFor(modelItem => item.InvoiceNum)'>
-                                                View
-                                            </a>
-                                        </td>
-                                    </tr>
-                                }
+                                        <th>
+                                            Invoice Date
+                                        </th>
+                                        <th>
+                                            Paid
+                                        </th>
+                                        <th>
+                                            Amount
+                                        </th>
+                                        <th>
 
-                            </table>
-                        </div>
+                                        </th>
+                                    </tr>
+
+                                    @foreach (var item in Model.invoices)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.DateTimeString)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Paid)
+                                            </td>
+                                            <td>
+                                                R @Html.DisplayFor(modelItem => item.TotalCostString)
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-sm btn-secondary" href='/Invoice/Invoice?ID=@Html.DisplayFor(modelItem => item.InvoiceNum)'>
+                                                    View
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <p>No Invoices</p>
+                        }
                     </div>
                 </div>
             </div>

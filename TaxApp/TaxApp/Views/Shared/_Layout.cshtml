@@ -27,6 +27,7 @@
                 window.location.href = "../Home/Search?cat=@ViewBag.cat&term=" + document.getElementById('serchTerm').value;
             }
         }
+
     </script>
 </head>
 <body>
@@ -81,7 +82,7 @@
 
                         <div class="media align-items-center">
                             <span class="mb-0 text-sm font-weight-bold">@ViewBag.ProfileName</span>
-                            </div>
+                        </div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-arrow dropdown-menu-right">
                         <div class=" dropdown-header noti-title">
@@ -338,7 +339,7 @@
     <script src="../Theam/vendor/chart.js/dist/Chart.extension.js"></script>
     <!-- Argon JS -->
     <script src="../Theam/js/argon.js?v=1.0.0"></script>
-
+    
     @RenderSection("scripts", required: false)
 </body>
 </html>

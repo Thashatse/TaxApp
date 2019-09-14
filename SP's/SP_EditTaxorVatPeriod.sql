@@ -1,0 +1,27 @@
+USE [TaxApp]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+create PROCEDURE [dbo].[SP_EditTaxorVatPeriod]
+	@SD Date,
+	@ED Date,
+	@PID int
+AS
+BEGIN
+	BEGIN TRY
+		BEGIN TRANSACTION
+
+    UPDATE [TaxAndVatPeriods] 
+	Set StartDate = @SD,
+		EndDate = @ED
+    WHERE PeriodID = @PID
+
+		COMMIT TRANSACTION 
+	END TRY 
+	BEGIN CATCH 
+		IF @@TRANCOUNT > 0 
+			ROLLBACK TRANSACTION
+	END CATCH 
+	END

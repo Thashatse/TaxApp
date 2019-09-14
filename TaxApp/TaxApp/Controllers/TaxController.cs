@@ -113,6 +113,7 @@ namespace TaxApp.Controllers
                             TAXRecived = handler.getTAXRecivedList(profileID, item, rate);
 
                             viewModel.period = item;
+                            ViewBag.PeriodID = item.PeriodID;
                         }
                     }
 
@@ -170,8 +171,9 @@ namespace TaxApp.Controllers
         #endregion
 
         #region TaxVatPeriod
-        public ActionResult TaxVatPeriod(string type)
+        public ActionResult TaxVatPeriod(string type, string Period = "0")
         {
+            getCookie();
             if(type == null || type == "")
             {
                 Response.Redirect("../Shared/Error");
@@ -180,11 +182,11 @@ namespace TaxApp.Controllers
             {
                 if (type == "V")
                 {
-                    ViewBag.Type = "VAT";
+                        ViewBag.Type = "New VAT"; 
                 }
                 else if (type == "T")
                 {
-                    ViewBag.Type = "Tax";
+                        ViewBag.Type = "New Tax";
                 }
                 else
                 {
@@ -256,6 +258,152 @@ namespace TaxApp.Controllers
                 function.logAnError(e.ToString() +
                     "Error creating TAX or VAT Period");
                 return Redirect("../Shared/Error?Err=Error creating TAX or VAT Period");
+            }
+        }
+        #endregion
+
+        #region EditTaxVatPeriod
+        public ActionResult EditTaxVatPeriod(string type, string Period = "0")
+        {
+            getCookie();
+            if(type == null || type == "")
+            {
+                Response.Redirect("../Shared/Error");
+            }
+            else
+            {
+                if (type == "V")
+                {
+                    if(Period != "0")
+                    {
+                        ViewBag.Type = "Edit VAT";
+                        try
+                        {
+                            Profile profileID = new Profile();
+                            profileID.ProfileID = int.Parse(cookie["ID"]);
+                            List<TaxAndVatPeriods> taxPeriod = handler.getTaxOrVatPeriodForProfile(profileID, 'V');
+                            foreach (TaxAndVatPeriods item in taxPeriod)
+                            {
+                                if (item.PeriodID.ToString() == Period)
+                                {
+                                    item.StartDateString = item.StartDate.ToString("yyyy-MM-dd");
+                                    item.EndDateString = item.EndDate.ToString("yyyy-MM-dd");
+                                    ViewBag.PeriodID = item.PeriodID;
+                                    return View(item);
+                                }
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            function.logAnError(e.ToString() +
+                                "Error loding Vat period for edit");
+                            return Redirect("../Shared/Error?Err=An error occurred loading the Vat period");
+                        }
+                    }
+                }
+                else if (type == "T")
+                {
+                    if (Period != "0")
+                    {
+                                ViewBag.Type = "Edit Tax";
+                        try
+                        {
+                            Profile profileID = new Profile();
+                            profileID.ProfileID = int.Parse(cookie["ID"]);
+                            List<TaxAndVatPeriods> taxPeriod = handler.getTaxOrVatPeriodForProfile(profileID, 'T');
+                            foreach (TaxAndVatPeriods item in taxPeriod)
+                            {
+                                if (item.PeriodID.ToString() == Period)
+                                {
+                                    item.StartDateString = item.StartDate.ToString("yyyy-MM-dd");
+                                    item.EndDateString = item.EndDate.ToString("yyyy-MM-dd");
+                                    ViewBag.PeriodID = item.PeriodID;
+                                    return View(item);
+                                }
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            function.logAnError(e.ToString() +
+                                "Error loding Tax period for edit");
+                            return Redirect("../Shared/Error?Err=An error occurred loading the Tax period");
+                        }
+                    }
+                }
+                else
+                {
+                    Response.Redirect("../Shared/Error");
+                }
+
+                return View();
+            }
+
+            return Redirect("../Shared/Error");
+        }
+
+        [HttpPost]
+        public ActionResult EditTaxVatPeriod(FormCollection collection, string type, string Period = "0")
+        {
+            getCookie();
+            try
+            {
+                TaxAndVatPeriods period = new TaxAndVatPeriods();
+
+                if (type == "V")
+                {
+                    if (Period != "0")
+                    {
+                        ViewBag.Type = "Edit VAT";
+                    }
+                }
+                else if (type == "T")
+                {
+                    if (Period != "0")
+                    {
+                        ViewBag.Type = "Edit Tax";
+                    }
+                }
+
+                if (type == null || type == "")
+                {
+                    Response.Redirect("../Shared/Error?Err=Error creating TAX or VAT Period");
+                }
+                else
+                {
+                    period.StartDate = DateTime.Parse(Request.Form["StartDate"]);
+                    period.EndDate = DateTime.Parse(Request.Form["EndDate"]);
+                    period.PeriodID = int.Parse(Period);
+
+                    bool result = handler.editTaxOrVatPeriod(period);
+
+                    if(result == true)
+                    {
+                        if (type == "V")
+                        {
+                            Response.Redirect("../Vat/VatCenter?period="+period.PeriodID);
+                        }
+                        else if (type == "T")
+                        {
+                            Response.Redirect("../Tax/TaxBrakets?ID=" + period.PeriodID + "&period="+
+                                period.StartDate.ToString("dd MMM yyyy")+" to "+ period.EndDate.ToString("dd MMM yyyy"));
+                        }
+                        else
+                        {
+                            Response.Redirect("../Shared/Error?Err=Error updating TAX or VAT Period");
+                        }
+                    }
+                    else
+                    {
+                        Response.Redirect("../Shared/Error?Err=Error updating TAX or VAT Period");
+                    }
+                }
+
+                return Redirect("../Shared/Error");
+            }
+            catch (Exception e)
+            {
+                function.logAnError("Error updating TAX or VAT Period" + e.ToString());
+                return Redirect("../Shared/Error?Err=Error updating TAX or VAT Period");
             }
         }
         #endregion
@@ -445,6 +593,21 @@ namespace TaxApp.Controllers
             }
 
             return View(view);
+        }
+        public ActionResult DeleteTaxBraket(FormCollection collection, string RateID, string period, string ID)
+        {
+            try
+            {
+                TaxPeriodRates rID = new TaxPeriodRates();
+                rID.RateID = int.Parse(RateID);
+                handler.deletePeriodTaxBraket(rID);
+            }
+            catch (Exception e)
+            {
+                function.logAnError("Error deleting Tax Braket. Braket ID: "+RateID + " Error: "+e.ToString());
+            }
+
+            return Redirect("../Tax/TaxBrakets?ID="+ID+"&period="+period);
         }
         #endregion
 

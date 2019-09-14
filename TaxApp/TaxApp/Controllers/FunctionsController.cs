@@ -118,7 +118,7 @@ namespace TaxApp.Controllers
                 {
                     success = handler.addJobExpenseFile(newFile);
                     if (success == true)
-                        Response.Redirect("../Expense/JobExpense?ID="+ID);
+                        Response.Redirect("../Expense/JobExpense?ID="+ ID);
                 }
 
                 Response.Redirect("../Shared/Error?Err=An error occurred uploading file");

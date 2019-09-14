@@ -2217,6 +2217,7 @@
     <Content Include="Views\Track\TAX.cshtml" />
     <Content Include="Views\Track\VAT.cshtml" />
     <Content Include="Views\Track\ReceiptsDownload.cshtml" />
+    <Content Include="Views\Tax\EditTaxVatPeriod.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

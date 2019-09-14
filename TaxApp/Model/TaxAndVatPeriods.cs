@@ -11,7 +11,9 @@ namespace Model
         [Required]
         public decimal VATRate { get; set; }
         public DateTime StartDate { get; set; }
+        public string StartDateString { get; set; }
         public DateTime EndDate { get; set; }
+        public string EndDateString { get; set; }
         public string PeriodString { get; set; }
         public char Type { get; set; }
         

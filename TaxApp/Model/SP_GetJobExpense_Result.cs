@@ -28,6 +28,7 @@ namespace Model
         public String DateString { get; set; }
         [Required]
         public decimal Amount { get; set; }
+        public string AmountString { get; set; }
         public byte[] Invoice_ReceiptCopy { get; set; }
 
         [Display(Name = "Category")]

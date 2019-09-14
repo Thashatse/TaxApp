@@ -1773,6 +1773,9 @@ namespace DAL
                             }
                             expense.CatName = row[8].ToString();
                             expense.CatDescription = row[9].ToString();
+                            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                            nfi.NumberGroupSeparator = " ";
+                            expense.AmountString = expense.Amount.ToString("#,0.00", nfi);
                         }
                     }
                 }
@@ -1823,6 +1826,9 @@ namespace DAL
                             expense.JobTitle = row["JobTitle"].ToString();
                             expense.dropDownID = expense.Name.Replace(" ", "");
                             expense.dropDownID = removeNumericalDigit(expense.dropDownID);
+                            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                            nfi.NumberGroupSeparator = " ";
+                            expense.AmountString = expense.Amount.ToString("#,0.00", nfi);
                             Expenses.Add(expense);
                         }
                     }
@@ -1872,6 +1878,9 @@ namespace DAL
                             expense.JobTitle = row["JobTitle"].ToString();
                             expense.dropDownID = expense.Name.Replace(" ", "");
                             expense.dropDownID = removeNumericalDigit(expense.dropDownID);
+                            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                            nfi.NumberGroupSeparator = " ";
+                            expense.AmountString = expense.Amount.ToString("#,0.00", nfi);
                             Expenses.Add(expense);
                         }
                     }
@@ -1945,6 +1954,9 @@ namespace DAL
                             expense.CatName = row[9].ToString();
                             expense.CatDescription = row[10].ToString();
                             expense.DateString = expense.Date.ToString("dddd, dd MMMM yyyy");
+                            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                            nfi.NumberGroupSeparator = " ";
+                            expense.AmountString = expense.Amount.ToString("#,0.00", nfi);
                             expense.RepeatOccurrences = getGeneralExpenseRepeatOccurrence(expenseID);
                         }
                     }
@@ -1998,6 +2010,9 @@ namespace DAL
                             expense.RepeatOccurrences = getGeneralExpenseRepeatOccurrence(expenseID);
                             expense.dropDownID = expense.Name.Replace(" ", "");
                             expense.dropDownID = removeNumericalDigit(expense.dropDownID);
+                            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                            nfi.NumberGroupSeparator = " ";
+                            expense.AmountString = expense.Amount.ToString("#,0.00", nfi);
                             Expenses.Add(expense);
                         }
                     }
@@ -2044,6 +2059,11 @@ namespace DAL
                             expense.CatDescription = row[10].ToString();
                             expense.DateString = expense.Date.ToString("dddd, dd MMMM yyyy");
                             expense.PrimaryExpenseID = int.Parse(row["PrimaryExpenseID"].ToString());
+                            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                            nfi.NumberGroupSeparator = " ";
+                            expense.AmountString = expense.Amount.ToString("#,0.00", nfi);
+                            expense.dropDownID = expense.Date.ToString("dddd MMMM").Replace(" ", "");
+                            expense.dropDownID = removeNumericalDigit(expense.dropDownID);
                             Expenses.Add(expense);
                         }
                     }
@@ -2080,6 +2100,9 @@ namespace DAL
                             expense.CatName = row[9].ToString();
                             expense.CatDescription = row[10].ToString();
                             expense.DateString = expense.Date.ToString("dddd, dd MMMM yyyy");
+                            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                            nfi.NumberGroupSeparator = " ";
+                            expense.AmountString = expense.Amount.ToString("#,0.00", nfi);
                             Expenses.Add(expense);
                         }
                     }
@@ -2255,6 +2278,11 @@ namespace DAL
                             travelLogItem.VehicleName = row["Name"].ToString();
                             travelLogItem.dropDownID = travelLogItem.Reason.Replace(" ", "");
                             travelLogItem.dropDownID = removeNumericalDigit(travelLogItem.dropDownID);
+                            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                            nfi.NumberGroupSeparator = " ";
+                            travelLogItem.SARSFuelCostString = travelLogItem.SARSFuelCost.ToString("#,0.00", nfi);
+                            travelLogItem.SARSMaintenceCostString = travelLogItem.SARSMaintenceCost.ToString("#,0.00", nfi);
+                            travelLogItem.ClientChargeString = travelLogItem.ClientCharge.ToString("#,0.00", nfi);
                             TravelLog.Add(travelLogItem);
                         }
                     }
@@ -2304,6 +2332,11 @@ namespace DAL
                             travelLogItem.ClientCharge = decimal.Parse(row["ClientCharge"].ToString());
                             travelLogItem.VehicleName = row["Name"].ToString();
                             travelLogItem.JobTitle = row["JobTitle"].ToString();
+                            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                            nfi.NumberGroupSeparator = " ";
+                            travelLogItem.SARSFuelCostString = travelLogItem.SARSFuelCost.ToString("#,0.00", nfi);
+                            travelLogItem.SARSMaintenceCostString = travelLogItem.SARSMaintenceCost.ToString("#,0.00", nfi);
+                            travelLogItem.ClientChargeString = travelLogItem.ClientCharge.ToString("#,0.00", nfi);
                         }
                     }
                 }
@@ -2350,6 +2383,11 @@ namespace DAL
                             travelLogItem.VehicleName = row["Name"].ToString();
                             travelLogItem.dropDownID = travelLogItem.Reason.Replace(" ", "");
                             travelLogItem.dropDownID = removeNumericalDigit(travelLogItem.dropDownID);
+                            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                            nfi.NumberGroupSeparator = " ";
+                            travelLogItem.SARSFuelCostString = travelLogItem.SARSFuelCost.ToString("#,0.00", nfi);
+                            travelLogItem.SARSMaintenceCostString = travelLogItem.SARSMaintenceCost.ToString("#,0.00", nfi);
+                            travelLogItem.ClientChargeString = travelLogItem.ClientCharge.ToString("#,0.00", nfi);
                             TravelLog.Add(travelLogItem);
                         }
                     }
@@ -2962,13 +3000,36 @@ namespace DAL
                 SqlParameter[] pars = new SqlParameter[]
                    {
                         new SqlParameter("@PID", newPeriod.ProfileID),
-                        new SqlParameter("@SD", newPeriod.StartDate.AddDays(-1)),
-                        new SqlParameter("@ED", newPeriod.EndDate.AddDays(+1)),
+                        new SqlParameter("@SD", newPeriod.StartDate),
+                        new SqlParameter("@ED", newPeriod.EndDate),
                         new SqlParameter("@T", newPeriod.Type),
                         new SqlParameter("@S", newPeriod.Share)
                    };
 
                 Result = DBHelper.NonQuery("SP_NewTaxOrVatPeriod", CommandType.StoredProcedure, pars);
+
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return Result;
+        }
+        public bool editTaxOrVatPeriod(TaxAndVatPeriods editPeriod)
+        {
+            bool Result = false;
+
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@PID", editPeriod.PeriodID),
+                        new SqlParameter("@SD", editPeriod.StartDate),
+                        new SqlParameter("@ED", editPeriod.EndDate)
+                   };
+
+                Result = DBHelper.NonQuery("SP_EditTaxorVatPeriod", CommandType.StoredProcedure, pars);
 
             }
             catch (Exception e)
@@ -3107,6 +3168,27 @@ namespace DAL
                    };
 
                 Result = DBHelper.NonQuery("SP_NewPeriodTaxBraket", CommandType.StoredProcedure, pars);
+
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return Result;
+        }
+        public bool deletePeriodTaxBraket(TaxPeriodRates deleteBraket)
+        {
+            bool Result = false;
+
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@RID", deleteBraket.RateID)
+                   };
+
+                Result = DBHelper.NonQuery("SP_DeleteTaxBraket", CommandType.StoredProcedure, pars);
 
             }
             catch (Exception e)

@@ -99,7 +99,9 @@ namespace BLL
         #region Tax And Vat Periods
         List<TaxAndVatPeriods> getTaxOrVatPeriodForProfile(Profile profileID, char type);
         bool newTaxOrVatPeriod(TaxAndVatPeriods newPeriod);
+        bool editTaxOrVatPeriod(TaxAndVatPeriods editPeriod);
         Tuple<TaxAndVatPeriods, TaxConsultant> UpdateShareTaxorVatPeriod(TaxAndVatPeriods PeriodID);
+        bool deletePeriodTaxBraket(TaxPeriodRates deleteBraket);
         #endregion
 
         #region Tax Period Brakets

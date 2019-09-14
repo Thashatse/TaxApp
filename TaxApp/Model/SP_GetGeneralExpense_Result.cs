@@ -31,6 +31,7 @@ namespace Model
         public string DateString { get; set; }
         [Required]
         public decimal Amount { get; set; }
+        public string AmountString { get; set; }
         [Display(Name = "Repeat Monthy")]
         public bool Repeat { get; set; }
         [Display(Name = "Invoice or Receipt Copy")]

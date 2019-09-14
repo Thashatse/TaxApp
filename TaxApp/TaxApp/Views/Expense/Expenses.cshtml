@@ -78,7 +78,7 @@
                                                         Amount
                                                     </th>
                                                     <td>
-                                                        R @Html.DisplayFor(modelItem => item.Amount)
+                                                        R @Html.DisplayFor(modelItem => item.AmountString)
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -252,7 +252,7 @@
                                     Amount
                                 </th>
                                 <td>
-                                    R @Html.DisplayFor(modelItem => item.Amount)
+                                    R @Html.DisplayFor(modelItem => item.AmountString)
                                 </td>
                             </tr>
                             <tr>
@@ -453,7 +453,7 @@
                                                     SARS Fuel Cost
                                                 </th>
                                                 <td>
-                                                    @Html.DisplayFor(modelItem => item.SARSFuelCost)
+                                                    R @Html.DisplayFor(modelItem => item.SARSFuelCostString)
                                                 </td>
                                             </tr>
                                             <tr>
@@ -461,7 +461,7 @@
                                                     SARS Maintence Cost
                                                 </th>
                                                 <td>
-                                                    @Html.DisplayFor(modelItem => item.SARSMaintenceCost)
+                                                    R @Html.DisplayFor(modelItem => item.SARSMaintenceCostString)
                                                 </td>
                                             </tr>
                                             <tr>
@@ -469,7 +469,7 @@
                                                     Cost to Customer
                                                 </th>
                                                 <td>
-                                                    R @Html.DisplayFor(modelItem => item.ClientCharge)
+                                                    R @Html.DisplayFor(modelItem => item.ClientChargeString)
                                                 </td>
                                             </tr>
                                         </tbody>

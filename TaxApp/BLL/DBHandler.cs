@@ -291,6 +291,16 @@ namespace BLL
         {
             return db.UpdateShareJob(JobID);
         }
+
+        public
+        bool editTaxOrVatPeriod(TaxAndVatPeriods editPeriod)
+        {
+            return db.editTaxOrVatPeriod(editPeriod);
+        }
+        public bool deletePeriodTaxBraket(TaxPeriodRates deleteBraket)
+        {
+            return db.deletePeriodTaxBraket(deleteBraket);
+        }
         #endregion
 
         #region Tax Period Brakets
