@@ -23,7 +23,9 @@ namespace Model
         public string Reason { get; set; }
         public string JobTitle { get; set; }
         public string VehicleName { get; set; }
+        [Display(Name = "Opening KMs")]
         public double OpeningKMs { get; set; }
+        [Display(Name = "Closing KMs")]
         public double ClosingKMs { get; set; }
         public double TotalKMs { get; set; }
         [Display(Name = "Vehicle")]

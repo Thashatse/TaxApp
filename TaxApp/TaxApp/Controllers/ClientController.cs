@@ -224,7 +224,7 @@ namespace TaxApp.Controllers
 
                 if (result == true)
                 {
-                    return Redirect("'/ClientDetails?ID="+client.ClientID);
+                    return Redirect("/Client/ClientDetails?ID="+client.ClientID);
                 }
                 else
                 {

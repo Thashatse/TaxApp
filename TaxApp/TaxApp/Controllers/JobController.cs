@@ -106,7 +106,7 @@ namespace TaxApp.Controllers
                     if (PastJobsDisplayCount != null && PastJobsDisplayCount != "" && function.IsDigitsOnly(PastJobsDisplayCount))
                         x = int.Parse(PastJobsDisplayCount);
                     else
-                        x = 3;
+                        x = 6;
 
                     if(x < pastJobs.Count)
                     {
