@@ -94,7 +94,7 @@ namespace TaxApp.Controllers
             return View(viewModel);
         }
 
-        public ReportViewModel getReportData(string ID, string StartDateRange, string EndDateRange, string DropDownID)
+        public ReportViewModel getReportData(string ID, string StartDateRange, string EndDateRange, string DropDownID, string view = "")
         {
             ReportViewModel report = null;
 
@@ -114,8 +114,20 @@ namespace TaxApp.Controllers
                 eDate = temp;
             }
 
+            ViewBag.View = view;
+
             var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
             nfi.NumberGroupSeparator = " ";
+
+            //To remove
+            ViewBag.chartLabel = "'Jobs Report'";
+            ViewBag.chartLabels = "";
+            ViewBag.chartData = "";
+            ViewBag.chartPrefix = "R";
+            ViewBag.chartSufix = "";
+            ViewBag.BarChart = false;
+            ViewBag.LineChart = false;
+            //To remove
 
             //Jobs report
             if (ID == "0001")
@@ -156,6 +168,10 @@ namespace TaxApp.Controllers
                     decimal c5Total = 0;
                     decimal c6Total = 0;
 
+                    int chartDataCount =0;
+                    string chartLabels = "";
+                    string chartData = "";
+
                     foreach (SP_GetJob_Result job in jobsReport)
                     {
                         ReportDataList Data = new ReportDataList();
@@ -171,11 +187,32 @@ namespace TaxApp.Controllers
                         c4Total += job.TotalPaid;
                         c5Total += job.AllExpenseTotal;
                         c6Total += (job.TotalPaid - job.AllExpenseTotal);
+
+                        if(chartDataCount == 0)
+                        {
+                        chartLabels += "'" + job.JobTitle +" for "+ job.ClientFirstName + "'";
+                            chartData += "'" + (job.TotalPaid - job.AllExpenseTotal) + "'";
+                        }
+                        else
+                        {
+                            chartLabels += ", '" + job.JobTitle + " for " + job.ClientFirstName + "'";
+                            chartData += ", '" + (job.TotalPaid - job.AllExpenseTotal).ToString("0.00", nfi) + "'";
+                        }
+
+                        chartDataCount++;
                     }
 
                     report.column4Total = (c4Total.ToString("#,0.00", nfi));
                     report.column5Total = (c5Total.ToString("#,0.00", nfi));
                     report.column6Total = (c6Total.ToString("#,0.00", nfi));
+
+                    ViewBag.chartLabel = "'Jobs Report'";
+                    ViewBag.chartLabels = chartLabels;
+                    ViewBag.chartData = chartData;
+                    ViewBag.chartPrefix = "R";
+                    ViewBag.chartSufix = "";
+                    ViewBag.BarChart = true;
+                    ViewBag.LineChart = false;
                 }
                 else
                     report = null;
@@ -1268,11 +1305,11 @@ namespace TaxApp.Controllers
                 else
                     report = null;
             }
-
+            
             return report;
         }
 
-        public ActionResult DisplayReport(string StartDateRange, string EndDateRange, string SortBy, string SortDirection, string DropDownID, string reportID = "0")
+        public ActionResult DisplayReport(string StartDateRange, string EndDateRange, string SortBy, string SortDirection, string DropDownID, string reportID = "0", string view = "")
         {
             getCookie();
 
@@ -1287,7 +1324,7 @@ namespace TaxApp.Controllers
                 return RedirectToAction("Reports", "Report");
             }
 
-            ReportViewModel report = getReportData(ID, StartDateRange, EndDateRange, DropDownID);
+            ReportViewModel report = getReportData(ID, StartDateRange, EndDateRange, DropDownID, view);
 
             if (report == null)
                 return RedirectToAction("Error", "Shared");
@@ -1345,7 +1382,7 @@ namespace TaxApp.Controllers
             return View(report);
         }
         [HttpPost]
-        public ActionResult DisplayReport(FormCollection collection, string StartDateRange, string EndDateRange, string SortBy, string DropDownID, string reportID = "0")
+        public ActionResult DisplayReport(FormCollection collection, string StartDateRange, string EndDateRange, string SortBy, string DropDownID, string reportID = "0", string view = "")
         {
             try
             {
@@ -1369,7 +1406,8 @@ namespace TaxApp.Controllers
                     EndDateRange,
                     reportID,
                     SortBy,
-                    DropDownID
+                    DropDownID,
+                    view
                 });
             }
             catch (Exception e)
@@ -1380,7 +1418,7 @@ namespace TaxApp.Controllers
             }
         }
 
-        public ActionResult PrintReport(string StartDateRange, string EndDateRange, string SortBy, string SortDirection, string DropDownID, string reportID = "0")
+        public ActionResult PrintReport(string StartDateRange, string EndDateRange, string SortBy, string SortDirection, string DropDownID, string reportID = "0", string view = "")
         {
             getCookie();
 
@@ -1392,7 +1430,7 @@ namespace TaxApp.Controllers
                 return RedirectToAction("Reports", "Report");
             }
 
-            ReportViewModel report = getReportData(ID, StartDateRange, EndDateRange, DropDownID);
+            ReportViewModel report = getReportData(ID, StartDateRange, EndDateRange, DropDownID, view);
 
             if (report == null)
                 return RedirectToAction("Error", "Shared");
