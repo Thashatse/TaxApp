@@ -10,7 +10,7 @@ AS
 BEGIN
     SELECT Expense.ExpenseID, Expense.CategoryID, Expense.[Name], Expense.[Description],
 		JobExpense.JobID, JobExpense.[Date], JobExpense.Amount, JobExpense.[Invoice/ReceiptCopy],
-		ExpenseCategory.[Name], ExpenseCategory.[Description], Jobs.JobTitle
+		ExpenseCategory.[Name], ExpenseCategory.[Description], Jobs.JobTitle, Invoiced
     FROM   Expense, JobExpense, ExpenseCategory, Jobs
     WHERE  JobExpense.JobID = @JID
 			AND Expense.ExpenseID = JobExpense.ExpenseID

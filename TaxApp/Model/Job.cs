@@ -25,7 +25,7 @@ namespace Model
         [Display(Name = "Title")]
         public string JobTitle { get; set; }
 
-
+        [Required]
         [Display(Name = "Hourly Rate (R)")]
         public Nullable<decimal> HourlyRate { get; set; }
 

@@ -159,28 +159,42 @@
                             <i class="ni ni-money-coins text-green"></i> Income
                         </a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <li class="nav-item">
+                        <!-- Heading -->
+                        <a class="nav-link" data-toggle="collapse" href="#MenuExpenses">
                             <i class="ni ni-credit-card text-red"></i> Expenses
-                            <i class="ni ni-bold-down"></i>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-arrow dropdown-menu-left">
-                            <a href="../Expense/Expenses" class="dropdown-item">
-                                <span>All Expenses</span>
-                            </a>
-                            <a href="../Expense/GeneralExpenses" class="dropdown-item">
-                                <span>General Expenses</span>
-                            </a>
-                            <a href="../Expense/AllJobExpenses" class="dropdown-item">
-                                <span>Job Expenses</span>
-                            </a>
-                            <a href="../Expense/TravleLog" class="dropdown-item">
-                                <span>Travel Expenses</span>
-                            </a>
-                            <a href="../Expense/InvoiceAndReceipts" class="dropdown-item">
-                                <span>Invoice And Receipts</span>
-                            </a>
-                        </div>
+                        <div id="MenuExpenses" class="panel-collapse collapse">
+                            <div class="container">
+                                <ul class="navbar-nav mb-md-3">
+                                    <li class="nav-item">
+                                        <a href="../Expense/Expenses" class="nav-link">
+                                            <span>All Expenses</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="../Expense/GeneralExpenses" class="nav-link">
+                                            <span>General Expenses</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="../Expense/AllJobExpenses" class="nav-link">
+                                            <span>Job Expenses</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="../Expense/TravleLog" class="nav-link">
+                                            <span>Vehicle Travel Expenses</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="../Expense/InvoiceAndReceipts" class="nav-link">
+                                            <span>Expense Invoice And Receipts</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            </div>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="../Tax/TaxCenter">
@@ -198,8 +212,38 @@
                         </a>
                     </li>
                 </ul>
+                <!-- Divider -->
+                <hr class="my-3">
+                <!-- Heading -->
+                <h6 class="navbar-heading text-muted" data-toggle="collapse" href="#MenuMore">
+                    More
+                    <i class="ni ni-bold-down"></i>
+                </h6>
+                <div id="MenuMore" class="panel-collapse collapse">
+                    <!-- Navigation -->
+                    <ul class="navbar-nav mb-md-3">
+                        <li class="nav-item">
+                            <a href="../Client/Client" class="nav-link">
+                                <i class="ni ni-single-02"></i>
+                                <span>Clients</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="../Tax/Consultant" class="nav-link">
+                                <i class="ni ni-paper-diploma"></i>
+                                <span>Tax Consultant</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="../Expense/Vehicles" class="nav-link">
+                                <i class="ni ni-delivery-fast"></i>
+                                <span>Vehicles</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                </div>
             </div>
-        </div>
     </nav>
 
     <div class="main-content">

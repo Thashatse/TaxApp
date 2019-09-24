@@ -16,21 +16,28 @@ namespace Model
     public partial class TravelLog
     {
         public int ExpenseID { get; set; }
+        [Required]
         public string From { get; set; }
         public string FromGoogleURL { get; set; }
+        [Required]
         public string To { get; set; }
         public string ToGoogleURL { get; set; }
+        [Required]
         public string Reason { get; set; }
         public string JobTitle { get; set; }
         public string VehicleName { get; set; }
+        [Required]
         [Display(Name = "Opening KMs")]
         public double OpeningKMs { get; set; }
+        [Required]
         [Display(Name = "Closing KMs")]
         public double ClosingKMs { get; set; }
         public double TotalKMs { get; set; }
+        [Required]
         [Display(Name = "Vehicle")]
         public int VehicleID { get; set; }
         public bool Invoiced { get; set; }
+        [Required]
         public DateTime Date { get; set; }
         public String DateString { get; set; }
         public int JobID { get; set; }

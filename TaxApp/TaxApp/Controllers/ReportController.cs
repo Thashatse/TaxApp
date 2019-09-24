@@ -191,14 +191,13 @@ namespace TaxApp.Controllers
                         if(chartDataCount == 0)
                         {
                         chartLabels += "'" + job.JobTitle +" for "+ job.ClientFirstName + "'";
-                            chartData += "'" + (job.TotalPaid - job.AllExpenseTotal) + "'";
+                            chartData += "'" + (job.TotalPaid - job.AllExpenseTotal).ToString("0.00", nfi) + "'";
                         }
                         else
                         {
                             chartLabels += ", '" + job.JobTitle + " for " + job.ClientFirstName + "'";
                             chartData += ", '" + (job.TotalPaid - job.AllExpenseTotal).ToString("0.00", nfi) + "'";
                         }
-
                         chartDataCount++;
                     }
 
@@ -256,6 +255,10 @@ namespace TaxApp.Controllers
 
                     decimal c4Total = 0;
 
+                    int chartDataCount = 0;
+                    string chartLabels = "";
+                    string chartData = "";
+
                     foreach (TAXorVATRecivedList item in IncomeRecivedReport)
                     {
                         ReportDataList Data = new ReportDataList();
@@ -267,14 +270,34 @@ namespace TaxApp.Controllers
                         report.ReportDataList.Add(Data);
 
                         c4Total += item.Total;
+
+                        if (chartDataCount == 0)
+                        {
+                            chartLabels += "'" + item.JobTitle + " for " + item.clientName + "'";
+                            chartData += "'" + (item.Total).ToString("0.00", nfi) + "'";
+                        }
+                        else
+                        {
+                            chartLabels += ", '" + item.JobTitle + " for " + item.clientName + "'";
+                            chartData += ", '" + (item.Total).ToString("0.00", nfi) + "'";
+                        }
+                        chartDataCount++;
                     }
 
                     report.column4Total = (c4Total.ToString("#,0.00", nfi));
+
+                    ViewBag.chartLabel = "'Jobs Report'";
+                    ViewBag.chartLabels = chartLabels;
+                    ViewBag.chartData = chartData;
+                    ViewBag.chartPrefix = "R";
+                    ViewBag.chartSufix = "";
+                    ViewBag.BarChart = true;
+                    ViewBag.LineChart = false;
                 }
                 else
                     report = null;
             }
-            //Earning report
+            //Expense report
             else if (ID == "0003")
             {
                 report = new ReportViewModel();
@@ -535,7 +558,7 @@ namespace TaxApp.Controllers
                 if (report.ReportDataList == null)
                     report = null;
             }
-            //Client Income
+            //Income by Client
             else if (ID == "0006")
             {
                 report = new ReportViewModel();
@@ -560,6 +583,14 @@ namespace TaxApp.Controllers
                         report = handler.getIncomeByClientReport(ProfileID, sDate, eDate, DropDownID);
                     else
                         report = handler.getIncomeByClientReport(ProfileID, sDate, eDate);
+
+                        ViewBag.chartLabel = "'Client Report'";
+                        ViewBag.chartLabels = report.chartLabels;
+                        ViewBag.chartData = report.chartData;
+                        ViewBag.chartPrefix = "R";
+                        ViewBag.chartSufix = "";
+                        ViewBag.BarChart = true;
+                        ViewBag.LineChart = false;
                 }
                 catch (Exception e)
                 {
@@ -595,6 +626,14 @@ namespace TaxApp.Controllers
                         report = handler.getExpensesByClientReport(ProfileID, sDate, eDate, DropDownID);
                     else
                         report = handler.getExpensesByClientReport(ProfileID, sDate, eDate);
+
+                    ViewBag.chartLabel = "'Client Report'";
+                    ViewBag.chartLabels = report.chartLabels;
+                    ViewBag.chartData = report.chartData;
+                    ViewBag.chartPrefix = "R";
+                    ViewBag.chartSufix = "";
+                    ViewBag.BarChart = true;
+                    ViewBag.LineChart = false;
                 }
                 catch (Exception e)
                 {
@@ -716,6 +755,16 @@ namespace TaxApp.Controllers
                     fotter.column6Data = ((Total).ToString("#,0.00", nfi));
                     report.FooterRowList.Add(fotter);
                     report.column6FotterAlignRight = true;
+
+                    ViewBag.chartLabel = "'Expense Report'";
+                    ViewBag.chartLabels = "'General Expenses Total', 'Job Expenses Total', 'Travel Expenses Total'";
+                    ViewBag.chartData = ""+c6Total.ToString("0.00", nfi)
+                        +", " + c5Total.ToString("0.00", nfi)  
+                        + ", " + c4Total.ToString("0.00", nfi) + "";
+                    ViewBag.chartPrefix = "R";
+                    ViewBag.chartSufix = "";
+                    ViewBag.BarChart = true;
+                    ViewBag.LineChart = false;
                 }
                 else
                     report = null;
@@ -1215,6 +1264,14 @@ namespace TaxApp.Controllers
                     ProfileIDClient.ProfileID = ProfileID.ProfileID;
 
                     report = handler.getJobEarningPerHourReport(ProfileID, sDate, eDate);
+
+                    ViewBag.chartLabel = "'Job Earning Per Hour Report'";
+                    ViewBag.chartLabels = report.chartLabels;
+                    ViewBag.chartData = report.chartData;
+                    ViewBag.chartPrefix = "R";
+                    ViewBag.chartSufix = " per Hour";
+                    ViewBag.BarChart = true;
+                    ViewBag.LineChart = false;
                 }
                 catch (Exception e)
                 {

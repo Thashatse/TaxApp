@@ -265,6 +265,7 @@
                                         <th>
                                             Amount (R)
                                         </th>
+                                        <th></th>
                                     </tr>
                                     @foreach (var item in Model.JobExpenses)
                                     {
@@ -274,10 +275,35 @@
                                                 @Html.DisplayFor(modelItem => item.DateString)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.Description)
+                                                @Html.DisplayFor(modelItem => item.Name)
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Amount)
+                                            </td>
+                                            <td>
+                                                @if (item.invoiced == false)
+                                                {
+                                                    <a href="../Expense/EditJobExpense?ID=@Html.DisplayFor(model => item.ExpenseID)"
+                                                       class="btn btn-sm btn-white">Edit</a>
+                                                }
+                                                @if (item.Invoice_ReceiptCopy == null)
+                                                {
+                                                    <a href="../Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=JE&Title=Invoice or Receipt&Details=@Html.DisplayFor(model => item.Name)"
+                                                       class="btn btn-sm btn-white">
+                                                        Add Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i>
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <a target="_blank" href="../Functions/DownloadFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=JE"
+                                                       class="btn btn-sm btn-white">
+                                                        Download Invoice or Receipt Copy <i class="ni ni-cloud-download-95"></i>
+                                                    </a>
+                                                    <a href="../Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=JE&Title=Invoice or Receipt&Details=@Html.DisplayFor(model => item.Name)"
+                                                       class="btn btn-sm btn-white">
+                                                        Update Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i>
+                                                    </a>
+                                                }
                                             </td>
                                         </tr>
                                     }

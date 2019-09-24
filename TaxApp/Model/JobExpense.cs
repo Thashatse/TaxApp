@@ -18,5 +18,6 @@ namespace Model
         public System.DateTime Date { get; set; }
         public decimal Amount { get; set; }
         public byte[] Invoice_ReceiptCopy { get; set; }
+        public bool invoiced { get; set; }
     }
 }

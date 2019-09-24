@@ -45,6 +45,7 @@ namespace Model
         public decimal TravelLogCostTotal { get; set; }
         public string TravelLogCostTotalString { get; set; }
         [Display(Name = "Total Income Outstanding")]
+        public bool ItemsToInvoice { get; set; }
         public decimal TotalUnPaid { get; set; }
         public string TotalUnPaidString { get; set; }
         [Display(Name = "Total Income Recived")]

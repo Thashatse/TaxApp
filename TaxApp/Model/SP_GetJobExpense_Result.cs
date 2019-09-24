@@ -41,5 +41,6 @@ namespace Model
         public string MinDate { get; set; }
         public string MaxDate { get; set; }
         public string dropDownID { get; set; }
+        public bool invoiced { get; set; }
     }
 }

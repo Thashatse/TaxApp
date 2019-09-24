@@ -125,22 +125,27 @@ namespace TaxApp.Controllers
         [HttpPost]
         public ActionResult NewGeneralExpense(FormCollection collection)
         {
+
             try
             {
                 getCookie();
                 List<Model.ExpenseCategory> cats = handler.getExpenseCatagories();
                 ViewBag.CategoryList = new SelectList(cats, "CategoryID", "Name");
-
-                Model.SP_GetGeneralExpense_Result newExpense = new Model.SP_GetGeneralExpense_Result();
+                
+            Model.SP_GetGeneralExpense_Result newExpense = new Model.SP_GetGeneralExpense_Result();
 
                 newExpense.CategoryID = int.Parse(Request.Form["CategoryList"].ToString());
                 newExpense.Name = Request.Form["Name"].ToString();
                 newExpense.Description = Request.Form["Description"].ToString();
                 newExpense.ProfileID = int.Parse(cookie["ID"].ToString());
-                newExpense.Date = DateTime.Parse(Request.Form["Date"].ToString());
-                newExpense.Amount = Decimal.Parse(Request.Form["Amount"].ToString());
                 newExpense.Repeat = bool.Parse(Request.Form["Repeat"].ToString().Split(',')[0]);
                 newExpense.PrimaryExpenseID = -1;
+
+                DateTime.TryParse(Request.Form["Date"].ToString(), out DateTime dateResult);
+                if (dateResult != null)
+                    newExpense.Date = dateResult;
+                else
+                    return View(newExpense);
 
                 bool result = handler.newGeneralExpense(newExpense);
 
@@ -195,6 +200,8 @@ namespace TaxApp.Controllers
         [HttpPost]
         public ActionResult NewJobExpense(FormCollection collection, string ID)
         {
+            Model.SP_GetJobExpense_Result newExpense = new Model.SP_GetJobExpense_Result();
+
             try
             {
                 getCookie();
@@ -204,23 +211,33 @@ namespace TaxApp.Controllers
 
                 bool check = true;
 
+                Model.Job getJob = new Model.Job();
+                getJob.JobID = int.Parse(ID);
+                Model.SP_GetJob_Result Job = handler.getJob(getJob);
+                ViewBag.JobTitle = Job.JobTitle;
+                ViewBag.JobID = Job.JobID;
+
                 if (Request.Form["Amount"] == null || Request.Form["Amount"] == "")
                 {
                     ViewBag.Err = "Please enter an Amount";
                     check = false;
+
+                    SP_GetJobExpense_Result defaultData = new SP_GetJobExpense_Result();
+                    defaultData.DefultDate = DateTime.Now.ToString("yyyy-MM-dd");
+                    defaultData.MaxDate = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
+
+                    return View(defaultData);
                 }
 
                 if(check == true)
                 {
-                    Model.SP_GetJobExpense_Result newExpense = new Model.SP_GetJobExpense_Result();
 
                     newExpense.CategoryID = int.Parse(Request.Form["CategoryList"].ToString());
                     newExpense.Name = Request.Form["Name"].ToString();
                     newExpense.Description = Request.Form["Description"].ToString();
                     newExpense.JobID = int.Parse(ID);
-                    newExpense.Date = DateTime.Parse(Request.Form["Date"].ToString());
                     newExpense.Amount = Convert.ToDecimal(Request.Form["Amount"], CultureInfo.CurrentCulture);
-                    //newExpense.Invoice_ReceiptCopy = DBNull.Value;
+                    newExpense.Date = DateTime.Parse(Request.Form["Date"].ToString());
 
                     bool result = handler.newJobExpense(newExpense);
 
@@ -233,25 +250,14 @@ namespace TaxApp.Controllers
                         return RedirectToAction("../Shared/Error");
                     }
                 }
-
-                Model.Job getJob = new Model.Job();
-                getJob.JobID = int.Parse(ID);
-                Model.SP_GetJob_Result Job = handler.getJob(getJob);
-                ViewBag.JobTitle = Job.JobTitle;
-                ViewBag.JobID = Job.JobID;
-
-                SP_GetJobExpense_Result defaultData = new SP_GetJobExpense_Result();
-                defaultData.DefultDate = DateTime.Now.ToString("yyyy-MM-dd");
-                defaultData.MaxDate = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
-
-                return View(defaultData);
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error in new general expense of expense controler");
-                return View();
+                return View(newExpense);
             }
+            return View(newExpense);
         }
         #endregion
         
@@ -819,6 +825,8 @@ namespace TaxApp.Controllers
         [HttpPost]
         public ActionResult NewTravelExpense(FormCollection collection, string ID)
         {
+                Model.TravelLog newTravelLogExpense = new Model.TravelLog();
+
             try
             {
                 getCookie();
@@ -828,7 +836,6 @@ namespace TaxApp.Controllers
                 List<Model.Vehicle> Vehicles = handler.getVehicles(getProfileVehicles);
                 ViewBag.Vehicles = new SelectList(Vehicles, "VehicleID", "Name");
 
-                Model.TravelLog newTravelLogExpense = new Model.TravelLog();
                 bool check = true;
                 
                 if (Request.Form["ClosingKMs"] == null || Request.Form["ClosingKMs"] == ""
@@ -882,8 +889,8 @@ namespace TaxApp.Controllers
                     newTravelLogExpense.From = Request.Form["From"].ToString();
                 }
 
-                newTravelLogExpense.Date = DateTime.Parse(Request.Form["Date"]);
                 newTravelLogExpense.VehicleID = int.Parse(Request.Form["VehicleList"].ToString());
+                newTravelLogExpense.Date = DateTime.Parse(Request.Form["Date"]);
                 
                 if (check == true) {
 
@@ -916,7 +923,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error in new general expense of expense controler");
-                return View();
+                return View(newTravelLogExpense);
             }
         }
         #endregion

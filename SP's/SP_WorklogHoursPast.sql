@@ -4,7 +4,6 @@ SET QUOTED_IDENTIFIER ON
 GO
 alter PROCEDURE SP_WorklogHoursPast
 	@PID INT,
-	@CID INT,
 	@SD date,
 	@ED date
 AS
@@ -14,8 +13,7 @@ BEGIN
 		   Where JobHours.LogItemID = Worklog.LogItemID
 				AND JobHours.JobID = Jobs.JobID
 				AND Jobs.ClientID = Client.ClientID
-				And (Client. ProfileID = @PID or
-					Client.ClientID = @CID)
+				And (Client. ProfileID = @PID)
 				AND Jobs.EndDate is not null
 				and Jobs.StartDate between @SD and @ED
 		   group by JobHours.JobID

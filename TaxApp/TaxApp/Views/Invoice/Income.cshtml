@@ -134,7 +134,7 @@
                                     </h3>
                                     <p>
                                         for @Html.DisplayFor(modelItem => item.ClientName)<br />
-                                        R @Html.DisplayFor(modelItem => item.TotalCost) - @Html.DisplayFor(modelItem => item.DateTimeString)
+                                        R @Html.DisplayFor(modelItem => item.TotalCostString) - @Html.DisplayFor(modelItem => item.DateTimeString)
                                     </p>
                                 </div>
                                 <div class="col text-right">
@@ -203,7 +203,7 @@
                         }
                         else
                         {
-                            if (Model.PastInvoices.Count < 0)
+                            if (Model.PastInvoices.Count == 0)
                             {
                                 <h1 class="text-white">
                                     No Paid Invoices
@@ -253,61 +253,61 @@
             </div>
         </div>
 
-        @if (Model.PastInvoices != null && Model.PastInvoices.Count > 0)
+    <div class="row mt-5">
+        @if (Model.OutInvoices.Count <= 0 || Model.OutInvoices == null)
         {
-            <div class="row mt-5">
-                @if (Model.OutInvoices.Count <= 0 || Model.OutInvoices == null)
-                {
-                    <div class="col-xl-4">
-                        <div class="card shadow">
-                            <div class="card-header border-0">
-                                <div class="row align-items-center">
-                                    <div class="col-9">
-                                        <h3 class="mb-0">New</h3>
-                                        <p>Create a new invoices</p><br />
-                                    </div>
-                                    <div class="col-3 text-right">
-                                        <a href="../Job/JobSelector?Dest=New*Invoice" class="btn btn-primary">
-                                            <i class="ni ni-fat-add"></i>
-                                        </a>
-                                    </div>
-                                </div>
+            <div class="col-xl-4">
+                <div class="card shadow">
+                    <div class="card-header border-0">
+                        <div class="row align-items-center">
+                            <div class="col-9">
+                                <h3 class="mb-0">New</h3>
+                                <p>Create a new invoices</p><br />
+                            </div>
+                            <div class="col-3 text-right">
+                                <a href="../Job/JobSelector?Dest=New*Invoice" class="btn btn-primary">
+                                    <i class="ni ni-fat-add"></i>
+                                </a>
                             </div>
                         </div>
-                        <br />
                     </div>
-                }
-                @foreach (var item in Model.PastInvoices)
-                {
-                    <div class="col-xl-4">
-                        <div class="card shadow">
-                            <div class="card-header border-0">
-                                <div class="row align-items-center">
-                                    <div class="col">
-                                        <h3 class="mb-0">
-                                            @Html.DisplayFor(modelItem => item.JobTitle)
-                                        </h3>
-                                        <p>
-                                            for @Html.DisplayFor(modelItem => item.ClientName)<br />
-                                            R @Html.DisplayFor(modelItem => item.TotalCost) - @Html.DisplayFor(modelItem => item.DateTimeString)
-                                        </p>
-                                    </div>
-                                    <div class="col text-right">
-                                        <a href="Invoice?ID=@Html.DisplayFor(modelItem => item.InvoiceNum)" class="btn btn-sm btn-white">View</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <br />
-                    </div>
-                }
-                @if (ViewBag.SeeMore)
-                {
-                    <br />
-                    <div>
-                        <a href="/Invoice/Income?PastInvoiceDisplayCount=@ViewBag.X"
-                           class="btn btn-sm btn-white">Show More</a>
-                    </div>
-                }
+                </div>
+                <br />
             </div>
         }
+        @if (Model.PastInvoices != null && Model.PastInvoices.Count > 0)
+        {
+            foreach (var item in Model.PastInvoices)
+            {
+                <div class="col-xl-4">
+                    <div class="card shadow">
+                        <div class="card-header border-0">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h3 class="mb-0">
+                                        @Html.DisplayFor(modelItem => item.JobTitle)
+                                    </h3>
+                                    <p>
+                                        for @Html.DisplayFor(modelItem => item.ClientName)<br />
+                                        R @Html.DisplayFor(modelItem => item.TotalCostString) - @Html.DisplayFor(modelItem => item.DateTimeString)
+                                    </p>
+                                </div>
+                                <div class="col text-right">
+                                    <a href="Invoice?ID=@Html.DisplayFor(modelItem => item.InvoiceNum)" class="btn btn-sm btn-white">View</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                </div>
+            }
+            if (ViewBag.SeeMore)
+            {
+                <br />
+                <div>
+                    <a href="/Invoice/Income?PastInvoiceDisplayCount=@ViewBag.X"
+                       class="btn btn-sm btn-white">Show More</a>
+                </div>
+            }
+        }
+    </div>

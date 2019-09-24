@@ -14,6 +14,9 @@ namespace Model
         public string reportStartDate{ get; set; }
         public string reportEndDate{ get; set; }
 
+        public string chartData { get; set; }
+        public string chartLabels { get; set; }
+
         public string column1Name { get; set; }
         public string column2Name { get; set; }
         public string column3Name { get; set; }

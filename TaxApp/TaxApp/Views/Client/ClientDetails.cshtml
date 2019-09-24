@@ -143,6 +143,11 @@
                                             <span class="mr-2">@Html.DisplayFor(modelItem => item.BudgetPercent)%</span>
                                         </td>
                                         <td>
+                                            @if (item.ItemsToInvoice == true)
+                                            {
+                                                <a href="/Invoice/NewInvoice?ID=@Html.DisplayFor(modelItem => item.JobID)"
+                                                   class="btn btn-sm btn-white">New Invoice</a>
+                                            }
                                             <a href="/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)"
                                                class="btn btn-sm btn-white">Details</a>
                                         </td>

@@ -1,6 +1,6 @@
 ﻿@model Model.SP_GetInvoice_Result
 @{
-    ViewBag.Title = "Tax Invoice - Tax App";
+    ViewBag.Title = "Tax Invoice from "+ViewBag.ProfileName+" Billed To "+Html.DisplayFor(model => model.ClientName);
     Layout = "";
 }
 <head>

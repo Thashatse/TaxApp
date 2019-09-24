@@ -642,9 +642,6 @@ namespace DAL
                 SqlParameter[] pars = new SqlParameter[]
                     {
                         new SqlParameter("@PID", profile.ProfileID),
-                        //***************************************//
-                        new SqlParameter("@CID", profile.ProfileID),
-                        //***************************************//
                         new SqlParameter("@SD", DateTime.Now.AddYears(-100)),
                         new SqlParameter("@ED", DateTime.Now.AddYears(+100)),
                     };
@@ -858,6 +855,15 @@ namespace DAL
                             job.TravelLogCostTotalString = job.TravelLogCostTotal.ToString("#,0.00", nfi);
                             job.TotalUnPaidString = job.TotalUnPaid.ToString("#,0.00", nfi);
 
+                            Job getJob = new Job();
+                            getJob.JobID = job.JobID;
+                            List<List<SP_GetJobIntemsToInvoice_Result>> JobItemsForInvoice = getJobItemsForInvoice(getJob);
+                            if (JobItemsForInvoice.ElementAt(0).Count == 0
+                                && JobItemsForInvoice.ElementAt(1).Count == 0
+                                && JobItemsForInvoice.ElementAt(2).Count == 0)
+                                job.ItemsToInvoice = false;
+                            else
+                                job.ItemsToInvoice = true;
                         }
                     }
                 }
@@ -879,9 +885,6 @@ namespace DAL
                 SqlParameter[] pars = new SqlParameter[]
                     {
                         new SqlParameter("@PID", profile.ProfileID),
-                        //***************************************//
-                        new SqlParameter("@CID", client.ClientID),
-                        //***************************************//
                         new SqlParameter("@SD", sDate.AddDays(-1)),
                         new SqlParameter("@ED", eDate.AddDays(+1)),
                     };
@@ -1101,6 +1104,15 @@ namespace DAL
                             job.TravelLogCostTotalString = job.TravelLogCostTotal.ToString("#,0.00", nfi);
                             job.TotalUnPaidString = job.TotalUnPaid.ToString("#,0.00", nfi);
 
+                            Job getJob = new Job();
+                            getJob.JobID = job.JobID;
+                            List<List<SP_GetJobIntemsToInvoice_Result>> JobItemsForInvoice = getJobItemsForInvoice(getJob);
+                            if (JobItemsForInvoice.ElementAt(0).Count == 0
+                                && JobItemsForInvoice.ElementAt(1).Count == 0
+                                && JobItemsForInvoice.ElementAt(2).Count == 0)
+                                job.ItemsToInvoice = false;
+                            else
+                                job.ItemsToInvoice = true;
                         }
                     }
                 }
@@ -1122,9 +1134,6 @@ namespace DAL
                 SqlParameter[] pars = new SqlParameter[]
                     {
                         new SqlParameter("@PID", profile.ProfileID),
-                        //***************************************//
-                        new SqlParameter("@CID", profile.ProfileID),
-                        //***************************************//
                         new SqlParameter("@SD", DateTime.Now.AddYears(-100)),
                         new SqlParameter("@ED", DateTime.Now.AddYears(+100)),
                     };
@@ -1824,6 +1833,7 @@ namespace DAL
                             expense.CatName = row[8].ToString();
                             expense.CatDescription = row[9].ToString();
                             expense.JobTitle = row["JobTitle"].ToString();
+                            expense.invoiced = bool.Parse(row["Invoiced"].ToString());
                             expense.dropDownID = expense.Name.Replace(" ", "");
                             expense.dropDownID = removeNumericalDigit(expense.dropDownID);
                             var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
@@ -1876,6 +1886,7 @@ namespace DAL
                             expense.CatName = row[8].ToString();
                             expense.CatDescription = row[9].ToString();
                             expense.JobTitle = row["JobTitle"].ToString();
+                            expense.invoiced = bool.Parse(row["Invoiced"].ToString());
                             expense.dropDownID = expense.Name.Replace(" ", "");
                             expense.dropDownID = removeNumericalDigit(expense.dropDownID);
                             var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
@@ -4365,9 +4376,6 @@ namespace DAL
                 SqlParameter[] pars = new SqlParameter[]
                     {
                         new SqlParameter("@PID", profile.ProfileID),
-                        //***************************************//
-                        new SqlParameter("@CID", profile.ProfileID),
-                        //***************************************//
                         new SqlParameter("@SD", sDate.AddDays(-1)),
                         new SqlParameter("@ED", eDate.AddDays(+1)),
                     };
@@ -4783,6 +4791,10 @@ namespace DAL
 
                 decimal c2Total = 0;
 
+                int chartDataCount = 0;
+                string chartLabels = "";
+                string chartData = "";
+
                 SqlParameter[] pars = new SqlParameter[]
                     {
                         new SqlParameter("@PID", profile.ProfileID),
@@ -4809,12 +4821,27 @@ namespace DAL
                             report.ReportDataList.Add(Data);
 
                                 c2Total += decimal.Parse(row["Income"].ToString());
+
+                            if (chartDataCount == 0)
+                            {
+                                chartLabels += "'" + Data.column1Data + "'";
+                                chartData += "'" + (decimal.Parse(row["Income"].ToString())).ToString("0.00", nfi) + "'";
                             }
+                            else
+                            {
+                                chartLabels += ", '" + Data.column1Data + "'";
+                                chartData += ", '" + (decimal.Parse(row["Income"].ToString())).ToString("0.00", nfi) + "'";
+                            }
+                            chartDataCount++;
+                        }
 
                     }
             }
 
                 report.column2Total = (c2Total.ToString("#,0.00", nfi));
+
+                report.chartLabels = chartLabels;
+                report.chartData = chartData;
 
                 return report;
             }
@@ -4846,6 +4873,10 @@ namespace DAL
 
                 decimal c2Total = 0;
 
+                int chartDataCount = 0;
+                string chartLabels = "";
+                string chartData = "";
+
                 SqlParameter[] pars = new SqlParameter[]
                     {
                         new SqlParameter("@PID", profile.ProfileID),
@@ -4872,12 +4903,27 @@ namespace DAL
 
 
                             c2Total += decimal.Parse(row["Income"].ToString());
+
+                            if (chartDataCount == 0)
+                            {
+                                chartLabels += "'" + Data.column1Data + "'";
+                                chartData += "'" + (decimal.Parse(row["Income"].ToString())).ToString("0.00", nfi) + "'";
                             }
+                            else
+                            {
+                                chartLabels += ", '" + Data.column1Data + "'";
+                                chartData += ", '" + (decimal.Parse(row["Income"].ToString())).ToString("0.00", nfi) + "'";
+                            }
+                            chartDataCount++;
+                        }
 
                     }
             }
 
                 report.column2Total = (c2Total.ToString("#,0.00", nfi));
+
+                report.chartLabels = chartLabels;
+                report.chartData = chartData;
 
                 return report;
             }
@@ -4908,6 +4954,10 @@ namespace DAL
                 report.ReportDataList = new List<ReportDataList>();
 
                 decimal c2Total = 0;
+
+                int chartDataCount = 0;
+                string chartLabels = "";
+                string chartData = "";
 
                 SqlParameter[] pars = new SqlParameter[]
                     {
@@ -4967,6 +5017,20 @@ namespace DAL
                                         (decimal.Parse(report.ReportDataList[i].column5Data) + 
                                         decimal.Parse(row["Expenses"].ToString())).ToString("#,0.00", nfi);
                                     added = true;
+
+                                    if (chartDataCount == 0)
+                                    {
+                                        chartLabels += "'" + report.ReportDataList[i].column1Data + "'";
+                                        chartData += "'" + (decimal.Parse(report.ReportDataList[i].column5Data) +
+                                        decimal.Parse(row["Expenses"].ToString())).ToString("0.00", nfi) + "'";
+                                    }
+                                    else
+                                    {
+                                        chartLabels += ", '" + report.ReportDataList[i].column1Data + "'";
+                                        chartData += ", '" + (decimal.Parse(report.ReportDataList[i].column5Data) +
+                                        decimal.Parse(row["Expenses"].ToString())).ToString("0.00", nfi) + "'";
+                                    }
+                                    chartDataCount++;
                                 }
                                     i++;
                             }
@@ -4977,6 +5041,18 @@ namespace DAL
                                 Data.column1Data = row["ClientName"].ToString();
                                 Data.column2Data = decimal.Parse(row["Expenses"].ToString()).ToString("#,0.00", nfi);
                                 report.ReportDataList.Add(Data);
+
+                                if (chartDataCount == 0)
+                                {
+                                    chartLabels += "'" + Data.column1Data + "'";
+                                    chartData += "'" + (decimal.Parse(row["Expenses"].ToString())).ToString("0.00", nfi) + "'";
+                                }
+                                else
+                                {
+                                    chartLabels += ", '" + Data.column1Data + "'";
+                                    chartData += ", '" + (decimal.Parse(row["Expenses"].ToString())).ToString("0.00", nfi) + "'";
+                                }
+                                chartDataCount++;
                             }
 
                             c2Total += decimal.Parse(row["Expenses"].ToString());
@@ -4985,6 +5061,9 @@ namespace DAL
                 }
 
                 report.column2Total = (c2Total.ToString("#,0.00", nfi));
+
+                report.chartLabels = chartLabels;
+                report.chartData = chartData;
 
                 return report;
             }
@@ -5177,6 +5256,10 @@ namespace DAL
 
                 decimal c2Total = 0;
 
+                int chartDataCount = 0;
+                string chartLabels = "";
+                string chartData = "";
+
                 SqlParameter[] pars = new SqlParameter[]
                     {
                         new SqlParameter("@PID", profile.ProfileID),
@@ -5233,6 +5316,20 @@ namespace DAL
                                         (decimal.Parse(report.ReportDataList[i].column5Data) + 
                                         decimal.Parse(row["Expenses"].ToString())).ToString("#,0.00", nfi);
                                     added = true;
+
+                                    if (chartDataCount == 0)
+                                    {
+                                        chartLabels += "'" + report.ReportDataList[i].column1Data + "'";
+                                        chartData += "'" + (decimal.Parse(report.ReportDataList[i].column5Data) +
+                                        decimal.Parse(row["Expenses"].ToString())).ToString("0.00", nfi) + "'";
+                                    }
+                                    else
+                                    {
+                                        chartLabels += ", '" + report.ReportDataList[i].column1Data + "'";
+                                        chartData += ", '" + (decimal.Parse(report.ReportDataList[i].column5Data) +
+                                        decimal.Parse(row["Expenses"].ToString())).ToString("0.00", nfi) + "'";
+                                    }
+                                    chartDataCount++;
                                 }
                                     i++;
                             }
@@ -5245,6 +5342,17 @@ namespace DAL
                                 report.ReportDataList.Add(Data);
                                 report.reportCondition = "For " + Data.column1Data + " From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
 
+                                if (chartDataCount == 0)
+                                {
+                                    chartLabels += "'" + Data.column1Data + "'";
+                                    chartData += "'" + (decimal.Parse(row["Expenses"].ToString())).ToString("0.00", nfi) + "'";
+                                }
+                                else
+                                {
+                                    chartLabels += ", '" + Data.column1Data + "'";
+                                    chartData += ", '" + (decimal.Parse(row["Expenses"].ToString())).ToString("0.00", nfi) + "'";
+                                }
+                                chartDataCount++;
                             }
 
                             c2Total += decimal.Parse(row["Expenses"].ToString());
@@ -5253,6 +5361,9 @@ namespace DAL
                 }
 
                 report.column2Total = (c2Total.ToString("#,0.00", nfi));
+
+                report.chartLabels = chartLabels;
+                report.chartData = chartData;
 
                 return report;
             }
@@ -5332,6 +5443,10 @@ namespace DAL
                 report.column3DataAlignRight = true;
                 report.column4DataAlignRight = true;
 
+                int chartDataCount = 0;
+                string chartLabels = "";
+                string chartData = "";
+
                 var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
                 nfi.NumberGroupSeparator = " ";
 
@@ -5390,9 +5505,6 @@ namespace DAL
                 pars = new SqlParameter[]
                     {
                         new SqlParameter("@PID", profile.ProfileID),
-                        //***************************************//
-                        new SqlParameter("@CID", profile.ProfileID),
-                        //***************************************//
                         new SqlParameter("@SD", sDate.AddDays(-1)),
                         new SqlParameter("@ED", eDate.AddDays(+1)),
                     };
@@ -5435,12 +5547,24 @@ namespace DAL
 
                                 report.ReportDataList.Add(Data);
                                     add = true;
+
+                                    if (chartDataCount == 0)
+                                    {
+                                        chartLabels += "'" + Data.column2Data  + "'";
+                                        chartData += "'" + (item.TotalPaid / (decimal.Parse(row["WorkLogHours"].ToString()) / 60)).ToString("0.00", nfi) + "'";
+                                    }
+                                    else
+                                    {
+                                        chartLabels += ", '" + Data.column2Data + "'";
+                                        chartData += ", '" + (item.TotalPaid / (decimal.Parse(row["WorkLogHours"].ToString()) / 60)).ToString("0.00", nfi) + "'";
+                                    }
+                                    chartDataCount++;
                                 }
                             }
 
                             if (add == false)
                             {
-                                Data.column4Data = "0";
+                                Data.column4Data = "N/A";
 
                                 report.ReportDataList.Add(Data);
                             }
@@ -5448,6 +5572,9 @@ namespace DAL
                     }
                 }
                 #endregion
+
+                report.chartLabels = chartLabels;
+                report.chartData = chartData;
 
                 return report;
             }

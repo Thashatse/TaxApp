@@ -16,12 +16,11 @@ BEGIN
 			 (Vehicle.SARSMaintenceCost * (TravelLog.ClosingKMs - TravelLog.OpeningKMs)) as SARSMaintenceCost,
 			 (Vehicle.ClientCharge * (TravelLog.ClosingKMs - TravelLog.OpeningKMs)) as ClientCharge,
 			 Jobs.JobTitle, Vehicle.Name
-	From TravelLog, Client, [Profile], jobs, Vehicle
+	From TravelLog, Client, jobs, Vehicle
 	Where TravelLog.JobID = Jobs.JobID
 		 AND Jobs.ClientID = Client.ClientID
-		 AND Client.ProfileID = Profile.ProfileID
+		 AND Client.ProfileID = @PID
 		 AND TravelLog.VehicleID = Vehicle.VehicleID
-		 AND Profile.ProfileID = @PID
 			and [TravelLog].[Date] between @SD and @ED
 	Order by TravelLog.[Date] desc
 END

@@ -524,7 +524,7 @@ namespace TaxApp.Controllers
                         ViewBag.To = invoiceDetails[0].ClientName + " - " + invoiceDetails[0].EmailAddress;
                     }
 
-                    ViewBag.Body = "\n\n Invoice Summary: \n\n" +
+                    ViewBag.Body = "\n\nInvoice Summary: \n\n" +
                         "From: " + ViewBag.ProfileName + "\n" +
                         "Billed To: " + invoiceDetails[0].ClientName + " " + invoiceDetails[0].CompanyName + "\n" +
                         "Job: " + invoiceDetails[0].JobTitle + "\n\n" +
@@ -678,12 +678,13 @@ namespace TaxApp.Controllers
                 }
 
                 //string invoice = RenderRazorViewToString(this.ControllerContext, "Email", null);
-                string invoice = ToHtml("Email", this.ViewData, this.ControllerContext);
+                //string invoice = ToHtml("Email", this.ViewData, this.ControllerContext);
 
                 bool result = function.sendEmail(toAddress,
                     toName,
                     Request.Form["subject"],
-                    invoice,
+                    Request.Form["Message"] 
+                    + "\n\nView invoice here: http://localhost:54533/invoice/viewInvoice?ID="+invoiceDetails[0].InvoiceNum,
                     getProfile.FirstName + " " + getProfile.LastName,
                     getProfile.ProfileID);
 
