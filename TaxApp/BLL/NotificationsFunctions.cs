@@ -42,7 +42,7 @@ namespace BLL
             return notifications;
         }
 
-        public string dismissNotification(int getNotiID)
+        public string dismissNotification(int getNotiID, string redirect)
         {
             string link = "../Shared/Error?Err=An error occurred while loading Notification.";
             Notifications tryLink = null;
@@ -51,7 +51,10 @@ namespace BLL
 
             try
             {
-                tryLink = handler.dismissNotifications(notiID);
+                if(redirect == "Redirect")
+                    tryLink = handler.getNotificationLink(notiID);
+                else
+                    tryLink = handler.dismissNotifications(notiID);
             }
             catch (Exception Err)
             {

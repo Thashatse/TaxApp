@@ -76,6 +76,7 @@ namespace BLL
         bool newVehicle(Vehicle newVehicle);
         List<Vehicle> getVehicles(Profile getProfileVehicles);
         List<TravelLog> getProfileTravelLog(Profile getProfileTravelLog, DateTime sDate, DateTime eDate);
+        List<TravelLog> getProfileTravelLog(Profile getProfileTravelLog, DateTime sDate, DateTime eDate, string DropDownID);
         List<TravelLog> getJobTravelLog(Job getJobTravelLog);
         TravelLog getTravelLogItem(TravelLog getTravelLogItem);
         bool UpdateGeneralExpenseRepeate(SP_GetGeneralExpense_Result expense);
@@ -141,6 +142,7 @@ namespace BLL
         bool newNotification(Model.Notifications newNotification);
         List<Model.Notifications> getNotifications(Model.Notifications getNotifications);
         Model.Notifications dismissNotifications(Model.Notifications dismissNotification);
+        Model.Notifications getNotificationLink(Model.Notifications dismissNotification);
         bool UpdateJobNotiStatus(SP_GetJob_Result job);
         List<OutstandingInvoiceReminders> getOverdueInvoices();
         #endregion

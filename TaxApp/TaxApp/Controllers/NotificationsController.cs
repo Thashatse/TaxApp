@@ -58,12 +58,12 @@ namespace TaxApp.Controllers
                 Redirect("/Shared/Error");
             }
         }
-        public ActionResult dismissNotifications(string id = "0")
+        public ActionResult dismissNotifications(string id = "0", string redirect = "")
         {
             if (id == "0")
                 return RedirectToAction("Error", "Shared");
 
-            Response.Redirect(notiFunctions.dismissNotification(int.Parse(id)));
+                Response.Redirect(notiFunctions.dismissNotification(int.Parse(id), redirect));
 
             return RedirectToAction("Error", "Shared");
         }

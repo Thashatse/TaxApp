@@ -208,6 +208,10 @@ namespace BLL
         {
             return db.getProfileTravelLog(getProfileTravelLog, sDate, eDate);
         }
+        public List<TravelLog> getProfileTravelLog(Profile getProfileTravelLog, DateTime sDate, DateTime eDate, string DDID)
+        {
+            return db.getProfileTravelLog(getProfileTravelLog, sDate, eDate, DDID);
+        }
         public List<TravelLog> getJobTravelLog(Job getJobTravelLog)
         {
             return db.getJobTravelLog(getJobTravelLog);
@@ -386,6 +390,7 @@ namespace BLL
         public bool newNotification(Model.Notifications newNotification) { return db.newNotification(newNotification); }
         public List<Model.Notifications> getNotifications(Model.Notifications getNotifications) { return db.getNotifications(getNotifications); }
         public Model.Notifications dismissNotifications(Model.Notifications dismissNotification) { return db.dismissNotifications(dismissNotification); }
+        public Model.Notifications getNotificationLink(Model.Notifications dismissNotification) { return db.getNotificationLink(dismissNotification); }
         public bool UpdateJobNotiStatus(SP_GetJob_Result job) { return db.UpdateJobNotiStatus(job); }
         public List<OutstandingInvoiceReminders> getOverdueInvoices() { return db.getOverdueInvoices(); }
         #endregion

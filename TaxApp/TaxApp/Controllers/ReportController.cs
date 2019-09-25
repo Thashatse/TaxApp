@@ -584,6 +584,12 @@ namespace TaxApp.Controllers
                     else
                         report = handler.getIncomeByClientReport(ProfileID, sDate, eDate);
 
+                    foreach(Client client in clients)
+                    {
+                        if (client.ClientID == int.Parse(DropDownID))
+                            report.reportSubHeading = "For " + client.FirstName;
+                    }
+
                         ViewBag.chartLabel = "'Client Report'";
                         ViewBag.chartLabels = report.chartLabels;
                         ViewBag.chartData = report.chartData;
@@ -883,7 +889,7 @@ namespace TaxApp.Controllers
                 else
                     report = null;
             }
-            //Travel Expenses Report
+            //Vehicle Travel Expenses Report
             else if (ID == "0011")
             {
                 report = new ReportViewModel();
@@ -896,7 +902,30 @@ namespace TaxApp.Controllers
 
                 try
                 {
-                    ProfileTravelLog = handler.getProfileTravelLog(ProfileID, sDate, eDate);
+                    Model.Profile getProfileVehicles = new Model.Profile();
+                    getProfileVehicles.ProfileID = int.Parse(cookie["ID"]);
+                    List<Model.Vehicle> Vehicles = handler.getVehicles(getProfileVehicles);
+                    Vehicles = Vehicles.OrderBy(o => o.Name).ToList();
+                    Vehicles.Insert(0, new Vehicle { Name = "All", VehicleID = 0 });
+
+                    ViewBag.DropDownFilter = new SelectList(Vehicles, "VehicleID", "Name");
+                    ViewBag.AlsoShowDate = true;
+
+                    if (DropDownID == null || DropDownID == "")
+                        DropDownID = Vehicles[0].VehicleID.ToString();
+
+                    ViewBag.DropDownID = DropDownID;
+
+                    if (DropDownID != "0")
+                        ProfileTravelLog = handler.getProfileTravelLog(ProfileID, sDate, eDate, DropDownID);
+                    else
+                        ProfileTravelLog = handler.getProfileTravelLog(ProfileID, sDate, eDate);
+
+                    foreach (Vehicle vehicle in Vehicles)
+                    {
+                        if (vehicle.VehicleID == int.Parse(DropDownID))
+                            report.reportSubHeading = "For " + vehicle.Name;
+                    }
                 }
                 catch (Exception e)
                 {
@@ -907,10 +936,9 @@ namespace TaxApp.Controllers
                 if (ProfileTravelLog != null)
                 {
                     report.reportTitle = "Travel Expenses";
-                    report.reportCondition = "From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
                     report.reportStartDate = sDate.ToString("yyyy-MM-dd");
                     report.reportEndDate = eDate.ToString("yyyy-MM-dd");
-
+                    report.reportCondition = "From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
                     report.column1Name = "Date";
                     report.column2Name = "Title";
                     report.column4Name = "Amount (Client charge | R)";
@@ -1295,7 +1323,29 @@ namespace TaxApp.Controllers
 
                 try
                 {
-                    ProfileTravelLog = handler.getProfileTravelLog(ProfileID, sDate, eDate);
+                    Model.Profile getProfileVehicles = new Model.Profile();
+                    getProfileVehicles.ProfileID = int.Parse(cookie["ID"]);
+                    List<Model.Vehicle> Vehicles = handler.getVehicles(getProfileVehicles);
+                    Vehicles = Vehicles.OrderBy(o => o.Name).ToList();
+
+                    ViewBag.DropDownFilter = new SelectList(Vehicles, "VehicleID", "Name");
+                    ViewBag.AlsoShowDate = true;
+
+                    if (DropDownID == null || DropDownID == "")
+                        DropDownID = Vehicles[0].VehicleID.ToString();
+
+                    ViewBag.DropDownID = DropDownID;
+
+                    if (DropDownID != "0")
+                        ProfileTravelLog = handler.getProfileTravelLog(ProfileID, sDate, eDate, DropDownID);
+                    else
+                        ProfileTravelLog = handler.getProfileTravelLog(ProfileID, sDate, eDate);
+
+                    foreach (Vehicle vehicle in Vehicles)
+                    {
+                        if (vehicle.VehicleID == int.Parse(DropDownID))
+                            report.reportSubHeading = "DAILY BUSINESS TRAVEL RECORDS For " + vehicle.Name;
+                    }
                 }
                 catch (Exception e)
                 {
@@ -1306,7 +1356,6 @@ namespace TaxApp.Controllers
                 if (ProfileTravelLog != null)
                 {
                     report.reportTitle = "SARS Travel Logbook";
-                    report.reportSubHeading = "DAILY BUSINESS TRAVEL RECORDS";
                     report.reportCondition = "From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
                     report.reportStartDate = sDate.ToString("yyyy-MM-dd");
                     report.reportEndDate = eDate.ToString("yyyy-MM-dd");

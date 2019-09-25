@@ -2305,6 +2305,62 @@ namespace DAL
                 throw new ApplicationException(e.ToString());
             }
         }
+        public List<TravelLog> getProfileTravelLog(Profile getProfileTravelLog, DateTime sDate, DateTime eDate, string DDID)
+        {
+            List<TravelLog> TravelLog = new List<TravelLog>();
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@PID", getProfileTravelLog.ProfileID),
+                        new SqlParameter("@DDID", int.Parse(DDID)),
+                        new SqlParameter("@SD", sDate.AddDays(-1)),
+                        new SqlParameter("@ED", eDate.AddDays(+1))
+                   };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetTravleLogForVehicle",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            TravelLog travelLogItem = new TravelLog();
+                            travelLogItem.JobID = int.Parse(row["JobID"].ToString());
+                            travelLogItem.ExpenseID = int.Parse(row["ExpenseID"].ToString());
+                            travelLogItem.VehicleID = int.Parse(row["VehicleID"].ToString());
+                            travelLogItem.From = row["From"].ToString();
+                            travelLogItem.To = row["To"].ToString();
+                            travelLogItem.Reason = row["Reason"].ToString();
+                            travelLogItem.OpeningKMs = double.Parse(row["OpeningKMs"].ToString());
+                            travelLogItem.ClosingKMs = double.Parse(row["ClosingKMs"].ToString());
+                            travelLogItem.TotalKMs = double.Parse(row["TotalKMs"].ToString());
+                            travelLogItem.SARSFuelCost = decimal.Parse(row["SARSFuelCost"].ToString());
+                            travelLogItem.SARSMaintenceCost = decimal.Parse(row["SARSMaintenceCost"].ToString());
+                            travelLogItem.ClientCharge = decimal.Parse(row["ClientCharge"].ToString());
+                            travelLogItem.Date = DateTime.Parse(row["Date"].ToString());
+                            travelLogItem.DateString = travelLogItem.Date.ToString("dddd, dd MMMM yyyy");
+                            travelLogItem.Invoiced = bool.Parse(row["Invoiced"].ToString());
+                            travelLogItem.JobTitle = row["JobTitle"].ToString();
+                            travelLogItem.VehicleName = row["Name"].ToString();
+                            travelLogItem.dropDownID = travelLogItem.Reason.Replace(" ", "");
+                            travelLogItem.dropDownID = removeNumericalDigit(travelLogItem.dropDownID);
+                            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                            nfi.NumberGroupSeparator = " ";
+                            travelLogItem.SARSFuelCostString = travelLogItem.SARSFuelCost.ToString("#,0.00", nfi);
+                            travelLogItem.SARSMaintenceCostString = travelLogItem.SARSMaintenceCost.ToString("#,0.00", nfi);
+                            travelLogItem.ClientChargeString = travelLogItem.ClientCharge.ToString("#,0.00", nfi);
+                            TravelLog.Add(travelLogItem);
+                        }
+                    }
+                }
+                return TravelLog;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
         public TravelLog getTravelLogItem(TravelLog getTravelLogItem)
         {
                             TravelLog travelLogItem = null;
@@ -4303,6 +4359,35 @@ namespace DAL
                 throw new ApplicationException(e.ToString());
             }
         }
+        public Notifications getNotificationLink(Notifications dismissNotification)
+        {
+            Notifications link = null;
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@NID", dismissNotification.notificationID)
+                   };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_getNotificationLink",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            link = new Notifications();
+                            link.Link = row["Link"].ToString();
+                        }
+                    }
+                }
+                return link;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
         public bool UpdateJobNotiStatus(SP_GetJob_Result job)
         {
             bool Result = false;
@@ -4899,8 +4984,6 @@ namespace DAL
                                 Data.column2Data = decimal.Parse(row["Income"].ToString()).ToString("#,0.00", nfi);
 
                             report.ReportDataList.Add(Data);
-                            report.reportCondition = "For " + Data.column1Data + " From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
-
 
                             c2Total += decimal.Parse(row["Income"].ToString());
 

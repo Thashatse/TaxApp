@@ -76,6 +76,7 @@ namespace DAL
         bool newVehicle(Vehicle newVehicle);
         List<Vehicle> getVehicles(Profile getProfileVehicles);
         List<TravelLog> getProfileTravelLog(Profile getProfileTravelLog, DateTime sDate, DateTime eDate);
+        List<TravelLog> getProfileTravelLog(Profile getProfileTravelLog, DateTime sDate, DateTime eDate, string DDID);
         List<TravelLog> getJobTravelLog(Job getJobTravelLog);
         TravelLog getTravelLogItem(TravelLog getTravelLogItem);
         bool UpdateGeneralExpenseRepeate(SP_GetGeneralExpense_Result expense);
@@ -142,6 +143,7 @@ namespace DAL
         bool newNotification(Notifications newNotification);
         List<Notifications> getNotifications(Notifications getNotifications);
         Notifications dismissNotifications(Notifications dismissNotification);
+        Notifications getNotificationLink(Notifications dismissNotification);
         bool UpdateJobNotiStatus(SP_GetJob_Result job);
         List<OutstandingInvoiceReminders> getOverdueInvoices();
         #endregion
