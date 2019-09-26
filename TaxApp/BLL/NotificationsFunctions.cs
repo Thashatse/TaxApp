@@ -102,30 +102,39 @@ namespace BLL
                         if (OIR != null && OIR.InvoiceNum != null)
                         {
                             Notifications newNoti = new Notifications();
-                            newNoti.date = DateTime.Now;
+                            newNoti.date = OIR.DateTime;
                             newNoti.ProfileID = OIR.ProfileID;
                             newNoti.Link = "../Invoice/Invoice?id=" + OIR.InvoiceNum;
                             newNoti.Details = OIR.ClientName + " has an outstanding invoice for job " + OIR.JobTitle + ".";
 
-                            if (OIR.DaysSince == 5)
+                            bool create = true;
+                            List<Notifications> ProfileNotis = getNotifications(OIR.ProfileID);
+                            foreach (Notifications noti in ProfileNotis)
+                            {
+                                if (noti.Details == newNoti.Details
+                                    && noti.Link == newNoti.Link)
+                                    create = false;
+                            }
+
+                            if (OIR.DaysSince == 4 && create)
                                 newNotification(newNoti);
-                            if (OIR.DaysSince == 12)
+                            if (OIR.DaysSince == 12 && create)
                                 newNotification(newNoti);
-                            if (OIR.DaysSince == 19)
+                            if (OIR.DaysSince == 19 && create)
                                 newNotification(newNoti);
-                            if (OIR.DaysSince == 26)
+                            if (OIR.DaysSince == 26 && create)
                                 newNotification(newNoti);
-                            if (OIR.DaysSince == 33)
+                            if (OIR.DaysSince == 33 && create)
                                 newNotification(newNoti);
-                            if (OIR.DaysSince == 60)
+                            if (OIR.DaysSince == 60 && create)
                                 newNotification(newNoti);
-                            if (OIR.DaysSince == 90)
+                            if (OIR.DaysSince == 90 && create)
                                 newNotification(newNoti);
-                            if (OIR.DaysSince == 180)
+                            if (OIR.DaysSince == 180 && create)
                                 newNotification(newNoti);
-                            if (OIR.DaysSince == 270)
+                            if (OIR.DaysSince == 270 && create)
                                 newNotification(newNoti);
-                            if (OIR.DaysSince == 360)
+                            if (OIR.DaysSince == 360 && create)
                                 newNotification(newNoti);
                         }
                         else

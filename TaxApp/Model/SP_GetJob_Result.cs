@@ -41,7 +41,7 @@ namespace Model
         [Display(Name = "Total Expenses")]
         public decimal ExpenseTotal { get; set; }
         public string ExpenseTotalString { get; set; }
-        [Display(Name = "Total Travel Expenses")]
+        [Display(Name = "Total Vehicle Travel Expenses")]
         public decimal TravelLogCostTotal { get; set; }
         public string TravelLogCostTotalString { get; set; }
         [Display(Name = "Total Income Outstanding")]
@@ -60,5 +60,6 @@ namespace Model
         [Display(Name = "Share this job with the Client. Clients will be able to see hours, expenses and invoices.")]
         public bool Share { get; set; }
         public int ProfileID { get; set; }
+        public string ProfileName { get; set; }
     }
 }

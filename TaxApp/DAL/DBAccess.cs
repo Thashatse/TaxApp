@@ -549,6 +549,7 @@ namespace DAL
                             job.noti100 = bool.Parse(row["Noti100"].ToString());
 
                             job.ProfileID = int.Parse(row["ProfileID"].ToString());
+                            job.ProfileName = row["ProfileName"].ToString();
 
                             if (row["EndDate"].ToString() != "" && row["EndDate"] != null)
                             {
@@ -5655,6 +5656,78 @@ namespace DAL
                     }
                 }
                 #endregion
+
+                report.chartLabels = chartLabels;
+                report.chartData = chartData;
+
+                return report;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        public ReportViewModel getJobPerMonthReport(Profile profile, string Year)
+        {
+            ReportViewModel report = null;
+            try
+            {
+                report = new ReportViewModel();
+
+                report.reportTitle = "Job per month";
+                report.reportCondition = "For Year " + Year;
+
+                report.column1Name = "Month";
+                report.column2Name = "No Of Jobs";
+                report.column2DataAlignRight = true;
+
+                decimal c2Total = 0;
+
+                int chartDataCount = 0;
+                string chartLabels = "";
+                string chartData = "";
+
+                report.ReportDataList = new List<ReportDataList>();
+
+                SqlParameter[] pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profile.ProfileID),
+                        new SqlParameter("@Y", Year)
+                    };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetJobsPerMonthReport",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+
+                        foreach (DataRow row in table.Rows)
+                        {
+                            ReportDataList Data = new ReportDataList();
+                            Data.column1Data = row["Month"].ToString();
+                            Data.column2Data = row["NoOfJobs"].ToString();
+
+                            report.ReportDataList.Add(Data);
+
+                            c2Total += decimal.Parse(row["NoOfJobs"].ToString());
+
+                            if (chartDataCount == 0)
+                            {
+                                chartLabels += "'" + Data.column1Data + "'";
+                                chartData += "'" + row["NoOfJobs"].ToString() + "'";
+                            }
+                            else
+                            {
+                                chartLabels += ", '" + Data.column1Data + "'";
+                                chartData += ", '" + row["NoOfJobs"].ToString() + "'";
+                            }
+                            chartDataCount++;
+                        }
+
+                    }
+                }
+
+                report.column2Total = (c2Total.ToString());
 
                 report.chartLabels = chartLabels;
                 report.chartData = chartData;

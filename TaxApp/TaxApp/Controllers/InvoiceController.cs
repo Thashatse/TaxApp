@@ -541,36 +541,6 @@ namespace TaxApp.Controllers
             }
         }
 
-        public string RenderRazorViewToString(ControllerContext controllerContext, string viewName, object model)
-        {
-            ViewData.Model = model;
-            using (var sw = new StringWriter())
-            {
-                var viewResult = ViewEngines.Engines.FindPartialView(ControllerContext,
-                                                                         viewName);
-                var viewContext = new ViewContext(ControllerContext, viewResult.View,
-                                             ViewData, TempData, sw);
-                viewResult.View.Render(viewContext, sw);
-                viewResult.ViewEngine.ReleaseView(ControllerContext, viewResult.View);
-                return sw.GetStringBuilder().ToString();
-            }
-        }
-
-        public string ToHtml(string viewToRender, ViewDataDictionary viewData, ControllerContext controllerContext)
-        {
-            var result = ViewEngines.Engines.FindView(controllerContext, viewToRender, null);
-
-            StringWriter output;
-            using (output = new StringWriter())
-            {
-                var viewContext = new ViewContext(controllerContext, result.View, viewData, controllerContext.Controller.TempData, output);
-                result.View.Render(viewContext, output);
-                result.ViewEngine.ReleaseView(controllerContext, result.View);
-            }
-
-            return output.ToString();
-        }
-
         public ActionResult Email(string id)
         {
             try

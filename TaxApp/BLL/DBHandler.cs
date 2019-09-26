@@ -416,6 +416,8 @@ namespace BLL
         {
             return db.getJobEarningPerHourReport(profile, sDate, eDate);
         }
+        public ReportViewModel getJobPerMonthReport(Profile profile, string Year)
+        { return db.getJobPerMonthReport(profile, Year); }
         #endregion
 
         #region Verify External User

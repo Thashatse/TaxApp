@@ -935,7 +935,7 @@ namespace TaxApp.Controllers
 
                 if (ProfileTravelLog != null)
                 {
-                    report.reportTitle = "Travel Expenses";
+                    report.reportTitle = "Vehicle Travel Expenses";
                     report.reportStartDate = sDate.ToString("yyyy-MM-dd");
                     report.reportEndDate = eDate.ToString("yyyy-MM-dd");
                     report.reportCondition = "From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
@@ -1409,6 +1409,48 @@ namespace TaxApp.Controllers
                     report.column9Total = (c9Total.ToString("#,0.00", nfi));
                 }
                 else
+                    report = null;
+            }
+            //Income by Client
+            else if (ID == "0016")
+            {
+                report = new ReportViewModel();
+
+                try
+                {
+                    List<string> years = new List<string>();
+                    int year = int.Parse(DateTime.Now.Year.ToString());
+                    for(int i = 100; i > 0; i--)
+                    {
+                        years.Add(year.ToString());
+                        year--;
+                    }
+
+                    ViewBag.DropDownFilter = new SelectList(years);
+                    ViewBag.AlsoShowDate = true;
+
+                    if (DropDownID == null || DropDownID == "")
+                        DropDownID = DateTime.Now.Year.ToString();
+
+                    ViewBag.DropDownID = DropDownID;
+
+                    report = handler.getJobPerMonthReport(ProfileID, DropDownID);
+                    
+                        ViewBag.chartLabel = "'Jobs per Month Report'";
+                        ViewBag.chartLabels = report.chartLabels;
+                        ViewBag.chartData = report.chartData;
+                        ViewBag.chartPrefix = "";
+                        ViewBag.chartSufix = "";
+                        ViewBag.BarChart = false;
+                        ViewBag.LineChart = true;
+                }
+                catch (Exception e)
+                {
+                    function.logAnError(e.ToString() +
+                        "Error loading report 0016 in reports controler");
+                }
+
+                if (report.ReportDataList == null)
                     report = null;
             }
             

@@ -167,7 +167,7 @@ namespace TaxApp.Controllers
         }
         #endregion
 
-        public ActionResult Job(string JobID)
+        public ActionResult Job(string JobID, string Report = "false")
         {
             string link = getCookie(JobID, "Job");
             if (link != "")
@@ -209,12 +209,15 @@ namespace TaxApp.Controllers
                 view.JobExpenses = JobExpenses;
                 view.JobTravelLog = JobTravelLog;
                 view.invoices = invoiceDetails;
+
+                ViewBag.Report = bool.Parse(Report);
+                ViewBag.Generated = DateTime.Now.ToString("dddd, dd MMMM yyyy hh:mm tt");
             return View(view);
             }
             return View();
         }
 
-        public ActionResult TAX(string TaxID, string SortDirection, string SortBy)
+        public ActionResult TAX(string TaxID, string SortDirection, string SortBy, string Report = "false")
         {
             string link = getCookie(TaxID, "Job");
 
@@ -369,6 +372,9 @@ namespace TaxApp.Controllers
                             fotter.column4Data = ((footers.Income - footers.TAXOwed).ToString("#,0.00", nfi));
                             report.FooterRowList.Add(fotter);
                             report.column4FotterAlignRight = true;
+
+                            ViewBag.Report = bool.Parse(Report);
+                            ViewBag.Generated = DateTime.Now.ToString("dddd, dd MMMM yyyy hh:mm tt");
                         }
                         else
                             report = null;
@@ -441,7 +447,7 @@ namespace TaxApp.Controllers
             return Redirect("/Shared/Error");
         }
 
-        public ActionResult VAT(string VATID, string SortDirection, string SortBy)
+        public ActionResult VAT(string VATID, string SortDirection, string SortBy, string Report = "false")
         {
             string link = getCookie(VATID, "Job");
             if (link != "")
@@ -607,7 +613,10 @@ namespace TaxApp.Controllers
                         fotter.column6Data = ((footers.VATPAIDOutstandingEst).ToString("#,0.00", nfi));
                         report.FooterRowList.Add(fotter);
                         report.column6FotterAlignRight = true;
-                    }
+
+                            ViewBag.Report = bool.Parse(Report);
+                            ViewBag.Generated = DateTime.Now.ToString("dddd, dd MMMM yyyy hh:mm tt");
+                        }
                     else
                         report = null;
 

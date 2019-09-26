@@ -26,14 +26,16 @@
     <link type="text/css" href="../Theam/css/argon.css?v=1.0.0" rel="stylesheet">
 </head>
 <body>
-    <div class="main-content">
-        <!-- Top navbar -->
-        <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
-            <div class="container-fluid">
-                <!-- Brand -->
-                <a class="navbar-brand pt-0">
-                    <img src="../Theam/img/brand/blue.png" class="navbar-brand-img" alt="..." width="60" height="30">
-                </a>
+    @if (ViewBag.Report == false)
+    {
+        <div class="main-content">
+            <!-- Top navbar -->
+            <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
+                <div class="container-fluid">
+                    <!-- Brand -->
+                    <a class="navbar-brand pt-0">
+                        <img src="../Theam/img/brand/blue.png" class="navbar-brand-img" alt="..." width="60" height="30">
+                    </a>
                     <!-- User -->
                     <ul class="navbar-nav align-items-center d-none d-md-flex">
                         <li class="nav-item">
@@ -44,367 +46,685 @@
                             </div>
                         </li>
                     </ul>
-            </div>
-        </nav>
+                </div>
+            </nav>
 
+            <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+                <div class="container-fluid">
+                    <div class="container">
+                        <div class="header-body text-center mb-7">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-5 col-md-6">
+                                    <h1 class="text-white">
+                                        @Model.jobDetails.JobTitle
+                                    </h1>
+                                    <h3 class="text-white">
+                                        By @Model.jobDetails.ProfileName <br />
+                                        From @Model.jobDetails.StartDateString to @Model.jobDetails.EndDateString
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="header-body">
+                        <!-- Card stats -->
+                        <div class="row">
+                            <div class="col-xl-4 col-lg-6">
+                                <div class="card card-stats mb-4 mb-xl-0">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col">
+                                                <h5 class="card-title text-uppercase text-muted mb-0">@Html.DisplayNameFor(model => model.jobDetails.HourlyRate) </h5>
+                                                <span class="h2 font-weight-bold mb-0">R @Html.DisplayFor(model => model.jobDetails.HourlyRate)</span>
+                                                @if (Model.jobDetails.Budget != 0)
+                                                {
+                                                    <br />
+                                                    <br />
+                                                    <h5 class="card-title text-uppercase text-muted mb-0">@Html.DisplayNameFor(model => model.jobDetails.Budget) </h5>
+                                                    <span class="h2 font-weight-bold mb-0">R @Html.DisplayFor(model => model.jobDetails.BudgetString)</span>
+                                                    <br />
+                                                    <br />
+                                                    <h5 class="card-title text-uppercase text-muted mb-0">Budget Used</h5>
+                                                    <span class="h2 font-weight-bold mb-0">@Html.DisplayFor(model => model.jobDetails.BudgetPercent) %</span>
+                                                    <div class="progress">
+                                                        @if (Model.jobDetails.BudgetPercent < 50)
+                                                        {
+                                                            <div class="progress-bar bg-gradient-success" role="progressbar"
+                                                                 aria-valuenow="@Html.DisplayFor(modelItem => Model.jobDetails.BudgetPercent)" aria-valuemin="0"
+                                                                 aria-valuemax="100" style="width: @Html.DisplayFor(modelItem => Model.jobDetails.BudgetPercent)%;"></div>
+                                                        }
+                                                        else if (Model.jobDetails.BudgetPercent < 75)
+                                                        {
+                                                            <div class="progress-bar bg-gradient-warning" role="progressbar"
+                                                                 aria-valuenow="@Html.DisplayFor(modelItem => Model.jobDetails.BudgetPercent)" aria-valuemin="0"
+                                                                 aria-valuemax="100" style="width: @Html.DisplayFor(modelItem => Model.jobDetails.BudgetPercent)%;"></div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="progress-bar bg-gradient-danger" role="progressbar"
+                                                                 aria-valuenow="@Html.DisplayFor(modelItem => Model.jobDetails.BudgetPercent)" aria-valuemin="0"
+                                                                 aria-valuemax="100" style="width: @Html.DisplayFor(modelItem => Model.jobDetails.BudgetPercent)%;"></div>
+                                                        }
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <br />
+                                                    <br />
+                                                    <h5 class="card-title text-uppercase text-muted mb-0">@Html.DisplayNameFor(model => model.jobDetails.Budget) </h5>
+                                                    <span class="h2 font-weight-bold mb-0">N/A</span>
 
-        <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
-            <div class="container-fluid">
-                <div class="container">
-                    <div class="header-body text-center mb-7">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-5 col-md-6">
-                                <h1 class="text-white">
-                                    @Model.jobDetails.JobTitle
-                                </h1>
-                                <h3 class="text-white">
-                                    From @Model.jobDetails.StartDateString to @Model.jobDetails.EndDateString
-                                </h3>
+                                                    <br />
+                                                    <br />
+
+                                                    <br />
+                                                    <br />
+
+                                                    <br />
+                                                }
+                                            </div>
+                                            <div class="col-auto">
+                                                <div class="icon icon-shape bg-green text-white rounded-circle shadow">
+                                                    <i class="ni ni-money-coins"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-6">
+                                <div class="card card-stats mb-4 mb-xl-0">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col">
+                                                <h5 class="card-title text-uppercase text-muted mb-0">@Html.DisplayNameFor(model => model.jobDetails.WorkLogHours) </h5>
+                                                <span class="h2 font-weight-bold mb-0">@Html.DisplayFor(model => model.jobDetails.WorkLogHoursString)</span>
+                                                <br />
+                                                <br />
+                                                <h5 class="card-title text-uppercase text-muted mb-0">@Html.DisplayNameFor(model => model.jobDetails.ExpenseTotal) </h5>
+                                                <span class="h2 font-weight-bold mb-0">R @Html.DisplayFor(model => model.jobDetails.AllExpenseTotalString)</span>
+                                                <br />
+                                                <br />
+                                                <h5 class="card-title text-uppercase text-muted mb-0">@Html.DisplayNameFor(model => model.jobDetails.TravelLogCostTotal)</h5>
+                                                <span class="h2 font-weight-bold mb-0">R @Html.DisplayFor(model => model.jobDetails.TravelLogCostTotalString)</span>
+
+                                                <br />
+                                                <br />
+                                            </div>
+                                            <div class="col-auto">
+                                                <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
+                                                    <i class="ni ni-atom"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-6">
+                                <div class="card card-stats mb-4 mb-xl-0">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col">
+                                                <h5 class="card-title text-uppercase text-muted mb-0">Total Owed </h5>
+                                                <span class="h2 font-weight-bold mb-0">R @Html.DisplayFor(model => model.jobDetails.TotalUnPaidString)</span>
+                                                <br />
+                                                <br />
+                                                <h5 class="card-title text-uppercase text-muted mb-0">Total Paid </h5>
+                                                <span class="h2 font-weight-bold mb-0">R @Html.DisplayFor(model => model.jobDetails.TotalPaidString)</span>
+
+                                                <br />
+                                                <br />
+
+                                                <br />
+                                                <br />
+                                                <br />
+                                            </div>
+                                            <div class="col-auto">
+                                                <div class="icon icon-shape bg-red text-white rounded-circle shadow">
+                                                    <i class="ni ni-credit-card"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="header-body">
-                    <!-- Card stats -->
-                    <div class="row">
-                        <div class="col-xl-4 col-lg-6">
-                            <div class="card card-stats mb-4 mb-xl-0">
+            </div>
+
+            <div class="container-fluid mt--7">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="card shadow">
+                            <div class="card-header bg-transparent" data-toggle="collapse" href="#Hours">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <h3 class="mb-0">Hours</h3>
+                                    </div>
+                                    <div class="col text-right">
+                                        <i class="ni ni-bold-down"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="Hours" class="panel-collapse collapse">
                                 <div class="card-body">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h5 class="card-title text-uppercase text-muted mb-0">@Html.DisplayNameFor(model => model.jobDetails.HourlyRate) </h5>
-                                            <span class="h2 font-weight-bold mb-0">R @Html.DisplayFor(model => model.jobDetails.HourlyRate)</span>
-                                            @if (Model.jobDetails.Budget != 0)
+                                    <div class="table-responsive">
+                                        <table class="table align-items-center table-flush">
+                                            <tr>
+                                                <th>
+                                                    Date
+                                                </th>
+                                                <th>
+                                                    Description
+                                                </th>
+                                                <th>
+                                                    Hours
+                                                </th>
+                                            </tr>
+
+                                            @foreach (var item in Model.Worklog)
                                             {
-                                                <br />
-                                                <br />
-                                                <h5 class="card-title text-uppercase text-muted mb-0">@Html.DisplayNameFor(model => model.jobDetails.Budget) </h5>
-                                                <span class="h2 font-weight-bold mb-0">R @Html.DisplayFor(model => model.jobDetails.BudgetString)</span>
-                                                <br />
-                                                <br />
-                                                <h5 class="card-title text-uppercase text-muted mb-0">Budget Used</h5>
-                                                <span class="h2 font-weight-bold mb-0">@Html.DisplayFor(model => model.jobDetails.BudgetPercent) %</span>
+                                                <tr>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.DateString)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.Description)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.WorkLogHoursString)
+                                                    </td>
+                                                </tr>
                                             }
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="icon icon-shape bg-green text-white rounded-circle shadow">
-                                                <i class="ni ni-money-coins"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-4 col-lg-6">
-                            <div class="card card-stats mb-4 mb-xl-0">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h5 class="card-title text-uppercase text-muted mb-0">@Html.DisplayNameFor(model => model.jobDetails.WorkLogHours) </h5>
-                                            <span class="h2 font-weight-bold mb-0">@Html.DisplayFor(model => model.jobDetails.WorkLogHoursString)</span>
-                                            <br />
-                                            <br />
-                                            <h5 class="card-title text-uppercase text-muted mb-0">@Html.DisplayNameFor(model => model.jobDetails.ExpenseTotal) </h5>
-                                            <span class="h2 font-weight-bold mb-0">R @Html.DisplayFor(model => model.jobDetails.AllExpenseTotalString)</span>
-                                            <br />
-                                            <br />
-                                            <h5 class="card-title text-uppercase text-muted mb-0">@Html.DisplayNameFor(model => model.jobDetails.TravelLogCostTotal)</h5>
-                                            <span class="h2 font-weight-bold mb-0">R @Html.DisplayFor(model => model.jobDetails.TravelLogCostTotalString)</span>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
-                                                <i class="ni ni-atom"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-4 col-lg-6">
-                            <div class="card card-stats mb-4 mb-xl-0">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h5 class="card-title text-uppercase text-muted mb-0">Total Owed </h5>
-                                            <span class="h2 font-weight-bold mb-0">R @Html.DisplayFor(model => model.jobDetails.TotalUnPaidString)</span>
-                                            <br />
-                                            <br />
-                                            <h5 class="card-title text-uppercase text-muted mb-0">Total Paid </h5>
-                                            <span class="h2 font-weight-bold mb-0">R @Html.DisplayFor(model => model.jobDetails.TotalPaidString)</span>
 
-                                            <br />
-                                            <br />
-
-                                            <br />
-                                            <br />
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="icon icon-shape bg-red text-white rounded-circle shadow">
-                                                <i class="ni ni-credit-card"></i>
-                                            </div>
-                                        </div>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <br />
+                    </div>
+
+                    <div class="col-lg-12 col-md-12">
+                        <div class="card shadow">
+                            <div class="card-header bg-transparent" data-toggle="collapse" href="#Expenses">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <h3 class="mb-0">Expenses</h3>
+                                    </div>
+                                    <div class="col text-right">
+                                        <i class="ni ni-bold-down"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="Expenses" class="panel-collapse collapse">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <!-- Projects table -->
+                                        <table class="table align-items-center table-flush">
+                                            <tr>
+                                                <th>
+                                                    Date
+                                                </th>
+                                                <th>
+                                                    Description
+                                                </th>
+                                                <th>
+                                                    Amount (R)
+                                                </th>
+                                            </tr>
+                                            @foreach (var item in Model.JobExpenses)
+                                            {
+
+                                                <tr>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.DateString)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.Name)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.Amount)
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                    </div>
+
+                    <div class="col-lg-12 col-md-12">
+                        <div class="card shadow">
+                            <div class="card-header bg-transparent" data-toggle="collapse" href="#Travel">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <h3 class="mb-0">Travel Log</h3>
+                                    </div>
+                                    <div class="col text-right">
+                                        <i class="ni ni-bold-down"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="Travel" class="panel-collapse collapse">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <!-- Projects table -->
+                                        <table class="table align-items-center table-flush">
+                                            <tr>
+                                                <th>
+                                                    Date
+                                                </th>
+                                                <th>
+                                                    Reason
+                                                </th>
+                                                <th>
+                                                    Total Kms (km)
+                                                </th>
+                                                <th>
+                                                    Amount (R)
+                                                </th>
+                                            </tr>
+                                            @foreach (var item in Model.JobTravelLog)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.DateString)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.Reason)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.TotalKMs)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.ClientCharge)
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                    </div>
+
+                    <div class="col-lg-12 col-md-12">
+                        <div class="card shadow">
+                            <div class="card-header bg-transparent" data-toggle="collapse" href="#Invoices">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <h3 class="mb-0">Invoices</h3>
+                                    </div>
+                                    <div class="col text-right">
+                                        <i class="ni ni-bold-down"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="Invoices" class="panel-collapse collapse">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <!-- Projects table -->
+                                        <table class="table align-items-center table-flush">
+                                            <tr>
+                                                <th>
+                                                    Invoice Date
+                                                </th>
+                                                <th>
+                                                    Paid
+                                                </th>
+                                                <th>
+                                                    Amount
+                                                </th>
+                                                <th>
+
+                                                </th>
+                                            </tr>
+
+                                            @foreach (var item in Model.invoices)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.DateTimeString)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.Paid)
+                                                    </td>
+                                                    <td>
+                                                        R @Html.DisplayFor(modelItem => item.TotalCostString)
+                                                    </td>
+                                                    <td>
+                                                        <a class="btn-sm btn-white" target="_blank" href="../Invoice/Print?noAutoPrint=true&ID=@Html.DisplayFor(modelItem => item.InvoiceNum)">View</a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                    </div>
+
+                    <div class="col-lg-12 col-md-12">
+                        <div class="card shadow">
+                            <div class="card-header bg-transparent">
+                                <div class="row align-items-center">
+                                    <div class="col-2">
+                                        <h3 class="mb-0">Actions: </h3>
+                                    </div>
+                                    <div class="col-10 text-right">
+                                        <a href="/Track/Job?JobID=@Html.DisplayFor(model => model.jobDetails.JobID)&Report=True"
+                                           class="btn btn-sm btn-white">Generate Report</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                    </div>
+                </div>
+
+                <hr />
+
+                <!-- Footer -->
+                <footer class="footer">
+                    <div class="row align-items-center justify-content-xl-between">
+                        <div class="col-xl-6">
+                            <div class="copyright text-center text-xl-left text-muted">
+                                <p>&copy; @DateTime.Now.Year - Tax App</p>
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <ul class="nav nav-footer justify-content-center justify-content-xl-end">
+                                <li class="nav-item">
+                                    <a href="../Home/Index" class="nav-link">Home</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    }
+
+    @if (ViewBag.Report == true)
+    {
+        <div class="row justify-content-center">
+            <div class="col-lg-12 col-md-12">
+                <div class="card shadow">
+                    <div class="container">
+                        <table cellpadding="10">
+                            <tr><td colspan="4"><h1 text-align="right">@Model.jobDetails.JobTitle Report</h1></td></tr>
+                            <tr><td colspan="4">By @Model.jobDetails.ProfileName</td></tr>
+                            <tr><td colspan="4">For @Model.jobDetails.ClientFirstName</td></tr>
+                            <tr><td colspan="4">From @Model.jobDetails.StartDateString to @Model.jobDetails.EndDateString</td></tr>
+                            <tr>
+                                <td colspan="4">
+                                    Report Generated: @ViewBag.Generated
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="4">
+                                    <hr />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="4"><h3 text-align="right">Details: </h3></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">Hourly Rate:</td>
+                                <td colspan="2">@Model.jobDetails.HourlyRate</td>
+                            </tr>
+                            @if (Model.jobDetails.Budget != 0)
+                            {
+                                <tr>
+                                    <td colspan="2">Budget:</td>
+                                    <td colspan="2">@Model.jobDetails.BudgetString </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">Budget Used:</td>
+                                    <td colspan="2">@Html.DisplayFor(model => model.jobDetails.BudgetPercent) % </td>
+                                </tr>
+                            }
+                            <tr>
+                                <td colspan="2">Total Hours Worked:</td>
+                                <td colspan="2">@Model.jobDetails.WorkLogHoursString</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">Total Expenses:</td>
+                                <td colspan="2">@Model.jobDetails.AllExpenseTotal</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">Total Vehicle Travel Expenses:</td>
+                                <td colspan="2">@Model.jobDetails.HourlyRate</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">Total Outstanding:</td>
+                                <td colspan="2">@Model.jobDetails.TotalUnPaidString</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">Total Paid:</td>
+                                <td colspan="2">@Model.jobDetails.TotalPaidString</td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="4">
+                                    <hr />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="4"><h3 text-align="right">Hours: </h3></td>
+                            </tr>
+
+                            @if (Model.Worklog.Count > 0)
+                            {
+
+                                <tr>
+                                    <th>
+                                        Date
+                                    </th>
+                                    <th>
+                                        Description
+                                    </th>
+                                    <th>
+                                        Hours
+                                    </th>
+                                    <th></th>
+                                </tr>
+
+                                foreach (var item in Model.Worklog)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DateString)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Description)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.WorkLogHoursString)
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="4"><h3 text-align="right">Hours: </h3></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">No Hours Loged Yet</td>
+                                </tr>
+                            }
+
+                            <tr>
+                                <td colspan="4">
+                                    <hr />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="4"><h3 text-align="right">Expenses: </h3></td>
+                            </tr>
+
+                            @if (Model.JobExpenses.Count > 0)
+                            {
+                                <tr>
+                                    <th>
+                                        Date
+                                    </th>
+                                    <th>
+                                        Description
+                                    </th>
+                                    <th>
+                                        Amount (R)
+                                    </th>
+                                    <th></th>
+                                </tr>
+                                foreach (var item in Model.JobExpenses)
+                                {
+
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DateString)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Name)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Amount)
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="4">No Expenses Loged Yet</td>
+                                </tr>
+                            }
+
+                            <tr>
+                                <td colspan="4">
+                                    <hr />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="4"><h3 text-align="right">Vehicle Travel Log: </h3></td>
+                            </tr>
+
+                            @if (Model.JobTravelLog.Count > 0)
+                            {
+                                <tr>
+                                    <th>
+                                        Date
+                                    </th>
+                                    <th>
+                                        Reason
+                                    </th>
+                                    <th>
+                                        Total Kms (km)
+                                    </th>
+                                    <th>
+                                        Amount (R)
+                                    </th>
+                                </tr>
+                                foreach (var item in Model.JobTravelLog)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DateString)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Reason)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TotalKMs)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ClientCharge)
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="4">No Vehicle Travel Loged Yet</td>
+                                </tr>
+                            }
+
+                            <tr>
+                                <td colspan="4">
+                                    <hr />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="4"><h3 text-align="right">Invoice Summarys: </h3></td>
+                            </tr>
+                            @if (Model.invoices.Count > 0)
+                            {
+                                <tr>
+                                    <th>
+                                        Invoice Date
+                                    </th>
+                                    <th>
+                                        Paid
+                                    </th>
+                                    <th>
+                                        Amount
+                                    </th>
+                                    <th></th>
+                                </tr>
+
+                                foreach (var item in Model.invoices)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DateTimeString)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Paid)
+                                        </td>
+                                        <td>
+                                            R @Html.DisplayFor(modelItem => item.TotalCostString)
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="4">No Invoices Yet</td>
+                                </tr>
+                            }
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="container-fluid mt--7">
-            <div class="row">
-
-                <div class="col-lg-12 col-md-12">
-                    <div class="card shadow">
-                        <div class="card-header bg-transparent" data-toggle="collapse" href="#Hours">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <h3 class="mb-0">Hours</h3>
-                                </div>
-                                <div class="col text-right">
-                                    <i class="ni ni-bold-down"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="Hours" class="panel-collapse collapse">
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table align-items-center table-flush">
-                                        <tr>
-                                            <th>
-                                                Date
-                                            </th>
-                                            <th>
-                                                Description
-                                            </th>
-                                            <th>
-                                                Hours
-                                            </th>
-                                        </tr>
-
-                                        @foreach (var item in Model.Worklog)
-                                        {
-                                            <tr>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.DateString)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Description)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.WorkLogHoursString)
-                                                </td>
-                                            </tr>
-                                        }
-
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <br />
-                </div>
-
-                <div class="col-lg-12 col-md-12">
-                    <div class="card shadow">
-                        <div class="card-header bg-transparent" data-toggle="collapse" href="#Expenses">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <h3 class="mb-0">Expenses</h3>
-                                </div>
-                                <div class="col text-right">
-                                    <i class="ni ni-bold-down"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="Expenses" class="panel-collapse collapse">
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <!-- Projects table -->
-                                    <table class="table align-items-center table-flush">
-                                        <tr>
-                                            <th>
-                                                Date
-                                            </th>
-                                            <th>
-                                                Description
-                                            </th>
-                                            <th>
-                                                Amount (R)
-                                            </th>
-                                        </tr>
-                                        @foreach (var item in Model.JobExpenses)
-                                        {
-
-                                            <tr>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.DateString)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Description)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Amount)
-                                                </td>
-                                            </tr>
-                                        }
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <br />
-                </div>
-
-                <div class="col-lg-12 col-md-12">
-                    <div class="card shadow">
-                        <div class="card-header bg-transparent" data-toggle="collapse" href="#Travel">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <h3 class="mb-0">Travel Log</h3>
-                                </div>
-                                <div class="col text-right">
-                                    <i class="ni ni-bold-down"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="Travel" class="panel-collapse collapse">
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <!-- Projects table -->
-                                    <table class="table align-items-center table-flush">
-                                        <tr>
-                                            <th>
-                                                Date
-                                            </th>
-                                            <th>
-                                                Reason
-                                            </th>
-                                            <th>
-                                                Total Kms (km)
-                                            </th>
-                                            <th>
-                                                Amount (R)
-                                            </th>
-                                        </tr>
-                                        @foreach (var item in Model.JobTravelLog)
-                                        {
-
-                                            <tr>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.DateString)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Reason)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.TotalKMs)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.ClientCharge)
-                                                </td>
-                                            </tr>
-                                        }
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <br />
-                </div>
-
-                <div class="col-lg-12 col-md-12">
-                    <div class="card shadow">
-                        <div class="card-header bg-transparent" data-toggle="collapse" href="#Invoices">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <h3 class="mb-0">Invoices</h3>
-                                </div>
-                                <div class="col text-right">
-                                    <i class="ni ni-bold-down"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="Invoices" class="panel-collapse collapse">
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <!-- Projects table -->
-                                    <table class="table align-items-center table-flush">
-                                        <tr>
-                                            <th>
-                                                Invoice Date
-                                            </th>
-                                            <th>
-                                                Paid
-                                            </th>
-                                            <th>
-                                                Amount
-                                            </th>
-                                            <th>
-
-                                            </th>
-                                        </tr>
-
-                                        @foreach (var item in Model.invoices)
-                                        {
-                                            <tr>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.DateTimeString)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Paid)
-                                                </td>
-                                                <td>
-                                                    R @Html.DisplayFor(modelItem => item.TotalCostString)
-                                                </td>
-                                                <td>
-                                                    <a class="btn btn-white" target="_blank" href="../Invoice/Print?noAutoPrint=true&ID=@Html.DisplayFor(modelItem => item.InvoiceNum)">View</a>
-                                                </td>
-                                            </tr>
-                                        }
-
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <br />
-                </div>
-            </div>
-
-            <hr />
-
-            <!-- Footer -->
-            <footer class="footer">
-                <div class="row align-items-center justify-content-xl-between">
-                    <div class="col-xl-6">
-                        <div class="copyright text-center text-xl-left text-muted">
-                            <p>&copy; @DateTime.Now.Year - Tax App</p>
-                        </div>
-                    </div>
-                    <div class="col-xl-6">
-                        <ul class="nav nav-footer justify-content-center justify-content-xl-end">
-                            <li class="nav-item">
-                                <a href="../Home/Index" class="nav-link">Home</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </footer>
-        </div>
-    </div>
-
-    <!-- Argon Scripts -->
-    <!-- Core -->
-    <script src="../Theam/vendor/jquery/dist/jquery.min.js"></script>
-    <script src="../Theam/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Optional JS -->
-    <script src="../Theam/vendor/chart.js/dist/Chart.min.js"></script>
-    <script src="../Theam/vendor/chart.js/dist/Chart.extension.js"></script>
-    <!-- Argon JS -->
-    <script src="../Theam/js/argon.js?v=1.0.0"></script>
-
-    @Scripts.Render("~/bundles/jquery")
+    }
 </body>
 </html>
+
+<!-- Argon Scripts -->
+<!-- Core -->
+<script src="../Theam/vendor/jquery/dist/jquery.min.js"></script>
+<script src="../Theam/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Optional JS -->
+<script src="../Theam/vendor/chart.js/dist/Chart.min.js"></script>
+<script src="../Theam/vendor/chart.js/dist/Chart.extension.js"></script>
+<!-- Argon JS -->
+<script src="../Theam/js/argon.js?v=1.0.0"></script>
