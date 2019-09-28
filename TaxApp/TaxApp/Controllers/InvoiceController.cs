@@ -252,7 +252,7 @@ namespace TaxApp.Controllers
                     getProfile.EmailAddress = "";
                     getProfile.Username = "";
                     getProfile = handler.getProfile(getProfile);
-                    ViewBag.VatNum = getProfile.VATNumber;
+                    ViewBag.VatNum = getProfile.VATNumber.Replace(" ", "");
                     ViewBag.ProfileName = getProfile.FirstName + " " + getProfile.LastName;
                     ViewBag.ProfileEmail = getProfile.EmailAddress;
                     ViewBag.ProfileNo = getProfile.ContactNumber;

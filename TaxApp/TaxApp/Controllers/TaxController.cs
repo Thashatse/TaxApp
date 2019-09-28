@@ -263,7 +263,7 @@ namespace TaxApp.Controllers
         #endregion
 
         #region EditTaxVatPeriod
-        public ActionResult EditTaxVatPeriod(string type, string Period = "0")
+        public ActionResult EditTaxVatPeriod(string type, string Period = "0", string ReturnToConsultant = "false")
         {
             getCookie();
             if(type == null || type == "")
@@ -342,7 +342,7 @@ namespace TaxApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditTaxVatPeriod(FormCollection collection, string type, string Period = "0")
+        public ActionResult EditTaxVatPeriod(FormCollection collection, string type, string Period = "0", string ReturnToConsultant = "false")
         {
             getCookie();
             try
@@ -385,7 +385,8 @@ namespace TaxApp.Controllers
                         else if (type == "T")
                         {
                             Response.Redirect("../Tax/TaxBrakets?ID=" + period.PeriodID + "&period="+
-                                period.StartDate.ToString("dd MMM yyyy")+" to "+ period.EndDate.ToString("dd MMM yyyy"));
+                                period.StartDate.ToString("dd MMM yyyy")+" to "+ period.EndDate.ToString("dd MMM yyyy")
+                                + "&ReturnToConsultant="+ ReturnToConsultant);
                         }
                         else
                         {
@@ -415,16 +416,22 @@ namespace TaxApp.Controllers
             {
                 getCookie();
 
-                TaxConsultant consultant = new TaxConsultant();
-                consultant.ProfileID = int.Parse(cookie["ID"]);
-                consultant = handler.getConsumtant(consultant);
+                ConsultantViewModel viewModel = new ConsultantViewModel();
 
-                if(consultant == null)
-                {
+                viewModel.Consultant = new TaxConsultant();
+                viewModel.Consultant.ProfileID = int.Parse(cookie["ID"]);
+                viewModel.Consultant = handler.getConsumtant(viewModel.Consultant);
+
+                if (viewModel.Consultant == null)
                     Response.Redirect("../Landing/TaxConsultant?ID=" + cookie["ID"] + "&Return=Consultant");
-                }
 
-                return View(consultant);
+                Profile profileID = new Profile();
+                profileID.ProfileID = int.Parse(cookie["ID"]);
+
+                viewModel.taxPeriod = handler.getTaxOrVatPeriodForProfile(profileID, 'T');
+                viewModel.vatPeriod = handler.getTaxOrVatPeriodForProfile(profileID, 'V');
+
+                return View(viewModel);
             }
             catch (Exception e)
             {
@@ -510,7 +517,7 @@ namespace TaxApp.Controllers
         #endregion
 
         #region Tax Brakets
-        public ActionResult TaxBrakets(string ID, string period)
+        public ActionResult TaxBrakets(string ID, string period, string ReturnToConsultant = "false")
         {
             TaxBraketsView view = new TaxBraketsView();
             view.getRate = null;
@@ -538,7 +545,7 @@ namespace TaxApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult TaxBrakets(FormCollection collection, string ID, string period)
+        public ActionResult TaxBrakets(FormCollection collection, string ID, string period, string ReturnToConsultant = "false")
         {
             TaxBraketsView view = new TaxBraketsView();
             view.getRate = null;
@@ -574,6 +581,10 @@ namespace TaxApp.Controllers
                     brakets = handler.getTaxPeriodBrakets(PeriodID);
 
                     view.getRate = brakets;
+                }
+                else if (bool.Parse(ReturnToConsultant))
+                {
+                    Response.Redirect("/Tax/Consultant");
                 }
                 else if (result == true && newRate.Type == 'C')
                 {
@@ -612,7 +623,7 @@ namespace TaxApp.Controllers
         #endregion
 
         #region Update Period Share
-        public ActionResult Share(string ID, string type)
+        public ActionResult Share(string ID, string type, string ReturnToConsultant = "false")
         {
             getCookie();
 
@@ -666,9 +677,16 @@ if(tuple.Item1 != null && tuple.Item2 != null)
                     int.Parse(cookie["ID"]));
             }
             }
-            
 
-            if (type == "T")
+           if (bool.Parse(ReturnToConsultant))
+                {
+                return RedirectToAction("Consultant", "Tax", new
+                {
+                    period,
+                    view
+                });
+            }
+            else if (type == "T")
             {
                 return RedirectToAction("TaxCenter", "Tax", new
                 {

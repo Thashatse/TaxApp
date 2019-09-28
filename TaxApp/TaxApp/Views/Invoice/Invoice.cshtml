@@ -135,9 +135,18 @@
                                                     </dt>
                                                 </td>
                                                 <td align="right">
-                                                    <dd>
-                                                        @ViewBag.VatNum
-                                                    </dd>
+                                                    @if (@ViewBag.VatNum == "")
+                                                    {
+                                                        <dd>
+                                                            N/A
+                                                        </dd>
+                                                    }
+                                                    else
+                                                    {
+                                                <dd>
+                                                    @ViewBag.VatNum
+                                                </dd>
+                                                    }
                                                 </td>
                                             </tr>
                                             <tr>
@@ -148,8 +157,8 @@
                                                 </td>
                                                 <td align="right">
                                                     <dd>
-                                                        @Html.DisplayFor(model => model.InvoiceNum)
-                                                    </dd>
+                                                            @Html.DisplayFor(model => model.InvoiceNum)
+                                                        </dd>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -220,10 +229,9 @@
 
                             </table>
                         </div>
-                        </div>
-                        <dl class="dl-horizontal"></dl> 
                     </div>
+                    <dl class="dl-horizontal"></dl>
                 </div>
-                </div>
-                </div>
-     
+            </div>
+        </div>
+    </div>

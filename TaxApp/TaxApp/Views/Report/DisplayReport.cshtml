@@ -394,7 +394,7 @@
                                                     @Html.DropDownList("DropDownFilter", ViewBag.DropDownFilter as SelectList)
                                                 </div>
                                             }
-                                            @if (ViewBag.DropDownFilter == null || ViewBag.AlsoShowDate == true)
+                                            @if (ViewBag.AlsoShowDate == true)
                                             {
                                                 <div class="col-lg-3 col-sm-12">
                                                     Start: <input name="StartDate" type="date" value="@ViewBag.StartDateRange" />
@@ -403,8 +403,12 @@
                                                     End: <input name="EndDate" type="date" value="@ViewBag.EndDateRange" />
                                                 </div>
                                             }
-                                            <div class="col-lg-3 col-sm-12">
+                                        <div class="col-lg-3 col-sm-12">
+
+                                            @if (ViewBag.DropDownFilter != null || ViewBag.AlsoShowDate == true)
+                                            {
                                                 <input type="submit" value="Update" class="btn btn-sm btn-default" />
+                                            }
                                                 <a target="_blank" href="/Report/PrintReport?reportID=@ViewBag.reportID&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&SortBy=Col1&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID"
                                                    class="btn btn-sm btn-white">Print</a>
                                             </div>

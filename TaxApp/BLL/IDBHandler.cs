@@ -158,6 +158,9 @@ namespace BLL
         List<SP_GetGeneralExpense_Result> getGeneralExpensesReport(Profile profileID, DateTime sDate, DateTime eDate);
         ReportViewModel getJobEarningPerHourReport(Profile profile, DateTime sDate, DateTime eDate);
         ReportViewModel getJobPerMonthReport(Profile profile, string Year);
+        ReportViewModel getJobPerYearReport(Profile profile);
+        ReportViewModel getIncomeRecivedListPerMonth(Profile profile, string Year);
+        ReportViewModel getIncomeRecivedListPerYear(Profile profile);
         #endregion
 
         #region Verify External User

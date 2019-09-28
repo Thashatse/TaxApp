@@ -1411,7 +1411,7 @@ namespace TaxApp.Controllers
                 else
                     report = null;
             }
-            //Income by Client
+            //Jobs Per month
             else if (ID == "0016")
             {
                 report = new ReportViewModel();
@@ -1427,7 +1427,7 @@ namespace TaxApp.Controllers
                     }
 
                     ViewBag.DropDownFilter = new SelectList(years);
-                    ViewBag.AlsoShowDate = true;
+                    ViewBag.AlsoShowDate = false;
 
                     if (DropDownID == null || DropDownID == "")
                         DropDownID = DateTime.Now.Year.ToString();
@@ -1440,7 +1440,7 @@ namespace TaxApp.Controllers
                         ViewBag.chartLabels = report.chartLabels;
                         ViewBag.chartData = report.chartData;
                         ViewBag.chartPrefix = "";
-                        ViewBag.chartSufix = "";
+                        ViewBag.chartSufix = " Jobs";
                         ViewBag.BarChart = false;
                         ViewBag.LineChart = true;
                 }
@@ -1448,6 +1448,104 @@ namespace TaxApp.Controllers
                 {
                     function.logAnError(e.ToString() +
                         "Error loading report 0016 in reports controler");
+                }
+
+                if (report.ReportDataList == null)
+                    report = null;
+            }
+            //Jobs Per Year
+            else if (ID == "0017")
+            {
+                report = new ReportViewModel();
+
+                try
+                {
+                    ViewBag.AlsoShowDate = false;
+
+                    report = handler.getJobPerYearReport(ProfileID);
+                    
+                        ViewBag.chartLabel = "'Jobs per Month Report'";
+                        ViewBag.chartLabels = report.chartLabels;
+                        ViewBag.chartData = report.chartData;
+                        ViewBag.chartPrefix = "";
+                        ViewBag.chartSufix = " Jobs";
+                        ViewBag.BarChart = false;
+                        ViewBag.LineChart = true;
+                }
+                catch (Exception e)
+                {
+                    function.logAnError(e.ToString() +
+                        "Error loading report 0017 in reports controler");
+                }
+
+                if (report.ReportDataList == null)
+                    report = null;
+            }
+            //Income Per month
+            else if (ID == "0018")
+            {
+                report = new ReportViewModel();
+
+                try
+                {
+                    List<string> years = new List<string>();
+                    int year = int.Parse(DateTime.Now.Year.ToString());
+                    for(int i = 100; i > 0; i--)
+                    {
+                        years.Add(year.ToString());
+                        year--;
+                    }
+
+                    ViewBag.DropDownFilter = new SelectList(years);
+                    ViewBag.AlsoShowDate = false;
+
+                    if (DropDownID == null || DropDownID == "")
+                        DropDownID = DateTime.Now.Year.ToString();
+
+                    ViewBag.DropDownID = DropDownID;
+
+                    report = handler.getIncomeRecivedListPerMonth(ProfileID, DropDownID);
+                    
+                        ViewBag.chartLabel = "'Income per Month Report'";
+                        ViewBag.chartLabels = report.chartLabels;
+                        ViewBag.chartData = report.chartData;
+                        ViewBag.chartPrefix = "R";
+                        ViewBag.chartSufix = "";
+                        ViewBag.BarChart = false;
+                        ViewBag.LineChart = true;
+                }
+                catch (Exception e)
+                {
+                    function.logAnError(e.ToString() +
+                        "Error loading report 0018 in reports controler");
+                }
+
+                if (report.ReportDataList == null)
+                    report = null;
+            }
+            //Income Per Year
+            else if (ID == "0019")
+            {
+                report = new ReportViewModel();
+
+                try
+                {
+                    ViewBag.AlsoShowDate = false;
+
+                    report = handler.getIncomeRecivedListPerYear(ProfileID);
+                    
+                        ViewBag.chartLabel = "'Income pre Year Report'";
+                        ViewBag.chartLabels = report.chartLabels;
+                        ViewBag.chartData = report.chartData;
+                        ViewBag.chartPrefix = "R";
+                        ViewBag.chartSufix = "";
+                        ViewBag.BarChart = false;
+                        ViewBag.LineChart = true;
+                }
+                catch (Exception e)
+                {
+                    function.logAnError(e.ToString() +
+                        "Error loading report 0019 in reports controler");
                 }
 
                 if (report.ReportDataList == null)

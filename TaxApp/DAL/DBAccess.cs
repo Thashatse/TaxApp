@@ -3343,7 +3343,8 @@ namespace DAL
                                 dashboard.VATRECEIVEDPercent =
                                     (dashboard.VATRECEIVED / dashboard.VATRECEIVEDPercent) * 100;
                             }
-                            else if (dashboard.VATRECEIVED < dashboard.VATRECEIVEDPercent)
+                            else if (dashboard.VATRECEIVED < dashboard.VATRECEIVEDPercent
+                                && dashboard.VATRECEIVED != 0)
                             {
                                 dashboard.VATRECEIVEDUporDown = 'D';
                                 dashboard.VATRECEIVEDPercent =
@@ -3367,7 +3368,8 @@ namespace DAL
                                 dashboard.VATPAIDPercent =
                                     (dashboard.VATPAID / dashboard.VATPAIDPercent) * 100;
                             }
-                            else if (dashboard.VATPAID < dashboard.VATPAIDPercent)
+                            else if (dashboard.VATPAID < dashboard.VATPAIDPercent
+                                && dashboard.VATPAID != 0)
                             {
                                 dashboard.VATPAIDUporDown = 'D';
                                 dashboard.VATPAIDPercent =
@@ -3391,7 +3393,8 @@ namespace DAL
                                 dashboard.VATPAIDOutstandingEstPercent =
                                     (dashboard.VATPAIDOutstandingEst / dashboard.VATPAIDOutstandingEstPercent) * 100;
                             }
-                            else if (dashboard.VATPAIDOutstandingEst < dashboard.VATPAIDOutstandingEstPercent)
+                            else if (dashboard.VATPAIDOutstandingEst < dashboard.VATPAIDOutstandingEstPercent
+                                && dashboard.VATPAIDOutstandingEst != 0)
                             {
                                 dashboard.VATPAIDOutstandingEstUporDown = 'D';
                                 dashboard.VATPAIDOutstandingEstPercent =
@@ -5728,6 +5731,224 @@ namespace DAL
                 }
 
                 report.column2Total = (c2Total.ToString());
+
+                report.chartLabels = chartLabels;
+                report.chartData = chartData;
+
+                return report;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        public ReportViewModel getJobPerYearReport(Profile profile)
+        {
+            ReportViewModel report = null;
+            try
+            {
+                report = new ReportViewModel();
+
+                report.reportTitle = "Job per year";
+
+                report.column1Name = "Year";
+                report.column2Name = "No Of Jobs";
+                report.column2DataAlignRight = true;
+
+                decimal c2Total = 0;
+
+                int chartDataCount = 0;
+                string chartLabels = "";
+                string chartData = "";
+
+                report.ReportDataList = new List<ReportDataList>();
+
+                SqlParameter[] pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profile.ProfileID)
+                    };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetJobsPerYearReport",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+
+                        foreach (DataRow row in table.Rows)
+                        {
+                            ReportDataList Data = new ReportDataList();
+                            Data.column1Data = row["Year"].ToString();
+                            Data.column2Data = row["NoOfJobs"].ToString();
+
+                            report.ReportDataList.Add(Data);
+
+                            c2Total += decimal.Parse(row["NoOfJobs"].ToString());
+
+                            if (chartDataCount == 0)
+                            {
+                                chartLabels += "'" + Data.column1Data + "'";
+                                chartData += "'" + row["NoOfJobs"].ToString() + "'";
+                            }
+                            else
+                            {
+                                chartLabels += ", '" + Data.column1Data + "'";
+                                chartData += ", '" + row["NoOfJobs"].ToString() + "'";
+                            }
+                            chartDataCount++;
+                        }
+
+                    }
+                }
+
+                report.column2Total = (c2Total.ToString());
+
+                report.chartLabels = chartLabels;
+                report.chartData = chartData;
+
+                return report;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        public ReportViewModel getIncomeRecivedListPerMonth(Profile profile, string Year)
+        {
+            ReportViewModel report = null;
+            try
+            {
+                report = new ReportViewModel();
+
+                report.reportTitle = "Income per month";
+                report.reportCondition = "For Year " + Year;
+
+                report.column1Name = "Month";
+                report.column2Name = "Income (before Tax & VAT) [R]";
+                report.column2DataAlignRight = true;
+
+                decimal c2Total = 0;
+
+                int chartDataCount = 0;
+                string chartLabels = "";
+                string chartData = "";
+
+                report.ReportDataList = new List<ReportDataList>();
+
+                var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                nfi.NumberGroupSeparator = " ";
+
+                SqlParameter[] pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profile.ProfileID),
+                        new SqlParameter("@Y", Year)
+                    };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetIncomeRecivedListPerMonth",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+
+                        foreach (DataRow row in table.Rows)
+                        {
+                            ReportDataList Data = new ReportDataList();
+                            Data.column1Data = row["Month"].ToString();
+                            Data.column2Data = decimal.Parse(row["Total"].ToString()).ToString("#,0.00", nfi);
+
+                            report.ReportDataList.Add(Data);
+
+                            c2Total += decimal.Parse(row["Total"].ToString());
+
+                            if (chartDataCount == 0)
+                            {
+                                chartLabels += "'" + Data.column1Data + "'";
+                                chartData += "'" + decimal.Parse(row["Total"].ToString()).ToString("0.00", nfi) + "'";
+                            }
+                            else
+                            {
+                                chartLabels += ", '" + Data.column1Data + "'";
+                                chartData += ", '" + decimal.Parse(row["Total"].ToString()).ToString("0.00", nfi) + "'";
+                            }
+                            chartDataCount++;
+                        }
+
+                    }
+                }
+
+                report.column2Total = (c2Total.ToString("#,0.00", nfi));
+
+                report.chartLabels = chartLabels;
+                report.chartData = chartData;
+
+                return report;
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+        }
+        public ReportViewModel getIncomeRecivedListPerYear(Profile profile)
+        {
+            ReportViewModel report = null;
+            try
+            {
+                report = new ReportViewModel();
+
+                report.reportTitle = "Income per year";
+
+                report.column1Name = "Year";
+                report.column2Name = "Income (before Tax & VAT) [R]";
+                report.column2DataAlignRight = true;
+
+                decimal c2Total = 0;
+
+                int chartDataCount = 0;
+                string chartLabels = "";
+                string chartData = "";
+
+                report.ReportDataList = new List<ReportDataList>();
+
+                var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                nfi.NumberGroupSeparator = " ";
+
+                SqlParameter[] pars = new SqlParameter[]
+                    {
+                        new SqlParameter("@PID", profile.ProfileID)
+                    };
+
+                using (DataTable table = DBHelper.ParamSelect("SP_GetIncomeRecivedListPerYear",
+            CommandType.StoredProcedure, pars))
+                {
+                    if (table.Rows.Count > 0)
+                    {
+
+                        foreach (DataRow row in table.Rows)
+                        {
+                            ReportDataList Data = new ReportDataList();
+                            Data.column1Data = row["Year"].ToString();
+                            Data.column2Data = decimal.Parse(row["Total"].ToString()).ToString("#,0.00", nfi);
+
+                            report.ReportDataList.Add(Data);
+
+                            c2Total += decimal.Parse(row["Total"].ToString());
+
+                            if (chartDataCount == 0)
+                            {
+                                chartLabels += "'" + Data.column1Data + "'";
+                                chartData += "'" + decimal.Parse(row["Total"].ToString()).ToString("0.00", nfi) + "'";
+                            }
+                            else
+                            {
+                                chartLabels += ", '" + Data.column1Data + "'";
+                                chartData += ", '" + decimal.Parse(row["Total"].ToString()).ToString("0.00", nfi) + "'";
+                            }
+                            chartDataCount++;
+                        }
+
+                    }
+                }
+
+                report.column2Total = (c2Total.ToString("#,0.00", nfi));
 
                 report.chartLabels = chartLabels;
                 report.chartData = chartData;

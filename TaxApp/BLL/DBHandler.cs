@@ -418,6 +418,12 @@ namespace BLL
         }
         public ReportViewModel getJobPerMonthReport(Profile profile, string Year)
         { return db.getJobPerMonthReport(profile, Year); }
+        public ReportViewModel getJobPerYearReport(Profile profile)
+        { return db.getJobPerYearReport(profile); }
+        public ReportViewModel getIncomeRecivedListPerMonth(Profile profile, string Year)
+        { return db.getIncomeRecivedListPerMonth(profile, Year); }
+        public ReportViewModel getIncomeRecivedListPerYear(Profile profile)
+        { return db.getIncomeRecivedListPerYear(profile); }
         #endregion
 
         #region Verify External User
