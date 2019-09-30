@@ -34,7 +34,16 @@
                     <div class="row align-items-center">
                         <div class="col-9">
                             <h3 class="mb-0">New</h3>
-                            <p>Create a new general expense</p>
+                            @if (Model.GExpense.Count <= 0)
+                            {
+                        <h4>
+                            General expenses are those that cannot be attributed to any particular job.
+                        </h4>
+                            }
+                            else
+                            {
+                                <p>Create a new general expense</p>
+                            }
                         </div>
                         <div class="col-3 text-right">
                             <a href="/Expense/NewGeneralExpense" class="btn btn-primary">
@@ -191,7 +200,14 @@
                     <div class="row align-items-center">
                         <div class="col-9">
                             <h3 class="mb-0">New</h3>
-                            <p>Create a new job expense</p>
+                            @if (Model.JExpense.Count <= 0)
+                            {
+                        <h4>Job expenses are those incurred during and attributed to a particular job.</h4>
+                            }
+                            else
+                            {
+                                <p>Create a new job expense</p>
+                            }
                         </div>
                         <div class="col-3 text-right">
                             <a href="../Job/JobSelector?Dest=New*Job*Expense" class="btn btn-primary">
@@ -354,7 +370,14 @@
                     <div class="row align-items-center">
                         <div class="col-9">
                             <h3 class="mb-0">New</h3>
-                            <p>Create a new vehicle travel expense</p>
+                            @if (Model.TExpense.Count <= 0)
+                            {
+                        <h4>A vehicle travel expense is a travel log entry linked to a particular job.</h4>
+                            }
+                            else
+                            {
+                                <p>Create a new vehicle travel expense</p>
+                            }
                         </div>
                         <div class="col-3 text-right">
                             <a href="../Job/JobSelector?Dest=New*Travel*Expense" class="btn btn-primary">

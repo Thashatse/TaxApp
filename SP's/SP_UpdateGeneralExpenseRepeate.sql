@@ -4,7 +4,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-create PROCEDURE [dbo].[SP_UpdateGeneralExpenseRepeate]
+alter PROCEDURE [dbo].[SP_UpdateGeneralExpenseRepeate]
 	@EID int
 AS
 BEGIN
@@ -12,7 +12,8 @@ BEGIN
 		BEGIN TRANSACTION
 
     UPDATE [GeneralExpense] 
-	Set Repeat = 0
+	Set [Repeat] = 0,
+	PrimaryExpenseID = (Select SCOPE_IDENTITY() From GeneralExpense)
     WHERE ExpenseID = @EID
 
 		COMMIT TRANSACTION 

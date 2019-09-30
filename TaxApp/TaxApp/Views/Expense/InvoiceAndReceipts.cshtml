@@ -11,41 +11,48 @@
             <div class="row justify-content-center">
                 <div class="col-lg-5 col-md-6">
                     <h1 class="text-white">Expense Invoice And Receipts</h1>
-                    <br />
-                    <div>
-                        <a target="_blank" href="/Expense/InvoiceAndReceipts?downloadAll=True&view=@ViewBag.view&EndDateRange=@ViewBag.EndDateRange&StartDateRange=@ViewBag.StartDateRange"
-                           class="btn btn-sm btn-white">Download All <i class="ni ni-cloud-download-95"></i></a>
-                    </div>
-                    <br />
-                    <h3 class="text-white">
-                        @ViewBag.DateRange
-                        @if (ViewBag.View != "DS")
-                        {
-                            <a href="/Expense/InvoiceAndReceipts?view=DS"
-                               class="btn btn-sm btn-white"><i class="ni ni-settings-gear-65"></i></a>
-                        }
-                    </p>
-                    @if (ViewBag.View == "DS")
+                    @if (Model.Count() > 0)
                     {
-                        using (Html.BeginForm())
-                        {
-                            @Html.AntiForgeryToken()
+                        <br />
+                        <div>
+                            <a target="_blank" href="/Expense/InvoiceAndReceipts?downloadAll=True&view=@ViewBag.view&EndDateRange=@ViewBag.EndDateRange&StartDateRange=@ViewBag.StartDateRange"
+                               class="btn btn-sm btn-white">Download All <i class="ni ni-cloud-download-95"></i></a>
+                        </div>
+                        <br />
+                        <h3 class="text-white">
+                            @ViewBag.DateRange
+                            </h3>
+                            if (ViewBag.View != "DS")
+                            {
+                                <a href="/Expense/InvoiceAndReceipts?view=DS"
+                                   class="btn btn-sm btn-white"><i class="ni ni-settings-gear-65"></i></a>
+                            }
+                            if (ViewBag.View == "DS")
+                            {
+                                using (Html.BeginForm())
+                                {
+                                    @Html.AntiForgeryToken()
 
-                            <div class="text-white">
-                                <div class="row">
-                                    <div class="col-lg-5 col-sm-12">Start: <input name="StartDate" type="date" value="@ViewBag.StartDateRange" /></div>
-                                    <div class="col-lg-5 col-sm-12">
-                                        End: <input name="EndDate" type="date" value="@ViewBag.EndDateRange" />
+                                    <div class="text-white">
+                                        <div class="row">
+                                            <div class="col-lg-5 col-sm-12">Start: <input name="StartDate" type="date" value="@ViewBag.StartDateRange" /></div>
+                                            <div class="col-lg-5 col-sm-12">
+                                                End: <input name="EndDate" type="date" value="@ViewBag.EndDateRange" />
+                                            </div>
+                                            <div class="col-lg-2 col-sm-12">
+                                                <br /><input type="submit" value="Select" class="btn btn-sm btn-default" />
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-lg-2 col-sm-12">
-                                        <br /><input type="submit" value="Select" class="btn btn-sm btn-default" />
-                                    </div>
-                                </div>
-                            </div>
-                        }
+                                }
+                            }
                     }
+                    else
+                    {
+                <h3 class="text-white">Once you have saved a copy of an invoice or a receipt related to an expense, you'll be able to view and download them here.</h3>
+                    }
+</div>
                 </div>
-            </div>
         </div>
     </div>
 </div>

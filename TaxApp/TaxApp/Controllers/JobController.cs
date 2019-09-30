@@ -775,6 +775,8 @@ namespace TaxApp.Controllers
                 client.ClientID = 0;
 
                 List<Model.SP_GetJob_Result> currentJobs = handler.getProfileJobs(getJobs, client);
+                if (currentJobs.Count == 0)
+                    return RedirectToAction("NewJob", "Job");
                 
                 ViewBag.JobList = new SelectList(currentJobs, "JobID", "JobTitle");
 

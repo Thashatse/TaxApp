@@ -1932,6 +1932,33 @@ namespace DAL
 
             return Result;
         }
+        public bool updateGeneralExpense(SP_GetGeneralExpense_Result updateGeneralExpense)
+        {
+            bool Result = false;
+
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@CID", updateGeneralExpense.CategoryID),
+                        new SqlParameter("@EID", updateGeneralExpense.ExpenseID),
+                        new SqlParameter("@N", updateGeneralExpense.Name),
+                        new SqlParameter("@D", updateGeneralExpense.Description),
+                        new SqlParameter("@Date", updateGeneralExpense.Date),
+                        new SqlParameter("@A", updateGeneralExpense.Amount),
+                        new SqlParameter("@R", updateGeneralExpense.Repeat)
+                   };
+
+                Result = DBHelper.NonQuery("SP_editGeneralExpense", CommandType.StoredProcedure, pars);
+
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return Result;
+        }
         public SP_GetGeneralExpense_Result getGeneralExpense(Expense expenseID)
         {
             SP_GetGeneralExpense_Result expense = null;

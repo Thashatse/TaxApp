@@ -139,6 +139,7 @@ namespace TaxApp.Controllers
                 newExpense.Description = Request.Form["Description"].ToString();
                 newExpense.ProfileID = int.Parse(cookie["ID"].ToString());
                 newExpense.Repeat = bool.Parse(Request.Form["Repeat"].ToString().Split(',')[0]);
+                newExpense.Amount = Convert.ToDecimal(Request.Form["Amount"], CultureInfo.CurrentCulture);
                 newExpense.PrimaryExpenseID = -1;
 
                 DateTime.TryParse(Request.Form["Date"].ToString(), out DateTime dateResult);
@@ -148,6 +149,81 @@ namespace TaxApp.Controllers
                     return View(newExpense);
 
                 bool result = handler.newGeneralExpense(newExpense);
+
+                if (result == true)
+                {
+                    return Redirect("/Expense/GeneralExpense");
+                }
+                else
+                {
+                    return RedirectToAction("../Shared/Error");
+                }
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error in new general expense of expense controler");
+                return View("../Shared/Error");
+            }
+        }
+        #endregion
+        
+        #region Edit General Expense
+        // GET: Landing/NewProfile
+        public ActionResult editexpense(string ID)
+        {
+            try
+            {
+                getCookie();
+
+                List<Model.ExpenseCategory> cats = handler.getExpenseCatagories();
+                ViewBag.CategoryList = new SelectList(cats, "CategoryID", "Name");
+
+                Model.Expense getExpense = new Model.Expense();
+                getExpense.ExpenseID = int.Parse(ID);
+                Model.SP_GetGeneralExpense_Result GeneralExpense = handler.getGeneralExpense(getExpense);
+
+                GeneralExpense.DefultDate = GeneralExpense.Date.ToString("yyyy-MM-dd");
+                GeneralExpense.MaxDate = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
+
+                return View(GeneralExpense);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding general expense Details for edit");
+                return Redirect("/Expense/Expenses?ID=" + ID);
+            }
+        }
+
+        // POST: Landing/NewProfile
+        [HttpPost]
+        public ActionResult editexpense(FormCollection collection, string ID)
+        {
+
+            try
+            {
+                getCookie();
+                List<Model.ExpenseCategory> cats = handler.getExpenseCatagories();
+                ViewBag.CategoryList = new SelectList(cats, "CategoryID", "Name");
+
+                Model.Expense getExpense = new Model.Expense();
+                getExpense.ExpenseID = int.Parse(ID);
+                Model.SP_GetGeneralExpense_Result updatedExpense = handler.getGeneralExpense(getExpense);
+
+                updatedExpense.CategoryID = int.Parse(Request.Form["CategoryList"].ToString());
+                updatedExpense.Name = Request.Form["Name"].ToString();
+                updatedExpense.Description = Request.Form["Description"].ToString();
+                updatedExpense.Repeat = bool.Parse(Request.Form["Repeat"].ToString().Split(',')[0]);
+                updatedExpense.Amount = Convert.ToDecimal(Request.Form["Amount"], CultureInfo.CurrentCulture);
+
+                DateTime.TryParse(Request.Form["Date"].ToString(), out DateTime dateResult);
+                if (dateResult != null)
+                    updatedExpense.Date = dateResult;
+                else
+                    return View(updatedExpense);
+
+                bool result = handler.updateGeneralExpense(updatedExpense);
 
                 if (result == true)
                 {

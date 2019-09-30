@@ -56,7 +56,14 @@
                     <div class="row align-items-center">
                         <div class="col-9">
                             <h3 class="mb-0">New</h3>
-                            <p>Create a new vehicle travel expense</p>
+                            @if (Model.Count() <= 0)
+                            {
+                                <h4>A vehicle travel expense is a travel log entry linked to a particular job.</h4>
+                            }
+                            else
+                            {
+                                <p>Create a new vehicle travel expense</p>
+                            }
                         </div>
                         <div class="col-3 text-right">
                             <a href="../Job/JobSelector?Dest=New*Travel*Expense" class="btn btn-primary">

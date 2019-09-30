@@ -66,6 +66,7 @@ namespace DAL
         List<SP_GetJobExpense_Result> getJobExpenses(Job jobID);
         List<SP_GetJobExpense_Result> getAllJobExpense(Profile profileID, DateTime SD, DateTime ED);
         bool newGeneralExpense(SP_GetGeneralExpense_Result newGeneralExpense);
+        bool updateGeneralExpense(SP_GetGeneralExpense_Result updateGeneralExpense);
         SP_GetGeneralExpense_Result getGeneralExpense(Expense expenseID);
         List<SP_GetGeneralExpense_Result> getGeneralExpenses(Profile profileID, DateTime sDate, DateTime eDate);
         List<SP_GetGeneralExpense_Result> getGeneralExpenseRepeatOccurrence(Expense expenseID);

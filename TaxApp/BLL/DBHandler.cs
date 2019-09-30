@@ -168,6 +168,10 @@ namespace BLL
         {
             return db.newGeneralExpense(newGeneralExpense);
         }
+        public bool updateGeneralExpense(SP_GetGeneralExpense_Result updateGeneralExpense)
+        {
+            return db.newGeneralExpense(updateGeneralExpense);
+        }
         public SP_GetGeneralExpense_Result getGeneralExpense(Expense expenseID)
         {
             return db.getGeneralExpense(expenseID);

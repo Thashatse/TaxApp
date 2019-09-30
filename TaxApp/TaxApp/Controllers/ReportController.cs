@@ -132,6 +132,8 @@ namespace TaxApp.Controllers
             //Jobs report
             if (ID == "0001")
             {
+                ViewBag.AlsoShowDate = true;
+
                 report = new ReportViewModel();
                 List<SP_GetJob_Result> jobsReport = null;
 
@@ -219,6 +221,8 @@ namespace TaxApp.Controllers
             //Income report
             else if (ID == "0002")
             {
+                ViewBag.AlsoShowDate = true;
+
                 report = new ReportViewModel();
                 List<TAXorVATRecivedList> IncomeRecivedReport = null;
 
@@ -543,6 +547,8 @@ namespace TaxApp.Controllers
             //Client Income and Expenses
             else if (ID == "0005")
             {
+                ViewBag.AlsoShowDate = true;
+
                 report = new ReportViewModel();
 
                 try
@@ -653,6 +659,8 @@ namespace TaxApp.Controllers
             //Expenses Report
             else if (ID == "0008")
             {
+                ViewBag.AlsoShowDate = true;
+
                 report = new ReportViewModel();
 
                 List<Model.TravelLog> ProfileTravelLog = null;
@@ -672,7 +680,7 @@ namespace TaxApp.Controllers
                 catch (Exception e)
                 {
                     function.logAnError(e.ToString() +
-                        "Error loading report 0003 in reports controler");
+                        "Error loading report 0008 in reports controler");
                 }
 
                 if (ProfileTravelLog != null && ProfileJobExpenses != null && ProfileGeneralExpenses != null)
@@ -778,6 +786,8 @@ namespace TaxApp.Controllers
             //General Expenses Report
             else if (ID == "0009")
             {
+                ViewBag.AlsoShowDate = true;
+
                 report = new ReportViewModel();
 
                 List<Model.SP_GetGeneralExpense_Result> ProfileGeneralExpenses = null;
@@ -835,6 +845,8 @@ namespace TaxApp.Controllers
             //Job Expenses Report
             else if (ID == "0010")
             {
+                ViewBag.AlsoShowDate = true;
+
                 report = new ReportViewModel();
 
                 List<Model.SP_GetJobExpense_Result> ProfileJobExpenses = null;
@@ -1284,6 +1296,8 @@ namespace TaxApp.Controllers
             //Job Earning Per Hour Report
             else if (ID == "0014")
             {
+                ViewBag.AlsoShowDate = true;
+
                 report = new ReportViewModel();
 
                 try
@@ -1313,6 +1327,8 @@ namespace TaxApp.Controllers
             //SARS Travel Logbook report
             else if (ID == "0015")
             {
+                ViewBag.AlsoShowDate = true;
+
                 report = new ReportViewModel();
 
                 List<Model.TravelLog> ProfileTravelLog = null;
@@ -1551,7 +1567,142 @@ namespace TaxApp.Controllers
                 if (report.ReportDataList == null)
                     report = null;
             }
-            
+            //Expenses y catagory Report
+            else if (ID == "0020")
+            {
+                ViewBag.AlsoShowDate = true;
+
+                report = new ReportViewModel();
+
+                List<Model.TravelLog> ProfileTravelLog = null;
+                List<Model.SP_GetJobExpense_Result> ProfileJobExpenses = null;
+                List<Model.SP_GetGeneralExpense_Result> ProfileGeneralExpenses = null;
+
+                TaxAndVatPeriods dates = new TaxAndVatPeriods();
+                dates.StartDate = sDate;
+                dates.EndDate = eDate;
+
+                try
+                {
+                    ProfileTravelLog = handler.getProfileTravelLog(ProfileID, sDate, eDate);
+                    ProfileJobExpenses = handler.getAllJobExpense(ProfileID, sDate, eDate);
+                    ProfileGeneralExpenses = handler.getGeneralExpensesReport(ProfileID, sDate, eDate);
+                }
+                catch (Exception e)
+                {
+                    function.logAnError(e.ToString() +
+                        "Error loading report 0020 in reports controler");
+                }
+
+                if (ProfileTravelLog != null && ProfileJobExpenses != null && ProfileGeneralExpenses != null)
+                {
+                    report.reportTitle = "Expenses by Category Report";
+                    report.reportCondition = "From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
+                    report.reportStartDate = sDate.ToString("yyyy-MM-dd");
+                    report.reportEndDate = eDate.ToString("yyyy-MM-dd");
+
+                    report.column1Name = "Category";
+                    report.column2Name = "Total Amount (R)";
+                    report.column2DataAlignRight = true;
+
+                    report.ReportDataList = new List<ReportDataList>();
+
+                    decimal c2Total = 0;
+
+                    List<Model.ExpenseCategory> cats = handler.getExpenseCatagories();
+                    cats.Insert(0, new ExpenseCategory { Name = "Vehicle Travel Expenses", CategoryID = 0 });
+                    foreach(ExpenseCategory cat in cats)
+                    {
+                        ReportDataList Data = new ReportDataList();
+                        Data.column1Data = (cat.Name);
+                        Data.column2Data = ("0");
+                        report.ReportDataList.Add(Data);
+                    }
+
+                    foreach (TravelLog item in ProfileTravelLog)
+                    {
+                        c2Total += item.ClientCharge;
+                    }
+
+                    for (int i = 0; i<report.ReportDataList.Count(); i++)
+                    {
+                        if(report.ReportDataList[i].column1Data == "Vehicle Travel Expenses")
+                        {
+                            report.ReportDataList[i].column2Data = (c2Total.ToString());
+                            i = report.ReportDataList.Count();
+                        }
+                    }
+
+                    foreach (SP_GetJobExpense_Result item in ProfileJobExpenses)
+                    {
+                        for (int i = 0; i < report.ReportDataList.Count(); i++)
+                        {
+                            if (report.ReportDataList[i].column1Data == item.CatName)
+                            {
+                                report.ReportDataList[i].column2Data = (decimal.Parse(report.ReportDataList[i].column2Data)+item.Amount).ToString();
+                                i = report.ReportDataList.Count();
+                            }
+                        }
+
+                        c2Total += item.Amount;
+                    }
+                    foreach (SP_GetGeneralExpense_Result item in ProfileGeneralExpenses)
+                    {
+                        for (int i = 0; i < report.ReportDataList.Count(); i++)
+                        {
+                            if (report.ReportDataList[i].column1Data == item.CatName)
+                            {
+                                report.ReportDataList[i].column2Data = (decimal.Parse(report.ReportDataList[i].column2Data) + item.Amount).ToString();
+                                i = report.ReportDataList.Count();
+                            }
+                        }
+
+                        c2Total += item.Amount;
+                    }
+
+                    report.ReportDataList = report.ReportDataList.OrderBy(o => o.column1Data).ToList();
+
+                    report.FooterRowList = new List<ReportFixedFooterRowList>();
+                    ReportFixedFooterRowList fotter = new ReportFixedFooterRowList();
+                    fotter.column1Data = "Total (R):";
+                    fotter.column2Data = ((c2Total).ToString());
+                    report.FooterRowList.Add(fotter);
+                    report.column2FotterAlignRight = true;
+
+                    ViewBag.chartLabel = "'Expenses by Category Report'";
+                    ViewBag.chartLabels = "'General Expenses Total', 'Job Expenses Total', 'Travel Expenses Total'";
+
+                    int chartDataCount = 0;
+                    string chartLabels = "";
+                    string chartData = "";
+
+                    for (int i = 0; i < report.ReportDataList.Count(); i++)
+                    {
+                        if (chartDataCount == 0)
+                        {
+                            chartLabels += "'" + report.ReportDataList[i].column1Data + "'";
+                            chartData += "'" + (decimal.Parse(report.ReportDataList[i].column2Data)).ToString("0.00", nfi) + "'";
+                        }
+                        else
+                        {
+                            chartLabels += ", '" + report.ReportDataList[i].column1Data + "'";
+                            chartData += ", '" + (decimal.Parse(report.ReportDataList[i].column2Data)).ToString("0.00", nfi) + "'";
+                        }
+                        chartDataCount++;
+                        report.ReportDataList[i].column2Data = decimal.Parse(report.ReportDataList[i].column2Data).ToString("#,0.00", nfi);
+                }
+
+                    ViewBag.chartLabels = chartLabels;
+                    ViewBag.chartData = chartData;
+                    ViewBag.chartPrefix = "R";
+                    ViewBag.chartSufix = "";
+                    ViewBag.BarChart = true;
+                    ViewBag.LineChart = false;
+                }
+                else
+                    report = null;
+            }
+
             return report;
         }
 
