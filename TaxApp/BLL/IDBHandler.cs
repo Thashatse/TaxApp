@@ -62,6 +62,7 @@ namespace BLL
 
         #region Expense
         bool newJobExpense(SP_GetJobExpense_Result newJobExpense);
+        bool updateJobExpense(SP_GetJobExpense_Result updateJobExpense);
         SP_GetJobExpense_Result getJobExpense(Expense expenseID);
         List<SP_GetJobExpense_Result> getJobExpenses(Job jobID);
         List<SP_GetJobExpense_Result> getAllJobExpense(Profile profileID, DateTime SD, DateTime ED);
@@ -80,7 +81,6 @@ namespace BLL
         List<TravelLog> getProfileTravelLog(Profile getProfileTravelLog, DateTime sDate, DateTime eDate, string DropDownID);
         List<TravelLog> getJobTravelLog(Job getJobTravelLog);
         TravelLog getTravelLogItem(TravelLog getTravelLogItem);
-        bool UpdateGeneralExpenseRepeate(SP_GetGeneralExpense_Result expense);
         List<SP_GetGeneralExpense_Result> getRepeatGeneralExpenses();
         #endregion
 

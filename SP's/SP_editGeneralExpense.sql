@@ -4,7 +4,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-create PROCEDURE [dbo].[SP_editGeneralExpense]
+alter PROCEDURE [dbo].[SP_editGeneralExpense]
 	@EID int, @CID INT, @N VARCHAR (MAX), @D VARCHAR (MAX), @Date DATETIME, @A MONEY, @R BIT
 AS
 BEGIN
@@ -13,7 +13,7 @@ BEGIN
 
     UPDATE [GeneralExpense] 
 	Set Repeat = @R,
-	Date = @D,
+	Date = @Date,
 	Amount = @A
     WHERE ExpenseID = @EID
 	

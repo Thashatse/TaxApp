@@ -202,6 +202,7 @@ namespace DAL
             new SqlParameter("@CNum", User.ContactNumber),
             new SqlParameter("@PA", User.PhysicalAddress),
             new SqlParameter("@VATNum", User.VATNumber),
+            new SqlParameter("@VATRate", User.VATRate),
             new SqlParameter("@DR", User.DefaultHourlyRate),
             new SqlParameter("@UN", User.Username),
             new SqlParameter("@PID", User.ProfileID),
@@ -246,7 +247,7 @@ namespace DAL
                             profile.EmailAddress = row["EmailAddress"].ToString();
                             profile.ContactNumber = row["ContactNumber"].ToString();
                             profile.PhysicalAddress = row["PhysicalAddress"].ToString();
-                            //profile.ProfilePicture = row["ProfilePicture"].ToString();
+                            profile.VATRate = decimal.Parse(row["VATRate"].ToString());
                             profile.VATNumber = row["VATNumber"].ToString();
                             profile.DefaultHourlyRate = Convert.ToDecimal(row["DefaultHourlyRate"].ToString());
                             profile.Active = Convert.ToBoolean(row["Active"].ToString());
@@ -1746,6 +1747,32 @@ namespace DAL
 
             return Result;
         }
+        public bool updateJobExpense(SP_GetJobExpense_Result updateJobExpense)
+        {
+            bool Result = false;
+
+            try
+            {
+                SqlParameter[] pars = new SqlParameter[]
+                   {
+                        new SqlParameter("@CID", updateJobExpense.CategoryID),
+                        new SqlParameter("@N", updateJobExpense.Name),
+                        new SqlParameter("@D", updateJobExpense.Description),
+                        new SqlParameter("@Date", updateJobExpense.Date),
+                        new SqlParameter("@A", updateJobExpense.Amount),
+                        new SqlParameter("@EID", updateJobExpense.ExpenseID)
+                   };
+
+                Result = DBHelper.NonQuery("SP_updateJobExpense", CommandType.StoredProcedure, pars);
+
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+
+            return Result;
+        }
         public SP_GetJobExpense_Result getJobExpense(Expense expenseID)
         {
             SP_GetJobExpense_Result expense = null;
@@ -2128,6 +2155,7 @@ namespace DAL
                         {
                             SP_GetGeneralExpense_Result expense = new SP_GetGeneralExpense_Result();
                             expense.ExpenseID = int.Parse(row[0].ToString());
+                            expense.PrimaryExpenseID = int.Parse(row["PrimaryExpenseID"].ToString());
                             expense.CategoryID = int.Parse(row["CategoryID"].ToString());
                             expense.Name = row[2].ToString();
                             expense.Description = row[3].ToString();
@@ -2152,27 +2180,6 @@ namespace DAL
             {
                 throw new ApplicationException(e.ToString());
             }
-        }
-        public bool UpdateGeneralExpenseRepeate(SP_GetGeneralExpense_Result expense)
-        {
-            bool Result = false;
-
-            try
-            {
-                SqlParameter[] pars = new SqlParameter[]
-                   {
-                        new SqlParameter("@EID", expense.ExpenseID)
-                   };
-
-                Result = DBHelper.NonQuery("SP_UpdateGeneralExpenseRepeate", CommandType.StoredProcedure, pars);
-
-            }
-            catch (Exception e)
-            {
-                throw new ApplicationException(e.ToString());
-            }
-
-            return Result;
         }
         public List<ExpenseCategory> getExpenseCatagories()
         {

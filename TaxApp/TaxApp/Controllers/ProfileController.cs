@@ -137,6 +137,7 @@ namespace TaxApp.Controllers
                         updateProfile.ContactNumber = Request.Form["ContactNumber"];
                         updateProfile.PhysicalAddress = Request.Form["PhysicalAddress"];
                         updateProfile.VATNumber = Request.Form["VATNumber"];
+                        updateProfile.VATRate = decimal.Parse(Request.Form["VATRate"]);
                         updateProfile.DefaultHourlyRate = Convert.ToDecimal(Request.Form["DefaultHourlyRate"]);
                         updateProfile.Username = Request.Form["Username"];
 

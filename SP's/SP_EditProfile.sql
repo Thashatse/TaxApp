@@ -7,7 +7,7 @@ GO
 alter PROCEDURE [dbo].[SP_EditProfile]
 	@FN VARCHAR (50), @LN VARCHAR (50), @CN VARCHAR (50), @EM VARCHAR (50), 
 	@CNum NCHAR (10), @PA VARCHAR (1000), @VATNum NCHAR (30), @DR MONEY, 
-	@UN VARCHAR (50), @PID int, @Pass VARCHAR (Max)
+	@UN VARCHAR (50), @PID int, @Pass VARCHAR (Max), @VATRate decimal(4,2)
 AS
 BEGIN
 	BEGIN TRY
@@ -21,6 +21,7 @@ BEGIN
 		ContactNumber = @CNum,
 		PhysicalAddress = @PA,
 		VATNumber = @VATNum,
+		VATRate = @VATRate,
 		DefaultHourlyRate = @DR,
 		Username = @UN,
 		[Password] = @Pass

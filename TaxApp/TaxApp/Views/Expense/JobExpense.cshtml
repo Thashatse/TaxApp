@@ -78,10 +78,10 @@
                                 <p class="mb-0">Actions: </p>
                             </div>
                             <div class="col-10 text-right">
-                                @if (ViewBag.Complete != "NotDone")
+                                @if (ViewBag.Complete == "NotDone")
                                 {
                                     <a href="../Expense/EditJobExpense?ID=@Html.DisplayFor(model => model.ExpenseID)"
-                                       class="btn btn-sm btn-secondary">Edit</a>
+                                       class="btn btn-sm btn-white">Edit</a>
                                 }
                                 @if (@Model.Invoice_ReceiptCopy == null)
                                 {

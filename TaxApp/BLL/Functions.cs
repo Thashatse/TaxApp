@@ -266,7 +266,6 @@ namespace BLL
 
                             if (result == true)
                             {
-                                handler.UpdateGeneralExpenseRepeate(newExpense);
                             }
                             else
                             {

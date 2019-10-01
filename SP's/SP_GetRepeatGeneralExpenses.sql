@@ -2,12 +2,12 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE SP_GetRepeatGeneralExpenses
+alter PROCEDURE SP_GetRepeatGeneralExpenses
 AS
 BEGIN
 	SELECT Expense.ExpenseID, Expense.CategoryID, Expense.[Name], Expense.[Description],
 		GeneralExpense.ProfileID, GeneralExpense.[Date], GeneralExpense.Amount, GeneralExpense.[Repeat], GeneralExpense.[Invoice/ReceiptCopy],
-		ExpenseCategory.[Name], ExpenseCategory.[Description]
+		ExpenseCategory.[Name], ExpenseCategory.[Description], GeneralExpense.PrimaryExpenseID
     FROM   Expense, GeneralExpense, ExpenseCategory
     WHERE  Expense.ExpenseID = GeneralExpense.ExpenseID
 			AND Expense.CategoryID = ExpenseCategory.CategoryID

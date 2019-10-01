@@ -152,6 +152,10 @@ namespace BLL
         {
             return db.newJobExpense(newJobExpense);
         }
+        public bool updateJobExpense(SP_GetJobExpense_Result updateJobExpense)
+        {
+            return db.updateJobExpense(updateJobExpense);
+        }
         public SP_GetJobExpense_Result getJobExpense(Expense expenseID)
         {
             return db.getJobExpense(expenseID);
@@ -170,7 +174,7 @@ namespace BLL
         }
         public bool updateGeneralExpense(SP_GetGeneralExpense_Result updateGeneralExpense)
         {
-            return db.newGeneralExpense(updateGeneralExpense);
+            return db.updateGeneralExpense(updateGeneralExpense);
         }
         public SP_GetGeneralExpense_Result getGeneralExpense(Expense expenseID)
         {
@@ -223,10 +227,6 @@ namespace BLL
         public TravelLog getTravelLogItem(TravelLog getTravelLogItem)
         {
             return db.getTravelLogItem(getTravelLogItem);
-        }
-        public bool UpdateGeneralExpenseRepeate(SP_GetGeneralExpense_Result expense)
-        {
-            return db.UpdateGeneralExpenseRepeate(expense);
         }
         public List<SP_GetGeneralExpense_Result> getRepeatGeneralExpenses()
         {

@@ -177,13 +177,26 @@ namespace TaxApp.Controllers
                 getCookie();
 
                 List<Model.ExpenseCategory> cats = handler.getExpenseCatagories();
-                ViewBag.CategoryList = new SelectList(cats, "CategoryID", "Name");
 
                 Model.Expense getExpense = new Model.Expense();
                 getExpense.ExpenseID = int.Parse(ID);
                 Model.SP_GetGeneralExpense_Result GeneralExpense = handler.getGeneralExpense(getExpense);
 
-                GeneralExpense.DefultDate = GeneralExpense.Date.ToString("yyyy-MM-dd");
+                var items = new List<SelectListItem>();
+
+                foreach (var cat in cats)
+                {
+                    items.Add(new SelectListItem()
+                    {
+                        Text = cat.Name,
+                        Value = cat.CategoryID.ToString(),
+                        Selected = cat.CategoryID == GeneralExpense.CategoryID ? true : false
+                    });
+            }
+
+                ViewBag.CategoryList = items;
+
+            GeneralExpense.DefultDate = GeneralExpense.Date.ToString("yyyy-MM-dd");
                 GeneralExpense.MaxDate = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
 
                 return View(GeneralExpense);
@@ -347,6 +360,30 @@ namespace TaxApp.Controllers
                     getExpense.ExpenseID = int.Parse(ID);
                     Model.SP_GetJobExpense_Result JobExpense = handler.getJobExpense(getExpense);
 
+                List<Model.ExpenseCategory> cats = handler.getExpenseCatagories();
+                var items = new List<SelectListItem>();
+
+                foreach (var cat in cats)
+                {
+                    items.Add(new SelectListItem()
+                    {
+                        Text = cat.Name,
+                        Value = cat.CategoryID.ToString(),
+                        Selected = cat.CategoryID == JobExpense.CategoryID ? true : false
+                    });
+                }
+
+                ViewBag.CategoryList = items;
+
+                JobExpense.DefultDate = JobExpense.Date.ToString("yyyy-MM-dd");
+                JobExpense.MaxDate = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
+
+                Model.Job getJob = new Model.Job();
+                getJob.JobID = JobExpense.JobID;
+                Model.SP_GetJob_Result Job = handler.getJob(getJob);
+                ViewBag.JobTitle = Job.JobTitle;
+                ViewBag.JobID = Job.JobID;
+
                 return View(JobExpense);
             }
             catch (Exception e)
@@ -366,21 +403,26 @@ namespace TaxApp.Controllers
                 List<Model.ExpenseCategory> cats = handler.getExpenseCatagories();
                 ViewBag.CategoryList = new SelectList(cats, "CategoryID", "Name");
 
-                Model.SP_GetJobExpense_Result newExpense = new Model.SP_GetJobExpense_Result();
+                Model.Expense getExpense = new Model.Expense();
+                getExpense.ExpenseID = int.Parse(ID);
+                Model.SP_GetJobExpense_Result newExpense = handler.getJobExpense(getExpense);
 
                 newExpense.CategoryID = int.Parse(Request.Form["CategoryList"].ToString());
                 newExpense.Name = Request.Form["Name"].ToString();
                 newExpense.Description = Request.Form["Description"].ToString();
-                newExpense.JobID = int.Parse(ID);
-                newExpense.Date = DateTime.Parse(Request.Form["Date"].ToString());
                 newExpense.Amount = Convert.ToDecimal(Request.Form["Amount"], CultureInfo.CurrentCulture);
-                //newExpense.Invoice_ReceiptCopy = DBNull.Value;
 
-                bool result = handler.newJobExpense(newExpense);
+                DateTime.TryParse(Request.Form["Date"].ToString(), out DateTime dateResult);
+                if (dateResult != null)
+                    newExpense.Date = dateResult;
+                else
+                    return View(newExpense);
+
+                bool result = handler.updateJobExpense(newExpense);
 
                 if (result == true)
                 {
-                    return Redirect("/Expense/JobExpenses?ID=" + ID);
+                    return Redirect("/expense/JobExpense?ID=" + newExpense.ExpenseID);
                 }
                 else
                 {
@@ -390,7 +432,7 @@ namespace TaxApp.Controllers
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
-                    "Error in new general expense of expense controler");
+                    "Error in edit Job expense of expense controler ID:"+ ID + " Error: ");
                 return View();
             }
         }
