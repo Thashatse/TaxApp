@@ -37,6 +37,8 @@
                                 <p class="mb-0">Actions: </p>
                             </div>
                             <div class="col-10 text-right">
+                                <a target="_blank" href="/Invoice/Download?ID=@Html.DisplayFor(model => model.InvoiceNum)"
+                                   class="btn btn-sm btn-white">Download</a>
                                 <a href="/Invoice/Print?ID=@Html.DisplayFor(model => model.InvoiceNum)"
                                    class="btn btn-sm btn-white">Print</a>
                             </div>

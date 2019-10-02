@@ -140,6 +140,48 @@ namespace TaxApp.Controllers
                 return Redirect("../Shared/Error");
             }
         }
+        #endregion 
+        
+        #region Download Invoice PDF
+        // GET: Invoice
+        public FileResult Download(string id = "0")
+        {
+                getCookie(true);
+
+            string InvoiceName = "";
+
+            try
+            {
+                if (id == "0")
+                {
+                    function.logAnError("Error loding download invoice details - No ID Supplied");
+                    Response.Redirect("/Shared/Error?ERR=Error downloading invoice - No ID Supplied");
+                }
+                else
+                {
+                    Invoice invoiceNum = new Invoice();
+                    invoiceNum.InvoiceNum = id;
+
+                    List<SP_GetInvoice_Result> invoiceDetails = handler.getInvoiceDetails(invoiceNum);
+
+                    Profile getProfile = new Profile();
+                    getProfile.ProfileID = invoiceDetails[0].ProfileID;
+                    getProfile.EmailAddress = "";
+                    getProfile.Username = "";
+                    getProfile = handler.getProfile(getProfile);
+                    
+                    InvoiceName = "Invoice From " + getProfile.FirstName + " " + getProfile.LastName + " - " + invoiceDetails[0].DateTime+".pdf";
+                }
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding invoice details for Download");
+                Response.Redirect("/Shared/Error?ERR=Error downloading invoice");
+            }
+
+            return File(function.downloadPage("https://www.mandela.ac.za/"), System.Net.Mime.MediaTypeNames.Application.Octet, InvoiceName);
+        }
         #endregion
 
         #region View Invoice (External)

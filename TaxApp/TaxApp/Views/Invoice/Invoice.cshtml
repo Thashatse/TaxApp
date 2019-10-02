@@ -43,6 +43,8 @@
                                     <a target="_blank" href="/Invoice/EmailInvoice?ID=@Html.DisplayFor(model => model.InvoiceNum)&To=Consultant"
                                        class="btn btn-sm btn-white">Email to Consultant</a>
                                 }
+                                <a target="_blank" href="/Invoice/Download?ID=@Html.DisplayFor(model => model.InvoiceNum)"
+                                   class="btn btn-sm btn-white">Download</a>
                                 <a target="_blank" href="/Invoice/Print?ID=@Html.DisplayFor(model => model.InvoiceNum)"
                                    class="btn btn-sm btn-white">Print</a>
                             </div>

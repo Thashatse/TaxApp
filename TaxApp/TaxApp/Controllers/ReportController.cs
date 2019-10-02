@@ -1880,5 +1880,26 @@ namespace TaxApp.Controllers
 
             return View(report);
         }
+    
+        public FileResult DownloadReport(string StartDateRange, string EndDateRange, string SortBy, string SortDirection, string DropDownID, string reportID = "0", string view = "")
+        {
+            getCookie();
+
+            string ID = reportID;
+
+            if (ID == "0")
+            {
+                function.logAnError("No report ID Supplied display report");
+                Response.Redirect("/Shared/Error?ERR=Error downloading report - No ID Supplied");
+            }
+
+            ReportViewModel report = getReportData(ID, StartDateRange, EndDateRange, DropDownID, view);
+
+            if (report == null)
+                Response.Redirect("/Shared/Error?ERR=Error downloading report");
+
+            return File(function.downloadPage("https://www.mandela.ac.za/"), System.Net.Mime.MediaTypeNames.Application.Octet, 
+                report.reportTitle+" - Generated: "+ DateTime.Now+".pdf");
+        }
     }
 }
