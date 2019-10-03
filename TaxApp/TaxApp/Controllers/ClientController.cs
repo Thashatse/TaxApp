@@ -37,7 +37,7 @@ namespace TaxApp.Controllers
 
                         if (checkProfile == null)
                         {
-                            Response.Redirect("/Landing/Welcome");
+                            Response.Redirect(Url.Action("Welcome", "Landing"));
                         }
 
                         ViewBag.ProfileName = checkProfile.FirstName + " " + checkProfile.LastName;
@@ -45,18 +45,19 @@ namespace TaxApp.Controllers
                     }
                     else
                     {
-                        Response.Redirect("/Landing/Welcome");
+                        Response.Redirect(Url.Action("Welcome", "Landing"));
                     }
                 }
                 else
                 {
-                    Response.Redirect("/Landing/Welcome");
+                    Response.Redirect(Url.Action("Welcome", "Landing"));
                 }
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error in welcome method of LandingControles");
+                Response.Redirect(Url.Action("Error", "Shared") + "?Err=Identity couldn't be verified");
                 Redirect("/Shared/Error");
             }
         }
@@ -74,7 +75,7 @@ namespace TaxApp.Controllers
             List<Model.Client> Clients = handler.getProfileClients(getClients);
 
                 if (Clients.Count == 0)
-                    Response.Redirect("../Client/NewClient");
+                    return RedirectToAction("NewClient");
 
                 return View(Clients);
             }
@@ -82,7 +83,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loading clients");
-                return RedirectToAction("../Shared/Error?Err=Error loading clients");
+                return RedirectToAction("Error", "Shared", new { err = "Error loading clients" });
             }
         }
 
@@ -128,7 +129,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding client details");
-                return Redirect("../Client/Client");
+                return RedirectToAction("Client");
             }
         }
         #endregion
@@ -164,18 +165,18 @@ namespace TaxApp.Controllers
 
                 if (result == true)
                 {
-                    return Redirect("/Client/Client");
+                    return RedirectToAction("Client", "Client");
                 }
                 else
                 {
-                    return RedirectToAction("../Shared/Error");
+                    return RedirectToAction("Error", "Shared");
                 }
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error in new client of client controler");
-                return View();
+                return RedirectToAction("Error", "Shared");
             }
         }
         #endregion
@@ -196,7 +197,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding client details for edit");
-                return Redirect("../Client/Client");
+                return RedirectToAction("Error", "Shared");
             }
         }
 
@@ -224,44 +225,17 @@ namespace TaxApp.Controllers
 
                 if (result == true)
                 {
-                    return Redirect("/Client/ClientDetails?ID="+client.ClientID);
+                    return Redirect(Url.Action("ClientDetails", "Client") + "?ID="+client.ClientID);
                 }
                 else
-                {
-                    Response.Redirect("../Shared/Error?Err=Error saving client details");
-                }
-
-                return View();
+                    return RedirectToAction("Error", "Shared", new {
+                        Err = "Error saving client details" });
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error commiting client edit");
-                return RedirectToAction("../Shared/Error?Err=Error saving client details");
-            }
-        }
-        #endregion
-
-        #region Delete
-        // GET: Client/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Client/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
+                return RedirectToAction("Error", "Shared", new { Err = "Error saving client details" });
             }
         }
         #endregion

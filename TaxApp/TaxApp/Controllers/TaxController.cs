@@ -37,7 +37,7 @@ namespace TaxApp.Controllers
 
                         if (checkProfile == null)
                         {
-                            Response.Redirect("/Landing/Welcome");
+                            Response.Redirect(Url.Action("Welcome", "Landing"));
                         }
 
                         ViewBag.ProfileName = checkProfile.FirstName + " " + checkProfile.LastName;
@@ -45,19 +45,19 @@ namespace TaxApp.Controllers
                     }
                     else
                     {
-                        Response.Redirect("/Landing/Welcome");
+                        Response.Redirect(Url.Action("Welcome", "Landing"));
                     }
                 }
                 else
                 {
-                    Response.Redirect("/Landing/Welcome");
+                    Response.Redirect(Url.Action("Welcome", "Landing"));
                 }
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error in welcome method of LandingControles");
-                Redirect("/Shared/Error");
+                Response.Redirect(Url.Action("Error", "Shared") + "?Err=Identity couldn't be verified");
             }
         }
 
@@ -97,7 +97,7 @@ namespace TaxApp.Controllers
 
                     if (period == null || period == "")
                     {
-                        Response.Redirect("../Tax/TaxCenter?period=" + taxPeriod[0].PeriodID + "&view=" + view);
+                        return RedirectToAction("TaxCenter", "Tax", new { period = taxPeriod[0].PeriodID, view });
                     }
 
                     foreach (TaxAndVatPeriods item in taxPeriod)
@@ -119,7 +119,7 @@ namespace TaxApp.Controllers
 
                     if (ViewBag.TaxPeriod == null)
                     {
-                        Response.Redirect("../Shared/Error?Err=An error occurred loading data for tax period");
+                        return RedirectToAction("Error", "Shared", new { err = "An error occurred loading data for tax period" });
                     }
 
                     decimal totalAmount = 0;
@@ -142,7 +142,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding Tax Center");
-                return Redirect("../Shared/Error?Err=An error occurred loading the Tax center");
+                return RedirectToAction("Error", "Shared", new { err = "An error occurred loading the Tax center" });
             }
         }
         [HttpPost]
@@ -157,15 +157,13 @@ namespace TaxApp.Controllers
 
                 List<TaxAndVatPeriods> taxPeriod = handler.getTaxOrVatPeriodForProfile(profileID, 'V');
 
-                Response.Redirect("../Tax/TaxCenter?period=" + Request.Form["TaxPeriodList"].ToString());
-
-                return Redirect("../Shared/Error?Err=An error occurred updating the Tax period");
+                return RedirectToAction("TaxCenter", "Tax", new { period = Request.Form["TaxPeriodList"].ToString() });
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error loding Tax Center");
-                return Redirect("../Shared/Error?Err=An error occurred loading the Tax center");
+                return RedirectToAction("Error", "Shared", new { err = "An error occurred loading the Tax center" });
             }
         }
         #endregion
@@ -176,7 +174,7 @@ namespace TaxApp.Controllers
             getCookie();
             if(type == null || type == "")
             {
-                Response.Redirect("../Shared/Error");
+                return RedirectToAction("Error", "Shared");
             }
             else
             {
@@ -190,13 +188,11 @@ namespace TaxApp.Controllers
                 }
                 else
                 {
-                    Response.Redirect("../Shared/Error");
+                    return RedirectToAction("Error", "Shared");
                 }
 
                 return View();
             }
-
-            return Redirect("../Shared/Error");
         }
 
         [HttpPost]
@@ -216,7 +212,7 @@ namespace TaxApp.Controllers
 
                 if (type == null || type == "")
                 {
-                    Response.Redirect("../Shared/Error?Err=Error creating TAX or VAT Period");
+                    return RedirectToAction("Error", "Shared", new { Err="Error creating TAX or VAT Period"});
                 }
                 else
                 {
@@ -233,31 +229,29 @@ namespace TaxApp.Controllers
                     {
                         if (type == "V")
                         {
-                            Response.Redirect("../Vat/VatCenter");
+                            return RedirectToAction("VatCenter", "Vat");
                         }
                         else if (type == "T")
                         {
-                            Response.Redirect("../Tax/TaxBrakets?ID="+handler.SP_GetLatestTaxAndVatPeriodID().PeriodID+ "&period="+
-                                period.StartDate.ToString("dd MMM yyyy")+" to "+ period.EndDate.ToString("dd MMM yyyy"));
+                            return RedirectToAction("TaxBrakets", "Tax", new{ID=handler.SP_GetLatestTaxAndVatPeriodID().PeriodID, period=
+                                period.StartDate.ToString("dd MMM yyyy")+" to "+ period.EndDate.ToString("dd MMM yyyy")});
                         }
                         else
                         {
-                            Response.Redirect("../Shared/Error?Err=Error creating TAX or VAT Period");
+                            return RedirectToAction("Error", "Shared", new { Err = "Error creating TAX or VAT Period" });
                         }
                     }
                     else
                     {
-                        Response.Redirect("../Shared/Error?Err=Error creating TAX or VAT Period");
+                        return RedirectToAction("Error", "Shared", new { Err = "Error creating TAX or VAT Period" });
                     }
                 }
-
-                return Redirect("../Shared/Error");
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error creating TAX or VAT Period");
-                return Redirect("../Shared/Error?Err=Error creating TAX or VAT Period");
+                return RedirectToAction("Error", "Shared", new { Err = "Error creating TAX or VAT Period" });
             }
         }
         #endregion
@@ -268,7 +262,7 @@ namespace TaxApp.Controllers
             getCookie();
             if(type == null || type == "")
             {
-                Response.Redirect("../Shared/Error");
+                return RedirectToAction("Error", "Shared");
             }
             else
             {
@@ -297,7 +291,7 @@ namespace TaxApp.Controllers
                         {
                             function.logAnError(e.ToString() +
                                 "Error loding Vat period for edit");
-                            return Redirect("../Shared/Error?Err=An error occurred loading the Vat period");
+                            return RedirectToAction("Error", "Shared", new { Err = "An error occurred loading the Vat period" });
                         }
                     }
                 }
@@ -326,19 +320,19 @@ namespace TaxApp.Controllers
                         {
                             function.logAnError(e.ToString() +
                                 "Error loding Tax period for edit");
-                            return Redirect("../Shared/Error?Err=An error occurred loading the Tax period");
+                            return RedirectToAction("Error", "Shared", new { Err = "An error occurred loading the Tax period" });
                         }
                     }
                 }
                 else
                 {
-                    Response.Redirect("../Shared/Error");
+                    return RedirectToAction("Error", "Shared");
                 }
 
                 return View();
             }
 
-            return Redirect("../Shared/Error");
+            return RedirectToAction("Error", "Shared", new { Err = "Error creating TAX or VAT Period" });
         }
 
         [HttpPost]
@@ -348,7 +342,12 @@ namespace TaxApp.Controllers
             try
             {
                 TaxAndVatPeriods period = new TaxAndVatPeriods();
-
+                if (type == null || type == "")
+                {
+                    return RedirectToAction("Error", "Shared", new { Err = "Error updating TAX or VAT Period" });
+                }
+                else
+                {
                 if (type == "V")
                 {
                     if (Period != "0")
@@ -364,12 +363,6 @@ namespace TaxApp.Controllers
                     }
                 }
 
-                if (type == null || type == "")
-                {
-                    Response.Redirect("../Shared/Error?Err=Error creating TAX or VAT Period");
-                }
-                else
-                {
                     period.StartDate = DateTime.Parse(Request.Form["StartDate"]);
                     period.EndDate = DateTime.Parse(Request.Form["EndDate"]);
                     period.PeriodID = int.Parse(Period);
@@ -380,31 +373,32 @@ namespace TaxApp.Controllers
                     {
                         if (type == "V")
                         {
-                            Response.Redirect("../Vat/VatCenter?period="+period.PeriodID);
+                            return RedirectToAction("VatCenter", "Vat", new { period = period.PeriodID });
                         }
                         else if (type == "T")
                         {
-                            Response.Redirect("../Tax/TaxBrakets?ID=" + period.PeriodID + "&period="+
-                                period.StartDate.ToString("dd MMM yyyy")+" to "+ period.EndDate.ToString("dd MMM yyyy")
-                                + "&ReturnToConsultant="+ ReturnToConsultant);
+                            return RedirectToAction("TaxBrakets", "Tax", new
+                            {
+                                ID = period.PeriodID,
+                                period = period.StartDate.ToString("dd MMM yyyy") + " to " + period.EndDate.ToString("dd MMM yyyy")
+                                + "&ReturnToConsultant=" + ReturnToConsultant
+                            });
                         }
                         else
                         {
-                            Response.Redirect("../Shared/Error?Err=Error updating TAX or VAT Period");
+                            return RedirectToAction("Error", "Shared", new { Err = "Error updating TAX or VAT Period" });
                         }
                     }
                     else
                     {
-                        Response.Redirect("../Shared/Error?Err=Error updating TAX or VAT Period");
+                        return RedirectToAction("Error", "Shared", new { Err = "Error updating TAX or VAT Period" });
                     }
                 }
-
-                return Redirect("../Shared/Error");
             }
             catch (Exception e)
             {
                 function.logAnError("Error updating TAX or VAT Period" + e.ToString());
-                return Redirect("../Shared/Error?Err=Error updating TAX or VAT Period");
+                return RedirectToAction("Error", "Shared", new { Err = "Error updating TAX or VAT Period" });
             }
         }
         #endregion
@@ -423,7 +417,7 @@ namespace TaxApp.Controllers
                 viewModel.Consultant = handler.getConsumtant(viewModel.Consultant);
 
                 if (viewModel.Consultant == null)
-                    Response.Redirect("../Landing/TaxConsultant?ID=" + cookie["ID"] + "&Return=Consultant");
+                    return RedirectToAction("TaxConsultant", "Landing", new { ID = cookie["ID"], Return = "Consultant" });
 
                 Profile profileID = new Profile();
                 profileID.ProfileID = int.Parse(cookie["ID"]);
@@ -437,7 +431,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding Tax Consultant");
-                return Redirect("../Shared/Error?Err=An error occurred loading Tax Consultant");
+                return RedirectToAction("Error", "Shared", new { Err = "An error occurred loading Tax Consultant" });
             }
         }
         public ActionResult EditConsultant()
@@ -451,9 +445,7 @@ namespace TaxApp.Controllers
                 consultant = handler.getConsumtant(consultant);
 
                 if(consultant == null)
-                {
-                    Response.Redirect("../Shared/Error?Err=An error occurred loading Tax Consultant for edit");
-                }
+                    return RedirectToAction("Error", "Shared", new { Err = "An error occurred loading Tax Consultant for edit" });
 
                 return View(consultant);
             }
@@ -461,7 +453,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding Tax Consultant");
-                return Redirect("../Shared/Error?Err=An error occurred loading Tax Consultant for edit");
+                return RedirectToAction("Error", "Shared", new { Err = "An error occurred loading Tax Consultant for edit" });
             }
         }
         [HttpPost]
@@ -481,7 +473,7 @@ namespace TaxApp.Controllers
                 if(consultant == null)
                 {
                     function.logAnError("Error loding Tax Consultant for edit");
-                    Response.Redirect("../Tax/Consultant");
+                    return RedirectToAction("Consultant", "Tax");
                 }
 
                 consultant = new Model.TaxConsultant();
@@ -493,13 +485,9 @@ namespace TaxApp.Controllers
                 bool result = handler.EditTaxConsultant(consultant);
 
                 if (result == true)
-                {
-                    return Redirect("../Tax/Consultant");
-                }
-                else
-                {
-                    return RedirectToAction("../Shared/Error?Err=An error occurred loading Tax Consultant for edit");
-                }
+                        return RedirectToAction("Consultant", "Tax");
+                    else
+                        return RedirectToAction("Error", "Shared", new { Err = "An error occurred loading Tax Consultant for edit" });
                 }
                 else
                 {
@@ -511,7 +499,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding Tax Consultant for edit");
-                return Redirect("../Shared/Error?Err=An error occurred loading Tax Consultant for edit");
+                return RedirectToAction("Error", "Shared", new { Err = "An error occurred loading Tax Consultant for edit" });
             }
         }
         #endregion
@@ -538,7 +526,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding new Tax Brakets");
-                return Redirect("../Shared/Error?Err=An error occurred loading the new tax braket page");
+                return RedirectToAction("Error", "Shared", new { Err = "An error occurred loading the new tax braket page" });
             }
 
             return View(view);
@@ -584,27 +572,28 @@ namespace TaxApp.Controllers
                 }
                 else if (bool.Parse(ReturnToConsultant))
                 {
-                    Response.Redirect("/Tax/Consultant");
+                    return RedirectToAction("Consultant", "Tax");
                 }
                 else if (result == true && newRate.Type == 'C')
                 {
-                    Response.Redirect("../Tax/TaxCenter?period=" + ID);
+                    return RedirectToAction("TaxCenter", "Tax", new { period = ID });
                 }
                 else
                 {
                     function.logAnError("Error creating new Tax Braket");
-                    return Redirect("../Shared/Error?Err=An error occurred creating new tax braket");
+                    return RedirectToAction("Error", "Shared", new { Err = "An error occurred creating new tax braket" });
                 }
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error loding new Tax Brakets");
-                return Redirect("../Shared/Error?Err=An error occurred loading the new tax braket page");
+                return RedirectToAction("Error", "Shared", new { Err = "An error occurred loading the new tax braket page" });
             }
 
             return View(view);
         }
+
         public ActionResult DeleteTaxBraket(FormCollection collection, string RateID, string period, string ID)
         {
             try
@@ -618,7 +607,7 @@ namespace TaxApp.Controllers
                 function.logAnError("Error deleting Tax Braket. Braket ID: "+RateID + " Error: "+e.ToString());
             }
 
-            return Redirect("../Tax/TaxBrakets?ID="+ID+"&period="+period);
+            return Redirect(Url.Action("TaxBrakets", "Tax")+"?ID="+ID+"&period="+period);
         }
         #endregion
 
@@ -641,6 +630,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error Updating Tax or Vat Period share");
+                return RedirectToAction("Error", "Shared");
             }
 
             string period = ID;

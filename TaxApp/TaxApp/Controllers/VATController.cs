@@ -37,7 +37,7 @@ namespace TaxApp.Controllers
 
                         if (checkProfile == null)
                         {
-                            Response.Redirect("/Landing/Welcome");
+                            Response.Redirect(Url.Action("Welcome", "Landing"));
                         }
 
                         ViewBag.ProfileName = checkProfile.FirstName + " " + checkProfile.LastName;
@@ -45,19 +45,19 @@ namespace TaxApp.Controllers
                     }
                     else
                     {
-                        Response.Redirect("/Landing/Welcome");
+                        Response.Redirect(Url.Action("Welcome", "Landing"));
                     }
                 }
                 else
                 {
-                    Response.Redirect("/Landing/Welcome");
+                    Response.Redirect(Url.Action("Welcome", "Landing"));
                 }
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error in welcome method of LandingControles");
-                Redirect("/Shared/Error");
+                Response.Redirect(Url.Action("Error", "Shared") + "?Err=Identity couldn't be verified");
             }
         }
 
@@ -97,7 +97,7 @@ namespace TaxApp.Controllers
 
                     if (period == null || period == "")
                     {
-                        Response.Redirect("../Vat/VatCenter?period=" + vatPeriod[0].PeriodID + "&view=" + view);
+                        return RedirectToAction("VatCenter", "Vat", new{period=vatPeriod[0].PeriodID, view});
                     }
                         foreach (TaxAndVatPeriods item in vatPeriod)
                         {
@@ -139,7 +139,7 @@ namespace TaxApp.Controllers
                                     expense.deatilTitle = "Total Km's:";
                                     expense.amountTital = "Cost to Customer:";
                                     expense.amount = expenseItem.ClientCharge;
-                                    expense.URL = "../Expense/TravleLogItem?ID=" + expenseItem.ExpenseID;
+                                    expense.URL = "/Expense/TravleLogItem?ID=" + expenseItem.ExpenseID;
                                     expense.expenseType = "Travel";
                                     expense.VAT = expense.amount - (expense.amount / ((item.VATRate/100)+1));
                                     expense.VATString = expense.VAT.ToString("#,0.00", nfi);
@@ -161,7 +161,7 @@ namespace TaxApp.Controllers
                                     expense.deatilTitle = "Job:";
                                     expense.amountTital = "Price:";
                                     expense.amount = expenseItem.Amount;
-                                    expense.URL = "../Expense/JobExpense?ID=" + expenseItem.ExpenseID;
+                                    expense.URL = "/Expense/JobExpense?ID=" + expenseItem.ExpenseID;
                                     expense.expenseType = "Job";
                                     expense.VAT = expense.amount - (expense.amount / ((item.VATRate / 100) + 1));
                                     expense.VATString = expense.VAT.ToString("#,0.00", nfi);
@@ -183,7 +183,7 @@ namespace TaxApp.Controllers
                                     expense.deatilTitle = "Recuring:";
                                     expense.amountTital = "Price:";
                                     expense.amount = expenseItem.Amount;
-                                    expense.URL = "../Expense/GeneralExpense?ID=" + expenseItem.ExpenseID;
+                                    expense.URL = "/Expense/GeneralExpense?ID=" + expenseItem.ExpenseID;
                                     expense.expenseType = "General";
                                     expense.VAT = expense.amount - (expense.amount / ((item.VATRate / 100) + 1));
                                     expense.VATString = expense.VAT.ToString("#,0.00", nfi);
@@ -206,10 +206,7 @@ namespace TaxApp.Controllers
                         }
 
                     if(ViewBag.VatPeriod == null)
-                    {
-                        Response.Redirect("../Shared/Error?Err=An error occurred loading data for vat period");
-                    }
-
+                        return RedirectToAction("Error", "Shared", new { Err="An error occurred loading data for vat period" });
 
                     viewModel.VATDashboard = dashboard;
                     viewModel.VATRecivedList = VATRecived;
@@ -222,7 +219,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding Vat Center");
-                return Redirect("../Shared/Error?Err=An error occurred loading the vat center");
+                        return RedirectToAction("Error", "Shared", new { Err="An error occurred loading the vat center" });
             }
         }
         [HttpPost]
@@ -237,15 +234,13 @@ namespace TaxApp.Controllers
 
                 List<TaxAndVatPeriods> vatPeriod = handler.getTaxOrVatPeriodForProfile(profileID, 'V');
 
-                Response.Redirect("../Vat/VatCenter?period=" + Request.Form["VatPeriodList"].ToString());
-
-                return Redirect("../Shared/Error?Err=An error occurred updating the vat period");
+                return RedirectToAction("VatCenter", "Vat", new{period=Request.Form["VatPeriodList"].ToString()});
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error loding Vat Center");
-                return Redirect("../Shared/Error?Err=An error occurred loading the vat center");
+                return RedirectToAction("Error", "Shared", new { Err="An error occurred loading the vat center"});
             }
         }
     }

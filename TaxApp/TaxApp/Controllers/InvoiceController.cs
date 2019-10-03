@@ -38,7 +38,7 @@ namespace TaxApp.Controllers
 
                         if (checkProfile == null)
                         {
-                            Response.Redirect("/Landing/Welcome");
+                            Response.Redirect(Url.Action("Welcome", "Landing"));
                         }
 
                         ViewBag.ProfileName = checkProfile.FirstName + " " + checkProfile.LastName;
@@ -46,7 +46,7 @@ namespace TaxApp.Controllers
                     }
                     else
                     {
-                        Response.Redirect("/Landing/Welcome");
+                        Response.Redirect(Url.Action("Welcome", "Landing"));
                     }
                 }
                 else if (externalPrintCheck == true)
@@ -54,22 +54,22 @@ namespace TaxApp.Controllers
                     cookie = Request.Cookies["TaxAppGuestUserID"];
 
                     if (cookie == null)
-                        Response.Redirect("/Landing/Welcome");
+                        Response.Redirect(Url.Action("Welcome", "Landing"));
                     if (cookie["ID"] == null)
-                        Response.Redirect("/Landing/Welcome");
+                        Response.Redirect(Url.Action("Welcome", "Landing"));
                     if (cookie["ID"] == "")
-                        Response.Redirect("/Landing/Welcome");
+                        Response.Redirect(Url.Action("Welcome", "Landing"));
                 }
                 else
                 {
-                    Response.Redirect("/Landing/Welcome");
+                    Response.Redirect(Url.Action("Welcome", "Landing"));
                 }
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error in welcome method of LandingControles");
-                Redirect("/Shared/Error");
+                Response.Redirect(Url.Action("Error", "Shared") + "?Err=Identity couldn't be verified");
             }
         }
 
@@ -84,7 +84,7 @@ namespace TaxApp.Controllers
                 if (id == "0")
                 {
                     function.logAnError("Error loding Print invoice details - No ID Supplied");
-                    return Redirect("../Shared/error");
+                    return RedirectToAction("Error", "Shared");
                 }
                 else
                 {
@@ -137,7 +137,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding invoice details for Print");
-                return Redirect("../Shared/Error");
+                return RedirectToAction("Error", "Shared");
             }
         }
         #endregion 
@@ -177,7 +177,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding invoice details for Download");
-                Response.Redirect("/Shared/Error?ERR=Error downloading invoice");
+                Response.Redirect(Url.Action("Error","Shared") +"?ERR=Error downloading invoice");
             }
 
             return File(function.downloadPage("https://www.mandela.ac.za/"), System.Net.Mime.MediaTypeNames.Application.Octet, InvoiceName);
@@ -195,7 +195,7 @@ namespace TaxApp.Controllers
                 if (id == "0")
                 {
                     function.logAnError("Error loding Print invoice details - No ID Supplied");
-                    return Redirect("../Shared/error");
+                    return RedirectToAction("Error", "Shared", new { err = "No ID Supplied" });
                 }
                 else
                 {
@@ -248,13 +248,12 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding invoice details for Print");
-                return Redirect("../Shared/Error");
+                return RedirectToAction("Error", "Shared");
             }
         }
         #endregion
 
         #region View Invoice
-        // GET: Invoice
         public ActionResult Invoice(string id = "0")
         {
             try
@@ -264,7 +263,7 @@ namespace TaxApp.Controllers
                 if (id == "0")
                 {
                     function.logAnError("Error loding invoice details - No ID Supplied");
-                    return Redirect("../Shared/Error?Err=Error loading invoice");
+                    return RedirectToAction("Error", "Shared", new { err = "No ID Supplied" });
                 }
                 else
                 {
@@ -326,11 +325,10 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding invoice details");
-                return Redirect("../Shared/Error?Err=Error loading invoice");
+                return RedirectToAction("Error", "Shared", new { err = "Error loading invoice" });
             }
         }
         
-        // GET: Invoice/Details/5
         public ActionResult JobInvoices(int id = 0)
         {
             try
@@ -340,7 +338,7 @@ namespace TaxApp.Controllers
                 if(id.ToString() == null || id.ToString() == "")
                 {
                     function.logAnError("Error loding all job invoices - No ID Supplied");
-                    return Redirect("/job/jobs");
+                    return RedirectToAction("jobs","job");
                 }
                 else
                 {
@@ -369,23 +367,22 @@ namespace TaxApp.Controllers
                         && JobItemsForInvoice.ElementAt(0).Count != 0
                     && JobItemsForInvoice.ElementAt(1).Count != 0
                     && JobItemsForInvoice.ElementAt(2).Count != 0)
-                        Response.Redirect("/Invoice/NewInvoice?ID="+id+"&ReturnTo=Job");
+                        return Redirect(Url.Action("NewInvoice", "Invoice") + "?ID="+id+"&ReturnTo=Job");
 
                     if (invoiceDetails.Count < 1
                         && JobItemsForInvoice.ElementAt(0).Count == 0
                     && JobItemsForInvoice.ElementAt(1).Count == 0
                     && JobItemsForInvoice.ElementAt(2).Count == 0)
-                        Response.Redirect("/job/job?ID=" + id);
+                        return Redirect(Url.Action("job", "job")+"?ID=" + id);
 
                     return View(invoiceDetails);
                 }
-                
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error loding all job invoices");
-                return Redirect("../Shared/Error");
+                return RedirectToAction("Error", "Shared");
             }
         }
         #endregion
@@ -460,7 +457,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding income Page");
-                return Redirect("../Shared/Error");
+                return RedirectToAction("Error", "Shared");
             }
         }
 
@@ -492,7 +489,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error updating date range for income page");
-                return RedirectToAction("../Shared/Error");
+                return RedirectToAction("Error", "Shared");
             }
         }
         #endregion
@@ -508,7 +505,7 @@ namespace TaxApp.Controllers
                 if (id == "0")
                 {
                     function.logAnError("Error loding Print invoice details - No ID Supplied");
-                    return Redirect("../Shared/error");
+                    return RedirectToAction("Error", "Shared", new { err = "No ID Supplied" });
                 }
                 else
                 {
@@ -579,7 +576,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding invoice details for Print");
-                return Redirect("../Shared/Error");
+                return RedirectToAction("Error", "Shared");
             }
         }
 
@@ -635,7 +632,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding invoice for email");
-                return View();
+                return RedirectToAction("Error", "Shared");
             }
         }
 
@@ -689,9 +686,6 @@ namespace TaxApp.Controllers
                     toName = invoiceDetails[0].ClientName;
                 }
 
-                //string invoice = RenderRazorViewToString(this.ControllerContext, "Email", null);
-                //string invoice = ToHtml("Email", this.ViewData, this.ControllerContext);
-
                 bool result = function.sendEmail(toAddress,
                     toName,
                     Request.Form["subject"],
@@ -705,7 +699,7 @@ namespace TaxApp.Controllers
                     Notifications newNoti = new Notifications();
                     newNoti.date = DateTime.Now;
                     newNoti.ProfileID = int.Parse(cookie["ID"]);
-                    newNoti.Link = "../Invoice/Invoice?ID=" + ID;
+                    newNoti.Link = "/Invoice/Invoice?ID=" + ID;
                     newNoti.Details = "Invoice Succesffuly sent to "+ toName;
                     notiFunctions.newNotification(newNoti);
 
@@ -715,18 +709,14 @@ namespace TaxApp.Controllers
                 else
                 {
                     function.logAnError("Error sending invoice");
-                    Response.Redirect("../Shared/Error?Err=An Error Occured Sending Your Email, Please Try Again Later.");
+                    return RedirectToAction("Error", "Shared", new { err = "An Error Occured Sending Your Email, Please Try Again Later."});
                 }
-
-                Response.Redirect("../Shared/Error?Err=An Error Occured Sending Your Email, Please Try Again Later.");
-
-                return View();
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error in post new invoice of invoice controler");
-                return View();
+                return RedirectToAction("Error", "Shared");
             }
         }
         #endregion
@@ -759,7 +749,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding new invoice page");
-                return Redirect("/job/job?ID=" + ID);
+                return RedirectToAction("Error", "Shared");
             }
         }
 
@@ -857,7 +847,7 @@ namespace TaxApp.Controllers
                                 if (result == false)
                                 {
                                     function.logAnError("Error creating new invoice detale line Hours");
-                                    Redirect("/Shared/Error");
+                                    return RedirectToAction("Error", "Shared");
                                 }
                             }
 
@@ -874,7 +864,7 @@ namespace TaxApp.Controllers
                                 if (result == false)
                                 {
                                     function.logAnError("Error creating new invoice detale line Expenses");
-                                    Redirect("/Shared/Error");
+                                    return RedirectToAction("Error", "Shared");
                                 }
                             }
 
@@ -891,7 +881,7 @@ namespace TaxApp.Controllers
                                 if (result == false)
                                 {
                                     function.logAnError("Error creating new invoice detale line Travel");
-                                    Redirect("/Shared/Error");
+                                    return RedirectToAction("Error", "Shared");
                                 }
                             }
                         }
@@ -909,7 +899,7 @@ namespace TaxApp.Controllers
                                 if (result == false)
                                 {
                                     function.logAnError("Error creating new invoice detale line Hours");
-                                    Redirect("/Shared/Error");
+                                    return RedirectToAction("Error", "Shared");
                                 }
                             }
 
@@ -925,7 +915,7 @@ namespace TaxApp.Controllers
                                 if (result == false)
                                 {
                                     function.logAnError("Error creating new invoice detale line Expenses");
-                                    Redirect("/Shared/Error");
+                                    return RedirectToAction("Error", "Shared");
                                 }
                             }
 
@@ -941,12 +931,12 @@ namespace TaxApp.Controllers
                                 if (result == false)
                                 {
                                     function.logAnError("Error creating new invoice detale line Travel");
-                                    Redirect("/Shared/Error");
+                                    return RedirectToAction("Error", "Shared");
                                 }
                             }
                         }
 
-                        Response.Redirect("../Invoice/Invoice?ID="+ newInvoice.InvoiceNum);
+                        return Redirect(Url.Action("Invoice", "Invoice")+"?ID="+ newInvoice.InvoiceNum);
                     }
 
                     function.logAnError("Error creating new invoice");
@@ -988,13 +978,13 @@ namespace TaxApp.Controllers
                     else
                     {
                         function.logAnError("Error marking invoice as paid invoice controller - no invoice number supplied");
-                        Response.Redirect("../Shared/Error?Err=Error marking invoice as paid");
+                        return RedirectToAction("Error", "Shared", new { err = "Error marking invoice as paid"});
                     }
                 }
                 else
                 {
                     function.logAnError("Error marking invoice as paid invoice controller - no invoice number supplied");
-                    Response.Redirect("/Shared/Error?Err=Error marking invoice as paid");
+                    return RedirectToAction("Error", "Shared", new { err = "Error marking invoice as paid" });
                 }
 
             return View();
@@ -1003,7 +993,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error marking invoice as paid invoice controller");
-                return Redirect("/job/job?ID=" + ID);
+                return RedirectToAction("Error", "Shared");
             }
         }
         #endregion

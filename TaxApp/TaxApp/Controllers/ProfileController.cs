@@ -37,7 +37,7 @@ namespace TaxApp.Controllers
 
                         if (checkProfile == null)
                         {
-                            Response.Redirect("/Landing/Welcome");
+                            Response.Redirect(Url.Action("Welcome", "Landing"));
                         }
 
                         ViewBag.ProfileName = checkProfile.FirstName + " " + checkProfile.LastName;
@@ -45,19 +45,19 @@ namespace TaxApp.Controllers
                     }
                     else
                     {
-                        Response.Redirect("/Landing/Welcome");
+                        Response.Redirect(Url.Action("Welcome", "Landing"));
                     }
                 }
                 else
                 {
-                    Response.Redirect("/Landing/Welcome");
+                    Response.Redirect(Url.Action("Welcome", "Landing"));
                 }
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error in welcome method of LandingControles");
-                Redirect("/Shared/Error");
+                Response.Redirect(Url.Action("Error", "Shared") + "?Err=Identity couldn't be verified");
             }
         }
 
@@ -84,7 +84,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding Profile in Profile Controler");
-                return Redirect("../Shared/Error?Err=An error occurred while loading profile.");
+                return RedirectToAction("Error", "Shared", new { Err = "An error occurred while loading profile." });
             }
         }
 
@@ -172,13 +172,13 @@ namespace TaxApp.Controllers
                         if (result == true)
                             result = handler.editprofile(updateProfile);
                         else
-                            return Redirect("/Profile/Profile?ERR=UserEmailEx");
+                            return RedirectToAction("Profile", "Profile", new { ERR = "UserEmailEx" });
 
 
                         if (result == true)
-                            return Redirect("/Profile/Profile");
+                            return RedirectToAction("Profile", "Profile");
                         else
-                            return RedirectToAction("../Shared/Error?Err=An error occurred while updating profile.");
+                            return RedirectToAction("Error", "Shared", new { Err = "An error occurred while updating profile." });
                     }
                 }
 
@@ -189,7 +189,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding Updating Profile in Profile Controler");
-                return Redirect("../Shared/Error?Err=An error occurred while Updating profile.");
+                return RedirectToAction("Error", "Shared", new { Err = "An error occurred while updating profile." });
             }
         }
     }

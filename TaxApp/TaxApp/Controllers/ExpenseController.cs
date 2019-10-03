@@ -39,7 +39,7 @@ namespace TaxApp.Controllers
 
                         if (checkProfile == null)
                         {
-                            Response.Redirect("/Landing/Welcome");
+                            Response.Redirect(Url.Action("Welcome", "Landing"));
                         }
 
                         ViewBag.ProfileName = checkProfile.FirstName + " " + checkProfile.LastName;
@@ -47,19 +47,19 @@ namespace TaxApp.Controllers
                     }
                     else
                     {
-                        Response.Redirect("/Landing/Welcome");
+                        Response.Redirect(Url.Action("Welcome", "Landing"));
                     }
                 }
                 else
                 {
-                    Response.Redirect("/Landing/Welcome");
+                    Response.Redirect(Url.Action("Welcome", "Landing"));
                 }
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error in welcome method of LandingControles");
-                Redirect("/Shared/Error");
+                Response.Redirect(Url.Action("Error", "Shared") + "?Err=Identity couldn't be verified");
             }
         }
 
@@ -70,8 +70,6 @@ namespace TaxApp.Controllers
 
             try
             {
-                getCookie();
-
                 Model.Profile getProfile = new Model.Profile();
                 getProfile.ProfileID = int.Parse(cookie["ID"].ToString());
 
@@ -94,12 +92,11 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding Expese Page");
-                return Redirect("Home/index");
+                return RedirectToAction("index", "Home");
             }
         }
 
         #region New General Expense
-        // GET: Landing/NewProfile
         public ActionResult NewGeneralExpense()
         {
             try { 
@@ -117,11 +114,10 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loading new general expense");
-                return Redirect("/Expense/Expenses");
+                return RedirectToAction("Expenses", "Expense");
             }
         }
 
-        // POST: Landing/NewProfile
         [HttpPost]
         public ActionResult NewGeneralExpense(FormCollection collection)
         {
@@ -152,18 +148,18 @@ namespace TaxApp.Controllers
 
                 if (result == true)
                 {
-                    return Redirect("/Expense/GeneralExpense");
+                    return RedirectToAction("GeneralExpense", "Expense");
                 }
                 else
                 {
-                    return RedirectToAction("../Shared/Error");
+                    return RedirectToAction("Error", "Shared");
                 }
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error in new general expense of expense controler");
-                return View("../Shared/Error");
+                return RedirectToAction("Error", "Shared");
             }
         }
         #endregion
@@ -205,7 +201,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding general expense Details for edit");
-                return Redirect("/Expense/Expenses?ID=" + ID);
+                return Redirect(Url.Action("Expenses","Expenses") + "?ID=" + ID);
             }
         }
 
@@ -240,18 +236,18 @@ namespace TaxApp.Controllers
 
                 if (result == true)
                 {
-                    return Redirect("/Expense/GeneralExpense");
+                    return RedirectToAction("GeneralExpense", "Expense");
                 }
                 else
                 {
-                    return RedirectToAction("../Shared/Error");
+                    return RedirectToAction("Error", "Shared");
                 }
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error in new general expense of expense controler");
-                return View("../Shared/Error");
+                return RedirectToAction("Error", "Shared");
             }
         }
         #endregion
@@ -281,7 +277,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loading new Job Expense");
-                return RedirectToAction("../Shared/Error");
+                return RedirectToAction("Error", "Shared");
             }
         }
 
@@ -332,11 +328,11 @@ namespace TaxApp.Controllers
 
                     if (result == true)
                     {
-                        return Redirect("/Expense/JobExpenses?ID=" + ID);
+                        return Redirect(Url.Action("JobExpenses","Expense") +"?id="+ ID);
                     }
                     else
                     {
-                        return RedirectToAction("../Shared/Error");
+                        return RedirectToAction("Error", "Shared");
                     }
                 }
             }
@@ -344,7 +340,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error in new general expense of expense controler");
-                return View(newExpense);
+                return RedirectToAction("Error", "Shared");
             }
             return View(newExpense);
         }
@@ -390,7 +386,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loading edit Job Expense");
-                return RedirectToAction("../Shared/Error");
+                return RedirectToAction("Error", "Shared");
             }
         }
 
@@ -422,18 +418,18 @@ namespace TaxApp.Controllers
 
                 if (result == true)
                 {
-                    return Redirect("/expense/JobExpense?ID=" + newExpense.ExpenseID);
+                    return Redirect(Url.Action("JobExpense", "expense")+"?ID=" + newExpense.ExpenseID);
                 }
                 else
                 {
-                    return RedirectToAction("../Shared/Error");
+                    return RedirectToAction("Error", "Shared");
                 }
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error in edit Job expense of expense controler ID:"+ ID + " Error: ");
-                return View();
+                return RedirectToAction("Error", "Shared");
             }
         }
         #endregion
@@ -452,7 +448,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loading expense catagories");
-                return Redirect("/Expense/Expenses");
+                return RedirectToAction("Error", "Shared");
             }
         }
         #endregion
@@ -488,7 +484,7 @@ namespace TaxApp.Controllers
                         ViewBag.files = "True";
                         if (downloadAll == "True")
                         {
-                            string redirect = "<script>window.open('../Functions/DownloadFile?ID=" + file.ExpenseID + "&type=JE');</script>";
+                            string redirect = "<script>window.open('/Functions/DownloadFile?ID=" + file.ExpenseID + "&type=JE');</script>";
                             Response.Write(redirect);
                         }
                     }
@@ -500,7 +496,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding job expense List");
-                return Redirect("/job/job?ID="+ID);
+                return RedirectToAction("Error", "Shared");
             }
         }
         public ActionResult AllJobExpenses(string view, string StartDateRange, string EndDateRange)
@@ -541,7 +537,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding job expense List");
-                return Redirect("../Expense/Expenses");
+                return RedirectToAction("Error", "Shared");
             }
         }
         [HttpPost]
@@ -570,7 +566,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error updating date range for all job expenses");
-                return RedirectToAction("../Shared/Error");
+                return RedirectToAction("Error", "Shared");
             }
         }
         public ActionResult JobExpense(string ID)
@@ -606,7 +602,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding job expense Details");
-                return Redirect("/Expense/Expenses?ID=" + ID);
+                return RedirectToAction("Error", "Shared");
             }
         }
         #endregion
@@ -647,7 +643,7 @@ namespace TaxApp.Controllers
                 {
                     foreach(InvoiceAndReciptesFile file in files)
                     {
-                        string redirect = "<script>window.open('../Functions/DownloadFile?ID="+file.ID+"&type="+file.Type+"');</script>";
+                        string redirect = "<script>window.open('/Functions/DownloadFile?ID="+file.ID+"&type="+file.Type+"');</script>";
                         Response.Write(redirect);
                     }
                 }
@@ -658,7 +654,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding Invoice And Reciptes List");
-                return Redirect("../Shared/Error");
+                return RedirectToAction("Error", "Shared");
             }
         }
         [HttpPost]
@@ -687,7 +683,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error updating date range for Invoice And Reciptes in expense report");
-                return RedirectToAction("../Shared/Error");
+                return RedirectToAction("Error", "Shared");
             }
         }
         #endregion
@@ -711,7 +707,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding job expense Details");
-                return Redirect("/Expense/Expenses?ID=" + ID);
+                return RedirectToAction("Error", "Shared");
             }
         }
 
@@ -754,7 +750,7 @@ namespace TaxApp.Controllers
                         ViewBag.files = "True";
                         if (downloadAll == "True")
                         {
-                            string redirect = "<script>window.open('../Functions/DownloadFile?ID=" + file.ExpenseID + "&type=GE');</script>";
+                            string redirect = "<script>window.open('/Functions/DownloadFile?ID=" + file.ExpenseID + "&type=GE');</script>";
                             Response.Write(redirect);
                         }
                     }
@@ -789,7 +785,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding General Expese Page");
-                return Redirect("../Shared/error?Err=An error occurred loading all general expenses");
+                return RedirectToAction("Error", "Shared", new { Err = "An error occurred loading all general expenses"});
             }
         }
 
@@ -820,7 +816,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error updating date range for jobs page");
-                return RedirectToAction("../Shared/Error");
+                return RedirectToAction("Error", "Shared");
             }
         }
         #endregion
@@ -844,7 +840,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding general expense Details for ");
-                return Redirect("/Expense/Expenses?ID=" + ID);
+                return RedirectToAction("Error", "Shared");
             }
         }
         [HttpPost]
@@ -874,27 +870,25 @@ namespace TaxApp.Controllers
 
                     if (result == true)
                     {
-                        Response.Redirect("/Expense/GeneralExpenses");
+                        return RedirectToAction("GeneralExpenses", "Expense");
                     }
                     else
                     {
                         function.logAnError("Error reapeteing general expense");
-                        return Redirect("../Shared/error?Err=Error Reapeting Expense");
+                        return RedirectToAction("Error", "Shared", new { Err = "Error Reapeting Expense"});
                     }
                 }
                 else
                 {
                     function.logAnError("Error reapeteing general expense");
-                    return Redirect("../Shared/error?Err=Error Reapeting Expense");
+                    return RedirectToAction("Error", "Shared", new { Err = "Error Reapeting Expense" });
                 }
-
-                return View();
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error reapeteing general expense");
-                return Redirect("../Shared/error?Err=Error Reapeting Expense");
+                return RedirectToAction("Error", "Shared", new { Err = "Error Reapeting Expense" });
             }
         }
         #endregion
@@ -935,7 +929,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loading new Travel Log Expense");
-                return RedirectToAction("../Shared/Error");
+                return RedirectToAction("Error", "Shared");
             }
         }
 
@@ -1017,13 +1011,13 @@ namespace TaxApp.Controllers
                 bool result = handler.NewTravelExpense(newTravelLogExpense);
 
                 if (result == true)
-                {
-                    return Redirect("/Expense/JobTravelLog?ID=" + ID);
+                    {
+                        return Redirect(Url.Action("JobTravelLog", "Expense") + "?ID=" + ID);
                 }
                 else
-                {
-                    return RedirectToAction("../Shared/Error");
-                }
+                    {
+                        return RedirectToAction("Error", "Shared");
+                    }
             }
 
                 Model.Job getJob = new Model.Job();
@@ -1041,7 +1035,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error in new general expense of expense controler");
-                return View(newTravelLogExpense);
+                return RedirectToAction("Error", "Shared");
             }
         }
         #endregion
@@ -1064,7 +1058,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loading new Travel Log Expense");
-                return RedirectToAction("../Shared/Error");
+                return RedirectToAction("Error", "Shared");
             }
         }
 
@@ -1086,18 +1080,18 @@ namespace TaxApp.Controllers
 
                 if (result == true)
                 {
-                    return Redirect("/Expense/JobTravelLog?ID=" + travelLogItem.JobID);
+                    return Redirect(Url.Action("JobTravelLog", "Expense") + "?ID=" + travelLogItem.JobID);
                 }
                 else
                 {
-                    return RedirectToAction("../Shared/Error");
+                    return RedirectToAction("Error", "Shared");
                 }
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error in new general expense of expense controler");
-                return View();
+                return RedirectToAction("Error", "Shared");
             }
         }
         #endregion
@@ -1142,7 +1136,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loading new Travel Log Expense");
-                return RedirectToAction("../Shared/Error");
+                return RedirectToAction("Error", "Shared");
             }
         }
 
@@ -1174,18 +1168,18 @@ namespace TaxApp.Controllers
 
                 if (result == true)
                 {
-                    return Redirect("/Expense/TravleLogItem?ID=" + ID);
+                    return Redirect(Url.Action("TravleLogItem", "Expense") + "?ID=" + ID);
                 }
                 else
                 {
-                    return RedirectToAction("../Shared/Error");
+                    return RedirectToAction("Error", "Shared");
                 }
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error in new esit travel expense of expense controler");
-                return RedirectToAction("../Shared/Error");
+                return RedirectToAction("Error", "Shared");
             }
         }
         #endregion
@@ -1203,7 +1197,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loading new Vehical");
-                return RedirectToAction("../Expense/NewTravelExpense");
+                return RedirectToAction("Error", "Shared");
             }
         }
 
@@ -1231,14 +1225,14 @@ namespace TaxApp.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("../Shared/Error");
+                    return RedirectToAction("Error", "Shared");
                 }
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error in new vehicle of expense controler");
-                return View();
+                return RedirectToAction("Error", "Shared");
             }
         }
         #endregion
@@ -1268,7 +1262,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loading Vehicles view");
-                return RedirectToAction("../Shared/Error");
+                return RedirectToAction("Error", "Shared");
             }
         }
         #endregion
@@ -1292,7 +1286,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loading edit Vehicles view");
-                return RedirectToAction("../Shared/Error?Err=An error occurred loading data for vehicles");
+                return RedirectToAction("Error", "Shared", new { Err = "An error occurred loading data for vehicles" });
             }
         }
 
@@ -1316,18 +1310,18 @@ namespace TaxApp.Controllers
 
                 if (result == true)
                 {
-                    return Redirect("/Expense/vehicles");
+                    return RedirectToAction("vehicles", "Expense");
                 }
                 else
                 {
-                    return RedirectToAction("../Shared/Error?Err=An error occurred editing vehicles");
+                    return RedirectToAction("Error", "Shared", new { Err = "An error occurred editing vehicles" });
                 }
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error executing edit Vehicle");
-                return RedirectToAction("../Shared/Error?Err=An error occurred editing vehicles");
+                return RedirectToAction("Error", "Shared", new { Err = "An error occurred editing vehicles" });
             }
         }
         #endregion
@@ -1361,7 +1355,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding job travel log List");
-                return Redirect("/job/job?ID=" + ID);
+                return RedirectToAction("Error", "Shared");
             }
         }
         public ActionResult TravleLog(string view, string ExpenseDisplayCount, string StartDateRange, string EndDateRange)
@@ -1425,7 +1419,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding Profile travel log List");
-                return Redirect("/Expense/Expenses");
+                return RedirectToAction("Error", "Shared");
             }
         }
 
@@ -1457,7 +1451,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error updating date range for jobs page");
-                return RedirectToAction("../Shared/Error");
+                return RedirectToAction("Error", "Shared");
             }
         }
 
@@ -1478,7 +1472,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding Travle Log Item Details");
-                return Redirect("/Expense/Expenses?ID=" + ID);
+                return RedirectToAction("Error", "Shared");
             }
         }
         #endregion

@@ -36,7 +36,7 @@ namespace TaxApp.Controllers
 
                         if (checkProfile == null)
                         {
-                            Response.Redirect("/Landing/Welcome");
+                            Response.Redirect(Url.Action("Welcome", "Landing"));
                         }
 
                         ViewBag.ProfileName = checkProfile.FirstName + " " + checkProfile.LastName;
@@ -44,19 +44,19 @@ namespace TaxApp.Controllers
                     }
                     else
                     {
-                        Response.Redirect("/Landing/Welcome");
+                        Response.Redirect(Url.Action("Welcome", "Landing"));
                     }
                 }
                 else
                 {
-                    Response.Redirect("/Landing/Welcome");
+                    Response.Redirect(Url.Action("Welcome", "Landing"));
                 }
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error in welcome method of LandingControles");
-                Redirect("/Shared/Error");
+                Response.Redirect(Url.Action("Error", "Shared") + "?Err=Identity couldn't be verified");
             }
         }
 
@@ -137,7 +137,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding job details");
-                return RedirectToAction("../Shared/Error");
+                return RedirectToAction("Error", "Shared");
             }
         }
 
@@ -168,7 +168,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error updating date range for jobs page");
-                return RedirectToAction("../Shared/Error");
+                return RedirectToAction("Error", "Shared");
             }
         }
 
@@ -222,7 +222,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding job details");
-                return Redirect("../Shared/Error?Err=Error Loading Job");
+                return RedirectToAction("Error", "Shared", new { err = "Error Loading Job" });
     }
 }
         #endregion
@@ -258,8 +258,8 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding job Hours List");
-                return Redirect("/job/jobs");
-    }
+                return RedirectToAction("Error", "Shared");
+            }
 }
         public ActionResult JobWorkLogItem(string ID, string JobID)
         {
@@ -294,8 +294,8 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding Log Item Details");
-                return Redirect("/job/jobs");
-    }
+                return RedirectToAction("Error", "Shared");
+            }
 }
         #endregion
 
@@ -310,7 +310,7 @@ namespace TaxApp.Controllers
             List<Model.Client> Clients = handler.getProfileClients(getClients);
 
                 if (Clients.Count == 0)
-                    Response.Redirect("../Client/NewClient");
+                    return RedirectToAction("NewClient", "Client");
 
             ViewBag.ClientList = new SelectList(Clients, "ClientID", "FirstName");
 
@@ -329,7 +329,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding new job");
-                return Redirect("../Shared/Error");
+                return RedirectToAction("Error", "Shared");
             }
         }
 
@@ -404,18 +404,18 @@ namespace TaxApp.Controllers
 
                 if (result == true)
                 {
-                    return Redirect("/job/jobs");
+                    return RedirectToAction("jobs","job");
                 }
                 else
                 {
-                    return Redirect("../Shared/Error");
+                    return RedirectToAction("Error", "Shared");
                 }
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error in email settings method of LandingControles");
-                return Redirect("../Shared/Error?Err=An error occurred while creating new job.");
+                return RedirectToAction("Error", "Shared", new { err = "An error occurred while creating new job." });
             }
         }
         #endregion
@@ -446,7 +446,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding edit job");
-                return Redirect("../Shared/Error?Err=An error occurred while loading job for edit.");
+                return RedirectToAction("Error", "Shared", new { err = "An error occurred while loading job for edit." });
             }
         }
 
@@ -500,7 +500,7 @@ namespace TaxApp.Controllers
                     }
                     else
                     {
-                        return Redirect("../Shared/Error?Err=An error occurred while saving job edits.");
+                        return RedirectToAction("Error", "Shared", new { err ="An error occurred while saving job edits." });
                     }
                 }
 
@@ -510,17 +510,16 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding edit job");
-                return Redirect("../Shared/Error?Err=An error occurred while loading job for edit.");
+                        return RedirectToAction("Error", "Shared", new { err ="An error occurred while loading job for edit." });
             }
         }
         #endregion
         
         #region New Work Log
-        // GET: Landing/NewProfile
         public ActionResult NewWorkLogItem(string ID)
         {
             if(ID == null || ID == "")
-                Response.Redirect("../Shared/Error");
+                return RedirectToAction("Error", "Shared");
 
             try
             {
@@ -543,11 +542,10 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loading new work log item view - NewWorkLogItem Job Controller");
-                return View();
+                return RedirectToAction("Error", "Shared", new { err = " " });
             }
         }
 
-        // POST: Landing/NewProfile
         [HttpPost]
         public ActionResult NewWorkLogItem(FormCollection collection, string ID)
         {
@@ -582,11 +580,11 @@ namespace TaxApp.Controllers
 
                         if (result == true)
                         {
-                            return Redirect("/job/Job?ID=" + ID);
+                            return Redirect(Url.Action("job","Job")+"?ID=" + ID);
                         }
                         else
                         {
-                            return RedirectToAction("../Shared/Error");
+                            return RedirectToAction("Error", "Shared");
                         }
                     }
 
@@ -603,14 +601,14 @@ namespace TaxApp.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("../Shared/Error");
+                    return RedirectToAction("Error", "Shared");
                 }
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error in email settings method of LandingControles");
-                return View();
+                return RedirectToAction("Error", "Shared");
             }
         }
         #endregion
@@ -619,7 +617,7 @@ namespace TaxApp.Controllers
         public ActionResult EditJobWorkLog(string ID, string JobID)
         {
             if(ID == null || ID == "")
-                Response.Redirect("../Shared/Error");
+                return RedirectToAction("Error", "Shared");
 
             try
             {
@@ -642,7 +640,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loading edit work log item view - NewWorkLogItem Job Controller");
-                return View();
+                return RedirectToAction("Error", "Shared");
             }
         }
 
@@ -665,11 +663,11 @@ namespace TaxApp.Controllers
 
                         if (result == true)
                         {
-                            return Redirect("/job/Job?ID=" + JobID);
+                            return Redirect(Url.Action("job","Job")+"?ID=" + JobID);
                         }
                         else
                         {
-                            return RedirectToAction("../Shared/Error");
+                            return RedirectToAction("Error", "Shared");
                         }
                     }
                     else
@@ -685,14 +683,14 @@ namespace TaxApp.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("../Shared/Error");
+                    return RedirectToAction("Error", "Shared");
                 }
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error in email settings method of LandingControles");
-                return View();
+                return RedirectToAction("Error", "Shared");
             }
         }
         #endregion
@@ -701,7 +699,7 @@ namespace TaxApp.Controllers
         public ActionResult DeleteJobWorkLog(string ID, string JobID)
         {
             if(ID == null || ID == "")
-                Response.Redirect("../Shared/Error");
+                return RedirectToAction("Error", "Shared");
 
             try
             {
@@ -719,7 +717,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loading delete work log item view - NewWorkLogItem Job Controller");
-                return View();
+                return RedirectToAction("Error", "Shared");
             }
         }
 
@@ -738,23 +736,23 @@ namespace TaxApp.Controllers
 
                     if (result == true)
                     {
-                        return Redirect("/job/Job?ID=" + JobID);
+                        return Redirect(Url.Action("job","Job")+"?ID=" + JobID);
                     }
                     else
                     {
-                        return RedirectToAction("../Shared/Error");
+                        return RedirectToAction("Error", "Shared");
                     }
                 }
                 else
                 {
-                    return RedirectToAction("../Shared/Error");
+                    return RedirectToAction("Error", "Shared");
                 }
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error deleting work log item");
-                return View();
+                return RedirectToAction("Error", "Shared");
             }
         }
         #endregion
@@ -786,7 +784,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding job on Job selector");
-                return RedirectToAction("../Shared/Error");
+                return RedirectToAction("Error", "Shared");
             }
         }
 
@@ -809,25 +807,25 @@ namespace TaxApp.Controllers
 
                 if (Dest == "New*Job*Expense")
                 {
-                    Response.Redirect("../Expense/NewJobExpense?ID="+ Request.Form["JobList"].ToString());
+                    Response.Redirect(Url.Action("NewJobExpense","Expense")+"?ID="+ Request.Form["JobList"].ToString());
                 }
                 else if (Dest == "New*Travel*Expense")
                 {
-                    Response.Redirect("../Expense/NewTravelExpense?ID=" + Request.Form["JobList"].ToString());
+                    Response.Redirect(Url.Action("NewTravelExpense","Expense")+"?ID=" + Request.Form["JobList"].ToString());
                 }
                 else if (Dest == "New*Invoice")
                 {
-                    Response.Redirect("../Invoice/NewInvoice?ID=" + Request.Form["JobList"].ToString());
+                    Response.Redirect(Url.Action("NewInvoice", "/Invoice")+"?ID=" + Request.Form["JobList"].ToString());
                 }
 
                     function.logAnError("selecting job. Dest Value: '" + Dest + "'. In Job controler");
-                    return View("../Shared/Error");
+                return RedirectToAction("Error", "Shared");
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "selecting job. Dest Value: '"+Dest+"'. In Job controler");
-                return View("../Shared/Error");
+                return RedirectToAction("Error", "Shared");
             }
         }
         #endregion
@@ -848,18 +846,18 @@ namespace TaxApp.Controllers
 
                     if (result == true)
                     {
-                        Response.Redirect("/Job/Job?ID=" + ID);
+                        Response.Redirect(Url.Action("Job","Job")+"?ID=" + ID);
                     }
                     else
                     {
                         function.logAnError("Error marking Job As Complete Job controller");
-                        Response.Redirect("../Shared/Error?Err=Error marking invoice as paid");
+                        return RedirectToAction("Error", "Shared", new { err ="Error marking invoice as paid"});
                     }
                 }
                 else
                 {
                     function.logAnError("Error marking Job As Complete Job controller - no JobID supplied");
-                    Response.Redirect("../Shared/Error?Err=Error marking Job as Complete");
+                        return RedirectToAction("Error", "Shared", new { err ="Error marking Job as Complete"});
                 }
 
                 return View();
@@ -868,7 +866,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error marking Job As Complete Job controller");
-                return Redirect("/job/job?ID=" + ID);
+                return RedirectToAction("Error", "Shared");
             }
         }
         #endregion
@@ -926,11 +924,7 @@ namespace TaxApp.Controllers
                     function.logAnError("Error emailing Job share");
             }
 
-            Response.Redirect("../Job/Job?ID=" + ID);
-                return RedirectToAction("Job", "Job", new
-                {
-                    ID
-                });
+            return Redirect(Url.Action("Job","Job")+"?ID=" + ID);
         }
         #endregion
     }

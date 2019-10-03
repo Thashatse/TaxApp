@@ -39,7 +39,7 @@ namespace TaxApp.Controllers
 
                         if (checkProfile == null)
                         {
-                            Response.Redirect("/Landing/Welcome");
+                            Response.Redirect(Url.Action("Welcome", "Landing"));
                         }
 
                         ViewBag.ProfileName = checkProfile.FirstName + " " + checkProfile.LastName;
@@ -47,19 +47,19 @@ namespace TaxApp.Controllers
                     }
                     else
                     {
-                        Response.Redirect("/Landing/Welcome");
+                        Response.Redirect(Url.Action("Welcome", "Landing"));
                     }
                 }
                 else
                 {
-                    Response.Redirect("/Landing/Welcome");
+                    Response.Redirect(Url.Action("Welcome", "Landing"));
                 }
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error in welcome method of LandingControles");
-                Redirect("/Shared/Error");
+                Response.Redirect(Url.Action("Error", "Shared") + "?Err=Identity couldn't be verified");
             }
         }
         
@@ -131,7 +131,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding search term: "+term);
-                return Redirect("../Shared/Error?An error occurred while processing your search request.");
+                return RedirectToAction("Error", "Shared", new {Err="An error occurred while processing your search request." });
             }
         }
         [HttpPost]
@@ -162,7 +162,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error updating date range for jobs page");
-                return RedirectToAction("../Shared/Error");
+                return RedirectToAction("Error", "Shared");
             }
         }
 
@@ -210,7 +210,7 @@ namespace TaxApp.Controllers
                     expense.amountTital = "Cost to Customer:";
                     expense.amount = item.ClientCharge;
                     expense.TotalString = expense.amount.ToString("#,0.00", nfi);
-                    expense.URL = "../Expense/TravleLogItem?ID=" + item.ExpenseID;
+                    expense.URL = "/Expense/TravleLogItem?ID=" + item.ExpenseID;
                     expense.expenseType = "Travel";
 
                     dashboardExpenses.Add(expense);
@@ -227,7 +227,7 @@ namespace TaxApp.Controllers
                     expense.amountTital = "Price:";
                     expense.amount = item.Amount;
                     expense.TotalString = expense.amount.ToString("#,0.00", nfi);
-                    expense.URL = "../Expense/JobExpense?ID="+item.ExpenseID;
+                    expense.URL = "/Expense/JobExpense?ID="+item.ExpenseID;
                     expense.expenseType = "Job";
 
                     dashboardExpenses.Add(expense);
@@ -244,7 +244,7 @@ namespace TaxApp.Controllers
                     expense.amountTital = "Price:";
                     expense.amount = item.Amount;
                     expense.TotalString = expense.amount.ToString("#,0.00", nfi);
-                    expense.URL = "../Expense/GeneralExpense?ID=" + item.ExpenseID;
+                    expense.URL = "/Expense/GeneralExpense?ID=" + item.ExpenseID;
                     expense.expenseType = "General";
 
                     dashboardExpenses.Add(expense);
@@ -300,7 +300,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loding Home page");
-                return RedirectToAction("../Shared/Error");
+                return RedirectToAction("Error", "Shared");
             }
         }
     }

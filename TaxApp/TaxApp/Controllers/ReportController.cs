@@ -37,7 +37,7 @@ namespace TaxApp.Controllers
 
                         if (checkProfile == null)
                         {
-                            Response.Redirect("/Landing/Welcome");
+                            Response.Redirect(Url.Action("Welcome", "Landing"));
                         }
 
                         ViewBag.ProfileName = checkProfile.FirstName + " " + checkProfile.LastName;
@@ -45,19 +45,19 @@ namespace TaxApp.Controllers
                     }
                     else
                     {
-                        Response.Redirect("/Landing/Welcome");
+                        Response.Redirect(Url.Action("Welcome", "Landing"));
                     }
                 }
                 else
                 {
-                    Response.Redirect("/Landing/Welcome");
+                    Response.Redirect(Url.Action("Welcome", "Landing"));
                 }
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error in welcome method of LandingControles");
-                Redirect("/Shared/Error");
+                Response.Redirect(Url.Action("Error", "Shared") + "?Err=Identity couldn't be verified");
             }
         }
 
@@ -119,15 +119,14 @@ namespace TaxApp.Controllers
             var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
             nfi.NumberGroupSeparator = " ";
 
-            //To remove
-            ViewBag.chartLabel = "'Jobs Report'";
+            //Default Chart Settings
+            ViewBag.chartLabel = "''";
             ViewBag.chartLabels = "";
             ViewBag.chartData = "";
-            ViewBag.chartPrefix = "R";
+            ViewBag.chartPrefix = "";
             ViewBag.chartSufix = "";
             ViewBag.BarChart = false;
             ViewBag.LineChart = false;
-            //To remove
 
             //Jobs report
             if (ID == "0001")
@@ -410,7 +409,7 @@ namespace TaxApp.Controllers
 
                     if (taxPeriod == null || taxPeriod.Count == 0)
                     {
-                        Response.Redirect("../Tax/TaxVatPeriod?Type=T");
+                        Response.Redirect(Url.Action("TaxVatPeriod", "Tax") + "?Type=T");
                     }
                     else
                     {
@@ -1000,7 +999,7 @@ namespace TaxApp.Controllers
 
                     if (taxPeriod == null || taxPeriod.Count == 0)
                     {
-                        Response.Redirect("../Tax/TaxVatPeriod?Type=T");
+                       Response.Redirect(Url.Action("TaxVatPeriod", "Tax") + "?Type=T");
                     }
                     else
                     {
@@ -1145,7 +1144,7 @@ namespace TaxApp.Controllers
 
                     if (vatPeriod == null || vatPeriod.Count == 0)
                     {
-                        Response.Redirect("../Tax/TaxVatPeriod?Type=V");
+                        Response.Redirect(Url.Action("TaxVatPeriod", "Tax") + "?Type=V");
                     }
                     else
                     {
@@ -1778,6 +1777,7 @@ namespace TaxApp.Controllers
 
             return View(report);
         }
+
         [HttpPost]
         public ActionResult DisplayReport(FormCollection collection, string StartDateRange, string EndDateRange, string SortBy, string DropDownID, string reportID = "0", string view = "")
         {
@@ -1811,7 +1811,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error updating date range for display reports page");
-                return RedirectToAction("../Shared/Error");
+                return RedirectToAction("Error", "Shared");
             }
         }
 
@@ -1893,10 +1893,10 @@ namespace TaxApp.Controllers
                 Response.Redirect("/Shared/Error?ERR=Error downloading report - No ID Supplied");
             }
 
-            ReportViewModel report = getReportData(ID, StartDateRange, EndDateRange, DropDownID, view);
+            ReportViewModel report = null;// getReportData(ID, StartDateRange, EndDateRange, DropDownID, view);
 
             if (report == null)
-                Response.Redirect("/Shared/Error?ERR=Error downloading report");
+                Response.Redirect(Url.Action("Error", "Shared") + "?ERR=Error downloading report");
 
             return File(function.downloadPage("https://www.mandela.ac.za/"), System.Net.Mime.MediaTypeNames.Application.Octet, 
                 report.reportTitle+" - Generated: "+ DateTime.Now+".pdf");

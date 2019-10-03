@@ -38,7 +38,7 @@ namespace TaxApp.Controllers
 
                         if (checkProfile == null)
                         {
-                            Response.Redirect("/Landing/Welcome");
+                            Response.Redirect(Url.Action("Welcome", "Landing"));
                         }
 
                         ViewBag.ProfileName = checkProfile.FirstName + " " + checkProfile.LastName;
@@ -46,7 +46,7 @@ namespace TaxApp.Controllers
                     }
                     else
                     {
-                        Response.Redirect("/Landing/Welcome");
+                        Response.Redirect(Url.Action("Welcome", "Landing"));
                     }
                 }
                 else if (externalDownoladCheck == true)
@@ -54,22 +54,22 @@ namespace TaxApp.Controllers
                     cookie = Request.Cookies["TaxAppGuestUserID"];
 
                     if (cookie == null)
-                        Response.Redirect("/Landing/Welcome");
+                        Response.Redirect(Url.Action("Welcome", "Landing"));
                     if (cookie["ID"] == null)
-                        Response.Redirect("/Landing/Welcome");
+                        Response.Redirect(Url.Action("Welcome", "Landing"));
                     if (cookie["ID"] == "")
-                        Response.Redirect("/Landing/Welcome");
+                        Response.Redirect(Url.Action("Welcome", "Landing"));
                 }
                 else
                 {
-                    Response.Redirect("/Landing/Welcome");
+                    Response.Redirect(Url.Action("Welcome", "Landing"));
                 }
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error in welcome method of LandingControles");
-                Redirect("/Shared/Error");
+                Response.Redirect(Url.Action("Error", "Shared") + "?Err=Identity couldn't be verified");
             }
         }
 
@@ -112,26 +112,26 @@ namespace TaxApp.Controllers
                 {
                     success = handler.addGeneralExpenseFile(newFile);
                     if (success == true)
-                        Response.Redirect("../Expense/GeneralExpense?ID="+ID);
+                        Response.Redirect(Url.Action("GeneralExpense", "Expense") + "?ID=" + ID);
                 }
                 else if (type == "JE")
                 {
                     success = handler.addJobExpenseFile(newFile);
                     if (success == true)
-                        Response.Redirect("../Expense/JobExpense?ID="+ ID);
+                        Response.Redirect(Url.Action("JobExpense", "Expense") + "?ID="+ ID);
                 }
 
-                Response.Redirect("../Shared/Error?Err=An error occurred uploading file");
+                return RedirectToAction("Error", "Shared", new { Err = "An error occurred uploading the file" });
 
             }
             catch(Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error loding Vat Center");
-                return Redirect("../Shared/Error?Err=An error occurred uploading file");
+                return RedirectToAction("Error", "Shared", new { Err = "An error occurred uploading the file" });
             }
 
-            return Redirect("../Shared/Error?Err=An error occurred uploading the file");
+            return RedirectToAction("Error", "Shared", new { Err = "An error occurred uploading the file" });
         }
         #endregion
         
@@ -154,8 +154,11 @@ namespace TaxApp.Controllers
             else
             {
                 function.logAnError("No Type Supplied - Doewnload FileFunctions controler");
-                Response.Redirect("../Shared/Error");
+                Response.Redirect(Url.Action("Error", "Shared"));
             }
+
+                if(getFile == null)
+                    Response.Redirect(Url.Action("Error", "Shared"));
 
             return File(getFile.fileByteArray, System.Net.Mime.MediaTypeNames.Application.Octet, getFile.fileName);
         }

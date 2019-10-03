@@ -34,7 +34,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error in welcome method of LandingControles");
-                Redirect("/Shared/Error");
+                Response.Redirect(Url.Action("Error", "Shared") + "?Err=Identity couldn't be verified");
             }
 
                 return "";
@@ -55,9 +55,9 @@ namespace TaxApp.Controllers
                 Tuple<bool, string, string, int> check = handler.NewExternalUserOTP(int.Parse(ID), OTP, Type);
 
                 if (!check.Item1)
-                    Response.Redirect("../Shared/Error");
+                        return RedirectToAction("Error", "Shared");
 
-                data.userName = check.Item2;
+                    data.userName = check.Item2;
 
                 bool result = function.sendEmail(check.Item3,
                         check.Item2,
@@ -70,14 +70,15 @@ namespace TaxApp.Controllers
                 catch (Exception err)
                 {
                     function.logAnError("Error creating OTP in Track controller Error: " + err);
-                    Response.Redirect("../Shared/Error?Err=Error generating OTP. Either sharing has been turned of or the link provided is broken.");
+                    return RedirectToAction("Error", "Shared", new { Err = "Error generating OTP. Either sharing has been turned of or the link provided is broken." });
                 }
             }
             else
-                Response.Redirect("../Shared/Error?Err=Broken link. The link provided cannot be found please try again.");
+                return RedirectToAction("Error", "Shared", new { Err = "Broken link. The link provided cannot be found please try again." });
 
             return View(data);
         }
+
         [HttpPost]
         public ActionResult verifyIdentity(FormCollection collection, string ID, string Type)
         {
@@ -105,7 +106,7 @@ namespace TaxApp.Controllers
                     Notifications newNoti = new Notifications();
                     newNoti.date = DateTime.Now;
                     newNoti.ProfileID = Job.ProfileID;
-                    newNoti.Link = "../Job/Job?ID=" + ID;
+                    newNoti.Link = "/Job/Job?ID=" + ID;
                     newNoti.Details = Job.ClientFirstName + " has accessed a Job. Manage sharing settings here.";
                     notiFunctions.newNotification(newNoti);
 
@@ -123,7 +124,7 @@ namespace TaxApp.Controllers
                     Notifications newNoti = new Notifications();
                     newNoti.date = DateTime.Now;
                     newNoti.ProfileID = int.Parse(cookie["ID"]);
-                    newNoti.Link = "../Tax/TaxCenter?period=" + ID;
+                    newNoti.Link = "/Tax/TaxCenter?period=" + ID;
                     newNoti.Details = taxConsultant.Name + " has accessed a Tax Period. Manage sharing settings here.";
                     notiFunctions.newNotification(newNoti);
 
@@ -141,7 +142,7 @@ namespace TaxApp.Controllers
                     Notifications newNoti = new Notifications();
                     newNoti.date = DateTime.Now;
                     newNoti.ProfileID = int.Parse(cookie["ID"]);
-                    newNoti.Link = "../Vat/VatCenter?period=" + ID;
+                    newNoti.Link = "/Vat/VatCenter?period=" + ID;
                     newNoti.Details = taxConsultant.Name + " has accessed a VAT Period. Manage sharing settings here.";
                     notiFunctions.newNotification(newNoti);
 
@@ -199,7 +200,7 @@ namespace TaxApp.Controllers
                 {
                     function.logAnError(e.ToString() +
                         "Error loding job details for external view");
-                    Response.Redirect("/Shared/Error");
+                    return RedirectToAction("Error", "Shared");
                 }
 
 
@@ -214,7 +215,7 @@ namespace TaxApp.Controllers
                 ViewBag.Generated = DateTime.Now.ToString("dddd, dd MMMM yyyy hh:mm tt");
             return View(view);
             }
-            return View();
+            return RedirectToAction("Error", "Shared");
         }
 
         public ActionResult TAX(string TaxID, string SortDirection, string SortBy, string Report = "false")
@@ -383,7 +384,7 @@ namespace TaxApp.Controllers
                     {
                         function.logAnError(e.ToString() +
                             "Error loading Track VAT in VAT of Track Conroler");
-                        Response.Redirect("/Shared/Error");
+                        return RedirectToAction("Error", "Shared");
                     }
 
                     #region Sort
@@ -432,8 +433,6 @@ namespace TaxApp.Controllers
                     ViewBag.SortDirection = SortDirection;
                     #endregion
 
-
-
                     TrackTAXandVATViewModel viewModel = new TrackTAXandVATViewModel();
 
                     viewModel.Report = report;
@@ -441,10 +440,9 @@ namespace TaxApp.Controllers
 
                     return View(viewModel);
                 }
-                    
-            }
 
-            return Redirect("/Shared/Error");
+            }
+            return RedirectToAction("Error", "Shared");
         }
 
         public ActionResult VAT(string VATID, string SortDirection, string SortBy, string Report = "false")
@@ -625,8 +623,8 @@ namespace TaxApp.Controllers
                 {
                     function.logAnError(e.ToString() +
                         "Error loading Track VAT in VAT of Track Conroler");
-                    Response.Redirect("/Shared/Error");
-                }
+                        return RedirectToAction("Error", "Shared");
+                    }
 
 
                 #region Sort
@@ -683,8 +681,7 @@ namespace TaxApp.Controllers
 
                 }
             }
-
-            return Redirect("/Shared/Error");
+            return RedirectToAction("Error", "Shared");
         }
 
         public ActionResult ReceiptsDownload(string VATID, string TAXID)
@@ -743,7 +740,7 @@ namespace TaxApp.Controllers
 
                     foreach (InvoiceAndReciptesFile file in files)
                     {
-                        string redirect = "<script>window.open('../Functions/DownloadFile?ID=" + file.ID + "&type=" + file.Type + "');</script>";
+                        string redirect = "<script>window.open('/Functions/DownloadFile?ID=" + file.ID + "&type=" + file.Type + "');</script>";
                         Response.Write(redirect);
                     }
                 }

@@ -55,7 +55,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error in welcome method of LandingControles");
-                Redirect("/Shared/Error");
+                return RedirectToAction("Error", "Shared");
             }
 
             if (Err == "UserPassNA")
@@ -79,7 +79,7 @@ namespace TaxApp.Controllers
                 if(newProfile.EmailAddress == ""
                     || newProfile.Username == "")
                 {
-                    return Redirect("/Landing/Welcome?Err=UserNull");
+                    return RedirectToAction("Welcome","Landing" , new { err = "UserNull" });
                 }
                 else if (newProfile.Password == "")
                 {
@@ -92,12 +92,12 @@ namespace TaxApp.Controllers
                 string[] result = Auth.AuthenticateEmail(newProfile, Request.Form["Password"].ToString());
 
                 if (result[0] == "PassN/A")
-                {
-                    return Redirect("/landing/Welcome?Err=UserPassNA");
+                    {
+                        return RedirectToAction("Welcome", "Landing", new { err = "UserPassNA" });
                 }
                 else if (result[0] == "AccountN/A")
-                {
-                    return Redirect("/landing/Welcome?Err=UserPassNA");
+                    {
+                        return RedirectToAction("Welcome", "Landing", new { err = "UserPassNA" });
                 }
                 else if (result[0] != null 
                     | result[1] != null)
@@ -106,16 +106,16 @@ namespace TaxApp.Controllers
                             createCookie(handler.getProfile(newProfile), true);
                         else
                             createCookie(handler.getProfile(newProfile), false);
-                        return Redirect("/Home/index");
+                        return RedirectToAction("index", "Home");
                 }
                 }
-                return Redirect("/Shared/Error?Err=An error occurred while processing your request, please try again later.");
+                return RedirectToAction("Error", "Shared", new { Err = "An error occurred while processing your request, please try again later."});
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error in welcome method of LandingControles");
-                return Redirect("/Shared/Error?Err=An error occurred while processing your request, please try again later.");
+                return RedirectToAction("Error", "Shared", new { Err = "An error occurred while processing your request, please try again later." });
             }
         }
         #endregion
@@ -136,16 +136,14 @@ namespace TaxApp.Controllers
                     Response.Cookies.Add(cookie);
                 }
 
-                Response.Redirect("/Home/Index");
+                return RedirectToAction("Welcome", "Landing");
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error in welcome method of LandingControles");
-                Redirect("/Shared/Error");
+                return RedirectToAction("Error", "Shared");
             }
-
-            return View();
         }
         #endregion
 
@@ -171,7 +169,7 @@ namespace TaxApp.Controllers
         {
             if (Request.Form["Password"] != Request.Form["PasswordConfirmation"])
             {
-                return Redirect("/Landing/NewProfile?ERR=PassMatch");
+                return Redirect(Url.Action("NewProfile", "Landing") +"?ERR=PassMatch");
             }
             else
             {
@@ -204,29 +202,29 @@ namespace TaxApp.Controllers
                             if (profile != null)
                             {
                                 createCookie(profile, false);
-                                return Redirect("/Landing/TaxConsultant?ID=" + profile.ProfileID.ToString());
+                                return Redirect(Url.Action("TaxConsultant", "Landing") + "?ID=" + profile.ProfileID.ToString());
                             }
                             else
                             {
-                                return RedirectToAction("../Shared/Error");
+                                return RedirectToAction("Error", "Shared");
                             }
 
                         }
                         else
                         {
-                            return RedirectToAction("../Shared/Error");
+                            return RedirectToAction("Error", "Shared");
                         }
                     }
                     else
                     {
-                        return Redirect("/Landing/NewProfile?ERR=UserEmailEx");
+                        return Redirect(Url.Action("NewProfile", "Landing") + "?ERR=UserEmailEx");
                     }
                 }
                 catch (Exception e)
                 {
                     function.logAnError(e.ToString() +
                         "Error in new profile method of LandingControles");
-                    return View();
+                    return RedirectToAction("Error", "Shared");
                 }
             }
         }
@@ -256,7 +254,6 @@ namespace TaxApp.Controllers
         #endregion
 
         #region New Consultant
-        // GET: Landing/NewProfile
         public ActionResult TaxConsultant(string ID, string Return)
         {
             ViewBag.Return = Return;
@@ -264,7 +261,6 @@ namespace TaxApp.Controllers
             return View();
         }
 
-        // POST: Landing/NewProfile
         [HttpPost]
         public ActionResult TaxConsultant(FormCollection collection, string ID, string Return)
         {
@@ -286,23 +282,23 @@ namespace TaxApp.Controllers
                 {
                     if(Return == "Consultant")
                     {
-                        return Redirect("../Tax/Consultant");
+                        return RedirectToAction("Consultant", "Tax");
                     }
                     else
                     {
-                        return Redirect("/Landing/EmailSettings?ID=" + profileID.ToString());
+                        return Redirect(Url.Action("EmailSettings", "Landing") +"?ID=" + profileID.ToString());
                     }
                 }
                 else
                 {
-                    return RedirectToAction("../Shared/Error");
+                    return RedirectToAction("Error", "Shared");
                 }
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error in tax consultant method of LandingControles");
-                return View();
+                return RedirectToAction("Error", "Shared");
             }
         }
         #endregion
@@ -337,18 +333,18 @@ namespace TaxApp.Controllers
 
                 if (result == true)
                 {
-                    return Redirect("/Home/Index");
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
-                    return RedirectToAction("../Shared/Error");
+                    return RedirectToAction("Error", "Shared");
                 }
             }
             catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error in email settings method of LandingControles");
-                return View();
+                return RedirectToAction("Error", "Shared");
             }
         }
         #endregion
