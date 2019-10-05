@@ -110,7 +110,7 @@
                         <div class="row align-items-center">
                             <div class="col-9">
                                 <h3 class="mb-0">New</h3>
-                                <p>Create a new invoices*</p><br />
+                                <p>Create a new invoices</p><br />
                             </div>
                             <div class="col-3 text-right">
                                 <a href="../Job/JobSelector?Dest=New*Invoice" class="btn btn-primary">
@@ -194,11 +194,10 @@
                                     }
                                 }
                             }
-                            }
                             else
                             {
-                            @if (Model.PastInvoices.Count > 0)
-                            {
+                                if (Model.PastInvoices.Count > 0)
+                                {
                                 <h1 class="text-white">
                                     Paid Invoices
                                 </h1>
@@ -210,10 +209,10 @@
                                            class="btn btn-sm btn-white"><i class="ni ni-settings-gear-65"></i></a>
                                     }
                                 </h3>
-                                if (ViewBag.View == "DS")
-                                {
-                                    using (Html.BeginForm())
+                                    if (ViewBag.View == "DS")
                                     {
+                                        using (Html.BeginForm())
+                                        {
                                         @Html.AntiForgeryToken()
 
                                         <div>
@@ -231,6 +230,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        }
                                     }
                                 }
                             }

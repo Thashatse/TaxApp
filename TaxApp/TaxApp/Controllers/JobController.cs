@@ -186,6 +186,16 @@ namespace TaxApp.Controllers
 
                 List<Model.Worklog> JobHours = handler.getJobHours(getJob);
 
+                ViewBag.CurrentSession = false;
+                foreach (Worklog item in JobHours)
+                {
+                    if(item.EndTime == item.StartTime)
+                    {
+                        ViewBag.CurrentSession = true;
+                        ViewBag.CurrentSessionID = item.LogItemID;
+                    }
+                }
+
                 List<Model.SP_GetJobExpense_Result> JobExpenses = handler.getJobExpenses(getJob);
 
                 List<Model.TravelLog> JobTravelLog = handler.getJobTravelLog(getJob);
@@ -516,7 +526,7 @@ namespace TaxApp.Controllers
         #endregion
         
         #region New Work Log
-        public ActionResult NewWorkLogItem(string ID)
+        public ActionResult NewWorkLogItem(string ID, string Session ="false")
         {
             if(ID == null || ID == "")
                 return RedirectToAction("Error", "Shared");
@@ -536,6 +546,8 @@ namespace TaxApp.Controllers
             defaultData.MaxDateStart = DateTime.Now.ToString("yyyy-MM-dd");
             defaultData.MaxDateEnd = DateTime.Now.ToString("yyyy-MM-dd");
 
+                ViewBag.Session = bool.Parse(Session);
+
                 return View(defaultData);
             }
             catch (Exception e)
@@ -547,7 +559,7 @@ namespace TaxApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult NewWorkLogItem(FormCollection collection, string ID)
+        public ActionResult NewWorkLogItem(FormCollection collection, string ID, string Session = "false")
         {
             try
             {
@@ -563,18 +575,29 @@ namespace TaxApp.Controllers
                         ViewBag.Err = "Please enter a description"; check = false;
                     }
 
-                    if (DateTime.Parse(Request.Form["startTimeDate"].ToString() + " " + Request.Form["startTime"].ToString()) >
-                        DateTime.Parse(Request.Form["endTimeDate"].ToString() + " " + Request.Form["endTime"].ToString()))
+                    if (bool.Parse(Session) == false)
                     {
-                        ViewBag.Err = "Please enter a start time and date before end date and time"; check = false;
+                        if (DateTime.Parse(Request.Form["startTimeDate"].ToString() + " " + Request.Form["startTime"].ToString()) >
+                        DateTime.Parse(Request.Form["endTimeDate"].ToString() + " " + Request.Form["endTime"].ToString()))
+                        {
+                            ViewBag.Err = "Please enter a start time and date before end date and time"; check = false;
+                        }
                     }
 
                     if(check == true)
                     {
                         Model.Worklog logItem = new Model.Worklog();
                         logItem.Description = Request.Form["Description"].ToString();
+                        if(bool.Parse(Session) == false)
+                        {
                         logItem.StartTime = DateTime.Parse(Request.Form["startTimeDate"].ToString() + " " + Request.Form["startTime"].ToString());
                         logItem.EndTime = DateTime.Parse(Request.Form["endTimeDate"].ToString() + " " + Request.Form["endTime"].ToString());
+                        }
+                        else
+                        {
+                            logItem.StartTime = DateTime.Now;
+                            logItem.EndTime = DateTime.Now;
+                        }
 
                         bool result = handler.newWorkLogItem(logItem, jobID);
 
@@ -815,7 +838,7 @@ namespace TaxApp.Controllers
                 }
                 else if (Dest == "New*Invoice")
                 {
-                    Response.Redirect(Url.Action("NewInvoice", "/Invoice")+"?ID=" + Request.Form["JobList"].ToString());
+                    Response.Redirect(Url.Action("NewInvoice", "Invoice")+"?ID=" + Request.Form["JobList"].ToString());
                 }
 
                     function.logAnError("selecting job. Dest Value: '" + Dest + "'. In Job controler");
@@ -925,6 +948,43 @@ namespace TaxApp.Controllers
             }
 
             return Redirect(Url.Action("Job","Job")+"?ID=" + ID);
+        }
+        #endregion
+
+        #region end current session
+        public ActionResult EndJobWorkLogSession(string ID, string JobID)
+        {
+            try
+            {
+                if (ID != null)
+                {
+                        Model.Worklog logItem = new Model.Worklog();
+                        logItem.LogItemID = int.Parse(ID);
+                    logItem = handler.getLogItem(logItem);
+                        logItem.EndTime = DateTime.Now;
+
+                        bool result = handler.EditWorkLogItem(logItem);
+
+                        if (result == true)
+                        {
+                            return Redirect(Url.Action("job","Job")+"?ID=" + JobID);
+                        }
+                        else
+                        {
+                            return RedirectToAction("Error", "Shared", new { err = "Error ending work log session" });
+                        }
+                }
+                else
+                {
+                    return RedirectToAction("Error", "Shared", new { err = "Error ending work log session" });
+                }
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error ending work log session");
+                return RedirectToAction("Error", "Shared", new { err = "Error ending work log session" });
+            }
         }
         #endregion
     }

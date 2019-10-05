@@ -742,8 +742,9 @@ namespace TaxApp.Controllers
             ViewBag.Hours = JobItemsForInvoice.ElementAt(0);
             ViewBag.Travelss = JobItemsForInvoice.ElementAt(1);
             ViewBag.Expenses = JobItemsForInvoice.ElementAt(2);
+                ViewBag.Custom = new List<SP_GetJobIntemsToInvoice_Result>();
 
-            return View();
+                return View();
             }
             catch (Exception e)
             {
@@ -755,7 +756,7 @@ namespace TaxApp.Controllers
 
         // POST: Invoice/Create
         [HttpPost]
-        public ActionResult NewInvoice(FormCollection collection, string ID, string ReturnTo)
+        public ActionResult NewInvoice(FormCollection collection, string ID, string ReturnTo, string submit)
         {
             try
             {
@@ -774,189 +775,292 @@ namespace TaxApp.Controllers
                 ViewBag.Travelss = JobItemsForInvoice.ElementAt(1);
                 ViewBag.Expenses = JobItemsForInvoice.ElementAt(2);
 
-                List<SP_GetJobIntemsToInvoice_Result> HoursResults = new List<SP_GetJobIntemsToInvoice_Result>();
-                List<SP_GetJobIntemsToInvoice_Result> ExpensesResults = new List<SP_GetJobIntemsToInvoice_Result>();
-                List<SP_GetJobIntemsToInvoice_Result> TravelsResults = new List<SP_GetJobIntemsToInvoice_Result>();
+                List<SP_GetJobIntemsToInvoice_Result> CustomItems = new List<SP_GetJobIntemsToInvoice_Result>();
 
-                foreach(SP_GetJobIntemsToInvoice_Result item in JobItemsForInvoice.ElementAt(0))
+                if (Request.Form["customItemsList"] != null)
                 {
-                    if (Request.Form["Hour+" + item.ID.ToString()] != null)
+                    string[] items = Request.Form["customItemsList"].Split('|');
+                    int c = 0;
+                    foreach (string item in items)
                     {
-                        if (Request.Form["Hour+" + item.ID.ToString()] == item.ID.ToString())
+                        if (item != "")
                         {
-                            HoursResults.Add(item);
+                            string[] values = item.Split('*');
+                            CustomItems.Add(new SP_GetJobIntemsToInvoice_Result
+                            {
+                                ID = c,
+                                UnitCost = decimal.Parse(values[2]),
+                                UnitCount = decimal.Parse(values[0]),
+                                Description = values[1],
+                                DisplayString = values[0] + "* " + values[1] + " at R" + values[2]
+                            });
+                            ViewBag.customItemsList += values[0] + "*" + values[1] + "*" + values[2] + "|";
+                            c++;
                         }
                     }
                 }
 
-                foreach (SP_GetJobIntemsToInvoice_Result item in JobItemsForInvoice.ElementAt(2))
+                switch (submit)
                 {
-                    if (Request.Form["Expense+" + item.ID.ToString()] != null)
-                    {
-                        if (Request.Form["Expense+" + item.ID.ToString()] == item.ID.ToString())
+                    case "Create Invoice":
+                        #region
+                        List<SP_GetJobIntemsToInvoice_Result> HoursResults = new List<SP_GetJobIntemsToInvoice_Result>();
+                        List<SP_GetJobIntemsToInvoice_Result> ExpensesResults = new List<SP_GetJobIntemsToInvoice_Result>();
+                        List<SP_GetJobIntemsToInvoice_Result> TravelsResults = new List<SP_GetJobIntemsToInvoice_Result>();
+                        List<SP_GetJobIntemsToInvoice_Result> CustomResults = new List<SP_GetJobIntemsToInvoice_Result>();
+
+                        foreach (SP_GetJobIntemsToInvoice_Result item in JobItemsForInvoice.ElementAt(0))
                         {
-                            ExpensesResults.Add(item);
+                            if (Request.Form["Hour+" + item.ID.ToString()] != null)
+                            {
+                                if (Request.Form["Hour+" + item.ID.ToString()] == item.ID.ToString())
+                                {
+                                    HoursResults.Add(item);
+                                }
+                            }
                         }
-                    }
-                }
 
-                foreach (SP_GetJobIntemsToInvoice_Result item in JobItemsForInvoice.ElementAt(1))
-                {
-                    if (Request.Form["Travel+" + item.ID.ToString()] != null)
-                    {
-                        if (Request.Form["Travel+" + item.ID.ToString()] == item.ID.ToString())
+                        foreach (SP_GetJobIntemsToInvoice_Result item in JobItemsForInvoice.ElementAt(2))
                         {
-                            TravelsResults.Add(item);
+                            if (Request.Form["Expense+" + item.ID.ToString()] != null)
+                            {
+                                if (Request.Form["Expense+" + item.ID.ToString()] == item.ID.ToString())
+                                {
+                                    ExpensesResults.Add(item);
+                                }
+                            }
                         }
-                    }
-                }
 
-                bool result = false;
-
-                if (Request.Form["AllCheck"] != "True"
-                    && HoursResults.Count == 0
-                    && ExpensesResults.Count == 0
-                    && TravelsResults.Count == 0)
-                       result = true;
-                    
-                if(result == false)
-                {
-                    Job newInvoiceJobID = new Job();
-                    newInvoiceJobID.JobID = int.Parse(ID);
-                    Invoice newInvoice = new Invoice();
-                    newInvoice.InvoiceNum = function.generateNewInvoiceNum();
-                    result = handler.newInvoice(newInvoice, newInvoiceJobID);
-
-                    if (result == true)
-                    {
-                        InvoiceLineItem newDeatilLine = new InvoiceLineItem();
-                        newDeatilLine.InvoiceNum = newInvoice.InvoiceNum;
-
-                        if (Request.Form["AllCheck"] == "True")
+                        foreach (SP_GetJobIntemsToInvoice_Result item in JobItemsForInvoice.ElementAt(1))
                         {
-                            foreach (SP_GetJobIntemsToInvoice_Result item in JobItemsForInvoice.ElementAt(0))
+                            if (Request.Form["Travel+" + item.ID.ToString()] != null)
                             {
-                                newDeatilLine.LineItemID = item.ID;
-                                newDeatilLine.Name = item.Description;
-                                newDeatilLine.UnitCost = item.UnitCost;
-                                newDeatilLine.UnitCount = item.UnitCount / 60;
-                                newDeatilLine.Type = 'H';
-
-                                result = handler.newInvoiceDetailLine(newDeatilLine);
-
-                                if (result == false)
+                                if (Request.Form["Travel+" + item.ID.ToString()] == item.ID.ToString())
                                 {
-                                    function.logAnError("Error creating new invoice detale line Hours");
-                                    return RedirectToAction("Error", "Shared");
+                                    TravelsResults.Add(item);
                                 }
                             }
+                        }
 
-                            foreach (SP_GetJobIntemsToInvoice_Result item in JobItemsForInvoice.ElementAt(1))
+                        for (int c = 0; c <= CustomItems.Count; c++)
+                        {
+                            if (Request.Form["Custom+" + c] != null)
                             {
-                                newDeatilLine.LineItemID = item.ID;
-                                newDeatilLine.Name = item.Description;
-                                newDeatilLine.UnitCost = item.UnitCost;
-                                newDeatilLine.UnitCount = item.UnitCount;
-                                newDeatilLine.Type = 'T';
-
-                                result = handler.newInvoiceDetailLine(newDeatilLine);
-
-                                if (result == false)
+                                if (Request.Form["Custom+" + c] == CustomItems[c].ID.ToString())
                                 {
-                                    function.logAnError("Error creating new invoice detale line Expenses");
-                                    return RedirectToAction("Error", "Shared");
+                                    CustomResults.Add(CustomItems[c]);
                                 }
                             }
+                        }
 
-                            foreach (SP_GetJobIntemsToInvoice_Result item in JobItemsForInvoice.ElementAt(2))
+                        bool result = false;
+
+                        if (Request.Form["AllCheck"] != "True"
+                            && HoursResults.Count == 0
+                            && ExpensesResults.Count == 0
+                            && TravelsResults.Count == 0
+                            && CustomResults.Count == 0)
+                            result = true;
+
+                        if (result == false)
+                        {
+                            Job newInvoiceJobID = new Job();
+                            newInvoiceJobID.JobID = int.Parse(ID);
+                            Invoice newInvoice = new Invoice();
+                            newInvoice.InvoiceNum = function.generateNewInvoiceNum();
+                            result = handler.newInvoice(newInvoice, newInvoiceJobID);
+
+                            if (result == true)
                             {
-                                newDeatilLine.LineItemID = item.ID;
-                                newDeatilLine.Name = item.Description;
-                                newDeatilLine.UnitCost = item.UnitCost;
-                                newDeatilLine.UnitCount = item.UnitCount;
-                                newDeatilLine.Type = 'E';
+                                InvoiceLineItem newDeatilLine = new InvoiceLineItem();
+                                newDeatilLine.InvoiceNum = newInvoice.InvoiceNum;
 
-                                result = handler.newInvoiceDetailLine(newDeatilLine);
-
-                                if (result == false)
+                                if (Request.Form["AllCheck"] == "True")
                                 {
-                                    function.logAnError("Error creating new invoice detale line Travel");
-                                    return RedirectToAction("Error", "Shared");
+                                    foreach (SP_GetJobIntemsToInvoice_Result item in JobItemsForInvoice.ElementAt(0))
+                                    {
+                                        newDeatilLine.LineItemID = item.ID;
+                                        newDeatilLine.Name = item.Description;
+                                        newDeatilLine.UnitCost = item.UnitCost;
+                                        newDeatilLine.UnitCount = item.UnitCount / 60;
+                                        newDeatilLine.Type = 'H';
+
+                                        result = handler.newInvoiceDetailLine(newDeatilLine);
+
+                                        if (result == false)
+                                        {
+                                            function.logAnError("Error creating new invoice detale line Hours");
+                                            return RedirectToAction("Error", "Shared");
+                                        }
+                                    }
+
+                                    foreach (SP_GetJobIntemsToInvoice_Result item in JobItemsForInvoice.ElementAt(1))
+                                    {
+                                        newDeatilLine.LineItemID = item.ID;
+                                        newDeatilLine.Name = item.Description;
+                                        newDeatilLine.UnitCost = item.UnitCost;
+                                        newDeatilLine.UnitCount = item.UnitCount;
+                                        newDeatilLine.Type = 'T';
+
+                                        result = handler.newInvoiceDetailLine(newDeatilLine);
+
+                                        if (result == false)
+                                        {
+                                            function.logAnError("Error creating new invoice detale line Expenses");
+                                            return RedirectToAction("Error", "Shared");
+                                        }
+                                    }
+
+                                    foreach (SP_GetJobIntemsToInvoice_Result item in JobItemsForInvoice.ElementAt(2))
+                                    {
+                                        newDeatilLine.LineItemID = item.ID;
+                                        newDeatilLine.Name = item.Description;
+                                        newDeatilLine.UnitCost = item.UnitCost;
+                                        newDeatilLine.UnitCount = item.UnitCount;
+                                        newDeatilLine.Type = 'E';
+
+                                        result = handler.newInvoiceDetailLine(newDeatilLine);
+
+                                        if (result == false)
+                                        {
+                                            function.logAnError("Error creating new invoice detale line Travel");
+                                            return RedirectToAction("Error", "Shared");
+                                        }
+                                    }
+
+                                    foreach (SP_GetJobIntemsToInvoice_Result item in CustomItems)
+                                    {
+                                        newDeatilLine.LineItemID = item.ID;
+                                        newDeatilLine.Name = item.Description;
+                                        newDeatilLine.UnitCost = item.UnitCost;
+                                        newDeatilLine.UnitCount = item.UnitCount;
+                                        newDeatilLine.Type = 'C';
+
+                                        result = handler.newInvoiceDetailLine(newDeatilLine);
+
+                                        if (result == false)
+                                        {
+                                            function.logAnError("Error creating new invoice detale line custom");
+                                            return RedirectToAction("Error", "Shared");
+                                        }
+                                    }
                                 }
+                                else
+                                {
+                                    foreach (SP_GetJobIntemsToInvoice_Result item in HoursResults)
+                                    {
+                                        newDeatilLine.LineItemID = item.ID;
+                                        newDeatilLine.Name = item.Description;
+                                        newDeatilLine.UnitCost = item.UnitCost;
+                                        newDeatilLine.UnitCount = item.UnitCount / 60;
+
+                                        result = handler.newInvoiceDetailLine(newDeatilLine);
+
+                                        if (result == false)
+                                        {
+                                            function.logAnError("Error creating new invoice detale line Hours");
+                                            return RedirectToAction("Error", "Shared");
+                                        }
+                                    }
+
+                                    foreach (SP_GetJobIntemsToInvoice_Result item in ExpensesResults)
+                                    {
+                                        newDeatilLine.LineItemID = item.ID;
+                                        newDeatilLine.Name = item.Description;
+                                        newDeatilLine.UnitCost = item.UnitCost;
+                                        newDeatilLine.UnitCount = item.UnitCount;
+
+                                        result = handler.newInvoiceDetailLine(newDeatilLine);
+
+                                        if (result == false)
+                                        {
+                                            function.logAnError("Error creating new invoice detale line Expenses");
+                                            return RedirectToAction("Error", "Shared");
+                                        }
+                                    }
+
+                                    foreach (SP_GetJobIntemsToInvoice_Result item in TravelsResults)
+                                    {
+                                        newDeatilLine.LineItemID = item.ID;
+                                        newDeatilLine.Name = item.Description;
+                                        newDeatilLine.UnitCost = item.UnitCost;
+                                        newDeatilLine.UnitCount = item.UnitCount;
+
+                                        result = handler.newInvoiceDetailLine(newDeatilLine);
+
+                                        if (result == false)
+                                        {
+                                            function.logAnError("Error creating new invoice detale line Travel");
+                                            return RedirectToAction("Error", "Shared");
+                                        }
+                                    }
+
+                                    foreach (SP_GetJobIntemsToInvoice_Result item in CustomResults)
+                                    {
+                                        newDeatilLine.LineItemID = item.ID;
+                                        newDeatilLine.Name = item.Description;
+                                        newDeatilLine.UnitCost = item.UnitCost;
+                                        newDeatilLine.UnitCount = item.UnitCount;
+
+                                        result = handler.newInvoiceDetailLine(newDeatilLine);
+
+                                        if (result == false)
+                                        {
+                                            function.logAnError("Error creating new invoice detale line Custom");
+                                            return RedirectToAction("Error", "Shared");
+                                        }
+                                    }
+                                }
+
+                                return Redirect(Url.Action("Invoice", "Invoice") + "?ID=" + newInvoice.InvoiceNum);
                             }
+
+                            function.logAnError("Error creating new invoice");
+                            return RedirectToAction("Error", "Shared");
                         }
                         else
                         {
-                            foreach (SP_GetJobIntemsToInvoice_Result item in HoursResults)
-                            {
-                                newDeatilLine.LineItemID = item.ID;
-                                newDeatilLine.Name = item.Description;
-                                newDeatilLine.UnitCost = item.UnitCost;
-                                newDeatilLine.UnitCount = item.UnitCount / 60;
-
-                                result = handler.newInvoiceDetailLine(newDeatilLine);
-
-                                if (result == false)
-                                {
-                                    function.logAnError("Error creating new invoice detale line Hours");
-                                    return RedirectToAction("Error", "Shared");
-                                }
-                            }
-
-                            foreach (SP_GetJobIntemsToInvoice_Result item in ExpensesResults)
-                            {
-                                newDeatilLine.LineItemID = item.ID;
-                                newDeatilLine.Name = item.Description;
-                                newDeatilLine.UnitCost = item.UnitCost;
-                                newDeatilLine.UnitCount = item.UnitCount;
-
-                                result = handler.newInvoiceDetailLine(newDeatilLine);
-
-                                if (result == false)
-                                {
-                                    function.logAnError("Error creating new invoice detale line Expenses");
-                                    return RedirectToAction("Error", "Shared");
-                                }
-                            }
-
-                            foreach (SP_GetJobIntemsToInvoice_Result item in TravelsResults)
-                            {
-                                newDeatilLine.LineItemID = item.ID;
-                                newDeatilLine.Name = item.Description;
-                                newDeatilLine.UnitCost = item.UnitCost;
-                                newDeatilLine.UnitCount = item.UnitCount;
-
-                                result = handler.newInvoiceDetailLine(newDeatilLine);
-
-                                if (result == false)
-                                {
-                                    function.logAnError("Error creating new invoice detale line Travel");
-                                    return RedirectToAction("Error", "Shared");
-                                }
-                            }
+                            ViewBag.Err = "Please select or add a custom an item to add to the invoice";
+                        }
+                        #endregion
+                        break;
+                    case "Add custom item":
+                        #region
+                        if (Request.Form["name"] == "")
+                        {
+                            ViewBag.Err = "Please enter a name for custom item";
+                            return View();
+                        }
+                        if (decimal.Parse(Request.Form["Amount"]) <= 0)
+                        {
+                            ViewBag.Err = "Please enter an amount greater than 0 for custom item Amount";
+                            return View();
+                        }
+                        if (decimal.Parse(Request.Form["Unit"]) <= 0)
+                        {
+                            ViewBag.Err = "Please enter an amount greater than 0 for custom item Unit";
+                            return View();
                         }
 
-                        return Redirect(Url.Action("Invoice", "Invoice")+"?ID="+ newInvoice.InvoiceNum);
-                    }
-
-                    function.logAnError("Error creating new invoice");
-                    return RedirectToAction("Error", "Shared");
+                        CustomItems.Add(new SP_GetJobIntemsToInvoice_Result
+                        {
+                            DisplayString = Request.Form["Unit"] + "* " + Request.Form["name"] + " at R" + Request.Form["Amount"]
+                        });
+                        ViewBag.customItemsList += Request.Form["Unit"] + "*" + Request.Form["name"] + "*" + Request.Form["Amount"] + "|";
+                        #endregion
+                        break;
                 }
-                else
-                {
-                    ViewBag.Err = "Please select an item to add to the invoice";
-                    return View();
-                }
+                ViewBag.Custom = CustomItems;
+                return View();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 function.logAnError(e.ToString() +
                     "Error in post new invoice of invoice controler");
                 return RedirectToAction("Error", "Shared");
             }
         }
-        #endregion
-        
+
         #region Mark Invoice As Paid
         // GET: Invoice/Create
         public ActionResult MarkAsPaid(string ID = "0")
@@ -999,3 +1103,4 @@ namespace TaxApp.Controllers
         #endregion
     }
 }
+        #endregion

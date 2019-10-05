@@ -148,7 +148,7 @@ namespace TaxApp.Controllers
 
                 if (result == true)
                 {
-                    return RedirectToAction("GeneralExpense", "Expense");
+                    return RedirectToAction("GeneralExpenses", "Expense");
                 }
                 else
                 {

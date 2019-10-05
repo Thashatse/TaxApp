@@ -165,11 +165,21 @@
                         <div class="col text-right">
                             @if (ViewBag.Complete == "NotDone")
                             {
-                                <a href="/Job/NewWorkLogItem?ID=@ViewBag.JobID"
-                                   class="btn btn-sm btn-secondary">Add Hours</a>
-                            }
-                            <i class="ni ni-bold-down"></i>
-                        </div>
+                                if (!ViewBag.CurrentSession)
+                                {
+                                    <a href="/Job/NewWorkLogItem?ID=@ViewBag.JobID&Session=True"
+                                       class="btn btn-sm btn-primary">Start a new session</a>
+                                }
+                                else
+                                {
+                                        <a href="/Job/EndJobWorkLogSession?ID=@ViewBag.CurrentSessionID&JobID=@ViewBag.JobID"
+                                           class="btn btn-sm btn-primary">End current session</a>
+                                    }
+                                    <a href="/Job/NewWorkLogItem?ID=@ViewBag.JobID"
+                                       class="btn btn-sm btn-secondary">Add Hours</a>
+                                }
+                                <i class="ni ni-bold-down"></i>
+                            </div>
                     </div>
                 </div>
                 <div id="Hours" class="panel-collapse collapse">
@@ -205,15 +215,30 @@
                                                 @Html.DisplayFor(modelItem => item.Description)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.WorkLogHoursString)
+                                                @if (item.StartTime == item.EndTime)
+                                                {
+                                                <p>In progress</p>
+                                                }
+                                                else
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.WorkLogHoursString)
+                                                }
                                             </td>
 
                                             @if (ViewBag.Complete == "NotDone")
                                             {
-                                                <td>
-                                                    <A href="/Job/EditJobWorkLog?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID">Edit</A> |
-                                                    <A href="/Job/DeleteJobWorkLog?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID">Delete</A>
-                                                </td>
+                                        <td>
+                                            @if (item.StartTime == item.EndTime)
+                                            {
+                                            <a href="/Job/EndJobWorkLogSession?ID=@ViewBag.CurrentSessionID&JobID=@ViewBag.JobID"
+                                               class="btn btn-sm btn-primary">End session</a>
+                                            }
+                                            else
+                                            {
+                                                <A href="/Job/EditJobWorkLog?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID">Edit</A>
+                                            }|
+                                            <A href="/Job/DeleteJobWorkLog?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID">Delete</A>
+                                        </td>
                                             }
                                         </tr>
                                     }
@@ -406,7 +431,7 @@
                             <h3 class="mb-0">Invoices</h3>
                         </div>
                         <div class="col text-right">
-                            @if (ViewBag.Complete == "NotDone" && ViewBag.NoInvoice != "True")
+                            @if (ViewBag.Complete == "NotDone" || ViewBag.NoInvoice != "True")
                             {
                                 <a href="/Invoice/NewInvoice?ID=@ViewBag.JobID"
                                    class="btn btn-sm btn-secondary">New Invoice</a>
