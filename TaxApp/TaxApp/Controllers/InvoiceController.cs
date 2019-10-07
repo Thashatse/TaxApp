@@ -79,7 +79,8 @@ namespace TaxApp.Controllers
         {
             try
             {
-                getCookie(true);
+                // of to enable PDF Download
+                //getCookie(true);
                 
                 if (id == "0")
                 {
@@ -180,7 +181,7 @@ namespace TaxApp.Controllers
                 Response.Redirect(Url.Action("Error","Shared") +"?ERR=Error downloading invoice");
             }
 
-            return File(function.downloadPage("https://www.mandela.ac.za/"), System.Net.Mime.MediaTypeNames.Application.Octet, InvoiceName);
+            return File(function.downloadPage("http://sict-iis.nmmu.ac.za/taxapp/Invoice/Print?&ID=" + id), System.Net.Mime.MediaTypeNames.Application.Octet, InvoiceName);
         }
         #endregion
 
@@ -690,7 +691,7 @@ namespace TaxApp.Controllers
                     toName,
                     Request.Form["subject"],
                     Request.Form["Message"] 
-                    + "\n\nView invoice here: http://localhost:54533/invoice/viewInvoice?ID="+invoiceDetails[0].InvoiceNum,
+                    + "\n\nView invoice here: http://sict-iis.nmmu.ac.za/taxapp/Invoice/Print?&ID="+invoiceDetails[0].InvoiceNum,
                     getProfile.FirstName + " " + getProfile.LastName,
                     getProfile.ProfileID);
 

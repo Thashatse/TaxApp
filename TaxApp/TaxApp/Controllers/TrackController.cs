@@ -108,7 +108,18 @@ namespace TaxApp.Controllers
                     newNoti.ProfileID = Job.ProfileID;
                     newNoti.Link = "/Job/Job?ID=" + ID;
                     newNoti.Details = Job.ClientFirstName + " has accessed a Job. Manage sharing settings here.";
-                    notiFunctions.newNotification(newNoti);
+
+                    bool create = true;
+                    List<Notifications> ProfileNotis = notiFunctions.getNotifications(int.Parse(cookie["ID"]));
+                    foreach (Notifications noti in ProfileNotis)
+                    {
+                        if (noti.Details == newNoti.Details
+                            && noti.Link == newNoti.Link)
+                            create = false;
+                    }
+
+                    if(create)
+                        notiFunctions.newNotification(newNoti);
 
                     return RedirectToAction("Job", "Track", new
                     {
@@ -126,7 +137,18 @@ namespace TaxApp.Controllers
                     newNoti.ProfileID = int.Parse(cookie["ID"]);
                     newNoti.Link = "/Tax/TaxCenter?period=" + ID;
                     newNoti.Details = taxConsultant.Name + " has accessed a Tax Period. Manage sharing settings here.";
-                    notiFunctions.newNotification(newNoti);
+
+                    bool create = true;
+                    List<Notifications> ProfileNotis = notiFunctions.getNotifications(int.Parse(cookie["ID"]));
+                    foreach (Notifications noti in ProfileNotis)
+                    {
+                        if (noti.Details == newNoti.Details
+                            && noti.Link == newNoti.Link)
+                            create = false;
+                    }
+
+                    if (create)
+                        notiFunctions.newNotification(newNoti);
 
                     return RedirectToAction("TAX", "Track", new
                     {
@@ -144,7 +166,18 @@ namespace TaxApp.Controllers
                     newNoti.ProfileID = int.Parse(cookie["ID"]);
                     newNoti.Link = "/Vat/VatCenter?period=" + ID;
                     newNoti.Details = taxConsultant.Name + " has accessed a VAT Period. Manage sharing settings here.";
-                    notiFunctions.newNotification(newNoti);
+
+                    bool create = true;
+                    List<Notifications> ProfileNotis = notiFunctions.getNotifications(int.Parse(cookie["ID"]));
+                    foreach (Notifications noti in ProfileNotis)
+                    {
+                        if (noti.Details == newNoti.Details
+                            && noti.Link == newNoti.Link)
+                            create = false;
+                    }
+
+                    if (create)
+                        notiFunctions.newNotification(newNoti);
 
                     return RedirectToAction("VAT", "Track", new
                     {

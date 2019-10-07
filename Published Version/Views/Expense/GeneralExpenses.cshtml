@@ -1,0 +1,192 @@
+﻿@model IEnumerable<Model.SP_GetGeneralExpense_Result>
+
+@{
+    ViewBag.Title = "General Expenses";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="header bg-gradient-primary py-7 py-lg-8">
+    <div class="container">
+        <div class="header-body text-center mb-7">
+            <div class="row justify-content-center">
+                <div class="col-lg-5 col-md-6">
+                    <h1 class="text-white">
+                        General Expenses
+                    </h1>
+                    <br />
+                    <h3 class="text-white">
+                        @ViewBag.DateRange
+                        @if (ViewBag.View != "DS")
+                        {
+                            <a href="http://sict-iis.nmmu.ac.za/taxapp/Expense/GeneralExpenses?view=DS"
+                               class="btn btn-sm btn-white"><i class="ni ni-settings-gear-65"></i></a>
+                        }
+                    </h3>
+                    @if (ViewBag.View == "DS")
+                    {
+                        using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="text-white">
+                                <div class="row">
+                                    <div class="col-lg-5 col-sm-12">Start: <input name="StartDate" type="date" value="@ViewBag.StartDateRange" /></div>
+                                    <div class="col-lg-5 col-sm-12">
+                                        End: <input name="EndDate" type="date" value="@ViewBag.EndDateRange" />
+                                    </div>
+                                    <div class="col-lg-2 col-sm-12">
+                                        <br /><input type="submit" value="Select" class="btn btn-sm btn-default" />
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt--7">
+    <div class="row mt-5">
+        <div class="col-xl-4">
+            <div class="card shadow">
+                <div class="card-header border-0">
+                    <div class="row align-items-center">
+                        <div class="col-9">
+                            <h3 class="mb-0">New</h3>
+                            @if (Model.Count() <= 0)
+                            {
+                        <h4>
+                            General expenses are those that cannot be attributed to any particular job.
+                        </h4>
+                            }
+                            else
+                            {
+                                <p>Create a new general expense</p>
+                            }
+                        </div>
+                        <div class="col-3 text-right">
+                            <a href="http://sict-iis.nmmu.ac.za/taxapp/Expense/NewGeneralExpense" class="btn btn-primary">
+                                <i class="ni ni-fat-add"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+
+        @{int i = 0;
+            foreach (var item in Model)
+            {
+                <div class="col-xl-4">
+                            <div class="card shadow">
+                                <div class="card-header border-0">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <h3 class="mb-0">@Html.DisplayFor(modelItem => item.Name)</h3>
+                                            <p>
+                                                @Html.DisplayFor(modelItem => item.DateString)
+                                            </p>
+                                        </div>
+                                        <div class="col text-right">
+                                            <button data-toggle="collapse" href="#@Html.DisplayFor(modelItem => item.dropDownID)" class="btn btn-sm btn-white">Details</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="@Html.DisplayFor(modelItem => item.dropDownID)" class="panel-collapse collapse">
+                                    <div class="table-responsive">
+                                        <!-- Projects table -->
+                                        <table class="table align-items-center table-flush">
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row">
+                                                        @Html.DisplayNameFor(model => model.Amount)
+                                                    </th>
+                                                    <td>
+                                                        R @Html.DisplayFor(modelItem => item.AmountString)
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">
+                                                        @Html.DisplayNameFor(model => model.Repeat)
+                                                    </th>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.Repeat)
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">
+                                                        @Html.DisplayNameFor(model => model.CatName)
+                                                    </th>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.CatName)
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">
+                                                        @Html.DisplayNameFor(model => model.CatDescription)
+                                                    </th>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.CatDescription)
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="card-header border-0">
+                                        <div class="row align-items-center">
+                                            <div class="col-3">
+                                                <p class="mb-0">Actions: </p>
+                                            </div>
+                                            <div class="col-9 text-right">
+                                                @if (item.RepeatOccurrences.Count != 0)
+                                                {
+                                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/expense/GeneralExpense?ID=@Html.DisplayFor(model => item.ExpenseID)"
+                                                       class="btn btn-sm btn-white">View all @Html.DisplayFor(model => item.Name) occurrences</a>
+                                                    <br />
+                                                    <br />
+                                                }
+                                                <a href="http://sict-iis.nmmu.ac.za/taxapp/expense/editexpense?ID=@Html.DisplayFor(model => item.ExpenseID)"
+                                                   class="btn btn-sm btn-white">Edit</a>
+                                                <a href="http://sict-iis.nmmu.ac.za/taxapp/expense/reapetexpense?ID=@Html.DisplayFor(model => item.ExpenseID)"
+                                                   class="btn btn-sm btn-white">Reapet Expense now</a>
+                                                <br />
+                                                <br />
+                                                @if (item.Invoice_ReceiptCopy == null)
+                                                {
+                                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@Html.DisplayFor(model => item.Name)"
+                                                       class="btn btn-sm btn-white">Add Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i></a>
+                                                }
+                                                else
+                                                {
+                                                    <a target="_blank" href="http://sict-iis.nmmu.ac.za/taxapp/Functions/DownloadFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=GE"
+                                                       class="btn btn-sm btn-white">Download Invoice or Receipt Copy <i class="ni ni-cloud-download-95"></i></a>
+                                                    <br />
+                                                    <br />
+                                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@Html.DisplayFor(model => item.Name)"
+                                                       class="btn btn-sm btn-white">Update Invoice or Receipt Copy <i class="ni ni-cloud-upload-96"></i></a>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    <br />
+                </div>
+            }
+        }
+    </div>
+    @if (ViewBag.SeeMore)
+    {
+        <br />
+            <a href="http://sict-iis.nmmu.ac.za/taxapp/Expense/GeneralExpenses?ExpenseDisplayCount=@ViewBag.X"
+               class="btn btn-sm btn-white">Show More</a>
+    }
+    @if (ViewBag.files == "True")
+    {
+        <a href="http://sict-iis.nmmu.ac.za/taxapp/Expense/GeneralExpenses?downloadAll=True"
+           class="btn btn-sm btn-white">Download All Invoice and Receipts<i class="ni ni-cloud-download-95"></i></a>
+    }

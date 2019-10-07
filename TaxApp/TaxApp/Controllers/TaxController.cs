@@ -648,7 +648,7 @@ if(tuple.Item1 != null && tuple.Item2 != null)
                     body = "Hello " + tuple.Item2.Name + " \n \n " +
                         ViewBag.ProfileName + " has shared information from their Tax period dated " + tuple.Item1.PeriodString
                         + " with you using Tax App. \n\n" +
-                        "Use the link bellow to gain access: \n http://localhost:54533/Track/verifyIdentity?ID=" + tuple.Item1.PeriodID + "&Type=TAX";
+                        "Use the link bellow to gain access: \n http://sict-iis.nmmu.ac.za/taxapp/Track/verifyIdentity?ID=" + tuple.Item1.PeriodID + "&Type=TAX";
                 }
                 else if (tuple.Item1.Type == 'V')
                 {
@@ -656,7 +656,7 @@ if(tuple.Item1 != null && tuple.Item2 != null)
                     body = "Hello " + tuple.Item2.Name + " \n \n " +
                         ViewBag.ProfileName + " has shared information from their VAT period dated " + tuple.Item1.PeriodString
                         + " with you using Tax App. \n\n" +
-                        "Use the link bellow to gain access: \n http://localhost:54533/Track/verifyIdentity?ID=" + tuple.Item1.PeriodID + "&Type=VAT";
+                        "Use the link bellow to gain access: \n http://sict-iis.nmmu.ac.za/taxapp/Track/verifyIdentity?ID=" + tuple.Item1.PeriodID + "&Type=VAT";
                 }
 
                 bool result = function.sendEmail(tuple.Item2.EmailAddress,

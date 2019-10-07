@@ -1,0 +1,104 @@
+﻿@model IEnumerable<Model.Worklog>
+
+@{
+    ViewBag.Title = "Work Log";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="header bg-gradient-primary py-7 py-lg-8">
+    <div class="container">
+        <div class="header-body text-center mb-7">
+            <div class="row justify-content-center">
+                <div class="col-lg-5 col-md-6">
+                    <h1 class="text-white">Job Work Log</h1>
+                    <p class="text-white">For <a class="text-white" href="http://sict-iis.nmmu.ac.za/taxapp/Job/Job?ID=@ViewBag.JobID"> @ViewBag.JobTitle</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Page content -->
+<div class="container mt--8 pb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-12 col-md-12">
+            <div class="card bg-secondary shadow border-0">
+                <br />
+                <div class="col text-right">
+                    @if (ViewBag.Complete == "NotDone")
+                    {
+                        if (!ViewBag.CurrentSession)
+                        {
+                            <a href="http://sict-iis.nmmu.ac.za/taxapp/Job/NewWorkLogItem?ID=@ViewBag.JobID&Session=True"
+                               class="btn btn-sm btn-primary">Start a new session</a>
+                        }
+                        else
+                        {
+                            <a href="http://sict-iis.nmmu.ac.za/taxapp/Job/EndJobWorkLogSession?ID=@ViewBag.CurrentSessionID&JobID=@ViewBag.JobID"
+                               class="btn btn-sm btn-primary">End current session</a>
+                        }
+                        <a href="http://sict-iis.nmmu.ac.za/taxapp/Job/NewWorkLogItem?ID=@ViewBag.JobID"
+                           class="btn btn-sm btn-secondary">Add Hours</a>
+                    }
+                </div>
+                <br />
+
+                <div class="table-responsive">
+                    <table class="table align-items-center table-flush">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Description)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.WorkLogHoursString)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.DateString)
+                            </th>
+                            @if (ViewBag.Complete == "NotDone")
+                            {
+                                <th></th>
+                            }
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                    <tr>
+                        <td>
+                            <a href='/Job/JobWorkLogItem?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID'>
+                                @Html.DisplayFor(modelItem => item.DateString)
+                            </a>
+                        </td>
+                        <td>
+                            <a href='/Job/JobWorkLogItem?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID'>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </a>
+                        </td>
+                        <td>
+                            <a href='/Job/JobWorkLogItem?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID'>
+                                @Html.DisplayFor(modelItem => item.WorkLogHoursString)
+                            </a>
+                        </td>
+                        @if (ViewBag.Complete == "NotDone")
+                        {
+                            <td>
+                                @if (item.StartTime == item.EndTime)
+                                {
+                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/Job/EndJobWorkLogSession?ID=@ViewBag.CurrentSessionID&JobID=@ViewBag.JobID"
+                                       class="btn btn-sm btn-primary">End session</a>
+                                }
+                                else
+                                {
+                                    <A href="http://sict-iis.nmmu.ac.za/taxapp/Job/EditJobWorkLog?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID">Edit</A>
+                                }|
+                                <A href="http://sict-iis.nmmu.ac.za/taxapp/Job/DeleteJobWorkLog?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID">Delete</A>
+                            </td>
+                        }
+                    </tr>
+                        }
+
+                    </table>
+                </div>
+            </div>
+            </div>
+    </div>
+</div>

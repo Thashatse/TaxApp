@@ -1,0 +1,106 @@
+﻿@model IEnumerable<Model.InvoiceAndReciptesFile>
+
+@{
+    ViewBag.Title = "Invoice And Receipts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="header bg-gradient-primary py-7 py-lg-8">
+    <div class="container">
+        <div class="header-body text-center mb-7">
+            <div class="row justify-content-center">
+                <div class="col-lg-5 col-md-6">
+                    <h1 class="text-white">Expense Invoice And Receipts</h1>
+                    @if (Model.Count() > 0)
+                    {
+                        <br />
+                        <div>
+                            <a href="http://sict-iis.nmmu.ac.za/taxapp/Expense/InvoiceAndReceipts?downloadAll=True&view=@ViewBag.view&EndDateRange=@ViewBag.EndDateRange&StartDateRange=@ViewBag.StartDateRange"
+                               class="btn btn-sm btn-white">Download All <i class="ni ni-cloud-download-95"></i></a>
+                        </div>
+                        <br />
+                        <h3 class="text-white">
+                            @ViewBag.DateRange
+                            @if (ViewBag.View != "DS")
+                            {
+                            <a href="http://sict-iis.nmmu.ac.za/taxapp/Expense/InvoiceAndReceipts?view=DS"
+                               class="btn btn-sm btn-white"><i class="ni ni-settings-gear-65"></i></a>
+                            }
+                        </h3>
+                            if (ViewBag.View == "DS")
+                            {
+                                using (Html.BeginForm())
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                    <div class="text-white">
+                                        <div class="row">
+                                            <div class="col-lg-5 col-sm-12">Start: <input name="StartDate" type="date" value="@ViewBag.StartDateRange" /></div>
+                                            <div class="col-lg-5 col-sm-12">
+                                                End: <input name="EndDate" type="date" value="@ViewBag.EndDateRange" />
+                                            </div>
+                                            <div class="col-lg-2 col-sm-12">
+                                                <br /><input type="submit" value="Select" class="btn btn-sm btn-default" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                    }
+                    else
+                    {
+                <h3 class="text-white">Once you have saved a copy of an invoice or a receipt related to an expense, you'll be able to view and download them here.</h3>
+                    }
+</div>
+                </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt--7">
+    <div class="row mt-5">
+            @foreach (var item in Model)
+            {
+                <div class="col-xl-4">
+                <div class="card shadow">
+                    <div class="card-header border-0">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h3 class="mb-0">
+                                    @Html.DisplayFor(modelItem => item.fileName)
+                                </h3>
+                            </div>
+                            <div class="col text-right">
+                                <a target="_blank" href="http://sict-iis.nmmu.ac.za/taxapp/Functions/DownloadFile?ID=@Html.DisplayFor(modelItem => item.ID)&type=@Html.DisplayFor(modelItem => item.Type)"
+                                   class="btn btn-sm btn-white">Download <i class="ni ni-cloud-download-95"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <!-- Projects table -->
+                        <table class="table align-items-center table-flush">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">
+                                        Expense Date:
+                                    </th>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.expenseDateString)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        Expense:
+                                    </th>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.expenseName)
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <br />
+            </div>
+        }
+    </div>

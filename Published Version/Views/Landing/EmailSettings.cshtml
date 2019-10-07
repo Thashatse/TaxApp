@@ -1,0 +1,155 @@
+﻿@model Model.EmailSetting
+
+@{
+    Layout = "~/Views/Landing/_LayoutLanding.cshtml";
+    ViewBag.Title = "EmailSettings";
+}
+
+<!-- Header -->
+<div class="header bg-gradient-primary py-7 py-lg-8">
+    <div class="container">
+        <div class="header-body text-center mb-7">
+            <div class="row justify-content-center">
+                <div class="col-lg-5 col-md-6">
+                    <h1 class="text-white">Email Settings</h1>
+                    <h4 class="text-white">Add your Bussiness Email Setting</h4>
+                    <h4 class="text-white">If you would like Tax App to send invoices & reports from a custom email account, enter the email settings bellow else select to set up later. (You will still be able to send emails without a custom account)</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <!-- Page content -->
+    <div class="container mt--8 pb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 col-md-12">
+                <div class="card bg-secondary shadow border-0">
+
+                    <div class="text-center text-muted mb-4">
+                        <p style="color:red;">@ViewBag.Message</p>
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <div>
+                            <div class="input-group-prepend">
+                                @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })<p class="text-red">* Required</p>
+                                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div>
+                            <div class="input-group-prepend">
+                                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })<p class="text-red">* Required</p>
+                                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div>
+                            <div class="input-group-prepend">
+                                @Html.LabelFor(model => model.Host, htmlAttributes: new { @class = "control-label col-md-2" })
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.EditorFor(model => model.Host, new { htmlAttributes = new { @class = "form-control" } })<p class="text-red">* Required</p>
+                                    @Html.ValidationMessageFor(model => model.Host, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div>
+                            <div class="input-group-prepend">
+                                @Html.LabelFor(model => model.Port, htmlAttributes: new { @class = "control-label col-md-2" })
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.EditorFor(model => model.Port, new { htmlAttributes = new { @class = "form-control" } })<p class="text-red">* Required</p>
+                                    @Html.ValidationMessageFor(model => model.Port, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div>
+                            <div class="input-group-prepend">
+                                @Html.LabelFor(model => model.EnableSsl, htmlAttributes: new { @class = "control-label col-md-2" })
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="checkbox">
+                                        @Html.EditorFor(model => model.EnableSsl)
+                                        @Html.ValidationMessageFor(model => model.EnableSsl, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div>
+                            <div class="input-group-prepend">
+                                @Html.LabelFor(model => model.DeliveryMethod, htmlAttributes: new { @class = "control-label col-md-2" })
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.EditorFor(model => model.DeliveryMethod, new { htmlAttributes = new { @class = "form-control" } })<p class="text-red">* Required</p>
+                                    @Html.ValidationMessageFor(model => model.DeliveryMethod, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div>
+                            <div class="input-group-prepend">
+                                @Html.LabelFor(model => model.UseDefailtCredentials, htmlAttributes: new { @class = "control-label col-md-2" })
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="checkbox">
+                                        @Html.EditorFor(model => model.UseDefailtCredentials)
+                                        @Html.ValidationMessageFor(model => model.UseDefailtCredentials, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="text-center">
+                            <a href="http://sict-iis.nmmu.ac.za/taxapp/Home/Index" class="btn btn-light">Set Up Later</a>
+                            <input type="submit" value="Add Email Settings" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

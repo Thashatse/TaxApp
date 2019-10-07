@@ -405,7 +405,7 @@ namespace TaxApp.Controllers
                     body = "Hello " + clientDetails.FirstName + " " + clientDetails.LastName + " \n \n " +
                         ViewBag.ProfileName + " has shared information about " + newJob.JobTitle
                         + " with you using Tax App. \n" +
-                        "Use the link bellow to gain access: \n http://localhost:54533/Track/verifyIdentity?ID=" + resultID + "&Type=J";
+                        "Use the link bellow to gain access: \n http://sict-iis.nmmu.ac.za/taxapp/Track/verifyIdentity?ID=" + resultID + "&Type=J";
 
                     result = function.sendEmail(clientDetails.EmailAddress,
                         clientDetails.FirstName + " " + clientDetails.LastName,
@@ -951,7 +951,7 @@ namespace TaxApp.Controllers
                     body = "Hello " + clientDetails.FirstName + " " + clientDetails.LastName + " \n \n " +
                         ViewBag.ProfileName + " has shared information about " + jobdetails.JobTitle
                         + " with you using Tax App. \n \n" +
-                        "Use the link bellow to gain access: \n http://localhost:54533/Track/verifyIdentity?ID=" + jobdetails.JobID+"&Type=Job";
+                        "Use the link bellow to gain access: \n http://sict-iis.nmmu.ac.za/taxapp/Track/verifyIdentity?ID=" + jobdetails.JobID+"&Type=Job";
 
                 bool result = function.sendEmail(clientDetails.EmailAddress,
                     clientDetails.FirstName + " " + clientDetails.LastName,

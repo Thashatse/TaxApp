@@ -1,0 +1,531 @@
+﻿@model Model.TrackJobViewModel
+
+@{
+    ViewBag.Title = "Job";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- Header -->
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+        <div class="container">
+            <div class="header-body text-center mb-7">
+                <div class="row justify-content-center">
+                    <div class="col-lg-5 col-md-6">
+                        <h1 class="text-white">
+                            @Model.jobDetails.JobTitle
+                        </h1>
+                        <h4 class="text-white">
+                            <a class="text-white" href='/Client/ClientDetails?ID=@Html.DisplayFor(model => model.jobDetails.ClientID)'>
+                                Client: @Model.jobDetails.ClientFirstName
+                            </a>
+                            <br />
+                            From @Model.jobDetails.StartDateString to @Model.jobDetails.EndDateString
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header-body">
+            <!-- Card stats -->
+            <div class="row">
+                <div class="col-xl-4 col-lg-6">
+                    <div class="card card-stats mb-4 mb-xl-0">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0">@Html.DisplayNameFor(model => model.jobDetails.HourlyRate) </h5>
+                                    <span class="h2 font-weight-bold mb-0">R @Html.DisplayFor(model => model.jobDetails.HourlyRate)</span>
+                                    @if (Model.jobDetails.Budget != 0)
+                                    {
+                                        <br />
+                                        <br />
+                                        <h5 class="card-title text-uppercase text-muted mb-0">@Html.DisplayNameFor(model => model.jobDetails.Budget) </h5>
+                                        <span class="h2 font-weight-bold mb-0">R @Html.DisplayFor(model => model.jobDetails.BudgetString)</span>
+                                        <br />
+                                        <br />
+                                        <h5 class="card-title text-uppercase text-muted mb-0">Budget Used</h5>
+                                        <span class="h2 font-weight-bold mb-0">@Html.DisplayFor(model => model.jobDetails.BudgetPercent) %</span>
+                                        <div class="progress">
+                                            @if (Model.jobDetails.BudgetPercent < 50)
+                                            {
+                                                <div class="progress-bar bg-gradient-success" role="progressbar"
+                                                     aria-valuenow="@Html.DisplayFor(modelItem => Model.jobDetails.BudgetPercent)" aria-valuemin="0"
+                                                     aria-valuemax="100" style="width: @Html.DisplayFor(modelItem => Model.jobDetails.BudgetPercent)%;"></div>
+                                            }
+                                            else if (Model.jobDetails.BudgetPercent < 75)
+                                            {
+                                                <div class="progress-bar bg-gradient-warning" role="progressbar"
+                                                     aria-valuenow="@Html.DisplayFor(modelItem => Model.jobDetails.BudgetPercent)" aria-valuemin="0"
+                                                     aria-valuemax="100" style="width: @Html.DisplayFor(modelItem => Model.jobDetails.BudgetPercent)%;"></div>
+                                            }
+                                            else
+                                            {
+                                                <div class="progress-bar bg-gradient-danger" role="progressbar"
+                                                     aria-valuenow="@Html.DisplayFor(modelItem => Model.jobDetails.BudgetPercent)" aria-valuemin="0"
+                                                     aria-valuemax="100" style="width: @Html.DisplayFor(modelItem => Model.jobDetails.BudgetPercent)%;"></div>
+                                            }
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <br />
+                                        <br />
+                                        <h5 class="card-title text-uppercase text-muted mb-0">@Html.DisplayNameFor(model => model.jobDetails.Budget) </h5>
+                                        <span class="h2 font-weight-bold mb-0">N/A</span>
+
+                                        <br />
+                                        <br />
+
+                                        <br />
+                                        <br />
+
+                                        <br />
+                                    }
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-green text-white rounded-circle shadow">
+                                        <i class="ni ni-money-coins"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-6">
+                    <div class="card card-stats mb-4 mb-xl-0">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0">@Html.DisplayNameFor(model => model.jobDetails.WorkLogHours) </h5>
+                                    <span class="h2 font-weight-bold mb-0">@Html.DisplayFor(model => model.jobDetails.WorkLogHoursString)</span>
+                                    <br />
+                                    <br />
+                                    <h5 class="card-title text-uppercase text-muted mb-0">@Html.DisplayNameFor(model => model.jobDetails.ExpenseTotal) </h5>
+                                    <span class="h2 font-weight-bold mb-0">R @Html.DisplayFor(model => model.jobDetails.AllExpenseTotalString)</span>
+                                    <br />
+                                    <br />
+                                    <h5 class="card-title text-uppercase text-muted mb-0">@Html.DisplayNameFor(model => model.jobDetails.TravelLogCostTotal)</h5>
+                                    <span class="h2 font-weight-bold mb-0">R @Html.DisplayFor(model => model.jobDetails.TravelLogCostTotalString)</span>
+                                    <br />
+                                    <br />
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
+                                        <i class="ni ni-atom"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-6">
+                    <div class="card card-stats mb-4 mb-xl-0">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0">Total Owed </h5>
+                                    <span class="h2 font-weight-bold mb-0">R @Html.DisplayFor(model => model.jobDetails.TotalUnPaidString)</span>
+                                    <br />
+                                    <br />
+                                    <h5 class="card-title text-uppercase text-muted mb-0">Total Paid </h5>
+                                    <span class="h2 font-weight-bold mb-0">R @Html.DisplayFor(model => model.jobDetails.TotalPaidString)</span>
+
+                                    <br />
+                                    <br />
+
+                                    <br />
+                                    <br />
+                                    
+                                    <br />
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-red text-white rounded-circle shadow">
+                                        <i class="ni ni-credit-card"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt--7">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+            <div class="card shadow">
+                <div class="card-header bg-transparent" data-toggle="collapse" href="#Hours">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Hours: </h3>
+                        </div>
+                        <div class="col text-right">
+                            @if (ViewBag.Complete == "NotDone")
+                            {
+                                if (!ViewBag.CurrentSession)
+                                {
+                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/Job/NewWorkLogItem?ID=@ViewBag.JobID&Session=True"
+                                       class="btn btn-sm btn-primary">Start a new session</a>
+                                }
+                                else
+                                {
+                                        <a href="http://sict-iis.nmmu.ac.za/taxapp/Job/EndJobWorkLogSession?ID=@ViewBag.CurrentSessionID&JobID=@ViewBag.JobID"
+                                           class="btn btn-sm btn-primary">End current session</a>
+                                    }
+                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/Job/NewWorkLogItem?ID=@ViewBag.JobID"
+                                       class="btn btn-sm btn-white">Add Hours</a>
+                                }
+                                <i class="ni ni-bold-down"></i>
+                            </div>
+                    </div>
+                </div>
+                <div id="Hours" class="panel-collapse collapse">
+                    <div class="card-body">
+                        @if (Model.Worklog.Count > 0)
+                        {
+                            <div class="table-responsive">
+                                <table class="table align-items-center table-flush">
+                                    <tr>
+                                        <th>
+                                            Date
+                                        </th>
+                                        <th>
+                                            Description
+                                        </th>
+                                        <th>
+                                            Hours
+                                        </th>
+
+                                        @if (ViewBag.Complete == "NotDone")
+                                        {
+                                            <th></th>
+                                        }
+                                    </tr>
+
+                                    @foreach (var item in Model.Worklog)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.DateString)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Description)
+                                            </td>
+                                            <td>
+                                                @if (item.StartTime == item.EndTime)
+                                                {
+                                                <p>In progress</p>
+                                                }
+                                                else
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.WorkLogHoursString)
+                                                }
+                                            </td>
+
+                                            @if (ViewBag.Complete == "NotDone")
+                                            {
+                                        <td>
+                                            @if (item.StartTime == item.EndTime)
+                                            {
+                                            <a href="http://sict-iis.nmmu.ac.za/taxapp/Job/EndJobWorkLogSession?ID=@ViewBag.CurrentSessionID&JobID=@ViewBag.JobID"
+                                               class="btn btn-sm btn-primary">End session</a>
+                                            }
+                                            else
+                                            {
+                                                <A href="http://sict-iis.nmmu.ac.za/taxapp/Job/EditJobWorkLog?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID">Edit</A>
+                                            }|
+                                            <A href="http://sict-iis.nmmu.ac.za/taxapp/Job/DeleteJobWorkLog?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID">Delete</A>
+                                        </td>
+                                            }
+                                        </tr>
+                                    }
+
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <p>No Hours</p>
+                        }
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+
+        <div class="col-lg-12 col-md-12">
+            <div class="card shadow">
+                <div class="card-header bg-transparent" data-toggle="collapse" href="#Expenses">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Expenses</h3>
+                        </div>
+                        <div class="col text-right">
+                            @if (ViewBag.Complete == "NotDone")
+                            {
+                                <a href="http://sict-iis.nmmu.ac.za/taxapp/Expense/NewJobExpense?ID=@ViewBag.JobID"
+                                   class="btn btn-sm btn-white">Add Expense</a>
+                            }
+                            <i class="ni ni-bold-down"></i>
+                        </div>
+                    </div>
+                </div>
+                <div id="Expenses" class="panel-collapse collapse">
+                    <div class="card-body">
+                        @if (Model.JobExpenses.Count > 0)
+                        {
+                            <div class="table-responsive">
+                                <!-- Projects table -->
+                                <table class="table align-items-center table-flush">
+                                    <tr>
+                                        <th>
+                                            Date
+                                        </th>
+                                        <th>
+                                            Description
+                                        </th>
+                                        <th>
+                                            Amount (R)
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                    @foreach (var item in Model.JobExpenses)
+                                    {
+
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.DateString)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Name)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Amount)
+                                            </td>
+                                            <td>
+                                                @if (item.invoiced == false)
+                                                {
+                                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/Expense/EditJobExpense?ID=@Html.DisplayFor(model => item.ExpenseID)"
+                                                       class="btn btn-sm btn-white">Edit</a>
+                                                }
+                                                @if (item.Invoice_ReceiptCopy == null)
+                                                {
+                                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=JE&Title=Invoice or Receipt&Details=@Html.DisplayFor(model => item.Name)"
+                                                       class="btn btn-sm btn-white">
+                                                        Add Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i>
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <a target="_blank" href="http://sict-iis.nmmu.ac.za/taxapp/Functions/DownloadFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=JE"
+                                                       class="btn btn-sm btn-white">
+                                                        Download Invoice or Receipt Copy <i class="ni ni-cloud-download-95"></i>
+                                                    </a>
+                                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=JE&Title=Invoice or Receipt&Details=@Html.DisplayFor(model => item.Name)"
+                                                       class="btn btn-sm btn-white">
+                                                        Update Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i>
+                                                    </a>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <p>No Expenses</p>
+                        }
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+
+        <div class="col-lg-12 col-md-12">
+            <div class="card shadow">
+                <div class="card-header bg-transparent" data-toggle="collapse" href="#Travel">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Vehicle Travel Log</h3>
+                        </div>
+                        <div class="col text-right">
+                            @if (ViewBag.Complete == "NotDone")
+                            {
+                                <a href="http://sict-iis.nmmu.ac.za/taxapp/Expense/NewTravelExpense?ID=@ViewBag.JobID"
+                                   class="btn btn-sm btn-white">New Log Item</a>
+                            }
+                            <i class="ni ni-bold-down"></i>
+                        </div>
+                    </div>
+                </div>
+                <div id="Travel" class="panel-collapse collapse">
+                    <div class="card-body">
+                        @if (Model.JobTravelLog.Count > 0)
+                        {
+                            <div class="table-responsive">
+                                <!-- Projects table -->
+                                <table class="table align-items-center table-flush">
+                                    <tr>
+                                        <th>
+                                            Date
+                                        </th>
+                                        <th>
+                                            Reason
+                                        </th>
+                                        <th>
+                                            Total Kms (km)
+                                        </th>
+                                        <th>
+                                            Amount (R)
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                    @foreach (var item in Model.JobTravelLog)
+                                    {
+
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DateString)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Reason)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TotalKMs)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ClientCharge)
+                                    </td>
+
+                                    @if (ViewBag.Complete == "NotDone")
+                                    {
+                                        <td>
+                                            <A href="http://sict-iis.nmmu.ac.za/taxapp/Expense/EditTravleLogItem?ID=@Html.DisplayFor(model => item.ExpenseID)&JobID=@ViewBag.JobID">Edit</A> |
+                                            <A href="http://sict-iis.nmmu.ac.za/taxapp/Expense/DeleteTravleLogItem?ID=@Html.DisplayFor(model => item.ExpenseID)&JobID=@ViewBag.JobID">Delete</A>
+                                        </td>
+                                    }
+                                </tr>
+                                    }
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                           <p>No Log Items</p>
+                        }
+                        </div>
+                </div>
+            </div>
+            <br />
+        </div>
+
+        <div class="col-lg-12 col-md-12">
+            <div class="card shadow">
+                <div class="card-header bg-transparent" data-toggle="collapse" href="#Invoices">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Invoices</h3>
+                        </div>
+                        <div class="col text-right">
+                            @if (ViewBag.Complete == "NotDone" || ViewBag.NoInvoice != "True")
+                            {
+                                <a href="http://sict-iis.nmmu.ac.za/taxapp/Invoice/NewInvoice?ID=@ViewBag.JobID"
+                                   class="btn btn-sm btn-white">New Invoice</a>
+                            }
+                            <i class="ni ni-bold-down"></i>
+                        </div>
+                    </div>
+                </div>
+                <div id="Invoices" class="panel-collapse collapse">
+                    <div class="card-body">
+                        @if (Model.invoices.Count > 0)
+                        {
+                            <div class="table-responsive">
+                                <!-- Projects table -->
+                                <table class="table align-items-center table-flush">
+                                    <tr>
+                                        <th>
+                                            Invoice Date
+                                        </th>
+                                        <th>
+                                            Paid
+                                        </th>
+                                        <th>
+                                            Amount
+                                        </th>
+                                        <th>
+
+                                        </th>
+                                    </tr>
+
+                                    @foreach (var item in Model.invoices)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.DateTimeString)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Paid)
+                                            </td>
+                                            <td>
+                                                R @Html.DisplayFor(modelItem => item.TotalCostString)
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-sm btn-white" href='/Invoice/Invoice?ID=@Html.DisplayFor(modelItem => item.InvoiceNum)'>
+                                                    View
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <p>No Invoices</p>
+                        }
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+
+        <div class="col-lg-12 col-md-12">
+            <div class="card shadow">
+                <div class="card-header bg-transparent">
+                    <div class="row align-items-center">
+                        <div class="col-2">
+                            <h3 class="mb-0">Actions: </h3>
+                        </div>
+                        <div class="col-10 text-right">
+                            @if (ViewBag.Complete == "NotDone")
+                            {
+                                <a href="http://sict-iis.nmmu.ac.za/taxapp/Job/MarkAsComplete?ID=@Html.DisplayFor(model => model.jobDetails.JobID)"
+                                   class="btn btn-sm btn-white">Mark Job As Complete</a>
+                                <a href="http://sict-iis.nmmu.ac.za/taxapp/Job/EditJob?ID=@Html.DisplayFor(model => model.jobDetails.JobID)"
+                                   class="btn btn-sm btn-white">Edit</a>
+                            }
+                            @if (Model.jobDetails.Share == true)
+                            {
+                                <a href="http://sict-iis.nmmu.ac.za/taxapp/Job/Share?ID=@Model.jobDetails.JobID"
+                                   class="btn btn-sm btn-white">Stop sharing @Model.jobDetails.JobTitle with @Model.jobDetails.ClientFirstName</a>
+                            }
+                            else
+                            {
+                                <a href="http://sict-iis.nmmu.ac.za/taxapp/Job/Share?ID=@Model.jobDetails.JobID"
+                                   class="btn btn-sm btn-white">Share @Model.jobDetails.JobTitle with @Model.jobDetails.ClientFirstName</a>
+                            }
+                            <a href="http://sict-iis.nmmu.ac.za/taxapp/Job/Jobs"
+                               class="btn btn-sm btn-white">All Jobs</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+    </div>
