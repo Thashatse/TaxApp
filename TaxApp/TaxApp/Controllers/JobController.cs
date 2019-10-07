@@ -261,6 +261,16 @@ namespace TaxApp.Controllers
                 {
                     ViewBag.Complete = "NotDone";
                 }
+            
+                ViewBag.CurrentSession = false;
+                foreach (Worklog item in JobHours)
+                {
+                    if (item.EndTime == item.StartTime)
+                    {
+                        ViewBag.CurrentSession = true;
+                        ViewBag.CurrentSessionID = item.LogItemID;
+                    }
+                }
 
                 return View(JobHours);
         }
@@ -546,6 +556,8 @@ namespace TaxApp.Controllers
             defaultData.MaxDateStart = DateTime.Now.ToString("yyyy-MM-dd");
             defaultData.MaxDateEnd = DateTime.Now.ToString("yyyy-MM-dd");
 
+                ViewBag.StratTime = "09:00";
+                ViewBag.EndTime = "17:00";
                 ViewBag.Session = bool.Parse(Session);
 
                 return View(defaultData);
@@ -616,9 +628,14 @@ namespace TaxApp.Controllers
                     ViewBag.JobID = Job.JobID;
 
                     Worklog defaultData = new Worklog();
+                    if (Request.Form["Description"] != null)
+                        defaultData.Description = Request.Form["Description"].ToString();
+                    ViewBag.StratTime = DateTime.Parse(Request.Form["startTimeDate"]).ToString("hh:mm");
+                    ViewBag.EndTime = DateTime.Parse(Request.Form["endTimeDate"]).ToString("hh:mm");
+                    ViewBag.Session = bool.Parse(Session);
                     defaultData.DefultDate = DateTime.Now.ToString("yyyy-MM-dd");
-                    defaultData.MaxDateStart = DateTime.Now.ToString("yyyy-MM-dd");
-                    defaultData.MaxDateEnd = DateTime.Now.ToString("yyyy-MM-dd");
+                    defaultData.MaxDateStart = DateTime.Parse(Request.Form["startTime"]).ToString("yyyy-MM-dd");
+                    defaultData.MaxDateEnd = DateTime.Parse(Request.Form["endTime"]).ToString("yyyy-MM-dd");
 
                     return View(defaultData);
                 }

@@ -43,7 +43,7 @@
                             {<div class="form-group">
                                     @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-10">
-                                        <input type="time" name="startTime" value="09:00">
+                                        <input type="time" name="startTime" value="@ViewBag.StratTime">
                                         <input name="startTimeDate" type="date" value="@Html.DisplayFor(model => model.MaxDateStart)"
                                                max="@Html.DisplayFor(model => model.MaxDateStart)" />
                                     </div>
@@ -52,7 +52,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-10">
-                                        <input type="time" name="endTime" value="17:00">
+                                        <input type="time" name="endTime" value="@ViewBag.EndTime">
                                         <input name="endTimeDate" type="date" value="@Html.DisplayFor(model => model.MaxDateEnd)"
                                                max="@Html.DisplayFor(model => model.MaxDateEnd)" />
                                     </div>
@@ -61,7 +61,7 @@
                                 <div class="form-group">
                                     <div class="col-md-offset-2 col-md-10">
                                         <input type="submit" value="Create" class="btn btn-default" />|
-                                        <a href="../Job/JobWorkLog?ID=@ViewBag.JobID">Cancel</a>
+                                        <a href="/Job/JobWorkLog?ID=@ViewBag.JobID">Cancel</a>
                                     </div>
                                 </div>
                             }
@@ -70,7 +70,7 @@
                                 <div class="form-group">
                                     <div class="col-md-offset-2 col-md-10">
                                         <input type="submit" value="Start" class="btn btn-default" />|
-                                        <a href="../Job/JobWorkLog?ID=@ViewBag.JobID">Cancel</a>
+                                        <a href="/Job/JobWorkLog?ID=@ViewBag.JobID">Cancel</a>
                                     </div>
                                 </div>
                             }

@@ -24,11 +24,11 @@ namespace TaxApp.Controllers
                 cookie = Request.Cookies["TaxAppGuestUserID"];
 
                 if (cookie == null)
-                    return ("../Track/verifyIdentity?ID="+ID+"&Type="+Type);
+                    return (Type);
                 if (cookie["ID"] == null)
-                    return ("../Track/verifyIdentity?ID="+ID+"&Type="+Type);
+                    return (Type);
                 if (cookie["ID"] == "")
-                    return ("../Track/verifyIdentity?ID="+ID+"&Type="+Type);
+                    return (Type);
             }
             catch (Exception e)
             {
@@ -170,9 +170,9 @@ namespace TaxApp.Controllers
 
         public ActionResult Job(string JobID, string Report = "false")
         {
-            string link = getCookie(JobID, "Job");
-            if (link != "")
-                Response.Redirect(link);
+            string type = getCookie(JobID, "Job");
+            if (type != "")
+                return Redirect(Url.Action("VerifyIdentity", "Track") + "?ID=" + JobID + "&Type=" + type);
             else
             {
                 SP_GetJob_Result Job = null;
@@ -220,10 +220,9 @@ namespace TaxApp.Controllers
 
         public ActionResult TAX(string TaxID, string SortDirection, string SortBy, string Report = "false")
         {
-            string link = getCookie(TaxID, "Job");
-
-            if (link != "")
-                Response.Redirect(link);
+            string type = getCookie(TaxID, "TAX");
+            if (type != "")
+                return Redirect(Url.Action("VerifyIdentity", "Track") + "?ID=" + TaxID + "&Type=" + type);
             else
             {
             TaxConsultant taxConsultant = new TaxConsultant();
@@ -447,9 +446,9 @@ namespace TaxApp.Controllers
 
         public ActionResult VAT(string VATID, string SortDirection, string SortBy, string Report = "false")
         {
-            string link = getCookie(VATID, "Job");
-            if (link != "")
-               Response.Redirect(link);
+            string type = getCookie(VATID, "VAT");
+            if (type != "")
+                return Redirect(Url.Action("VerifyIdentity", "Track")+ "?ID=" + VATID + "&Type="+type);
             else
             {
                 TaxConsultant taxConsultant = new TaxConsultant();

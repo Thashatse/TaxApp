@@ -34,8 +34,8 @@
     <Reference Include="CryptSharp, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\CryptSharpOfficial.2.1.0.0\lib\CryptSharp.dll</HintPath>
     </Reference>
-    <Reference Include="pdfcrowd">
-      <HintPath>..\TaxApp\bin\pdfcrowd.dll</HintPath>
+    <Reference Include="pdfcrowd, Version=4.11.0.0, Culture=neutral, PublicKeyToken=747913b00a4ba166, processorArchitecture=MSIL">
+      <HintPath>..\packages\Pdfcrowd.Official.4.11.0\lib\net20\pdfcrowd.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

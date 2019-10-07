@@ -114,7 +114,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error loading new general expense");
-                return RedirectToAction("Expenses", "Expense");
+                return RedirectToAction("Error", "Shared");
             }
         }
 
@@ -1221,7 +1221,7 @@ namespace TaxApp.Controllers
 
                 if (result == true)
                 {
-                    return RedirectToAction("TravleLog", "Expense");
+                    return RedirectToAction("vehicles", "Expense");
                 }
                 else
                 {
