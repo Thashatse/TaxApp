@@ -12,7 +12,7 @@
                     <h1 class="text-white">
                         @ViewBag.Paid Invoice
                     </h1>
-                    <p class="text-white">For <a class="text-white" href="http://sict-iis.nmmu.ac.za/taxapp/Job/Job?ID=@Html.DisplayFor(model => model.JobID)"> @Html.DisplayFor(model => model.JobTitle)</a></p>
+                    <p class="text-white">For <a class="text-white" href="/Job/Job?ID=@Html.DisplayFor(model => model.JobID)"> @Html.DisplayFor(model => model.JobTitle)</a></p>
                 </div>
             </div>
         </div>
@@ -33,19 +33,19 @@
                             <div class="col-10 text-right">
                                 @if (ViewBag.Paid == "Unpaid")
                                 {
-                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/Invoice/MarkAsPaid?ID=@Html.DisplayFor(model => model.InvoiceNum)"
+                                    <a href="/Invoice/MarkAsPaid?ID=@Html.DisplayFor(model => model.InvoiceNum)"
                                        class="btn btn-sm btn-white">Mark as Paid</a>
                                 }
-                                <a target="_blank" href="http://sict-iis.nmmu.ac.za/taxapp/Invoice/EmailInvoice?ID=@Html.DisplayFor(model => model.InvoiceNum)"
+                                <a target="_blank" href="/Invoice/EmailInvoice?ID=@Html.DisplayFor(model => model.InvoiceNum)"
                                    class="btn btn-sm btn-white">Email to Customer</a>
                                 @if (ViewBag.TaxConsultant == true)
                                 {
-                                    <a target="_blank" href="http://sict-iis.nmmu.ac.za/taxapp/Invoice/EmailInvoice?ID=@Html.DisplayFor(model => model.InvoiceNum)&To=Consultant"
+                                    <a target="_blank" href="/Invoice/EmailInvoice?ID=@Html.DisplayFor(model => model.InvoiceNum)&To=Consultant"
                                        class="btn btn-sm btn-white">Email to Consultant</a>
                                 }
-                                <a target="_blank" href="http://sict-iis.nmmu.ac.za/taxapp/Invoice/Download?ID=@Html.DisplayFor(model => model.InvoiceNum)"
+                                <a target="_blank" href="/Invoice/Download?ID=@Html.DisplayFor(model => model.InvoiceNum)"
                                    class="btn btn-sm btn-white">Download</a>
-                                <a target="_blank" href="http://sict-iis.nmmu.ac.za/taxapp/Invoice/Print?ID=@Html.DisplayFor(model => model.InvoiceNum)"
+                                <a target="_blank" href="/Invoice/Print?ID=@Html.DisplayFor(model => model.InvoiceNum)"
                                    class="btn btn-sm btn-white">Print</a>
                             </div>
                         </div>

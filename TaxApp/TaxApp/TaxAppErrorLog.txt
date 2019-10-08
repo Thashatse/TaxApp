@@ -880,3 +880,153 @@ System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have b
    at System.Web.HttpResponseWrapper.Redirect(String url)
    at TaxApp.Controllers.InvoiceController.getCookie(Boolean externalPrintCheck) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\InvoiceController.cs:line 72
    at TaxApp.Controllers.InvoiceController.Print(String id) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\InvoiceController.cs:line 82Error loding invoice details for Print
+
+TimeStamp: 10/8/2019 10:15:59 AM
+Machine Name: TEFO-NTSAKO-HAS
+OS Version: Microsoft Windows NT 10.0.18362.0
+Curent User: thash
+User Domain: TEFO-NTSAKO-HAS
+Curent Directory: C:\Program Files (x86)\IIS Express
+Error: 
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at TaxApp.Controllers.ClientController.Client() in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\ClientController.cs:line 74Error loading clients
+
+TimeStamp: 10/8/2019 10:16:13 AM
+Machine Name: TEFO-NTSAKO-HAS
+OS Version: Microsoft Windows NT 10.0.18362.0
+Curent User: thash
+User Domain: TEFO-NTSAKO-HAS
+Curent Directory: C:\Program Files (x86)\IIS Express
+Error: 
+System.ApplicationException: System.ApplicationException: An Error Occouerd When Comunicating With The DatabaseSystem.Data.SqlClient.SqlException (0x80131904): Cannot open database "TaxApp" requested by the login. The login failed.
+Login failed for user 'MicrosoftAccount\thashatse@live.com'.
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpenInner(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at DAL.DBHelper.ParamSelect(String commandName, CommandType cmdType, SqlParameter[] pars) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\DAL\DBHelper.cs:line 33
+ClientConnectionId:7cf58f65-dd55-4d0e-a2da-88945221e8d7
+Error Number:4060,State:1,Class:11
+   at DAL.DBHelper.ParamSelect(String commandName, CommandType cmdType, SqlParameter[] pars) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\DAL\DBHelper.cs:line 42
+   at DAL.DBAccess.getProfile(Profile User) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\DAL\DBAccess.cs:line 235
+   at DAL.DBAccess.getProfile(Profile User) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\DAL\DBAccess.cs:line 264
+   at BLL.DBHandler.getProfile(Profile User) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\BLL\DBHandler.cs:line 34
+   at TaxApp.Controllers.LandingController.Welcome(String Err) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\LandingController.cs:line 43Error in welcome method of LandingControles
+
+TimeStamp: 10/8/2019 10:16:13 AM
+Machine Name: TEFO-NTSAKO-HAS
+OS Version: Microsoft Windows NT 10.0.18362.0
+Curent User: thash
+User Domain: TEFO-NTSAKO-HAS
+Curent Directory: C:\Program Files (x86)\IIS Express
+Error: 
+System.ApplicationException: System.ApplicationException: An Error Occouerd When Comunicating With The DatabaseSystem.Data.SqlClient.SqlException (0x80131904): Cannot open database "TaxApp" requested by the login. The login failed.
+Login failed for user 'MicrosoftAccount\thashatse@live.com'.
+   at System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, DbConnectionPool pool, String accessToken, Boolean applyTransientFaultHandling, SqlAuthenticationProviderManager sqlAuthProviderManager)
+   at System.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpenInner(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at DAL.DBHelper.Select(String commandName, CommandType cmdType) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\DAL\DBHelper.cs:line 96
+ClientConnectionId:7cf58f65-dd55-4d0e-a2da-88945221e8d7
+Error Number:4060,State:1,Class:11
+   at DAL.DBHelper.Select(String commandName, CommandType cmdType) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\DAL\DBHelper.cs:line 106
+   at DAL.DBAccess.getRepeatGeneralExpenses() in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\DAL\DBAccess.cs:line 2149
+   at DAL.DBAccess.getRepeatGeneralExpenses() in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\DAL\DBAccess.cs:line 2181
+   at BLL.DBHandler.getRepeatGeneralExpenses() in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\BLL\DBHandler.cs:line 233
+   at BLL.Functions.repeatExpense() in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\BLL\Functions.cs:line 325Error running repeatExpense in functions
+
+TimeStamp: 10/8/2019 10:16:32 AM
+Machine Name: TEFO-NTSAKO-HAS
+OS Version: Microsoft Windows NT 10.0.18362.0
+Curent User: thash
+User Domain: TEFO-NTSAKO-HAS
+Curent Directory: C:\Program Files (x86)\IIS Express
+Error: 
+System.ApplicationException: System.ApplicationException: An Error Occouerd When Comunicating With The DatabaseSystem.Data.SqlClient.SqlException (0x80131904): Cannot open database "TaxApp" requested by the login. The login failed.
+Login failed for user 'MicrosoftAccount\thashatse@live.com'.
+   at System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, DbConnectionPool pool, String accessToken, Boolean applyTransientFaultHandling, SqlAuthenticationProviderManager sqlAuthProviderManager)
+   at System.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpenInner(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at DAL.DBHelper.ParamSelect(String commandName, CommandType cmdType, SqlParameter[] pars) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\DAL\DBHelper.cs:line 33
+ClientConnectionId:d9ebb274-9003-45c7-bc74-cc174e89fa7a
+Error Number:4060,State:1,Class:11
+   at DAL.DBHelper.ParamSelect(String commandName, CommandType cmdType, SqlParameter[] pars) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\DAL\DBHelper.cs:line 42
+   at DAL.DBAccess.getProfile(Profile User) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\DAL\DBAccess.cs:line 235
+   at DAL.DBAccess.getProfile(Profile User) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\DAL\DBAccess.cs:line 264
+   at BLL.DBHandler.getProfile(Profile User) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\BLL\DBHandler.cs:line 34
+   at TaxApp.Controllers.HomeController.getCookie() in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\HomeController.cs:line 38Error in welcome method of LandingControles
+
+TimeStamp: 10/8/2019 10:16:32 AM
+Machine Name: TEFO-NTSAKO-HAS
+OS Version: Microsoft Windows NT 10.0.18362.0
+Curent User: thash
+User Domain: TEFO-NTSAKO-HAS
+Curent Directory: C:\Program Files (x86)\IIS Express
+Error: 
+System.ApplicationException: System.ApplicationException: An Error Occouerd When Comunicating With The DatabaseSystem.Data.SqlClient.SqlException (0x80131904): Cannot open database "TaxApp" requested by the login. The login failed.
+Login failed for user 'MicrosoftAccount\thashatse@live.com'.
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpenInner(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at DAL.DBHelper.Select(String commandName, CommandType cmdType) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\DAL\DBHelper.cs:line 96
+ClientConnectionId:d9ebb274-9003-45c7-bc74-cc174e89fa7a
+Error Number:4060,State:1,Class:11
+   at DAL.DBHelper.Select(String commandName, CommandType cmdType) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\DAL\DBHelper.cs:line 106
+   at DAL.DBAccess.getRepeatGeneralExpenses() in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\DAL\DBAccess.cs:line 2149
+   at DAL.DBAccess.getRepeatGeneralExpenses() in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\DAL\DBAccess.cs:line 2181
+   at BLL.DBHandler.getRepeatGeneralExpenses() in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\BLL\DBHandler.cs:line 233
+   at BLL.Functions.repeatExpense() in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\BLL\Functions.cs:line 325Error running repeatExpense in functions
+
+TimeStamp: 10/8/2019 10:16:33 AM
+Machine Name: TEFO-NTSAKO-HAS
+OS Version: Microsoft Windows NT 10.0.18362.0
+Curent User: thash
+User Domain: TEFO-NTSAKO-HAS
+Curent Directory: C:\Program Files (x86)\IIS Express
+Error: 
+System.ApplicationException: System.ApplicationException: An Error Occouerd When Comunicating With The DatabaseSystem.Data.SqlClient.SqlException (0x80131904): Cannot open database "TaxApp" requested by the login. The login failed.
+Login failed for user 'MicrosoftAccount\thashatse@live.com'.
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpenInner(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at DAL.DBHelper.ParamSelect(String commandName, CommandType cmdType, SqlParameter[] pars) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\DAL\DBHelper.cs:line 33
+ClientConnectionId:d9ebb274-9003-45c7-bc74-cc174e89fa7a
+Error Number:4060,State:1,Class:11
+   at DAL.DBHelper.ParamSelect(String commandName, CommandType cmdType, SqlParameter[] pars) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\DAL\DBHelper.cs:line 42
+   at DAL.DBAccess.getProfileJobsDashboard(Profile profile) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\DAL\DBAccess.cs:line 1143
+   at DAL.DBAccess.getProfileJobsDashboard(Profile profile) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\DAL\DBAccess.cs:line 1362
+   at BLL.DBHandler.getProfileJobsDashboard(Profile profile) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\BLL\DBHandler.cs:line 99
+   at TaxApp.Controllers.HomeController.Index() in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\HomeController.cs:line 190Error loding Home page
