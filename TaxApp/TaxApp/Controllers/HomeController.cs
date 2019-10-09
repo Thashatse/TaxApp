@@ -116,6 +116,10 @@ namespace TaxApp.Controllers
                         eDate = temp;
                     }
 
+
+                if (sDate.ToString("yyyy") == eDate.ToString("yyyy"))
+                    ViewBag.DateRange = "From " + sDate.ToString("dd MMM") + " to " + eDate.ToString("dd MMM yyyy");
+                else
                     ViewBag.DateRange = "From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
                 ViewBag.StartDateRange = sDate.ToString("yyyy-MM-dd");
                     ViewBag.EndDateRange = eDate.ToString("yyyy-MM-dd");
@@ -210,7 +214,9 @@ namespace TaxApp.Controllers
                     expense.amountTital = "Cost to Customer:";
                     expense.amount = item.ClientCharge;
                     expense.TotalString = expense.amount.ToString("#,0.00", nfi);
+                    //Change befor Publishing
                     expense.URL = "/Expense/TravleLogItem?ID=" + item.ExpenseID;
+                    //expense.URL = "http://sict-iis.nmmu.ac.za/taxapp/Expense/TravleLogItem?ID=" + item.ExpenseID;
                     expense.expenseType = "Travel";
 
                     dashboardExpenses.Add(expense);
@@ -227,7 +233,9 @@ namespace TaxApp.Controllers
                     expense.amountTital = "Price:";
                     expense.amount = item.Amount;
                     expense.TotalString = expense.amount.ToString("#,0.00", nfi);
+                    //Change befor Publishing
                     expense.URL = "/Expense/JobExpense?ID="+item.ExpenseID;
+                    //expense.URL = "http://sict-iis.nmmu.ac.za/taxapp/Expense/JobExpense?ID=" + item.ExpenseID;
                     expense.expenseType = "Job";
 
                     dashboardExpenses.Add(expense);
@@ -244,7 +252,9 @@ namespace TaxApp.Controllers
                     expense.amountTital = "Price:";
                     expense.amount = item.Amount;
                     expense.TotalString = expense.amount.ToString("#,0.00", nfi);
+                    //Change befor Publishing
                     expense.URL = "/Expense/GeneralExpense?ID=" + item.ExpenseID;
+                    //expense.URL = "http://sict-iis.nmmu.ac.za/taxapp/Expense/GeneralExpense?ID=" + item.ExpenseID;
                     expense.expenseType = "General";
 
                     dashboardExpenses.Add(expense);

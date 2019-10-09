@@ -1,7 +1,7 @@
 ﻿@model Model.VatCenter
 
 @{
-    ViewBag.Title = "Vat Center";
+    ViewBag.Title = "Vat Centre";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -217,10 +217,10 @@
                                                     @Html.DisplayFor(modelItem => item.clientName)
                                                 </a>
                                             </td>
-                                            <td>
+                                            <td align="right">
                                                 @Html.DisplayFor(modelItem => item.TotalString)
                                             </td>
-                                            <td>
+                                            <td align="right">
                                                 @Html.DisplayFor(modelItem => item.VATorTAXString)
                                             </td>
                                         </tr>
@@ -231,8 +231,8 @@
                                         <th>Total: </th>
                                         <th></th>
                                         <th></th>
-                                        <th>@ViewBag.totalAmountRecived</th>
-                                        <th>@ViewBag.vatTotalAmountRecived</th>
+                                        <th align="right">@ViewBag.totalAmountRecived</th>
+                                        <th align="right">@ViewBag.vatTotalAmountRecived</th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -295,21 +295,21 @@
                                             <td>
                                                 <a href="@Html.DisplayFor(modelItem => item.URL)">@Html.DisplayFor(modelItem => item.name)</a>
                                             </td>
-                                            <td>
+                                            <td align="right">
                                                 @Html.DisplayFor(modelItem => item.TotalString)
                                             </td>
-                                            <td>
+                                            <td align="right">
                                                 @Html.DisplayFor(modelItem => item.VATString)
                                             </td>
                                         </tr>
                                     }
                                 </tbody>
-                                <tfoot  class="thead-light">
+                                <tfoot class="thead-light">
                                     <tr>
                                         <th>Total: </th>
                                         <th></th>
-                                        <th>@ViewBag.totalAmountPaid</th>
-                                        <th>@ViewBag.vatTotalAmountPaid</th>
+                                        <th align="right">@ViewBag.totalAmountPaid</th>
+                                        <th align="right">@ViewBag.vatTotalAmountPaid</th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -348,22 +348,29 @@
                             @using (Html.BeginForm())
                             {
                                 @Html.AntiForgeryToken()
-                                @Html.DropDownList("VatPeriodList", ViewBag.VATPeriodList as SelectList)
-                                <input type="submit" value="Select" class="btn btn-sm btn-default" />
+                            <p>
+                                Select Period @Html.DropDownList("VatPeriodList", ViewBag.VATPeriodList as SelectList)
+                                <input type="submit" value="Select" class="btn btn-default" />
+                            </p>
+
+                                <br />
                                 <a href="/Tax/EditTaxVatPeriod?Type=V&Period=@ViewBag.PeriodID"
-                                   class="btn btn-sm btn-white">Edit Period</a>
+                                   class="btn btn-white">Edit Period</a>
                                 <a href="/Tax/TaxVatPeriod?Type=V"
-                                   class="btn btn-sm btn-white">New Period</a>
+                                   class="btn btn-white">New Period</a>
+
+                                <br />
+                                <br />
 
                                 if (Model.period.Share == true)
                                 {
                                     <a href="/Tax/Share?ID=@Model.period.PeriodID&type=V"
-                                       class="btn btn-sm btn-white">Stop sharing Period with Consultant</a>
+                                       class="btn btn-white">Stop sharing Period with Consultant</a>
                                 }
                                 else
                                 {
                                     <a href="/Tax/Share?ID=@Model.period.PeriodID&type=V"
-                                       class="btn btn-sm btn-white">Share Period with Consultant</a>
+                                       class="btn btn-white">Share Period with Consultant</a>
                                 }
                             }
                         </div>

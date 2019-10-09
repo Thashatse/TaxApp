@@ -337,124 +337,244 @@
                                             }
                                         }
                                     </tr>
-                                }
-                                @{i = 0;}
+                                }@{i = 0;}
+                                @{var light = true;}
                                 @if (Model.FooterRowList != null)
                                 {
                                     foreach (var item in Model.FooterRowList)
                                     {
-                                        <tr>
-                                            @if (Model.column1Name != null)
-                                            {
-                                                if (Model.column1FotterAlignRight == true)
+                                        if (light == true)
+                                        {
+                                            <tr>
+                                                @if (Model.column1Name != null)
                                                 {
-                                                    <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column1Data)</th>
+                                                    if (Model.column1FotterAlignRight == true)
+                                                    {
+                                                        <td style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column1Data)</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>@Html.DisplayFor(model => model.FooterRowList[i].column1Data)</td>
+                                                    }
                                                 }
-                                                else
+                                                @if (Model.column2Name != null)
                                                 {
-                                                    <th>@Html.DisplayFor(model => model.FooterRowList[i].column1Data)</th>
+                                                    if (Model.column2FotterAlignRight == true)
+                                                    {
+                                                        <td style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column2Data)</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>@Html.DisplayFor(model => model.FooterRowList[i].column2Data)</td>
+                                                    }
                                                 }
-                                            }
-                                            @if (Model.column2Name != null)
-                                            {
-                                                if (Model.column2FotterAlignRight == true)
+                                                @if (Model.column3Name != null)
                                                 {
-                                                    <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column2Data)</th>
+                                                    if (Model.column3FotterAlignRight == true)
+                                                    {
+                                                        <td style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column3Data)</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>@Html.DisplayFor(model => model.FooterRowList[i].column3Data)</td>
+                                                    }
                                                 }
-                                                else
+                                                @if (Model.column4Name != null)
                                                 {
-                                                    <th>@Html.DisplayFor(model => model.FooterRowList[i].column2Data)</th>
+                                                    if (Model.column4FotterAlignRight == true)
+                                                    {
+                                                        <td style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column4Data)</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>@Html.DisplayFor(model => model.FooterRowList[i].column4Data)</td>
+                                                    }
                                                 }
-                                            }
-                                            @if (Model.column3Name != null)
-                                            {
-                                                if (Model.column3FotterAlignRight == true)
+                                                @if (Model.column5Name != null)
                                                 {
-                                                    <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column3Data)</th>
+                                                    if (Model.column5FotterAlignRight == true)
+                                                    {
+                                                        <td style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column5Data)</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>@Html.DisplayFor(model => model.FooterRowList[i].column5Data)</td>
+                                                    }
                                                 }
-                                                else
+                                                @if (Model.column6Name != null)
                                                 {
-                                                    <th>@Html.DisplayFor(model => model.FooterRowList[i].column3Data)</th>
+                                                    if (Model.column6FotterAlignRight == true)
+                                                    {
+                                                        <td style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column6Data)</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>@Html.DisplayFor(model => model.FooterRowList[i].column6Data)</td>
+                                                    }
                                                 }
-                                            }
-                                            @if (Model.column4Name != null)
-                                            {
-                                                if (Model.column4FotterAlignRight == true)
+                                                @if (Model.column7Name != null)
                                                 {
-                                                    <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column4Data)</th>
+                                                    if (Model.column7FotterAlignRight == true)
+                                                    {
+                                                        <td style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column7Data)</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>@Html.DisplayFor(model => model.FooterRowList[i].column7Data)</td>
+                                                    }
                                                 }
-                                                else
+                                                @if (Model.column8Name != null)
                                                 {
-                                                    <th>@Html.DisplayFor(model => model.FooterRowList[i].column4Data)</th>
+                                                    if (Model.column8FotterAlignRight == true)
+                                                    {
+                                                        <td style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column8Data)</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>@Html.DisplayFor(model => model.FooterRowList[i].column8Data)</td>
+                                                    }
                                                 }
-                                            }
-                                            @if (Model.column5Name != null)
-                                            {
-                                                if (Model.column5FotterAlignRight == true)
+                                                @if (Model.column9Name != null)
                                                 {
-                                                    <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column5Data)</th>
+                                                    if (Model.column9FotterAlignRight == true)
+                                                    {
+                                                        <td style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column9Data)</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>@Html.DisplayFor(model => model.FooterRowList[i].column9Data)</td>
+                                                    }
                                                 }
-                                                else
+                                                @if (Model.column10Name != null)
                                                 {
-                                                    <th>@Html.DisplayFor(model => model.FooterRowList[i].column5Data)</th>
+                                                    if (Model.column10FotterAlignRight == true)
+                                                    {
+                                                        <td style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column10Data)</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>@Html.DisplayFor(model => model.FooterRowList[i].column10Data)</td>
+                                                    }
                                                 }
-                                            }
-                                            @if (Model.column6Name != null)
-                                            {
-                                                if (Model.column6FotterAlignRight == true)
+                                            </tr>
+                                            light = false;
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                @if (Model.column1Name != null)
                                                 {
-                                                    <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column6Data)</th>
+                                                    if (Model.column1FotterAlignRight == true)
+                                                    {
+                                                        <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column1Data)</th>
+                                                    }
+                                                    else
+                                                    {
+                                                        <th>@Html.DisplayFor(model => model.FooterRowList[i].column1Data)</th>
+                                                    }
                                                 }
-                                                else
+                                                @if (Model.column2Name != null)
                                                 {
-                                                    <th>@Html.DisplayFor(model => model.FooterRowList[i].column6Data)</th>
+                                                    if (Model.column2FotterAlignRight == true)
+                                                    {
+                                                        <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column2Data)</th>
+                                                    }
+                                                    else
+                                                    {
+                                                        <th>@Html.DisplayFor(model => model.FooterRowList[i].column2Data)</th>
+                                                    }
                                                 }
-                                            }
-                                            @if (Model.column7Name != null)
-                                            {
-                                                if (Model.column7FotterAlignRight == true)
+                                                @if (Model.column3Name != null)
                                                 {
-                                                    <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column7Data)</th>
+                                                    if (Model.column3FotterAlignRight == true)
+                                                    {
+                                                        <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column3Data)</th>
+                                                    }
+                                                    else
+                                                    {
+                                                        <th>@Html.DisplayFor(model => model.FooterRowList[i].column3Data)</th>
+                                                    }
                                                 }
-                                                else
+                                                @if (Model.column4Name != null)
                                                 {
-                                                    <th>@Html.DisplayFor(model => model.FooterRowList[i].column7Data)</th>
+                                                    if (Model.column4FotterAlignRight == true)
+                                                    {
+                                                        <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column4Data)</th>
+                                                    }
+                                                    else
+                                                    {
+                                                        <th>@Html.DisplayFor(model => model.FooterRowList[i].column4Data)</th>
+                                                    }
                                                 }
-                                            }
-                                            @if (Model.column8Name != null)
-                                            {
-                                                if (Model.column8FotterAlignRight == true)
+                                                @if (Model.column5Name != null)
                                                 {
-                                                    <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column8Data)</th>
+                                                    if (Model.column5FotterAlignRight == true)
+                                                    {
+                                                        <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column5Data)</th>
+                                                    }
+                                                    else
+                                                    {
+                                                        <th>@Html.DisplayFor(model => model.FooterRowList[i].column5Data)</th>
+                                                    }
                                                 }
-                                                else
+                                                @if (Model.column6Name != null)
                                                 {
-                                                    <th>@Html.DisplayFor(model => model.FooterRowList[i].column8Data)</th>
+                                                    if (Model.column6FotterAlignRight == true)
+                                                    {
+                                                        <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column6Data)</th>
+                                                    }
+                                                    else
+                                                    {
+                                                        <th>@Html.DisplayFor(model => model.FooterRowList[i].column6Data)</th>
+                                                    }
                                                 }
-                                            }
-                                            @if (Model.column9Name != null)
-                                            {
-                                                if (Model.column9FotterAlignRight == true)
+                                                @if (Model.column7Name != null)
                                                 {
-                                                    <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column9Data)</th>
+                                                    if (Model.column7FotterAlignRight == true)
+                                                    {
+                                                        <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column7Data)</th>
+                                                    }
+                                                    else
+                                                    {
+                                                        <th>@Html.DisplayFor(model => model.FooterRowList[i].column7Data)</th>
+                                                    }
                                                 }
-                                                else
+                                                @if (Model.column8Name != null)
                                                 {
-                                                    <th>@Html.DisplayFor(model => model.FooterRowList[i].column9Data)</th>
+                                                    if (Model.column8FotterAlignRight == true)
+                                                    {
+                                                        <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column8Data)</th>
+                                                    }
+                                                    else
+                                                    {
+                                                        <th>@Html.DisplayFor(model => model.FooterRowList[i].column8Data)</th>
+                                                    }
                                                 }
-                                            }
-                                            @if (Model.column10Name != null)
-                                            {
-                                                if (Model.column10FotterAlignRight == true)
+                                                @if (Model.column9Name != null)
                                                 {
-                                                    <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column10Data)</th>
+                                                    if (Model.column9FotterAlignRight == true)
+                                                    {
+                                                        <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column9Data)</th>
+                                                    }
+                                                    else
+                                                    {
+                                                        <th>@Html.DisplayFor(model => model.FooterRowList[i].column9Data)</th>
+                                                    }
                                                 }
-                                                else
+                                                @if (Model.column10Name != null)
                                                 {
-                                                    <th>@Html.DisplayFor(model => model.FooterRowList[i].column10Data)</th>
+                                                    if (Model.column10FotterAlignRight == true)
+                                                    {
+                                                        <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column10Data)</th>
+                                                    }
+                                                    else
+                                                    {
+                                                        <th>@Html.DisplayFor(model => model.FooterRowList[i].column10Data)</th>
+                                                    }
                                                 }
-                                            }
-                                        </tr>
+                                            </tr>
+                                            light = true;
+                                        }
                                         { i = i + 1; }
                                     }
                                 }

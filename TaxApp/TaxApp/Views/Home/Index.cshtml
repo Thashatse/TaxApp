@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
     int i = 0;
 }
 
@@ -121,7 +122,7 @@
                                 </div>
                                 <div class="col text-right">
                                     <a href="/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)"
-                                       class="btn btn-sm btn-primary">Details</a>
+                                       class="btn btn-primary">Details</a>
                                 </div>
                             </div>
                         </div>
@@ -251,7 +252,7 @@
                                         </h3>
                                     </div>
                                     <div class="col text-right">
-                                        <a href="/Invoice/Invoice?ID=@Html.DisplayFor(modelItem => item.InvoiceNum)" class="btn btn-sm btn-primary">Details</a>
+                                        <a href="/Invoice/Invoice?ID=@Html.DisplayFor(modelItem => item.InvoiceNum)" class="btn btn-primary">Details</a>
                                     </div>
                                 </div>
                             </div>
@@ -334,7 +335,7 @@
                                             <h3 class="mb-0">@Html.DisplayFor(modelItem => item.name)</h3>
                                         </div>
                                         <div class="col text-right">
-                                            <a href="@Html.DisplayFor(modelItem => item.URL)" class="btn btn-sm btn-primary">Details</a>
+                                            <a href="@Html.DisplayFor(modelItem => item.URL)" class="btn btn-primary">Details</a>
                                         </div>
                                     </div>
                                 </div>
@@ -393,7 +394,7 @@
                                 <h3 class="mb-0">Tax</h3>
                             </div>
                             <div class="col text-right">
-                                <a href="/Tax/TaxCenter" class="btn btn-sm btn-primary">Tax Center</a>
+                                <a href="/Tax/TaxCenter" class="btn btn-primary">Tax Center</a>
                             </div>
                         </div>
                     </div>
@@ -447,7 +448,7 @@
                                     <h3 class="mb-0">VAT</h3>
                                 </div>
                                 <div class="col text-right">
-                                    <a href="/Vat/VatCenter" class="btn btn-sm btn-primary">VAT Center</a>
+                                    <a href="/Vat/VatCenter" class="btn btn-primary">VAT Center</a>
                                 </div>
                             </div>
                         </div>

@@ -61,7 +61,7 @@ namespace TaxApp.Controllers
             }
         }
 
-        #region Tax Center
+        #region Tax Centre
         public ActionResult TaxCenter(string view, string period)
         {
             getCookie();

@@ -19,7 +19,7 @@
                         @if (ViewBag.View != "DS")
                         {
                             <a href="/Expense/GeneralExpenses?view=DS"
-                               class="btn btn-sm btn-white"><i class="ni ni-settings-gear-65"></i></a>
+                               class="btn btn-white"><i class="ni ni-settings-gear-65"></i></a>
                         }
                     </h3>
                     @if (ViewBag.View == "DS")
@@ -35,7 +35,7 @@
                                         End: <input name="EndDate" type="date" value="@ViewBag.EndDateRange" />
                                     </div>
                                     <div class="col-lg-2 col-sm-12">
-                                        <br /><input type="submit" value="Select" class="btn btn-sm btn-default" />
+                                        <br /><input type="submit" value="Select" class="btn btn-default" />
                                     </div>
                                 </div>
                             </div>
@@ -92,7 +92,7 @@
                                             </p>
                                         </div>
                                         <div class="col text-right">
-                                            <button data-toggle="collapse" href="#@Html.DisplayFor(modelItem => item.dropDownID)" class="btn btn-sm btn-white">Details</button>
+                                            <button data-toggle="collapse" href="#@Html.DisplayFor(modelItem => item.dropDownID)" class="btn btn-white">Details</button>
                                         </div>
                                     </div>
                                 </div>
@@ -145,29 +145,29 @@
                                                 @if (item.RepeatOccurrences.Count != 0)
                                                 {
                                                     <a href="/expense/GeneralExpense?ID=@Html.DisplayFor(model => item.ExpenseID)"
-                                                       class="btn btn-sm btn-white">View all @Html.DisplayFor(model => item.Name) occurrences</a>
+                                                       class="btn btn-white">View all @Html.DisplayFor(model => item.Name) occurrences</a>
                                                     <br />
                                                     <br />
                                                 }
                                                 <a href="/expense/editexpense?ID=@Html.DisplayFor(model => item.ExpenseID)"
-                                                   class="btn btn-sm btn-white">Edit</a>
+                                                   class="btn btn-white">Edit</a>
                                                 <a href="/expense/reapetexpense?ID=@Html.DisplayFor(model => item.ExpenseID)"
-                                                   class="btn btn-sm btn-white">Reapet Expense now</a>
+                                                   class="btn btn-white">Reapet Expense now</a>
                                                 <br />
                                                 <br />
                                                 @if (item.Invoice_ReceiptCopy == null)
                                                 {
                                                     <a href="/Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@Html.DisplayFor(model => item.Name)"
-                                                       class="btn btn-sm btn-white">Add Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i></a>
+                                                       class="btn btn-white">Add Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i></a>
                                                 }
                                                 else
                                                 {
                                                     <a target="_blank" href="/Functions/DownloadFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=GE"
-                                                       class="btn btn-sm btn-white">Download Invoice or Receipt Copy <i class="ni ni-cloud-download-95"></i></a>
+                                                       class="btn btn-white">Download Invoice or Receipt Copy <i class="ni ni-cloud-download-95"></i></a>
                                                     <br />
                                                     <br />
                                                     <a href="/Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@Html.DisplayFor(model => item.Name)"
-                                                       class="btn btn-sm btn-white">Update Invoice or Receipt Copy <i class="ni ni-cloud-upload-96"></i></a>
+                                                       class="btn btn-white">Update Invoice or Receipt Copy <i class="ni ni-cloud-upload-96"></i></a>
                                                 }
                                             </div>
                                         </div>
@@ -183,10 +183,10 @@
     {
         <br />
             <a href="/Expense/GeneralExpenses?ExpenseDisplayCount=@ViewBag.X"
-               class="btn btn-sm btn-white">Show More</a>
+               class="btn btn-white">Show More</a>
     }
     @if (ViewBag.files == "True")
     {
         <a href="/Expense/GeneralExpenses?downloadAll=True"
-           class="btn btn-sm btn-white">Download All Invoice and Receipts<i class="ni ni-cloud-download-95"></i></a>
+           class="btn btn-white">Download All Invoice and Receipts<i class="ni ni-cloud-download-95"></i></a>
     }

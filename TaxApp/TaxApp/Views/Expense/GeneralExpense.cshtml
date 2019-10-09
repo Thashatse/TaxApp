@@ -95,29 +95,29 @@
                         </div>
                         <div class="col-10 text-right">
                             <a href="/expense/editexpense?ID=@Html.DisplayFor(model => model.ExpenseID)"
-                               class="btn btn-sm btn-white">Edit</a>
+                               class="btn btn-white">Edit</a>
                             <a href="/expense/reapetexpense?ID=@Html.DisplayFor(model => model.ExpenseID)"
-                               class="btn btn-sm btn-white">Reapet Expense now</a>
+                               class="btn btn-white">Reapet Expense now</a>
                             @if (@Model.Invoice_ReceiptCopy == null)
                             {
                                 <a href="/Functions/AttachFile?ID=@Html.DisplayFor(model => model.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@ViewBag.Details"
-                                   class="btn btn-sm btn-white">
+                                   class="btn btn-white">
                                     Add Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i>
                                 </a>
                             }
                             else
                             {
                                 <a target="_blank" href="/Functions/DownloadFile?ID=@Html.DisplayFor(model => model.ExpenseID)&type=GE"
-                                   class="btn btn-sm btn-white">
+                                   class="btn btn-white">
                                     Download Invoice or Receipt Copy <i class="ni ni-cloud-download-95"></i>
                                 </a>
                                 <a href="/Functions/AttachFile?ID=@Html.DisplayFor(model => model.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@ViewBag.Details"
-                                   class="btn btn-sm btn-white">
+                                   class="btn btn-white">
                                     Update Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i>
                                 </a>
                             }
                             <a href="/expense/GeneralExpenses"
-                               class="btn btn-sm btn-white">View All General Expenses</a>
+                               class="btn btn-white">View All General Expenses</a>
                         </div>
                     </div>
                 </div>
@@ -141,7 +141,7 @@
                                         </h3>
                                     </div>
                                     <div class="col text-right">
-                                        <button class="btn btn-sm btn-white">
+                                        <button class="btn btn-white">
                                             <i class="ni ni-bold-down"></i>
                                         </button>
                                     </div>
@@ -186,18 +186,18 @@
                                                 @if (item.Invoice_ReceiptCopy == null)
                                                 {
                                                     <a href="/Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@ViewBag.Details"
-                                                       class="btn btn-sm btn-white">
+                                                       class="btn btn-white">
                                                         Add Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i>
                                                     </a>
                                                 }
                                                 else
                                                 {
                                                     <a target="_blank" href="/Functions/DownloadFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=GE"
-                                                       class="btn btn-sm btn-white">
+                                                       class="btn btn-white">
                                                         Download Invoice or Receipt Copy <i class="ni ni-cloud-download-95"></i>
                                                     </a>
                                                     <a href="/Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@ViewBag.Details"
-                                                       class="btn btn-sm btn-white">
+                                                       class="btn btn-white">
                                                         Update Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i>
                                                     </a>
                                                 }

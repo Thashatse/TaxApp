@@ -104,7 +104,9 @@ namespace BLL
                             Notifications newNoti = new Notifications();
                             newNoti.date = OIR.DateTime;
                             newNoti.ProfileID = OIR.ProfileID;
+                            //Change befor Publishing
                             newNoti.Link = "../Invoice/Invoice?id=" + OIR.InvoiceNum;
+                            //newNoti.Link = "http://sict-iis.nmmu.ac.za/taxapp/Invoice/Invoice?id=" + OIR.InvoiceNum;
                             newNoti.Details = OIR.ClientName + " has an outstanding invoice for job " + OIR.JobTitle + ".";
 
                             bool create = true;

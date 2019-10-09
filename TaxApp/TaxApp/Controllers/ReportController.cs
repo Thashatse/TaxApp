@@ -413,6 +413,7 @@ namespace TaxApp.Controllers
                     }
                     else
                     {
+                        ViewBag.DropdownName = "Tax Period";
                         ViewBag.DropDownFilter = new SelectList(taxPeriod, "PeriodID", "PeriodString");
 
                         if (DropDownID == null || DropDownID == "")
@@ -576,6 +577,7 @@ namespace TaxApp.Controllers
                     clients = clients.OrderBy(o => o.FirstName).ToList();
                     clients.Insert(0, new Client { FirstName = "All", ClientID = 0 });
 
+                    ViewBag.DropdownName = "Client";
                     ViewBag.DropDownFilter = new SelectList(clients, "ClientID", "FirstName");
                     ViewBag.AlsoShowDate = true;
 
@@ -625,6 +627,7 @@ namespace TaxApp.Controllers
                     clients = clients.OrderBy(o => o.FirstName).ToList();
                     clients.Insert(0, new Client { FirstName = "All", ClientID = 0 });
 
+                    ViewBag.DropdownName = "Client";
                     ViewBag.DropDownFilter = new SelectList(clients, "ClientID", "FirstName");
                     ViewBag.AlsoShowDate = true;
 
@@ -919,6 +922,7 @@ namespace TaxApp.Controllers
                     Vehicles = Vehicles.OrderBy(o => o.Name).ToList();
                     Vehicles.Insert(0, new Vehicle { Name = "All", VehicleID = 0 });
 
+                    ViewBag.DropdownName = "Vehicle";
                     ViewBag.DropDownFilter = new SelectList(Vehicles, "VehicleID", "Name");
                     ViewBag.AlsoShowDate = true;
 
@@ -1003,6 +1007,7 @@ namespace TaxApp.Controllers
                     }
                     else
                     {
+                        ViewBag.DropdownName = "Tax Period";
                         ViewBag.DropDownFilter = new SelectList(taxPeriod, "PeriodID", "PeriodString");
 
                         if (DropDownID == null || DropDownID == "")
@@ -1148,6 +1153,7 @@ namespace TaxApp.Controllers
                     }
                     else
                     {
+                        ViewBag.DropdownName = "Vat Period";
                         ViewBag.DropDownFilter = new SelectList(vatPeriod, "PeriodID", "PeriodString");
 
                         if (DropDownID == null || DropDownID == "")
@@ -1343,6 +1349,7 @@ namespace TaxApp.Controllers
                     List<Model.Vehicle> Vehicles = handler.getVehicles(getProfileVehicles);
                     Vehicles = Vehicles.OrderBy(o => o.Name).ToList();
 
+                    ViewBag.DropdownName = "Vehicle";
                     ViewBag.DropDownFilter = new SelectList(Vehicles, "VehicleID", "Name");
                     ViewBag.AlsoShowDate = true;
 
@@ -1441,6 +1448,7 @@ namespace TaxApp.Controllers
                         year--;
                     }
 
+                    ViewBag.DropdownName = "Year";
                     ViewBag.DropDownFilter = new SelectList(years);
                     ViewBag.AlsoShowDate = false;
 
@@ -1511,6 +1519,7 @@ namespace TaxApp.Controllers
                         year--;
                     }
 
+                    ViewBag.DropdownName = "Year";
                     ViewBag.DropDownFilter = new SelectList(years);
                     ViewBag.AlsoShowDate = false;
 

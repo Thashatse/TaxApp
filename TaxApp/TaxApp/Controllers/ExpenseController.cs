@@ -522,7 +522,10 @@ namespace TaxApp.Controllers
                     eDate = temp;
                 }
 
-                ViewBag.DateRange = "From "+sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
+                if(sDate.ToString("yyyy") == eDate.ToString("yyyy"))
+                    ViewBag.DateRange = "From "+sDate.ToString("dd MMM") + " to " + eDate.ToString("dd MMM yyyy");
+                else
+                    ViewBag.DateRange = "From "+sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
                 ViewBag.StartDateRange = sDate.ToString("yyyy-MM-dd");
                 ViewBag.EndDateRange = eDate.ToString("yyyy-MM-dd");
 
@@ -630,7 +633,11 @@ namespace TaxApp.Controllers
                     eDate = temp;
                 }
 
-                ViewBag.DateRange = "From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
+
+                if (sDate.ToString("yyyy") == eDate.ToString("yyyy"))
+                    ViewBag.DateRange = "From " + sDate.ToString("dd MMM") + " to " + eDate.ToString("dd MMM yyyy");
+                else
+                    ViewBag.DateRange = "From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
                 ViewBag.StartDateRange = sDate.ToString("yyyy-MM-dd");
                 ViewBag.EndDateRange = eDate.ToString("yyyy-MM-dd");
 
@@ -734,7 +741,11 @@ namespace TaxApp.Controllers
                     eDate = temp;
                 }
 
-                ViewBag.DateRange = "From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
+
+                if (sDate.ToString("yyyy") == eDate.ToString("yyyy"))
+                    ViewBag.DateRange = "From " + sDate.ToString("dd MMM") + " to " + eDate.ToString("dd MMM yyyy");
+                else
+                    ViewBag.DateRange = "From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
                 ViewBag.StartDateRange = sDate.ToString("yyyy-MM-dd");
                 ViewBag.EndDateRange = eDate.ToString("yyyy-MM-dd");
 
@@ -1381,7 +1392,11 @@ namespace TaxApp.Controllers
                     eDate = temp;
                 }
 
-                ViewBag.DateRange = "From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
+
+                if (sDate.ToString("yyyy") == eDate.ToString("yyyy"))
+                    ViewBag.DateRange = "From " + sDate.ToString("dd MMM") + " to " + eDate.ToString("dd MMM yyyy");
+                else
+                    ViewBag.DateRange = "From " + sDate.ToString("dd MMM yyyy") + " to " + eDate.ToString("dd MMM yyyy");
                 ViewBag.StartDateRange = sDate.ToString("yyyy-MM-dd");
                 ViewBag.EndDateRange = eDate.ToString("yyyy-MM-dd");
 

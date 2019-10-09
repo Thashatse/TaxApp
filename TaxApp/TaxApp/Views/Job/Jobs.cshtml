@@ -96,7 +96,7 @@
                                     </div>
                                     <div class="col text-right">
                                         <a href="/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)"
-                                           class="btn btn-sm btn-white">Details</a>
+                                           class="btn btn-white">Details</a>
                                     </div>
                                 </div>
                             </div>
@@ -129,7 +129,7 @@
                                     @if (ViewBag.View != "DS")
                                     {
                                         <a href="/Job/Jobs?view=DS"
-                                           class="btn btn-sm btn-white"><i class="ni ni-settings-gear-65"></i></a>
+                                           class="btn btn-white"><i class="ni ni-settings-gear-65"></i></a>
                                     }
                                 </h3>
                                 if (ViewBag.View == "DS")
@@ -143,7 +143,7 @@
                                                 Start: <input name="StartDate" type="date" value="@ViewBag.StartDateRange" /><br />
 
                                                 End: <input name="EndDate" type="date" value="@ViewBag.EndDateRange" /><br />
-                                                <br /><input type="submit" value="Select" class="btn btn-sm btn-default" />
+                                                <br /><input type="submit" value="Select" class="btn btn-default" />
                                             </div>
                                         </div>
 
@@ -211,7 +211,7 @@
                                         </div>
                                         <div class="col text-right">
                                             <a href="/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)"
-                                               class="btn btn-sm btn-white">Details</a>
+                                               class="btn btn-white">Details</a>
                                         </div>
                                     </div>
                                 </div>
@@ -226,7 +226,7 @@
                 <br />
                 <div>
                     <a href="/Job/Jobs?PastJobsDisplayCount=@ViewBag.X"
-                       class="btn btn-sm btn-white">Show More</a>
+                       class="btn btn-white">Show More</a>
                 </div>
             }
         </div>

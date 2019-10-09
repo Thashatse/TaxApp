@@ -55,7 +55,7 @@
                         </p>
                     </div>
                     <div class="col text-right">
-                        <button data-toggle="collapse" href="#@Html.DisplayFor(modelItem => item.dropDownID)" class="btn btn-sm btn-white">Details</button>
+                        <button data-toggle="collapse" href="#@Html.DisplayFor(modelItem => item.dropDownID)" class="btn btn-white">Details</button>
                     </div>
                 </div>
             </div>
@@ -118,25 +118,25 @@
                             @if (ViewBag.Complete == "NotDone")
                             {
                                 <a href="/Expense/EditJobExpense?ID=@Html.DisplayFor(model => item.ExpenseID)"
-                                   class="btn btn-sm btn-white">Edit</a>
+                                   class="btn btn-white">Edit</a>
                             }
                             <br />
                             <br />
                             @if (item.Invoice_ReceiptCopy == null)
                             {
                                 <a href="/Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=JE&Title=Invoice or Receipt&Details=@Html.DisplayFor(model => item.Name)"
-                                   class="btn btn-sm btn-white">
+                                   class="btn btn-white">
                                     Add Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i>
                                 </a>
                             }
                             else
                             {
                                 <a target="_blank" href="/Functions/DownloadFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=JE"
-                                   class="btn btn-sm btn-white">
+                                   class="btn btn-white">
                                     Download Invoice or Receipt Copy <i class="ni ni-cloud-download-95"></i>
                                 </a>
                                 <a href="/Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=JE&Title=Invoice or Receipt&Details=@Html.DisplayFor(model => item.Name)"
-                                   class="btn btn-sm btn-white">
+                                   class="btn btn-white">
                                     Update Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i>
                                 </a>
                             }
@@ -152,5 +152,5 @@
     @if (ViewBag.files == "True")
     {
         <a href="/Expense/JobExpenses?downloadAll=True&ID=@ViewBag.JobID"
-           class="btn btn-sm btn-white">Download All Invoice and Receipts<i class="ni ni-cloud-download-95"></i></a>
+           class="btn btn-white">Download All Invoice and Receipts<i class="ni ni-cloud-download-95"></i></a>
     }
