@@ -219,8 +219,8 @@ namespace TaxApp.Controllers
                     expense.amount = item.ClientCharge;
                     expense.TotalString = expense.amount.ToString("#,0.00", nfi);
                     //Change befor Publishing
-                    expense.URL = "/Expense/TravleLogItem?ID=" + item.ExpenseID;
-                    //expense.URL = "http://sict-iis.nmmu.ac.za/taxapp/Expense/TravleLogItem?ID=" + item.ExpenseID;
+                    //expense.URL = "/Expense/TravleLogItem?ID=" + item.ExpenseID;
+                    expense.URL = "http://sict-iis.nmmu.ac.za/taxapp/Expense/TravleLogItem?ID=" + item.ExpenseID;
                     expense.expenseType = "Travel";
 
                     dashboardExpenses.Add(expense);
@@ -238,8 +238,8 @@ namespace TaxApp.Controllers
                     expense.amount = item.Amount;
                     expense.TotalString = expense.amount.ToString("#,0.00", nfi);
                     //Change befor Publishing
-                    expense.URL = "/Expense/JobExpense?ID="+item.ExpenseID;
-                    //expense.URL = "http://sict-iis.nmmu.ac.za/taxapp/Expense/JobExpense?ID=" + item.ExpenseID;
+                    //expense.URL = "/Expense/JobExpense?ID="+item.ExpenseID;
+                   expense.URL = "http://sict-iis.nmmu.ac.za/taxapp/Expense/JobExpense?ID=" + item.ExpenseID;
                     expense.expenseType = "Job";
 
                     dashboardExpenses.Add(expense);
@@ -257,8 +257,8 @@ namespace TaxApp.Controllers
                     expense.amount = item.Amount;
                     expense.TotalString = expense.amount.ToString("#,0.00", nfi);
                     //Change befor Publishing
-                    expense.URL = "/Expense/GeneralExpense?ID=" + item.ExpenseID;
-                    //expense.URL = "http://sict-iis.nmmu.ac.za/taxapp/Expense/GeneralExpense?ID=" + item.ExpenseID;
+                    //expense.URL = "/Expense/GeneralExpense?ID=" + item.ExpenseID;
+                    expense.URL = "http://sict-iis.nmmu.ac.za/taxapp/Expense/GeneralExpense?ID=" + item.ExpenseID;
                     expense.expenseType = "General";
 
                     dashboardExpenses.Add(expense);
