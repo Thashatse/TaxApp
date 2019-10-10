@@ -1,0 +1,87 @@
+﻿@model Model.ShareVerifyIdentityModel
+
+@{
+    ViewBag.Title = "Verify your identity - Tax App";
+    Layout = "";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Verify Identity - Tax App</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link href="http://sict-iis.nmmu.ac.za/taxapp/Theam/img/brand/favicon.png" rel="icon" type="image/png">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <!-- Icons -->
+    <link href="http://sict-iis.nmmu.ac.za/taxapp/Theam/vendor/nucleo/css/nucleo.css" rel="stylesheet">
+    <link href="http://sict-iis.nmmu.ac.za/taxapp/Theam/vendor/fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <!-- Argon CSS -->
+    <link type="text/css" href="http://sict-iis.nmmu.ac.za/taxapp/Theam/css/argon.css?v=1.0.0" rel="stylesheet">
+</head>
+
+<body class="bg-default">
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header bg-gradient-primary py-7 py-lg-8">
+            <div class="container">
+                <div class="header-body text-center mb-7">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-5 col-md-6">
+                            <h1 class="text-white">Welcome To Tax App!</h1>
+                            <h3 class="text-lead text-light">Hello @Model.userName, we need to verify your identity, so we've sent you a one time pin.</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @using (Html.BeginForm())
+        {
+            <!-- Page content -->
+            <div class="container mt--8 pb-5">
+                <div class="row justify-content-center">
+                    <div class="col-lg-5 col-md-7">
+                        <div class="card bg-secondary shadow border-0">
+                            <div class="card-body px-lg-5 py-lg-5">
+                                <div class="text-center text-muted mb-4">
+                                    <p style="color:red;">@ViewBag.Message</p>
+                                </div>
+                                <form role="form">
+                                    <div class="form-group">
+                                        <div class="input-group input-group-alternative">
+                                            <div class="input-group-prepend">
+                                                One Time Pin:
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    @Html.PasswordFor(model => model.OTP, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.OTP, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="form-group">
+                                            <input type="submit" value="Continue" class="btn btn-primary my-4" />
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col">
+                                <small>Refresh the page to have a new otp sent to you</small>
+                            </div>
+                        </div>
+                        <input type="hidden" id="userId" name="userId" value="@ViewBag.UserID">
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+</body>
+</html>

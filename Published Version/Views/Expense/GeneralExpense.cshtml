@@ -1,0 +1,213 @@
+﻿@model Model.SP_GetGeneralExpense_Result
+
+@{
+    ViewBag.Title = "General Expense";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- Header -->
+<div class="header bg-gradient-primary py-7 py-lg-8">
+    <div class="container">
+        <div class="header-body text-center mb-7">
+            <div class="row justify-content-center">
+                <div class="col-lg-5 col-md-6">
+                    <h1 class="text-white">
+                        @Html.DisplayFor(model => model.Name)
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Page content -->
+<div class="container mt--8 pb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-12 col-md-12">
+            <div class="card bg-secondary shadow border-0">
+
+                <div class="table-responsive">
+                    <table class="table align-items-center table-flush">
+                        <tbody>
+                            @if (Model.Description != "")
+                            {
+                                <tr>
+                                    <th scope="row">
+                                        @Html.DisplayNameFor(model => model.Description)
+
+                                    </th>
+                                    <td>
+                                        @Html.DisplayFor(model => model.Description)
+                                    </td>
+                                </tr>
+                            }
+                            <tr>
+                                <th scope="row">
+                                    @Html.DisplayNameFor(model => model.Date)
+
+                                </th>
+                                <td>
+                                    @Html.DisplayFor(model => model.DateString)
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">
+                                    @Html.DisplayNameFor(model => model.Amount)
+
+                                </th>
+                                <td>
+                                    R @Html.DisplayFor(model => model.AmountString)
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">
+                                    @Html.DisplayNameFor(model => model.Repeat)
+
+                                </th>
+                                <td>
+                                    @Html.DisplayFor(model => model.Repeat)
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">
+                                    @Html.DisplayNameFor(model => model.CatName)
+
+                                </th>
+                                <td>
+                                    @Html.DisplayFor(model => model.CatName)
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">
+                                    @Html.DisplayNameFor(model => model.CatDescription)
+
+                                </th>
+                                <td>
+                                    @Html.DisplayFor(model => model.CatDescription)
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-header border-0">
+                    <div class="row align-items-center">
+                        <div class="col-2">
+                            <p class="mb-0">Actions: </p>
+                        </div>
+                        <div class="col-10 text-right">
+                            <a href="http://sict-iis.nmmu.ac.za/taxapp/expense/editexpense?ID=@Html.DisplayFor(model => model.ExpenseID)"
+                               class="btn btn-white">Edit</a>
+                            <a href="http://sict-iis.nmmu.ac.za/taxapp/expense/reapetexpense?ID=@Html.DisplayFor(model => model.ExpenseID)"
+                               class="btn btn-white">Reapet Expense now</a>
+                            @if (@Model.Invoice_ReceiptCopy == null)
+                            {
+                                <a href="http://sict-iis.nmmu.ac.za/taxapp/Functions/AttachFile?ID=@Html.DisplayFor(model => model.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@ViewBag.Details"
+                                   class="btn btn-white">
+                                    Add Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i>
+                                </a>
+                            }
+                            else
+                            {
+                                <a target="_blank" href="http://sict-iis.nmmu.ac.za/taxapp/Functions/DownloadFile?ID=@Html.DisplayFor(model => model.ExpenseID)&type=GE"
+                                   class="btn btn-white">
+                                    Download Invoice or Receipt Copy <i class="ni ni-cloud-download-95"></i>
+                                </a>
+                                <a href="http://sict-iis.nmmu.ac.za/taxapp/Functions/AttachFile?ID=@Html.DisplayFor(model => model.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@ViewBag.Details"
+                                   class="btn btn-white">
+                                    Update Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i>
+                                </a>
+                            }
+                            <a href="http://sict-iis.nmmu.ac.za/taxapp/expense/GeneralExpenses"
+                               class="btn btn-white">View All General Expenses</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        @if (Model.RepeatOccurrences != null)
+        {
+            foreach (var item in Model.RepeatOccurrences)
+            {
+                <br />
+                <div class="row">
+                    <div class="col">
+                        <div class="card shadow">
+                            <div class="card-header bg-transparent">
+                                <div data-toggle="collapse" href="#@Html.DisplayFor(model => item.dropDownID)" class="row align-items-center">
+                                    <div class="col">
+                                        <h3 class="mb-0">
+                                            @Html.DisplayFor(model => item.DateString)
+                                        </h3>
+                                    </div>
+                                    <div class="col text-right">
+                                        <button class="btn btn-white">
+                                            <i class="ni ni-bold-down"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="@Html.DisplayFor(model => item.dropDownID)" class="panel-collapse collapse">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table align-items-center table-flush">
+                                            <tbody>
+                                                @if (Model.Description != "")
+                                                {
+                                                    <tr>
+                                                        <th scope="row">
+                                                            @Html.DisplayNameFor(model => item.Description)
+
+                                                        </th>
+                                                        <td>
+                                                            @Html.DisplayFor(model => item.Description)
+                                                        </td>
+                                                    </tr>
+                                                }
+                                                <tr>
+                                                    <th scope="row">
+                                                        @Html.DisplayNameFor(model => item.Amount)
+
+                                                    </th>
+                                                    <td>
+                                                       R @Html.DisplayFor(model => item.AmountString)
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="card-header border-0">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <p class="mb-0">Actions: </p>
+                                            </div>
+                                            <div class="col-10 text-right">
+                                                @if (item.Invoice_ReceiptCopy == null)
+                                                {
+                                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@ViewBag.Details"
+                                                       class="btn btn-white">
+                                                        Add Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i>
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <a target="_blank" href="http://sict-iis.nmmu.ac.za/taxapp/Functions/DownloadFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=GE"
+                                                       class="btn btn-white">
+                                                        Download Invoice or Receipt Copy <i class="ni ni-cloud-download-95"></i>
+                                                    </a>
+                                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@ViewBag.Details"
+                                                       class="btn btn-white">
+                                                        Update Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i>
+                                                    </a>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            }

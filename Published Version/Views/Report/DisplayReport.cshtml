@@ -1,0 +1,1288 @@
+﻿@model Model.ReportViewModel
+
+@{
+    ViewBag.Title = "Report";
+    Layout = "";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title - Tax App</title>
+    @Scripts.Render("~/bundles/modernizr")
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Tax App">
+    <!-- Favicon -->
+    <link href="http://sict-iis.nmmu.ac.za/taxapp/Theam/img/brand/favicon.png" rel="icon" type="image/png">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <!-- Icons -->
+    <link href="http://sict-iis.nmmu.ac.za/taxapp/Theam/vendor/nucleo/css/nucleo.css" rel="stylesheet">
+    <link href="http://sict-iis.nmmu.ac.za/taxapp/Theam/vendor/fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <!-- Argon CSS -->
+    <link type="text/css" href="http://sict-iis.nmmu.ac.za/taxapp/Theam/css/argon.css?v=1.0.0" rel="stylesheet">
+
+    <script>
+        function search() {
+            if (document.getElementById('serchTerm').value == null ||
+                document.getElementById('serchTerm').value == "") {
+                window.location.href = "/Home/Search?cat=@ViewBag.cat&term=" + document.getElementById('serchTermColapsed').value;
+            }
+            else {
+                window.location.href = "/Home/Search?cat=@ViewBag.cat&term=" + document.getElementById('serchTerm').value;
+            }
+        }
+
+    </script>
+</head>
+<body>
+    <!-- Sidenav -->
+    <nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main">
+        <div class="container-fluid">
+            <!-- Toggler -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidenav-collapse-main" aria-controls="sidenav-main" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- Brand -->
+            <a class="navbar-brand pt-0" href="http://sict-iis.nmmu.ac.za/taxapp/Home/index">
+                <img src="http://sict-iis.nmmu.ac.za/taxapp/Theam/img/brand/blue.png" class="navbar-brand-img" alt="...">
+            </a>
+            <ul class="nav align-items-center d-md-none">
+                <li class="nav-item dropdown">
+                    @if (ViewBag.NotificationList != null)
+                    {
+                        if (ViewBag.NotificationList[0].notificationID == 0)
+                        {
+                            <a class="nav-link nav-link-icon" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="ni ni-bell-55"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="nav-link nav-link-icon bg-gradient-orange" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="ni ni-bell-55"></i>
+                            </a>
+                        }
+                <div class="dropdown-menu dropdown-menu-arrow dropdown-menu-right" aria-labelledby="navbar-default_dropdown_1">
+                    @foreach (var noti in ViewBag.NotificationList)
+                    {
+                        if (noti.notificationID == 0)
+                        {
+                            <a class='dropdown-item' href='#'>
+                                @noti.Details.
+                            </a>
+                        }
+                        else
+                        {
+                            <a class='dropdown-item'>
+                                <div>
+                                    <input type="button" class="btn btn-white" onclick="location.href='/Notifications/dismissNotifications?ID=@noti.notificationID&redirect=Redirect';" value="@noti.Details @noti.timeSince days since.">
+                                    <input type="button" class="btn btn-white" onclick="location.href='/Notifications/dismissNotifications?ID=@noti.notificationID';" value="X">
+                                </div>
+                            </a>
+                        }
+                    }
+                </div>
+                    }
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                        <div class="media align-items-center">
+                            <span class="mb-0 text-sm font-weight-bold">@ViewBag.ProfileName</span>
+                        </div>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-arrow dropdown-menu-right">
+                        <div class=" dropdown-header noti-title">
+                            <h6 class="text-overflow m-0">Welcome!</h6>
+                        </div>
+                        <a href="http://sict-iis.nmmu.ac.za/taxapp/Client/Client" class="dropdown-item">
+                            <i class="ni ni-single-02"></i>
+                            <span>Clients</span>
+                        </a>
+                        <a href="http://sict-iis.nmmu.ac.za/taxapp/Tax/Consultant" class="dropdown-item">
+                            <i class="ni ni-paper-diploma"></i>
+                            <span>Tax Consultant</span>
+                        </a>
+                        <a href="http://sict-iis.nmmu.ac.za/taxapp/Expense/Vehicles" class="dropdown-item">
+                            <i class="ni ni-delivery-fast"></i>
+                            <span>Vehicles</span>
+                        </a>
+                        <a href="http://sict-iis.nmmu.ac.za/taxapp/profile/profile" class="dropdown-item">
+                            <i class="ni ni-circle-08"></i>
+                            <span>My profile</span>
+                        </a>
+                        <a href="http://sict-iis.nmmu.ac.za/taxapp/Shared/Help" class="dropdown-item">
+                            <i class="ni ni-support-16"></i>
+                            <span>Help</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="http://sict-iis.nmmu.ac.za/taxapp/Landing/Logout" class="dropdown-item">
+                            <i class="ni ni-user-run"></i>
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                </li>
+            </ul>
+            <!-- Collapse -->
+            <div class="collapse navbar-collapse" id="sidenav-collapse-main">
+                <!-- Collapse header -->
+                <div class="navbar-collapse-header d-md-none">
+                    <div class="row">
+                        <div class="col-6 collapse-brand">
+                            <a href="http://sict-iis.nmmu.ac.za/taxapp/Home/index">
+                                <img src="http://sict-iis.nmmu.ac.za/taxapp/Theam/img/brand/blue.png">
+                            </a>
+                        </div>
+                        <div class="col-6 collapse-close">
+                            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#sidenav-collapse-main" aria-controls="sidenav-main" aria-expanded="false" aria-label="Toggle sidenav">
+                                <span></span>
+                                <span></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Form -->
+                <form class="mt-4 mb-3 d-md-none">
+                    <div class="input-group input-group-rounded input-group-merge">
+                        <input type="search" class="form-control form-control-rounded form-control-prepended"
+                               onkeydown="if (event.keyCode == 13) { search(); return false; }"
+                               placeholder="Search" aria-label="Search" id="serchTermColapsed">
+                    </div>
+                </form>
+                <!-- Navigation -->
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://sict-iis.nmmu.ac.za/taxapp/Home/index">
+                            <i class="ni ni-tv-2 text-primary"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://sict-iis.nmmu.ac.za/taxapp/Job/Jobs">
+                            <i class="ni ni-atom text-blue"></i> Jobs
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://sict-iis.nmmu.ac.za/taxapp/Invoice/Income">
+                            <i class="ni ni-money-coins text-green"></i> Income
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <!-- Heading -->
+                        <a class="nav-link" data-toggle="collapse" href="#MenuExpenses">
+                            <i class="ni ni-credit-card text-red"></i> Expenses
+                        </a>
+                        <div id="MenuExpenses" class="panel-collapse collapse">
+                            <div class="container">
+                                <ul class="navbar-nav mb-md-3">
+                                    <li class="nav-item">
+                                        <a href="http://sict-iis.nmmu.ac.za/taxapp/Expense/Expenses" class="nav-link">
+                                            <span>All Expenses</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="http://sict-iis.nmmu.ac.za/taxapp/Expense/GeneralExpenses" class="nav-link">
+                                            <span>General Expenses</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="http://sict-iis.nmmu.ac.za/taxapp/Expense/AllJobExpenses" class="nav-link">
+                                            <span>Job Expenses</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="http://sict-iis.nmmu.ac.za/taxapp/Expense/TravleLog" class="nav-link">
+                                            <span>Vehicle Travel Expenses</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="http://sict-iis.nmmu.ac.za/taxapp/Expense/InvoiceAndReceipts" class="nav-link">
+                                            <span>Expense Invoice And Receipts</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://sict-iis.nmmu.ac.za/taxapp/Tax/TaxCenter">
+                            <i class="ni ni-briefcase-24 text-yellow"></i> Tax
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://sict-iis.nmmu.ac.za/taxapp/VAT/VatCenter">
+                            <i class="ni ni-briefcase-24 text-orange"></i> VAT
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://sict-iis.nmmu.ac.za/taxapp/Report/Reports">
+                            <i class="ni ni-chart-bar-32 text-purple"></i> Reports
+                        </a>
+                    </li>
+                </ul>
+                <!-- Divider -->
+                <hr class="my-3">
+                <!-- Heading -->
+                <h6 class="navbar-heading text-muted" data-toggle="collapse" href="#MenuMore">
+                    More
+                    <i class="ni ni-bold-down"></i>
+                </h6>
+                <div id="MenuMore" class="panel-collapse collapse">
+                    <!-- Navigation -->
+                    <ul class="navbar-nav mb-md-3">
+                        <li class="nav-item">
+                            <a href="http://sict-iis.nmmu.ac.za/taxapp/Client/Client" class="nav-link">
+                                <i class="ni ni-single-02"></i>
+                                <span>Clients</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="http://sict-iis.nmmu.ac.za/taxapp/Tax/Consultant" class="nav-link">
+                                <i class="ni ni-paper-diploma"></i>
+                                <span>Tax Consultant</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="http://sict-iis.nmmu.ac.za/taxapp/Expense/Vehicles" class="nav-link">
+                                <i class="ni ni-delivery-fast"></i>
+                                <span>Vehicles</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <!-- Top navbar -->
+        <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
+            <div class="container-fluid">
+                <!-- Brand -->
+                <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block">@ViewBag.Title</a>
+                <!-- Form -->
+                <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
+                    <div class="form-group mb-0">
+                        <div class="input-group input-group-alternative">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                            </div>
+                            <input class="form-control" placeholder="Search" type="text" id="serchTerm"
+                                   onkeydown="if (event.keyCode == 13) { search(); return false; }">
+                        </div>
+                    </div>
+                </form>
+                <!-- Notifications -->
+                <ul class="navbar-nav align-items-center d-none d-md-flex">
+                    <li class="nav-item dropdown">
+                        @if (ViewBag.NotificationList != null)
+                        {
+                            if (ViewBag.NotificationList[0].notificationID == 0)
+                            {
+                                <a class="nav-link nav-link-icon" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="ni ni-bell-55"></i>
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="nav-link nav-link-icon bg-gradient-orange" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="ni ni-bell-55"></i>
+                                </a>
+                            }
+                    <div class="dropdown-menu dropdown-menu-arrow dropdown-menu-right" aria-labelledby="navbar-default_dropdown_1">
+                        @foreach (var noti in ViewBag.NotificationList)
+                        {
+                            if (noti.notificationID == 0)
+                            {
+                                <a class='dropdown-item' href='#'>
+                                    @noti.Details.
+                                </a>
+                            }
+                            else
+                            {
+                                <a class='dropdown-item'>
+                                    <div>
+                                        <input type="button" class="btn btn-white" onclick="location.href='/Notifications/dismissNotifications?ID=@noti.notificationID&redirect=Redirect';" value="@noti.Details @noti.timeSince days since.">
+                                        <input type="button" class="btn btn-white" onclick="location.href='/Notifications/dismissNotifications?ID=@noti.notificationID';" value="X">
+                                    </div>
+                                </a>
+                            }
+                        }
+                    </div>
+
+                        }
+                    </li>
+                </ul>
+                <!-- User -->
+                <ul class="navbar-nav align-items-center d-none d-md-flex">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <div class="media align-items-center">
+                                <div class="media-body ml-2 d-none d-lg-block">
+                                    <span class="mb-0 text-sm  font-weight-bold">@ViewBag.ProfileName</span>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-arrow dropdown-menu-right">
+                            <div class=" dropdown-header noti-title">
+                                <h6 class="text-overflow m-0">Welcome!</h6>
+                            </div>
+                            <a href="http://sict-iis.nmmu.ac.za/taxapp/Client/Client" class="dropdown-item">
+                                <i class="ni ni-single-02"></i>
+                                <span>Clients</span>
+                            </a>
+                            <a href="http://sict-iis.nmmu.ac.za/taxapp/Tax/Consultant" class="dropdown-item">
+                                <i class="ni ni-paper-diploma"></i>
+                                <span>Tax Consultant</span>
+                            </a>
+                            <a href="http://sict-iis.nmmu.ac.za/taxapp/Expense/Vehicles" class="dropdown-item">
+                                <i class="ni ni-delivery-fast"></i>
+                                <span>Vehicles</span>
+                            </a>
+                            <a href="http://sict-iis.nmmu.ac.za/taxapp/profile/profile" class="dropdown-item">
+                                <i class="ni ni-circle-08"></i>
+                                <span>My profile</span>
+                            </a>
+                            <a href="http://sict-iis.nmmu.ac.za/taxapp/Shared/Help" class="dropdown-item">
+                                <i class="ni ni-support-16"></i>
+                                <span>Help</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="http://sict-iis.nmmu.ac.za/taxapp/Landing/Logout" class="dropdown-item">
+                                <i class="ni ni-user-run"></i>
+                                <span>Logout</span>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Header -->
+        <div class="header bg-gradient-primary py-7 py-lg-8">
+            <div class="container">
+                <div class="header-body text-center mb-7">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-6 col-md-7">
+                            <h1 class="text-white">
+                                @Html.DisplayFor(model => model.reportTitle)
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid mt--7">
+            <div class="row mt-5">
+                <div class="col-xl-12 mb-5 mb-xl-0">
+                    <br />
+                    <div class="card shadow">
+                        <div class="card-header bg-transparent">
+                            <div class="row align-items-center">
+                                <div class="col-4">
+                                    <h3 class="mb-0">Filter: </h3>
+                                </div>
+                                <div class="col-8 text-right">
+                                    @using (Html.BeginForm())
+                                    {
+                                    <div class="row">
+
+                                        @if ((ViewBag.AlsoShowDate == false || ViewBag.AlsoShowDate == null) && ViewBag.DropDownFilter != null)
+                                        {
+                                            <div class="col-lg-6 col-sm-12 text-right"></div>
+                                        }
+                                        @if (ViewBag.DropDownFilter != null)
+                                        {
+                                    <div class="col-lg-3 col-sm-12 text-right">
+                                        @ViewBag.DropdownName:<br />
+                                        @Html.DropDownList("DropDownFilter", ViewBag.DropDownFilter as SelectList)
+                                    </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="col-lg-3 col-sm-12 text-right"></div>
+                                        }
+                                        @if (ViewBag.AlsoShowDate == true)
+                                        {
+                                            <div class="col-lg-3 col-sm-12 text-right">
+                                                Start Date: <input name="StartDate" type="date" value="@ViewBag.StartDateRange" />
+                                            </div>
+                                            <div class="col-lg-3 col-sm-12 text-right">
+                                                End Date: <input name="EndDate" type="date" value="@ViewBag.EndDateRange" />
+                                            </div>
+                                        }
+                                        <div class="col-lg-3 col-sm-12 text-right">
+
+                                            @if (ViewBag.DropDownFilter != null || ViewBag.AlsoShowDate == true)
+                                            {
+                                                <br/>
+                                                <input type="submit" value="Update" class="btn btn-default" />
+                                            }
+                                        </div>
+
+                                    </div>
+                                        }
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                </div>
+
+                <!--Report-->
+                @if (ViewBag.View == "")
+                {
+                    <div class="col-xl-12 mb-5 mb-xl-0">
+                        <div class="card shadow">
+                            <div class="card-header border-0">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <h3 class="mb-0">
+                                            @Html.DisplayFor(model => model.reportSubHeading)
+                                        </h3>
+                                        <h4 class="mb-0">
+                                            @Html.DisplayFor(model => model.reportCondition)
+                                        </h4>
+                                    </div>
+                                    <div class="col-2 text-right">
+                                        @if (ViewBag.BarChart)
+                                        {
+                                            <a class="btn btn-white" href="http://sict-iis.nmmu.ac.za/taxapp/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&DropDownID=@ViewBag.DropDownID&View=Bar">View Bar Chart</a>
+                                        }
+
+                                        @if (ViewBag.LineChart)
+                                        {
+                                            <a class="btn btn-white" href="http://sict-iis.nmmu.ac.za/taxapp/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&DropDownID=@ViewBag.DropDownID&View=Line">View Line Chart</a>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <!-- Projects table -->
+                                <table class="table align-items-center table-flush">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            @if (Model.column1Name != null)
+                                            {
+                                                <th scope="col">
+                                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col1&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID">@Html.DisplayFor(model => model.column1Name)</a>
+                                                </th>
+                                            }
+                                            @if (Model.column2Name != null)
+                                            {
+                                                <th scope="col">
+                                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col2&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID">@Html.DisplayFor(model => model.column2Name)</a>
+                                                </th>
+                                            }
+                                            @if (Model.column3Name != null)
+                                            {
+                                                <th scope="col">
+                                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col3&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID">@Html.DisplayFor(model => model.column3Name)</a>
+                                                </th>
+                                            }
+                                            @if (Model.column4Name != null)
+                                            {
+                                                <th scope="col">
+                                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col4&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID">@Html.DisplayFor(model => model.column4Name)</a>
+                                                </th>
+                                            }
+                                            @if (Model.column5Name != null)
+                                            {
+                                                <th scope="col">
+                                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col4&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID">@Html.DisplayFor(model => model.column5Name)</a>
+                                                </th>
+                                            }
+                                            @if (Model.column6Name != null)
+                                            {
+                                                <th scope="col">
+                                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col6&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID">@Html.DisplayFor(model => model.column6Name)</a>
+                                                </th>
+                                            }
+                                            @if (Model.column7Name != null)
+                                            {
+                                                <th scope="col">
+                                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col7&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID">@Html.DisplayFor(model => model.column7Name)</a>
+                                                </th>
+                                            }
+                                            @if (Model.column8Name != null)
+                                            {
+                                                <th scope="col">
+                                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col7&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID">@Html.DisplayFor(model => model.column8Name)</a>
+                                                </th>
+                                            }
+                                            @if (Model.column9Name != null)
+                                            {
+                                                <th scope="col">
+                                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col7&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID">@Html.DisplayFor(model => model.column9Name)</a>
+                                                </th>
+                                            }
+                                            @if (Model.column10Name != null)
+                                            {
+                                                <th scope="col">
+                                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&SortBy=Col7&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID">@Html.DisplayFor(model => model.column10Name)</a>
+                                                </th>
+                                            }
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @{int i = 0;}
+                                        @foreach (var item in Model.ReportDataList)
+                                        {
+                                            <tr>
+                                                @if (Model.column1Name != null)
+                                                {
+                                                    if (Model.column1DataAlignRight == true)
+                                                    {
+                                                        <td align="right">@Html.DisplayFor(model => model.ReportDataList[i].column1Data)</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>@Html.DisplayFor(model => model.ReportDataList[i].column1Data)</td>
+                                                    }
+                                                }
+                                                @if (Model.column2Name != null)
+                                                {
+                                                    if (Model.column2DataAlignRight == true)
+                                                    {
+                                                        <td align="right">@Html.DisplayFor(model => model.ReportDataList[i].column2Data)</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>@Html.DisplayFor(model => model.ReportDataList[i].column2Data)</td>
+                                                    }
+                                                }
+                                                @if (Model.column3Name != null)
+                                                {
+                                                    if (Model.column3DataAlignRight == true)
+                                                    {
+                                                        <td align="right">@Html.DisplayFor(model => model.ReportDataList[i].column3Data)</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>@Html.DisplayFor(model => model.ReportDataList[i].column3Data)</td>
+                                                    }
+                                                }
+                                                @if (Model.column4Name != null)
+                                                {
+                                                    if (Model.column4DataAlignRight == true)
+                                                    {
+                                                        <td align="right">@Html.DisplayFor(model => model.ReportDataList[i].column4Data)</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>@Html.DisplayFor(model => model.ReportDataList[i].column4Data)</td>
+                                                    }
+                                                }
+                                                @if (Model.column5Name != null)
+                                                {
+                                                    if (Model.column5DataAlignRight == true)
+                                                    {
+                                                        <td align="right">@Html.DisplayFor(model => model.ReportDataList[i].column5Data)</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>@Html.DisplayFor(model => model.ReportDataList[i].column5Data)</td>
+                                                    }
+                                                }
+                                                @if (Model.column6Name != null)
+                                                {
+                                                    if (Model.column6DataAlignRight == true)
+                                                    {
+                                                        <td align="right">@Html.DisplayFor(model => model.ReportDataList[i].column6Data)</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>@Html.DisplayFor(model => model.ReportDataList[i].column6Data)</td>
+                                                    }
+                                                }
+                                                @if (Model.column7Name != null)
+                                                {
+                                                    if (Model.column7DataAlignRight == true)
+                                                    {
+                                                        <td align="right">@Html.DisplayFor(model => model.ReportDataList[i].column7Data)</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>@Html.DisplayFor(model => model.ReportDataList[i].column7Data)</td>
+                                                    }
+                                                }
+                                                @if (Model.column8Name != null)
+                                                {
+                                                    if (Model.column8DataAlignRight == true)
+                                                    {
+                                                        <td align="right">@Html.DisplayFor(model => model.ReportDataList[i].column8Data)</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>@Html.DisplayFor(model => model.ReportDataList[i].column8Data)</td>
+                                                    }
+                                                }
+                                                @if (Model.column9Name != null)
+                                                {
+                                                    if (Model.column9DataAlignRight == true)
+                                                    {
+                                                        <td align="right">@Html.DisplayFor(model => model.ReportDataList[i].column9Data)</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>@Html.DisplayFor(model => model.ReportDataList[i].column9Data)</td>
+                                                    }
+                                                }
+                                                @if (Model.column10Name != null)
+                                                {
+                                                    if (Model.column10DataAlignRight == true)
+                                                    {
+                                                        <td align="right">@Html.DisplayFor(model => model.ReportDataList[i].column10Data)</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>@Html.DisplayFor(model => model.ReportDataList[i].column10Data)</td>
+                                                    }
+                                                }
+                                            </tr>
+                                            { i = i + 1; }
+                                        }
+                                    </tbody>
+
+                                    <tfoot class="thead-light">
+                                        @{var light = false;}
+                                        @if (Model.column2Total != null
+                                                || Model.column3Total != null
+                                                || Model.column4Total != null
+                                                || Model.column5Total != null
+                                                || Model.column6Total != null
+                                                || Model.column7Total != null
+                                                || Model.column8Total != null
+                                                || Model.column9Total != null
+                                                || Model.column10Total != null)
+                                        {
+                                            <tr>
+                                                @if (Model.column1Name != null)
+                                                {
+                                                    <th>Total:</th>
+                                                }
+                                                @if (Model.column2Name != null)
+                                                {
+                                                    if (Model.column2DataAlignRight == true)
+                                                    {
+                                                        <th style="text-align:right">@Html.DisplayFor(model => model.column2Total)</th>
+                                                    }
+                                                    else
+                                                    {
+                                                        <th>@Html.DisplayFor(model => model.column2Total)</th>
+                                                    }
+                                                }
+                                                @if (Model.column3Name != null)
+                                                {
+                                                    if (Model.column3DataAlignRight == true)
+                                                    {
+                                                        <th style="text-align:right">@Html.DisplayFor(model => model.column3Total)</th>
+                                                    }
+                                                    else
+                                                    {
+                                                        <th>@Html.DisplayFor(model => model.column3Total)</th>
+                                                    }
+                                                }
+                                                @if (Model.column4Name != null)
+                                                {
+                                                    if (Model.column4DataAlignRight == true)
+                                                    {
+                                                        <th style="text-align:right">@Html.DisplayFor(model => model.column4Total)</th>
+                                                    }
+                                                    else
+                                                    {
+                                                        <th>@Html.DisplayFor(model => model.column4Total)</th>
+                                                    }
+                                                }
+                                                @if (Model.column5Name != null)
+                                                {
+                                                    if (Model.column5DataAlignRight == true)
+                                                    {
+                                                        <th style="text-align:right">@Html.DisplayFor(model => model.column5Total)</th>
+                                                    }
+                                                    else
+                                                    {
+                                                        <th>@Html.DisplayFor(model => model.column5Total)</th>
+                                                    }
+                                                }
+                                                @if (Model.column6Name != null)
+                                                {
+                                                    if (Model.column6DataAlignRight == true)
+                                                    {
+                                                        <th style="text-align:right">@Html.DisplayFor(model => model.column6Total)</th>
+                                                    }
+                                                    else
+                                                    {
+                                                        <th>@Html.DisplayFor(model => model.column6Total)</th>
+                                                    }
+                                                }
+                                                @if (Model.column7Name != null)
+                                                {
+                                                    if (Model.column7DataAlignRight == true)
+                                                    {
+                                                        <th style="text-align:right">@Html.DisplayFor(model => model.column7Total)</th>
+                                                    }
+                                                    else
+                                                    {
+                                                        <th>@Html.DisplayFor(model => model.column7Total)</th>
+                                                    }
+                                                }
+                                                @if (Model.column8Name != null)
+                                                {
+                                                    if (Model.column8DataAlignRight == true)
+                                                    {
+                                                        <th style="text-align:right">@Html.DisplayFor(model => model.column8Total)</th>
+                                                    }
+                                                    else
+                                                    {
+                                                        <th>@Html.DisplayFor(model => model.column8Total)</th>
+                                                    }
+                                                }
+                                                @if (Model.column9Name != null)
+                                                {
+                                                    if (Model.column9DataAlignRight == true)
+                                                    {
+                                                        <th style="text-align:right">@Html.DisplayFor(model => model.column9Total)</th>
+                                                    }
+                                                    else
+                                                    {
+                                                        <th>@Html.DisplayFor(model => model.column9Total)</th>
+                                                    }
+                                                }
+                                                @if (Model.column10Name != null)
+                                                {
+                                                    if (Model.column10DataAlignRight == true)
+                                                    {
+                                                        <th style="text-align:right">@Html.DisplayFor(model => model.column10Total)</th>
+                                                    }
+                                                    else
+                                                    {
+                                                        <th>@Html.DisplayFor(model => model.column10Total)</th>
+                                                    }
+                                                }
+                                            </tr>
+                                            light = true;
+                                        }
+                                        @{i = 0;}
+                                        @if (Model.FooterRowList != null)
+                                        {
+                                            foreach (var item in Model.FooterRowList)
+                                            {
+                                                if (light == true)
+                                                {
+                                                    <tr>
+                                                        @if (Model.column1Name != null)
+                                                        {
+                                                            if (Model.column1FotterAlignRight == true)
+                                                            {
+                                                                <td style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column1Data)</td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td>@Html.DisplayFor(model => model.FooterRowList[i].column1Data)</td>
+                                                            }
+                                                        }
+                                                        @if (Model.column2Name != null)
+                                                        {
+                                                            if (Model.column2FotterAlignRight == true)
+                                                            {
+                                                                <td style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column2Data)</td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td>@Html.DisplayFor(model => model.FooterRowList[i].column2Data)</td>
+                                                            }
+                                                        }
+                                                        @if (Model.column3Name != null)
+                                                        {
+                                                            if (Model.column3FotterAlignRight == true)
+                                                            {
+                                                                <td style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column3Data)</td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td>@Html.DisplayFor(model => model.FooterRowList[i].column3Data)</td>
+                                                            }
+                                                        }
+                                                        @if (Model.column4Name != null)
+                                                        {
+                                                            if (Model.column4FotterAlignRight == true)
+                                                            {
+                                                                <td style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column4Data)</td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td>@Html.DisplayFor(model => model.FooterRowList[i].column4Data)</td>
+                                                            }
+                                                        }
+                                                        @if (Model.column5Name != null)
+                                                        {
+                                                            if (Model.column5FotterAlignRight == true)
+                                                            {
+                                                                <td style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column5Data)</td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td>@Html.DisplayFor(model => model.FooterRowList[i].column5Data)</td>
+                                                            }
+                                                        }
+                                                        @if (Model.column6Name != null)
+                                                        {
+                                                            if (Model.column6FotterAlignRight == true)
+                                                            {
+                                                                <td style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column6Data)</td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td>@Html.DisplayFor(model => model.FooterRowList[i].column6Data)</td>
+                                                            }
+                                                        }
+                                                        @if (Model.column7Name != null)
+                                                        {
+                                                            if (Model.column7FotterAlignRight == true)
+                                                            {
+                                                                <td style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column7Data)</td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td>@Html.DisplayFor(model => model.FooterRowList[i].column7Data)</td>
+                                                            }
+                                                        }
+                                                        @if (Model.column8Name != null)
+                                                        {
+                                                            if (Model.column8FotterAlignRight == true)
+                                                            {
+                                                                <td style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column8Data)</td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td>@Html.DisplayFor(model => model.FooterRowList[i].column8Data)</td>
+                                                            }
+                                                        }
+                                                        @if (Model.column9Name != null)
+                                                        {
+                                                            if (Model.column9FotterAlignRight == true)
+                                                            {
+                                                                <td style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column9Data)</td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td>@Html.DisplayFor(model => model.FooterRowList[i].column9Data)</td>
+                                                            }
+                                                        }
+                                                        @if (Model.column10Name != null)
+                                                        {
+                                                            if (Model.column10FotterAlignRight == true)
+                                                            {
+                                                                <td style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column10Data)</td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td>@Html.DisplayFor(model => model.FooterRowList[i].column10Data)</td>
+                                                            }
+                                                        }
+                                                    </tr>
+                                                    light = false;
+                                                }
+                                                else
+                                                {
+                                                    <tr>
+                                                        @if (Model.column1Name != null)
+                                                        {
+                                                            if (Model.column1FotterAlignRight == true)
+                                                            {
+                                                                <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column1Data)</th>
+                                                            }
+                                                            else
+                                                            {
+                                                                <th>@Html.DisplayFor(model => model.FooterRowList[i].column1Data)</th>
+                                                            }
+                                                        }
+                                                        @if (Model.column2Name != null)
+                                                        {
+                                                            if (Model.column2FotterAlignRight == true)
+                                                            {
+                                                                <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column2Data)</th>
+                                                            }
+                                                            else
+                                                            {
+                                                                <th>@Html.DisplayFor(model => model.FooterRowList[i].column2Data)</th>
+                                                            }
+                                                        }
+                                                        @if (Model.column3Name != null)
+                                                        {
+                                                            if (Model.column3FotterAlignRight == true)
+                                                            {
+                                                                <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column3Data)</th>
+                                                            }
+                                                            else
+                                                            {
+                                                                <th>@Html.DisplayFor(model => model.FooterRowList[i].column3Data)</th>
+                                                            }
+                                                        }
+                                                        @if (Model.column4Name != null)
+                                                        {
+                                                            if (Model.column4FotterAlignRight == true)
+                                                            {
+                                                                <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column4Data)</th>
+                                                            }
+                                                            else
+                                                            {
+                                                                <th>@Html.DisplayFor(model => model.FooterRowList[i].column4Data)</th>
+                                                            }
+                                                        }
+                                                        @if (Model.column5Name != null)
+                                                        {
+                                                            if (Model.column5FotterAlignRight == true)
+                                                            {
+                                                                <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column5Data)</th>
+                                                            }
+                                                            else
+                                                            {
+                                                                <th>@Html.DisplayFor(model => model.FooterRowList[i].column5Data)</th>
+                                                            }
+                                                        }
+                                                        @if (Model.column6Name != null)
+                                                        {
+                                                            if (Model.column6FotterAlignRight == true)
+                                                            {
+                                                                <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column6Data)</th>
+                                                            }
+                                                            else
+                                                            {
+                                                                <th>@Html.DisplayFor(model => model.FooterRowList[i].column6Data)</th>
+                                                            }
+                                                        }
+                                                        @if (Model.column7Name != null)
+                                                        {
+                                                            if (Model.column7FotterAlignRight == true)
+                                                            {
+                                                                <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column7Data)</th>
+                                                            }
+                                                            else
+                                                            {
+                                                                <th>@Html.DisplayFor(model => model.FooterRowList[i].column7Data)</th>
+                                                            }
+                                                        }
+                                                        @if (Model.column8Name != null)
+                                                        {
+                                                            if (Model.column8FotterAlignRight == true)
+                                                            {
+                                                                <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column8Data)</th>
+                                                            }
+                                                            else
+                                                            {
+                                                                <th>@Html.DisplayFor(model => model.FooterRowList[i].column8Data)</th>
+                                                            }
+                                                        }
+                                                        @if (Model.column9Name != null)
+                                                        {
+                                                            if (Model.column9FotterAlignRight == true)
+                                                            {
+                                                                <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column9Data)</th>
+                                                            }
+                                                            else
+                                                            {
+                                                                <th>@Html.DisplayFor(model => model.FooterRowList[i].column9Data)</th>
+                                                            }
+                                                        }
+                                                        @if (Model.column10Name != null)
+                                                        {
+                                                            if (Model.column10FotterAlignRight == true)
+                                                            {
+                                                                <th style="text-align:right">@Html.DisplayFor(model => model.FooterRowList[i].column10Data)</th>
+                                                            }
+                                                            else
+                                                            {
+                                                                <th>@Html.DisplayFor(model => model.FooterRowList[i].column10Data)</th>
+                                                            }
+                                                        }
+                                                    </tr>
+                                                    light = true;
+                                                }
+                                                { i = i + 1; }
+                                            }
+                                        }
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-12 mb-5 mb-xl-0">
+                        <br />
+                        <div class="card shadow">
+                            <div class="card-header bg-transparent">
+                                <div class="row align-items-center">
+                                    <div class="col-4">
+                                        <h3 class="mb-0">Actions: </h3>
+                                    </div>
+                                    <div class="col-8 text-right">
+                                        <a target="_blank" href="http://sict-iis.nmmu.ac.za/taxapp/Report/PrintReport?reportID=@ViewBag.reportID&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&SortBy=Col1&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID"
+                                           class="btn btn-white">Print</a><br /><br />
+                                        <a target="_blank" href="http://sict-iis.nmmu.ac.za/taxapp/Report/DownloadReport?reportID=@ViewBag.reportID&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&SortBy=Col1&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID&DownloadID=@ViewBag.ProfileID"+
+                                           class="btn btn-white">Download</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                    </div>
+                }
+
+                <!--Bar Chart-->
+                @if (ViewBag.View == "Bar")
+                {
+                    <div class="col-xl-12 mb-5 mb-xl-0">
+                        <div class="card shadow">
+                            <div class="card-header border-0">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <h3 class="mb-0">
+                                            @Html.DisplayFor(model => model.reportSubHeading)
+                                        </h3>
+                                        <h4 class="mb-0">
+                                            @Html.DisplayFor(model => model.reportCondition)
+                                        </h4>
+                                    </div>
+                                    <div class="col-2 text-right">
+                                        <a class="btn btn-white" href="http://sict-iis.nmmu.ac.za/taxapp/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&DropDownID=@ViewBag.DropDownID&View=">View Report</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <hr />
+                                <!-- Chart -->
+                                <div class="chart">
+                                    <canvas id="chart-bar" class="chart-canvas"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+                @if (ViewBag.View == "Line")
+                {
+                    <!--Line Chart-->
+                    <div class="col-xl-12 mb-5 mb-xl-0">
+                        <div class="card shadow">
+                            <div class="card-header border-0">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <h3 class="mb-0">
+                                            @Html.DisplayFor(model => model.reportSubHeading)
+                                        </h3>
+                                        <h4 class="mb-0">
+                                            @Html.DisplayFor(model => model.reportCondition)
+                                        </h4>
+                                    </div>
+                                    <div class="col-2 text-right">
+                                        <a class="btn btn-white" href="http://sict-iis.nmmu.ac.za/taxapp/Report/DisplayReport?StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&reportID=@ViewBag.reportID&DropDownID=@ViewBag.DropDownID&View=">View Report</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <hr />
+                                <!-- Chart -->
+                                <div class="chart">
+                                    <canvas id="chart-line" class="chart-canvas"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <hr />
+
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="row align-items-center justify-content-xl-between">
+                    <div class="col-xl-6">
+                        <div class="copyright text-center text-xl-left text-muted">
+                            <p>&copy; @DateTime.Now.Year - Tax App</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <ul class="nav nav-footer justify-content-center justify-content-xl-end">
+                            <li class="nav-item">
+                                <a href="http://sict-iis.nmmu.ac.za/taxapp/Shared/Help" class="nav-link">Help</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="http://sict-iis.nmmu.ac.za/taxapp/Home/Index" class="nav-link">Home</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+
+    <!-- Argon Scripts -->
+    <!-- Core -->
+    <script src="http://sict-iis.nmmu.ac.za/taxapp/Theam/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="http://sict-iis.nmmu.ac.za/taxapp/Theam/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Optional JS -->
+    <script src="http://sict-iis.nmmu.ac.za/taxapp/Theam/vendor/chart.js/dist/Chart.min.js"></script>
+    <script src="http://sict-iis.nmmu.ac.za/taxapp/Theam/vendor/chart.js/dist/Chart.extension.js"></script>
+    <!-- Argon JS -->
+    <script src="http://sict-iis.nmmu.ac.za/taxapp/Theam/js/argon.js?v=1.0.0"></script>
+
+    <script>
+var BarChart = (function() {
+
+	//
+	// Variables
+	//
+
+	var $chart = $('#chart-bar');
+	var $ordersSelect = $('[name="ordersSelect"]');
+
+
+	//
+	// Methods
+	//
+
+	// Init chart
+	function initChart($chart) {
+
+		// Create chart
+		var ordersChart = new Chart($chart, {
+			type: 'bar',
+			options: {
+				scales: {
+					yAxes: [{
+						ticks: {
+							callback: function(value) {
+								if (!(value % 10)) {
+                                    return '@Html.Raw(ViewBag.chartPrefix)'
+                                        + value +
+                                        '@Html.Raw(ViewBag.chartSufix)';
+								}
+							}
+						}
+					}]
+				},
+				tooltips: {
+					callbacks: {
+						label: function(item, data) {
+							var label = data.datasets[item.datasetIndex].label || '';
+							var yLabel = item.yLabel;
+							var content = '';
+
+							if (data.datasets.length > 1) {
+								content += '<span class="popover-body-label mr-auto">' + label + '</span>';
+							}
+
+                            content += '<span class="popover-body-value">@Html.Raw(ViewBag.chartPrefix)'
+                                + yLabel +
+                                '@Html.Raw(ViewBag.chartSufix)</span>';
+
+							return content;
+						}
+					}
+				}
+			},
+			data: {
+				labels: [@Html.Raw(ViewBag.chartLabels)],
+				datasets: [{
+					label: @Html.Raw(ViewBag.chartLabel),
+					data: [@Html.Raw(@ViewBag.chartData)]
+				}]
+			}
+		});
+
+		// Save to jQuery object
+		$chart.data('chart', ordersChart);
+	}
+
+
+	// Init chart
+	if ($chart.length) {
+		initChart($chart);
+	}
+
+        })();
+
+        var LineChart = (function() {
+
+	// Variables
+
+	var $chart = $('#chart-line');
+
+
+	// Methods
+
+	function init($chart) {
+
+		var salesChart = new Chart($chart, {
+			type: 'line',
+			options: {
+				scales: {
+					yAxes: [{
+						gridLines: {
+							color: Charts.colors.gray[900],
+							zeroLineColor: Charts.colors.gray[900]
+						},
+						ticks: {
+							callback: function(value) {
+								if (!(value % 10)) {
+                                    return '@Html.Raw(ViewBag.chartPrefix)'
+                                        + value +
+                                        '@Html.Raw(ViewBag.chartSufix)';
+								}
+							}
+						}
+					}]
+				},
+				tooltips: {
+					callbacks: {
+						label: function(item, data) {
+							var label = data.datasets[item.datasetIndex].label || '';
+							var yLabel = item.yLabel;
+							var content = '';
+
+							if (data.datasets.length > 1) {
+								content += '<span class="popover-body-label mr-auto">' + label + '</span>';
+							}
+
+                            content += '<span class="popover-body-value">@Html.Raw(ViewBag.chartPrefix)'
+                                + yLabel +
+                                '@Html.Raw(ViewBag.chartSufix)</span>';
+							return content;
+						}
+					}
+				}
+			},
+			data: {
+				labels: [@Html.Raw(ViewBag.chartLabels)],
+				datasets: [{
+					label: @Html.Raw(ViewBag.chartLabel),
+					data: [@Html.Raw(@ViewBag.chartData)]
+				}]
+			}
+		});
+
+		// Save to jQuery object
+
+		$chart.data('chart', salesChart);
+
+	};
+
+
+	// Events
+
+	if ($chart.length) {
+		init($chart);
+	}
+
+})();
+    </script>
+</body>
+</html>

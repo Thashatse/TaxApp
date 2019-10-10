@@ -1,0 +1,239 @@
+﻿@model Model.SP_GetInvoice_Result
+
+@{
+    ViewBag.Title = "Invoice";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="header bg-gradient-primary py-7 py-lg-8">
+    <div class="container">
+        <div class="header-body text-center mb-7">
+            <div class="row justify-content-center">
+                <div class="col-lg-5 col-md-6">
+                    <h1 class="text-white">
+                        @ViewBag.Paid Invoice
+                    </h1>
+                    <p class="text-white">For <a class="text-white" href="http://sict-iis.nmmu.ac.za/taxapp/Job/Job?ID=@Html.DisplayFor(model => model.JobID)"> @Html.DisplayFor(model => model.JobTitle)</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt--7">
+    <!-- Page content -->
+    <div class="container mt--8 pb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-12 col-md-12">
+                <div class="card bg-secondary shadow border-0">
+                    <div class="card-header border-0">
+                        <div class="row align-items-center">
+                            <div class="col-2">
+                                <p class="mb-0">Actions: </p>
+                            </div>
+                            <div class="col-10 text-right">
+                                @if (ViewBag.Paid == "Unpaid")
+                                {
+                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/Invoice/MarkAsPaid?ID=@Html.DisplayFor(model => model.InvoiceNum)"
+                                       class="btn btn-white">Mark as Paid</a>
+                                }
+                                <a target="_blank" href="http://sict-iis.nmmu.ac.za/taxapp/Invoice/EmailInvoice?ID=@Html.DisplayFor(model => model.InvoiceNum)"
+                                   class="btn btn-white">Email to Customer</a>
+                                @if (ViewBag.TaxConsultant == true)
+                                {
+                                    <a target="_blank" href="http://sict-iis.nmmu.ac.za/taxapp/Invoice/EmailInvoice?ID=@Html.DisplayFor(model => model.InvoiceNum)&To=Consultant"
+                                       class="btn btn-white">Email to Consultant</a>
+                                }
+                                <a target="_blank" href="http://sict-iis.nmmu.ac.za/taxapp/Invoice/Download?ID=@Html.DisplayFor(model => model.InvoiceNum)"
+                                   class="btn btn-white">Download</a>
+                                <a target="_blank" href="http://sict-iis.nmmu.ac.za/taxapp/Invoice/Print?ID=@Html.DisplayFor(model => model.InvoiceNum)"
+                                   class="btn btn-white">Print</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body border-0">
+                        <div class="table-responsive">
+                            <table cellpadding="10">
+                                <tr>
+                                    <td colspan="2">
+                                        <h1 text-align="right">Tax Invoice</h1>
+                                        <table>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <dt>@ViewBag.ProfileName</dt>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <dt>Contact No.:</dt>
+                                                </td>
+                                                <td>
+                                                    @ViewBag.ProfileNo
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <dt>Email Address:</dt>
+                                                </td>
+                                                <td>
+                                                    @ViewBag.ProfileEmail
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="4">
+                                        <hr />
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="2">
+                                        <dt>Billed To:</dt>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="2">
+                                        <dd>
+                                            @Html.DisplayFor(model => model.EmailAddress)
+                                        </dd>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.ClientName)
+                                        </dd>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.CompanyName)
+                                        </dd>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.PhysiclaAddress)
+                                        </dd>
+                                    </td>
+                                    <td colspan="2">
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <dt>
+                                                        Job:
+                                                    </dt>
+                                                </td>
+                                                <td align="right">
+                                                    <dd>
+                                                        @Html.DisplayFor(model => model.JobTitle)
+                                                    </dd>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <dt>
+                                                        VAT Number:
+                                                    </dt>
+                                                </td>
+                                                <td align="right">
+                                                    @if (@ViewBag.VatNum == "")
+                                                    {
+                                                        <dd>
+                                                            N/A
+                                                        </dd>
+                                                    }
+                                                    else
+                                                    {
+                                                <dd>
+                                                    @ViewBag.VatNum
+                                                </dd>
+                                                    }
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <dt>
+                                                        @Html.DisplayNameFor(model => model.InvoiceNum)
+                                                    </dt>
+                                                </td>
+                                                <td align="right">
+                                                    <dd>
+                                                            @Html.DisplayFor(model => model.InvoiceNum)
+                                                        </dd>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <dt>
+                                                        @Html.DisplayNameFor(model => model.DateTime):
+                                                    </dt>
+                                                </td>
+                                                <td align="right">
+                                                    <dd>
+                                                        @Html.DisplayFor(model => model.DateTime)
+                                                    </dd>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="4">
+                                        <hr />
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="font-weight:bold">Qty</td>
+                                    <td style="font-weight:bold">Item</td>
+                                    <td style="font-weight:bold">Unit Price (R)</td>
+                                    <td style="font-weight:bold">Total (R)</td>
+                                </tr>
+
+                                @foreach (var item in ViewBag.InvoiceItems)
+                                {
+                                    <tr>
+                                        <td align="right">@item.UnitCountString</td>
+                                        <td>@item.Name</td>
+                                        <td align="right">@item.UnitCostString</td>
+                                        <td align="right">@item.TotalCostString</td>
+                                    </tr>
+                                }
+
+                                <tr>
+                                    <td colspan="4">
+                                        <hr />
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="font-weight:bold">Excluding VAT (R):</td>
+                                    <td align="right">@ViewBag.TotalExcludingVAT</td>
+                                </tr>
+
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="font-weight:bold">VAT at  @Html.DisplayFor(model => model.VATRateString)% (R):</td>
+                                    <td align="right">@ViewBag.VAT</td>
+                                </tr>
+
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="font-weight:bold">Total Due (R):</td>
+                                    <td align="right">@ViewBag.TotalDue</td>
+                                </tr>
+
+                            </table>
+                        </div>
+                    </div>
+                    <dl class="dl-horizontal"></dl>
+                </div>
+            </div>
+        </div>
+    </div>

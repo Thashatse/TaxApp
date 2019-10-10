@@ -1,0 +1,82 @@
+﻿@model Model.Worklog
+
+@{
+    ViewBag.Title = "Work Log Item";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- Header -->
+<div class="header bg-gradient-primary py-7 py-lg-8">
+    <div class="container">
+        <div class="header-body text-center mb-7">
+            <div class="row justify-content-center">
+                <div class="col-lg-5 col-md-6">
+                    <h1 class="text-white">New Work Log Item</h1>
+                    <p class="text-white">For @ViewBag.JobTitle</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt--7">
+    <!-- Page content -->
+    <div class="container mt--8 pb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-12 col-md-12">
+                <div class="card bg-secondary shadow border-0">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        <p class="text-red">@ViewBag.Err</p>
+
+                        <div class="form-horizontal">
+                            <br />
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            @if (!ViewBag.Session)
+                            {<div class="form-group">
+                                    @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        <input type="time" name="startTime" value="@ViewBag.StratTime">
+                                        <input name="startTimeDate" type="date" value="@Html.DisplayFor(model => model.MaxDateStart)"
+                                               max="@Html.DisplayFor(model => model.MaxDateStart)" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        <input type="time" name="endTime" value="@ViewBag.EndTime">
+                                        <input name="endTimeDate" type="date" value="@Html.DisplayFor(model => model.MaxDateEnd)"
+                                               max="@Html.DisplayFor(model => model.MaxDateEnd)" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="submit" value="Create" class="btn btn-default" />|
+                                        <a href="http://sict-iis.nmmu.ac.za/taxapp/Job/JobWorkLog?ID=@ViewBag.JobID">Cancel</a>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="submit" value="Start" class="btn btn-default" />|
+                                        <a href="http://sict-iis.nmmu.ac.za/taxapp/Job/JobWorkLog?ID=@ViewBag.JobID">Cancel</a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
