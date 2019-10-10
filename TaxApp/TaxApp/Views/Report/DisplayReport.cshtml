@@ -649,6 +649,7 @@
                                     </tbody>
 
                                     <tfoot class="thead-light">
+                                        @{var light = false;}
                                         @if (Model.column2Total != null
                                                 || Model.column3Total != null
                                                 || Model.column4Total != null
@@ -764,9 +765,9 @@
                                                     }
                                                 }
                                             </tr>
+                                            light = true;
                                         }
                                         @{i = 0;}
-                                        @{var light = true;}
                                         @if (Model.FooterRowList != null)
                                         {
                                             foreach (var item in Model.FooterRowList)
@@ -1023,7 +1024,7 @@
                                     <div class="col-8 text-right">
                                         <a target="_blank" href="/Report/PrintReport?reportID=@ViewBag.reportID&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&SortBy=Col1&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID"
                                            class="btn btn-white">Print</a><br /><br />
-                                        <a target="_blank" href="/Report/DownloadReport?reportID=@ViewBag.reportID&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&SortBy=Col1&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID"
+                                        <a target="_blank" href="/Report/DownloadReport?reportID=@ViewBag.reportID&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&SortBy=Col1&SortDirection=@ViewBag.SortDirection&DropDownID=@ViewBag.DropDownID&DownloadID=@ViewBag.ProfileID"+
                                            class="btn btn-white">Download</a>
                                     </div>
                                 </div>

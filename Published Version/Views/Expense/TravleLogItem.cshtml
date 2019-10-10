@@ -143,10 +143,10 @@
                             <div class="col-10 text-right">
                                 @if (Model.Invoiced.Equals(false))
                                 {
-                                    <a class="btn btn-sm btn-white" href='./EditTravleLogItem?ID=@Html.DisplayFor(modelItem => Model.ExpenseID)'> Edit</a>
-                                    <a class="btn btn-sm btn-white" href='./DeleteTravleLogItem?ID=@Html.DisplayFor(modelItem => Model.ExpenseID)'>Delete</a>
+                                    <a class="btn btn-white" href='./EditTravleLogItem?ID=@Html.DisplayFor(modelItem => Model.ExpenseID)'> Edit</a>
+                                    <a class="btn btn-white" href='./DeleteTravleLogItem?ID=@Html.DisplayFor(modelItem => Model.ExpenseID)'>Delete</a>
                                 }
-                                <a class="btn btn-sm btn-white" href='./JobTravelLog?ID=@Html.DisplayFor(modelItem => Model.JobID)'> Job Travel Log</a>
+                                <a class="btn btn-white" href='./JobTravelLog?ID=@Html.DisplayFor(modelItem => Model.JobID)'> Job Travel Log</a>
                             </div>
                             </div>
                             </div>

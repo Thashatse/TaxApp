@@ -248,7 +248,6 @@ namespace TaxApp.Controllers
                 ViewBag.Generated = DateTime.Now.ToString("dddd, dd MMMM yyyy hh:mm tt");
             return View(view);
             }
-            return RedirectToAction("Error", "Shared");
         }
 
         public ActionResult TAX(string TaxID, string SortDirection, string SortBy, string Report = "false")
@@ -259,7 +258,9 @@ namespace TaxApp.Controllers
             else
             {
             TaxConsultant taxConsultant = new TaxConsultant();
-            taxConsultant.ProfileID = int.Parse(cookie["ID"]);
+                if (cookie == null)
+                    getCookie(TaxID, "TAX");
+                taxConsultant.ProfileID = int.Parse(cookie["ID"]);
             taxConsultant = handler.getConsumtant(taxConsultant);
 
                 if (taxConsultant != null)
@@ -485,6 +486,8 @@ namespace TaxApp.Controllers
             else
             {
                 TaxConsultant taxConsultant = new TaxConsultant();
+                if (cookie == null)
+                    getCookie(VATID, "VAT");
                 taxConsultant.ProfileID = int.Parse(cookie["ID"]);
                 taxConsultant = handler.getConsumtant(taxConsultant);
 
@@ -729,7 +732,9 @@ namespace TaxApp.Controllers
 
                 if (TAXID != "" && TAXID != null)
                 {
-                profileID.ProfileID = int.Parse(cookie["ID"]);
+                    if (cookie == null)
+                        getCookie(VATID, "Job");
+                    profileID.ProfileID = int.Parse(cookie["ID"]);
                     period = handler.getTaxOrVatPeriodForProfile(profileID, 'T');
 
                     if(period.Count > 0)
@@ -748,7 +753,9 @@ namespace TaxApp.Controllers
 
                 if (VATID != "" && VATID != null)
                 {
-                profileID.ProfileID = int.Parse(cookie["ID"]);
+                    if (cookie == null)
+                        getCookie(VATID, "Job");
+                    profileID.ProfileID = int.Parse(cookie["ID"]);
                     period = handler.getTaxOrVatPeriodForProfile(profileID, 'V');
 
                     if (period.Count > 0)

@@ -74,6 +74,8 @@ namespace TaxApp.Controllers
                 List<Model.DashboardExpense> VATPaid = null;
 
                 Profile profileID = new Profile();
+                if (cookie == null)
+                    getCookie();
                 profileID.ProfileID = int.Parse(cookie["ID"]);
 
                 List<TaxAndVatPeriods> vatPeriod = handler.getTaxOrVatPeriodForProfile(profileID, 'V');
@@ -97,7 +99,14 @@ namespace TaxApp.Controllers
 
                     if (period == null || period == "")
                     {
-                        return RedirectToAction("VatCenter", "Vat", new{period=vatPeriod[0].PeriodID, view});
+                        int i = 0, currentPeriod = 0;
+                        foreach (TaxAndVatPeriods check in vatPeriod)
+                        {
+                            if (DateTime.Now > check.StartDate && DateTime.Now < check.EndDate)
+                                currentPeriod = i;
+                            i++;
+                        }
+                            return RedirectToAction("VatCenter", "Vat", new{period=vatPeriod[currentPeriod].PeriodID, view});
                     }
                         foreach (TaxAndVatPeriods item in vatPeriod)
                         {
@@ -236,6 +245,8 @@ namespace TaxApp.Controllers
             try
             {
                 Profile profileID = new Profile();
+                if (cookie == null)
+                    getCookie();
                 profileID.ProfileID = int.Parse(cookie["ID"]);
 
                 List<TaxAndVatPeriods> vatPeriod = handler.getTaxOrVatPeriodForProfile(profileID, 'V');

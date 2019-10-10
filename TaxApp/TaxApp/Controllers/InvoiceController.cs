@@ -290,6 +290,8 @@ namespace TaxApp.Controllers
                     ViewBag.TotalDue = total.ToString("#,0.00", nfi);
 
                     Profile getProfile = new Profile();
+                    if (cookie == null)
+                        getCookie(false);
                     getProfile.ProfileID = int.Parse(cookie["ID"]);
                     getProfile.EmailAddress = "";
                     getProfile.Username = "";
@@ -311,6 +313,8 @@ namespace TaxApp.Controllers
                     }
 
                     TaxConsultant consultant = new TaxConsultant();
+                    if (cookie == null)
+                        getCookie(false);
                     consultant.ProfileID = int.Parse(cookie["ID"]);
                     consultant = handler.getConsumtant(consultant);
 
@@ -422,6 +426,8 @@ namespace TaxApp.Controllers
                 ViewBag.EndDateRange = eDate.ToString("yyyy-MM-dd");
 
                 Profile profileID = new Model.Profile();
+                if (cookie == null)
+                    getCookie(false);
                 profileID.ProfileID = int.Parse(cookie["ID"]);
 
                 List<SP_GetInvoice_Result> OutinvoiceDetails = handler.getInvoicesOutsatanding(profileID);
@@ -536,6 +542,8 @@ namespace TaxApp.Controllers
                     ViewBag.TotalDue = total.ToString("#,0.00", nfi);
 
                     Profile getProfile = new Profile();
+                    if (cookie == null)
+                        getCookie(false);
                     getProfile.ProfileID = int.Parse(cookie["ID"]);
                     getProfile.EmailAddress = "";
                     getProfile.Username = "";
@@ -559,6 +567,8 @@ namespace TaxApp.Controllers
                     if(To == "Consultant")
                     {
                         TaxConsultant consultant = new TaxConsultant();
+                        if (cookie == null)
+                            getCookie(false);
                         consultant.ProfileID = int.Parse(cookie["ID"]);
                         consultant = handler.getConsumtant(consultant);
                         ViewBag.To = consultant.Name + " - " + consultant.EmailAddress;
@@ -670,6 +680,8 @@ namespace TaxApp.Controllers
                 ViewBag.TotalDue = total.ToString("#,0.00", nfi);
 
                 Profile getProfile = new Profile();
+                if (cookie == null)
+                    getCookie(false);
                 getProfile.ProfileID = int.Parse(cookie["ID"]);
                 getProfile.EmailAddress = "";
                 getProfile.Username = "";
@@ -680,6 +692,8 @@ namespace TaxApp.Controllers
                 if (To == "Consultant")
                 {
                     TaxConsultant consultant = new TaxConsultant();
+                    if (cookie == null)
+                        getCookie(false);
                     consultant.ProfileID = int.Parse(cookie["ID"]);
                     consultant = handler.getConsumtant(consultant);
                     toAddress = consultant.EmailAddress;
@@ -703,6 +717,8 @@ namespace TaxApp.Controllers
                 {
                     Notifications newNoti = new Notifications();
                     newNoti.date = DateTime.Now;
+                    if (cookie == null)
+                        getCookie(false);
                     newNoti.ProfileID = int.Parse(cookie["ID"]);
                     newNoti.Link = "/Invoice/Invoice?ID=" + ID;
                     newNoti.Details = "Invoice Succesffuly sent to "+ toName;

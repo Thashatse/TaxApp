@@ -66,6 +66,8 @@ namespace TaxApp.Controllers
             getCookie();
 
             Profile profile = new Model.Profile();
+            if (cookie == null)
+                getCookie();
             profile.ProfileID = int.Parse(cookie["ID"].ToString());
 
             DashboardIncomeExpense IncomeExpense = handler.getDashboardIncomeExpense(profile);
@@ -94,12 +96,21 @@ namespace TaxApp.Controllers
             return View(viewModel);
         }
 
-        public ReportViewModel getReportData(string ID, string StartDateRange, string EndDateRange, string DropDownID, string view = "")
+        public ReportViewModel getReportData(string ID, string StartDateRange, string EndDateRange, string DropDownID, string view = "", string DownloadID = "0")
         {
             ReportViewModel report = null;
 
             Profile ProfileID = new Profile();
-            ProfileID.ProfileID = int.Parse(cookie["ID"].ToString());
+            if (DownloadID == "0")
+            {
+                if (cookie == null)
+                    getCookie();
+                ProfileID.ProfileID = int.Parse(cookie["ID"].ToString());
+            }
+            else
+            {
+                ProfileID.ProfileID = int.Parse(DownloadID);
+            }
 
             DateTime sDate = DateTime.Now.AddMonths(-12);
             DateTime eDate = DateTime.Now;
@@ -917,7 +928,16 @@ namespace TaxApp.Controllers
                 try
                 {
                     Model.Profile getProfileVehicles = new Model.Profile();
-                    getProfileVehicles.ProfileID = int.Parse(cookie["ID"]);
+                    if (DownloadID == "0")
+                    {
+                        if (cookie == null)
+                            getCookie();
+                        getProfileVehicles.ProfileID = int.Parse(cookie["ID"]);
+                    }
+                    else
+                    {
+                        getProfileVehicles.ProfileID = int.Parse(DownloadID);
+                    }
                     List<Model.Vehicle> Vehicles = handler.getVehicles(getProfileVehicles);
                     Vehicles = Vehicles.OrderBy(o => o.Name).ToList();
                     Vehicles.Insert(0, new Vehicle { Name = "All", VehicleID = 0 });
@@ -1345,7 +1365,16 @@ namespace TaxApp.Controllers
                 try
                 {
                     Model.Profile getProfileVehicles = new Model.Profile();
-                    getProfileVehicles.ProfileID = int.Parse(cookie["ID"]);
+                    if (DownloadID == "0")
+                    {
+                        if (cookie == null)
+                            getCookie();
+                        getProfileVehicles.ProfileID = int.Parse(cookie["ID"]);
+                    }
+                    else
+                    {
+                        getProfileVehicles.ProfileID = int.Parse(DownloadID);
+                    }
                     List<Model.Vehicle> Vehicles = handler.getVehicles(getProfileVehicles);
                     Vehicles = Vehicles.OrderBy(o => o.Name).ToList();
 
@@ -1714,22 +1743,23 @@ namespace TaxApp.Controllers
             return report;
         }
 
-        public ActionResult DisplayReport(string StartDateRange, string EndDateRange, string SortBy, string SortDirection, string DropDownID, string reportID = "0", string view = "")
+        public ActionResult DisplayReport(string StartDateRange, string EndDateRange, string SortBy, string SortDirection, string DropDownID, string reportID = "0", string view = "", string DownloadID = "0")
         {
             getCookie();
 
+            if (cookie == null)
+                getCookie();
+            ViewBag.ProfileID = int.Parse(cookie["ID"].ToString());
+
             string ID = reportID;
-
-            Profile ProfileID = new Profile();
-            ProfileID.ProfileID = int.Parse(cookie["ID"].ToString());
-
+            
             if (ID == "0")
             {
                 function.logAnError("No report ID Supplied display report");
                 return RedirectToAction("Reports", "Report");
             }
 
-            ReportViewModel report = getReportData(ID, StartDateRange, EndDateRange, DropDownID, view);
+            ReportViewModel report = getReportData(ID, StartDateRange, EndDateRange, DropDownID, view, DownloadID);
 
             if (report == null)
                 return RedirectToAction("Error", "Shared");
@@ -1788,7 +1818,7 @@ namespace TaxApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult DisplayReport(FormCollection collection, string StartDateRange, string EndDateRange, string SortBy, string DropDownID, string reportID = "0", string view = "")
+        public ActionResult DisplayReport(FormCollection collection, string StartDateRange, string EndDateRange, string SortBy, string DropDownID, string reportID = "0", string view = "", string DownloadID = "0")
         {
             try
             {
@@ -1813,8 +1843,9 @@ namespace TaxApp.Controllers
                     reportID,
                     SortBy,
                     DropDownID,
+                    DownloadID,
                     view
-                });
+                }); ;
             }
             catch (Exception e)
             {
@@ -1824,9 +1855,10 @@ namespace TaxApp.Controllers
             }
         }
 
-        public ActionResult PrintReport(string StartDateRange, string EndDateRange, string SortBy, string SortDirection, string DropDownID, string reportID = "0", string view = "")
+        public ActionResult PrintReport(string StartDateRange, string EndDateRange, string SortBy, string SortDirection, string DropDownID, string reportID = "0", string view = "", string DownloadID = "0")
         {
-            getCookie();
+            if(DownloadID == "0")
+                getCookie();
 
             string ID = reportID;
 
@@ -1836,7 +1868,7 @@ namespace TaxApp.Controllers
                 return RedirectToAction("Reports", "Report");
             }
 
-            ReportViewModel report = getReportData(ID, StartDateRange, EndDateRange, DropDownID, view);
+            ReportViewModel report = getReportData(ID, StartDateRange, EndDateRange, DropDownID, view, DownloadID);
 
             if (report == null)
                 return RedirectToAction("Error", "Shared");
@@ -1890,9 +1922,10 @@ namespace TaxApp.Controllers
             return View(report);
         }
     
-        public FileResult DownloadReport(string StartDateRange, string EndDateRange, string SortBy, string SortDirection, string DropDownID, string reportID = "0", string view = "")
+        public FileResult DownloadReport(string StartDateRange, string EndDateRange, string SortBy, string SortDirection, string DropDownID, string reportID = "0", string view = "", string DownloadID = "0")
         {
-            getCookie();
+            if (DownloadID == "0")
+                getCookie();
 
             string ID = reportID;
 
@@ -1902,12 +1935,12 @@ namespace TaxApp.Controllers
                 Response.Redirect("/Shared/Error?ERR=Error downloading report - No ID Supplied");
             }
 
-            ReportViewModel report = null;// getReportData(ID, StartDateRange, EndDateRange, DropDownID, view);
+            ReportViewModel report = getReportData(ID, StartDateRange, EndDateRange, DropDownID, view, DownloadID);
 
             if (report == null)
                 Response.Redirect(Url.Action("Error", "Shared") + "?ERR=Error downloading report");
 
-            return File(function.downloadPage("http://sict-iis.nmmu.ac.za/taxapp/Report/PrintReport?reportID="+reportID+"&StartDateRange="+StartDateRange+"&EndDateRange="+EndDateRange+"&SortBy="+SortBy+"&SortDirection="+SortDirection+"&DropDownID="+DropDownID), System.Net.Mime.MediaTypeNames.Application.Octet, 
+            return File(function.downloadPage("http://sict-iis.nmmu.ac.za/taxapp/Report/PrintReport?reportID="+reportID+"&StartDateRange="+StartDateRange+"&EndDateRange="+EndDateRange+"&SortBy="+SortBy+"&SortDirection="+SortDirection+"&DropDownID="+DropDownID+ "&DownloadID"+DownloadID), System.Net.Mime.MediaTypeNames.Application.Octet, 
                 report.reportTitle+" - Generated: "+ DateTime.Now+".pdf");
         }
     }

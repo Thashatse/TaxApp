@@ -29,15 +29,15 @@
                         if (!ViewBag.CurrentSession)
                         {
                             <a href="/Job/NewWorkLogItem?ID=@ViewBag.JobID&Session=True"
-                               class="btn btn-sm btn-primary">Start a new session</a>
+                               class="btn btn-primary">Start a new session</a>
                         }
                         else
                         {
                             <a href="/Job/EndJobWorkLogSession?ID=@ViewBag.CurrentSessionID&JobID=@ViewBag.JobID"
-                               class="btn btn-sm btn-primary">End current session</a>
+                               class="btn btn-primary">End current session</a>
                         }
                         <a href="/Job/NewWorkLogItem?ID=@ViewBag.JobID"
-                           class="btn btn-sm btn-secondary">Add Hours</a>
+                           class="btn btn-white">Add Hours</a>
                     }
                 </div>
                 <br />
@@ -84,7 +84,7 @@
                                 @if (item.StartTime == item.EndTime)
                                 {
                                     <a href="/Job/EndJobWorkLogSession?ID=@ViewBag.CurrentSessionID&JobID=@ViewBag.JobID"
-                                       class="btn btn-sm btn-primary">End session</a>
+                                       class="btn btn-primary">End session</a>
                                 }
                                 else
                                 {

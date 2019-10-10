@@ -69,6 +69,8 @@ namespace TaxApp.Controllers
                 getCookie();
 
                 Profile getProfile = new Profile();
+                if (cookie == null)
+                    getCookie();
                 getProfile.ProfileID = int.Parse(cookie["ID"].ToString());
                 getProfile.EmailAddress = "";
                 getProfile.Username = "";
@@ -96,7 +98,8 @@ namespace TaxApp.Controllers
                 getCookie();
 
                 Profile getProfile = new Profile();
-
+                if (cookie == null)
+                    getCookie();
                 getProfile.ProfileID = int.Parse(cookie["ID"].ToString());
                 getProfile.EmailAddress = "";
                 getProfile.Username = "";

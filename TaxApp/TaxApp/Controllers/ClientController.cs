@@ -71,7 +71,9 @@ namespace TaxApp.Controllers
                 ViewBag.cat = "C";
                 getCookie();
             Model.Client getClients = new Model.Client();
-            getClients.ProfileID = int.Parse(cookie["ID"].ToString());
+                if (cookie == null)
+                    getCookie();
+                getClients.ProfileID = int.Parse(cookie["ID"].ToString());
             List<Model.Client> Clients = handler.getProfileClients(getClients);
 
                 if (Clients.Count == 0)
@@ -158,6 +160,8 @@ namespace TaxApp.Controllers
                 newClient.EmailAddress = Request.Form["EmailAddress"].ToString();
                 newClient.CompanyName = Request.Form["CompanyName"].ToString();
                 newClient.PhysiclaAddress = Request.Form["PhysiclaAddress"].ToString();
+                if (cookie == null)
+                    getCookie();
                 newClient.ProfileID = int.Parse(cookie["ID"].ToString());
                 newClient.PreferedCommunicationChannel = "EMA";
 
@@ -218,6 +222,8 @@ namespace TaxApp.Controllers
                 client.EmailAddress = Request.Form["EmailAddress"].ToString();
                 client.CompanyName = Request.Form["CompanyName"].ToString();
                 client.PhysiclaAddress = Request.Form["PhysiclaAddress"].ToString();
+                if (cookie == null)
+                    getCookie();
                 client.ProfileID = int.Parse(cookie["ID"].ToString());
                 client.PreferedCommunicationChannel = "EMA";
 

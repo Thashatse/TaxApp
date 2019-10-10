@@ -16,14 +16,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Favicon -->
-    <link href="http://sict-iis.nmmu.ac.za/taxapp/Theam/img/brand/favicon.png" rel="icon" type="image/png">
+    <link href="/Theam/img/brand/favicon.png" rel="icon" type="image/png">
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
     <!-- Icons -->
-    <link href="http://sict-iis.nmmu.ac.za/taxapp/Theam/vendor/nucleo/css/nucleo.css" rel="stylesheet">
-    <link href="http://sict-iis.nmmu.ac.za/taxapp/Theam/vendor/fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="/Theam/vendor/nucleo/css/nucleo.css" rel="stylesheet">
+    <link href="/Theam/vendor/fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
     <!-- Argon CSS -->
-    <link type="text/css" href="http://sict-iis.nmmu.ac.za/taxapp/Theam/css/argon.css?v=1.0.0" rel="stylesheet">
+    <link type="text/css" href="/Theam/css/argon.css?v=1.0.0" rel="stylesheet">
 </head>
 <body>
     @if (ViewBag.Report == false)
@@ -34,7 +34,7 @@
                 <div class="container-fluid">
                     <!-- Brand -->
                     <a class="navbar-brand pt-0">
-                        <img src="http://sict-iis.nmmu.ac.za/taxapp/Theam/img/brand/blue.png" class="navbar-brand-img" alt="..." width="60" height="30">
+                        <img src="/Theam/img/brand/blue.png" class="navbar-brand-img" alt="..." width="60" height="30">
                     </a>
                     <!-- User -->
                     <ul class="navbar-nav align-items-center d-none d-md-flex">
@@ -398,7 +398,7 @@
                                                         R @Html.DisplayFor(modelItem => item.TotalCostString)
                                                     </td>
                                                     <td>
-                                                        <a class="btn-sm btn-white" target="_blank" href="http://sict-iis.nmmu.ac.za/taxapp/Invoice/Print?noAutoPrint=true&ID=@Html.DisplayFor(modelItem => item.InvoiceNum)">View</a>
+                                                        <a class="btn-sm btn-white" target="_blank" href="/Invoice/Print?noAutoPrint=true&ID=@Html.DisplayFor(modelItem => item.InvoiceNum)">View</a>
                                                     </td>
                                                 </tr>
                                             }
@@ -418,8 +418,8 @@
                                         <h3 class="mb-0">Actions: </h3>
                                     </div>
                                     <div class="col-10 text-right">
-                                        <a href="http://sict-iis.nmmu.ac.za/taxapp/Track/Job?JobID=@Html.DisplayFor(model => model.jobDetails.JobID)&Report=True"
-                                           class="btn btn-sm btn-white">Generate Report</a>
+                                        <a href="/Track/Job?JobID=@Html.DisplayFor(model => model.jobDetails.JobID)&Report=True"
+                                           class="btn btn-white">Generate Report</a>
                                     </div>
                                 </div>
                             </div>
@@ -441,7 +441,7 @@
                         <div class="col-xl-6">
                             <ul class="nav nav-footer justify-content-center justify-content-xl-end">
                                 <li class="nav-item">
-                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/Home/Index" class="nav-link">Home</a>
+                                    <a href="/Home/Index" class="nav-link">Home</a>
                                 </li>
                             </ul>
                         </div>
@@ -721,10 +721,10 @@
 
 <!-- Argon Scripts -->
 <!-- Core -->
-<script src="http://sict-iis.nmmu.ac.za/taxapp/Theam/vendor/jquery/dist/jquery.min.js"></script>
-<script src="http://sict-iis.nmmu.ac.za/taxapp/Theam/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/Theam/vendor/jquery/dist/jquery.min.js"></script>
+<script src="/Theam/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Optional JS -->
-<script src="http://sict-iis.nmmu.ac.za/taxapp/Theam/vendor/chart.js/dist/Chart.min.js"></script>
-<script src="http://sict-iis.nmmu.ac.za/taxapp/Theam/vendor/chart.js/dist/Chart.extension.js"></script>
+<script src="/Theam/vendor/chart.js/dist/Chart.min.js"></script>
+<script src="/Theam/vendor/chart.js/dist/Chart.extension.js"></script>
 <!-- Argon JS -->
-<script src="http://sict-iis.nmmu.ac.za/taxapp/Theam/js/argon.js?v=1.0.0"></script>
+<script src="/Theam/js/argon.js?v=1.0.0"></script>

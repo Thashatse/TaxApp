@@ -94,7 +94,9 @@ namespace TaxApp.Controllers
                 ViewBag.EndDateRange = eDate.ToString("yyyy-MM-dd");
 
                 Model.Profile getJobs = new Model.Profile();
-            getJobs.ProfileID = int.Parse(cookie["ID"].ToString());
+                if (cookie == null)
+                    getCookie();
+                getJobs.ProfileID = int.Parse(cookie["ID"].ToString());
                 Client client = new Model.Client();
                 client.ClientID = 0;
                 List<Model.SP_GetJob_Result> pastJobs = handler.getProfileJobsPast(getJobs, client, sDate, eDate);
@@ -330,7 +332,9 @@ namespace TaxApp.Controllers
             try { 
             getCookie();
             Model.Client getClients = new Model.Client();
-            getClients.ProfileID = int.Parse(cookie["ID"].ToString());
+                if (cookie == null)
+                    getCookie();
+                getClients.ProfileID = int.Parse(cookie["ID"].ToString());
             List<Model.Client> Clients = handler.getProfileClients(getClients);
 
                 if (Clients.Count == 0)
@@ -339,6 +343,8 @@ namespace TaxApp.Controllers
             ViewBag.ClientList = new SelectList(Clients, "ClientID", "FirstName");
 
                 Profile getProfile = new Profile();
+                if (cookie == null)
+                    getCookie();
                 getProfile.ProfileID = int.Parse(cookie["ID"].ToString());
                 getProfile.EmailAddress = "";
                 getProfile.Username = "";
@@ -366,6 +372,8 @@ namespace TaxApp.Controllers
                 getCookie();
 
                 Model.Client getClients = new Model.Client();
+                if (cookie == null)
+                    getCookie();
                 getClients.ProfileID = int.Parse(cookie["ID"].ToString());
                 List<Model.Client> Clients = handler.getProfileClients(getClients);
                 ViewBag.ClientList = new SelectList(Clients, "ClientID", "FirstName");
@@ -410,6 +418,9 @@ namespace TaxApp.Controllers
                         ViewBag.ProfileName + " has shared information about " + newJob.JobTitle
                         + " with you using Tax App. \n" +
                         "Use the link bellow to gain access: \n http://sict-iis.nmmu.ac.za/taxapp/Track/verifyIdentity?ID=" + resultID + "&Type=J";
+
+                    if (cookie == null)
+                        getCookie();
 
                     result = function.sendEmail(clientDetails.EmailAddress,
                         clientDetails.FirstName + " " + clientDetails.LastName,
@@ -811,6 +822,8 @@ namespace TaxApp.Controllers
                 ViewBag.Title = "Job For "+Dest.Replace('*', ' ');
 
                 Model.Profile getJobs = new Model.Profile();
+                if (cookie == null)
+                    getCookie();
                 getJobs.ProfileID = int.Parse(cookie["ID"].ToString());
 
                 Client client = new Model.Client();
@@ -840,6 +853,8 @@ namespace TaxApp.Controllers
             try
             {
                 Model.Profile getJobs = new Model.Profile();
+                if (cookie == null)
+                    getCookie();
                 getJobs.ProfileID = int.Parse(cookie["ID"].ToString());
 
                 Client client = new Model.Client();
@@ -956,6 +971,9 @@ namespace TaxApp.Controllers
                         ViewBag.ProfileName + " has shared information about " + jobdetails.JobTitle
                         + " with you using Tax App. \n \n" +
                         "Use the link bellow to gain access: \n http://sict-iis.nmmu.ac.za/taxapp/Track/verifyIdentity?ID=" + jobdetails.JobID+"&Type=Job";
+
+                if (cookie == null)
+                    getCookie();
 
                 bool result = function.sendEmail(clientDetails.EmailAddress,
                     clientDetails.FirstName + " " + clientDetails.LastName,

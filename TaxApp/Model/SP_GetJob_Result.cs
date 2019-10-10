@@ -48,7 +48,7 @@ namespace Model
         public bool ItemsToInvoice { get; set; }
         public decimal TotalUnPaid { get; set; }
         public string TotalUnPaidString { get; set; }
-        [Display(Name = "Total Income Recived")]
+        [Display(Name = "Total Income Received")]
         public decimal TotalPaid { get; set; }
         public string TotalPaidString { get; set; }
         public bool Noti75 { get; set; }

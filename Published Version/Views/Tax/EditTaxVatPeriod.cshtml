@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Edit" + ViewBag.Type + "Period";
     ViewBag.Title = "EditTaxVatPeriod";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <!-- Header -->
@@ -14,11 +15,11 @@
                     <h1 class="text-white">@ViewBag.Type Period</h1>
                     @if (ViewBag.Type == "Edit Tax")
                     {
-                        <p class="text-white">Tax Periods refer to the tax year. These dates are necessary to provide accurate reporting and estimates on the tax year. They are required to use the Tax Center and Reports. </p>
+                        <p class="text-white">Tax Periods refer to the tax year. These dates are necessary to provide accurate reporting and estimates on the tax year. They are required to use the Tax Centre and Reports. </p>
                     }
                     else
                     {
-                        <p class="text-white">VAT Period refers to the TAX Periods for vendors. These dates are necessary to provide accurate reporting and estimates on the VAT Period. They are required to use the VAT Center and Reports. </p>
+                        <p class="text-white">VAT Period refers to the TAX Periods for vendors. These dates are necessary to provide accurate reporting and estimates on the VAT Period. They are required to use the VAT Centre and Reports. </p>
                     }
                 </div>
             </div>
@@ -59,11 +60,11 @@
                                     <input type="submit" value="Update" class="btn btn-default" /> |
                                     @if (ViewBag.Type == "Edit Tax")
                                     {
-                                        <a href="http://sict-iis.nmmu.ac.za/taxapp/Tax/TaxCenter?period=@ViewBag.PeriodID">Cancel</a>
+                                        <a href="/Tax/TaxCenter?period=@ViewBag.PeriodID">Cancel</a>
                                     }
                                     else
                                     {
-                                        <a href="http://sict-iis.nmmu.ac.za/taxapp/Vat/VatCenter?period=@ViewBag.PeriodID">Cancel</a>
+                                        <a href="/Vat/VatCenter?period=@ViewBag.PeriodID">Cancel</a>
                                     }
                                 </div>
                             </div>

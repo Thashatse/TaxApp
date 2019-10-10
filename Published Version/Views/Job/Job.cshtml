@@ -19,7 +19,7 @@
                                 Client: @Model.jobDetails.ClientFirstName
                             </a>
                             <br />
-                            From @Model.jobDetails.StartDateString to @Model.jobDetails.EndDateString
+                            From: @Model.jobDetails.StartDateString <br /> To: @Model.jobDetails.EndDateString
                         </h4>
                     </div>
                 </div>
@@ -28,7 +28,7 @@
         <div class="header-body">
             <!-- Card stats -->
             <div class="row">
-                <div class="col-xl-4 col-lg-6">
+                <div class="col-xl-4 col-lg-12">
                     <div class="card card-stats mb-4 mb-xl-0">
                         <div class="card-body">
                             <div class="row">
@@ -91,7 +91,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-4 col-lg-6">
+                <div class="col-xl-4 col-lg-12">
                     <div class="card card-stats mb-4 mb-xl-0">
                         <div class="card-body">
                             <div class="row">
@@ -118,7 +118,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-4 col-lg-6">
+                <div class="col-xl-4 col-lg-12">
                     <div class="card card-stats mb-4 mb-xl-0">
                         <div class="card-body">
                             <div class="row">
@@ -168,15 +168,15 @@
                                 if (!ViewBag.CurrentSession)
                                 {
                                     <a href="/Job/NewWorkLogItem?ID=@ViewBag.JobID&Session=True"
-                                       class="btn btn-sm btn-primary">Start a new session</a>
+                                       class="btn btn-primary">Start a new session</a>
                                 }
                                 else
                                 {
                                         <a href="/Job/EndJobWorkLogSession?ID=@ViewBag.CurrentSessionID&JobID=@ViewBag.JobID"
-                                           class="btn btn-sm btn-primary">End current session</a>
+                                           class="btn btn-primary">End current session</a>
                                     }
                                     <a href="/Job/NewWorkLogItem?ID=@ViewBag.JobID"
-                                       class="btn btn-sm btn-white">Add Hours</a>
+                                       class="btn btn-white">Add Hours</a>
                                 }
                                 <i class="ni ni-bold-down"></i>
                             </div>
@@ -231,7 +231,7 @@
                                             @if (item.StartTime == item.EndTime)
                                             {
                                             <a href="/Job/EndJobWorkLogSession?ID=@ViewBag.CurrentSessionID&JobID=@ViewBag.JobID"
-                                               class="btn btn-sm btn-primary">End session</a>
+                                               class="btn btn-primary">End session</a>
                                             }
                                             else
                                             {
@@ -267,7 +267,7 @@
                             @if (ViewBag.Complete == "NotDone")
                             {
                                 <a href="/Expense/NewJobExpense?ID=@ViewBag.JobID"
-                                   class="btn btn-sm btn-white">Add Expense</a>
+                                   class="btn btn-white">Add Expense</a>
                             }
                             <i class="ni ni-bold-down"></i>
                         </div>
@@ -302,30 +302,30 @@
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Name)
                                             </td>
-                                            <td>
+                                            <td align="right">
                                                 @Html.DisplayFor(modelItem => item.Amount)
                                             </td>
                                             <td>
                                                 @if (item.invoiced == false)
                                                 {
                                                     <a href="/Expense/EditJobExpense?ID=@Html.DisplayFor(model => item.ExpenseID)"
-                                                       class="btn btn-sm btn-white">Edit</a>
+                                                       class="btn btn-white">Edit</a>
                                                 }
                                                 @if (item.Invoice_ReceiptCopy == null)
                                                 {
                                                     <a href="/Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=JE&Title=Invoice or Receipt&Details=@Html.DisplayFor(model => item.Name)"
-                                                       class="btn btn-sm btn-white">
+                                                       class="btn btn-white">
                                                         Add Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i>
                                                     </a>
                                                 }
                                                 else
                                                 {
                                                     <a target="_blank" href="/Functions/DownloadFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=JE"
-                                                       class="btn btn-sm btn-white">
+                                                       class="btn btn-white">
                                                         Download Invoice or Receipt Copy <i class="ni ni-cloud-download-95"></i>
                                                     </a>
                                                     <a href="/Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=JE&Title=Invoice or Receipt&Details=@Html.DisplayFor(model => item.Name)"
-                                                       class="btn btn-sm btn-white">
+                                                       class="btn btn-white">
                                                         Update Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i>
                                                     </a>
                                                 }
@@ -356,7 +356,7 @@
                             @if (ViewBag.Complete == "NotDone")
                             {
                                 <a href="/Expense/NewTravelExpense?ID=@ViewBag.JobID"
-                                   class="btn btn-sm btn-white">New Log Item</a>
+                                   class="btn btn-white">New Log Item</a>
                             }
                             <i class="ni ni-bold-down"></i>
                         </div>
@@ -394,10 +394,10 @@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Reason)
                                     </td>
-                                    <td>
+                                    <td align="right">
                                         @Html.DisplayFor(modelItem => item.TotalKMs)
                                     </td>
-                                    <td>
+                                    <td align="right">
                                         @Html.DisplayFor(modelItem => item.ClientCharge)
                                     </td>
 
@@ -434,7 +434,7 @@
                             @if (ViewBag.Complete == "NotDone" || ViewBag.NoInvoice != "True")
                             {
                                 <a href="/Invoice/NewInvoice?ID=@ViewBag.JobID"
-                                   class="btn btn-sm btn-white">New Invoice</a>
+                                   class="btn btn-white">New Invoice</a>
                             }
                             <i class="ni ni-bold-down"></i>
                         </div>
@@ -455,7 +455,7 @@
                                             Paid
                                         </th>
                                         <th>
-                                            Amount
+                                            Amount (R)
                                         </th>
                                         <th>
 
@@ -471,11 +471,11 @@
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Paid)
                                             </td>
-                                            <td>
-                                                R @Html.DisplayFor(modelItem => item.TotalCostString)
+                                            <td  align="right">
+                                                @Html.DisplayFor(modelItem => item.TotalCostString)
                                             </td>
                                             <td>
-                                                <a class="btn btn-sm btn-white" href='/Invoice/Invoice?ID=@Html.DisplayFor(modelItem => item.InvoiceNum)'>
+                                                <a class="btn btn-white" href='/Invoice/Invoice?ID=@Html.DisplayFor(modelItem => item.InvoiceNum)'>
                                                     View
                                                 </a>
                                             </td>
@@ -506,22 +506,22 @@
                             @if (ViewBag.Complete == "NotDone")
                             {
                                 <a href="/Job/MarkAsComplete?ID=@Html.DisplayFor(model => model.jobDetails.JobID)"
-                                   class="btn btn-sm btn-white">Mark Job As Complete</a>
+                                   class="btn btn-white">Mark Job As Complete</a>
                                 <a href="/Job/EditJob?ID=@Html.DisplayFor(model => model.jobDetails.JobID)"
-                                   class="btn btn-sm btn-white">Edit</a>
+                                   class="btn btn-white">Edit</a>
                             }
                             @if (Model.jobDetails.Share == true)
                             {
                                 <a href="/Job/Share?ID=@Model.jobDetails.JobID"
-                                   class="btn btn-sm btn-white">Stop sharing @Model.jobDetails.JobTitle with @Model.jobDetails.ClientFirstName</a>
+                                   class="btn btn-white">Stop sharing @Model.jobDetails.JobTitle with @Model.jobDetails.ClientFirstName</a>
                             }
                             else
                             {
                                 <a href="/Job/Share?ID=@Model.jobDetails.JobID"
-                                   class="btn btn-sm btn-white">Share @Model.jobDetails.JobTitle with @Model.jobDetails.ClientFirstName</a>
+                                   class="btn btn-white">Share @Model.jobDetails.JobTitle with @Model.jobDetails.ClientFirstName</a>
                             }
                             <a href="/Job/Jobs"
-                               class="btn btn-sm btn-white">All Jobs</a>
+                               class="btn btn-white">All Jobs</a>
                         </div>
                     </div>
                 </div>

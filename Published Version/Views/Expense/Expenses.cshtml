@@ -1,6 +1,7 @@
 ﻿@model Model.ExpenseViewModel
 
 @{
+    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Expenses";
     int i = 0;
     int x = 0;
@@ -73,7 +74,7 @@
                                             </p>
                                         </div>
                                         <div class="col text-right">
-                                            <button type="button" class="btn btn-sm btn-white" data-toggle="collapse" href="#@Html.DisplayFor(modelItem => item.dropDownID)">Details</button>
+                                            <button type="button" class="btn btn-white" data-toggle="collapse" href="#@Html.DisplayFor(modelItem => item.dropDownID)">Details</button>
                                         </div>
                                     </div>
                                 </div>
@@ -126,29 +127,29 @@
                                                 @if (item.RepeatOccurrences.Count != 0)
                                                 {
                                                     <a href="/expense/GeneralExpense?ID=@Html.DisplayFor(model => item.ExpenseID)"
-                                                       class="btn btn-sm btn-white">View all @Html.DisplayFor(model => item.Name) occurrences</a>
+                                                       class="btn btn-white">View all @Html.DisplayFor(model => item.Name) occurrences</a>
                                                     <br />
                                                     <br />
                                                 }
                                                 <a href="/expense/editexpense?ID=@Html.DisplayFor(model => item.ExpenseID)"
-                                                   class="btn btn-sm btn-white">Edit</a>
+                                                   class="btn btn-white">Edit</a>
                                                 <a href="/expense/reapetexpense?ID=@Html.DisplayFor(model => item.ExpenseID)"
-                                                   class="btn btn-sm btn-white">Reapet Expense now</a>
+                                                   class="btn btn-white">Reapet Expense now</a>
                                                 <br />
                                                 <br />
                                                 @if (item.Invoice_ReceiptCopy == null)
                                                 {
                                                     <a href="/Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@Html.DisplayFor(model => item.Name)"
-                                                       class="btn btn-sm btn-white">Add Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i></a>
+                                                       class="btn btn-white">Add Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i></a>
                                                 }
                                                 else
                                                 {
                                                     <a target="_blank" href="/Functions/DownloadFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=GE"
-                                                       class="btn btn-sm btn-white">Download Invoice or Receipt Copy <i class="ni ni-cloud-download-95"></i></a>
+                                                       class="btn btn-white">Download Invoice or Receipt Copy <i class="ni ni-cloud-download-95"></i></a>
                                                     <br />
                                                     <br />
                                                     <a href="/Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@Html.DisplayFor(model => item.Name)"
-                                                       class="btn btn-sm btn-white">Update Invoice or Receipt Copy <i class="ni ni-cloud-upload-96"></i></a>
+                                                       class="btn btn-white">Update Invoice or Receipt Copy <i class="ni ni-cloud-upload-96"></i></a>
                                                 }
                                             </div>
                                         </div>
@@ -168,7 +169,7 @@
         <br />
         <div>
             <a href="/Expense/GeneralExpenses"
-               class="btn btn-sm btn-white">View All</a>
+               class="btn btn-white">View All</a>
         </div>
     }
 
@@ -236,7 +237,7 @@
                         </p>
                     </div>
                     <div class="col text-right">
-                        <button data-toggle="collapse" href="#@Html.DisplayFor(modelItem => item.dropDownID)" class="btn btn-sm btn-white">Details</button>
+                        <button data-toggle="collapse" href="#@Html.DisplayFor(modelItem => item.dropDownID)" class="btn btn-white">Details</button>
                     </div>
                 </div>
             </div>
@@ -299,25 +300,25 @@
                             @if (ViewBag.Complete != "NotDone")
                             {
                                 <a href="/Expense/EditJobExpense?ID=@Html.DisplayFor(model => item.ExpenseID)"
-                                   class="btn btn-sm btn-secondary">Edit</a>
+                                   class="btn btn-white">Edit</a>
                             }
                             <br />
                             <br />
                             @if (@item.Invoice_ReceiptCopy == null)
                             {
                                 <a href="/Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=JE&Title=Invoice or Receipt&Details=@Html.DisplayFor(model => item.Name)"
-                                   class="btn btn-sm btn-white">
+                                   class="btn btn-white">
                                     Add Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i>
                                 </a>
                             }
                             else
                             {
                                 <a target="_blank" href="/Functions/DownloadFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=JE"
-                                   class="btn btn-sm btn-white">
+                                   class="btn btn-white">
                                     Download Invoice or Receipt Copy <i class="ni ni-cloud-download-95"></i>
                                 </a>
                                 <a href="/Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=JE&Title=Invoice or Receipt&Details=@Html.DisplayFor(model => item.Name)"
-                                   class="btn btn-sm btn-white">
+                                   class="btn btn-white">
                                     Update Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i>
                                 </a>
                             }
@@ -338,7 +339,7 @@
         <br />
         <div>
             <a href="/Expense/AllJobExpenses"
-               class="btn btn-sm btn-white">View All</a>
+               class="btn btn-white">View All</a>
         </div>
     }
 
@@ -406,7 +407,7 @@
                                         </p>
                                     </div>
                                     <div class="col text-right">
-                                        <button data-toggle="collapse" href="#@Html.DisplayFor(modelItem => item.dropDownID)" class="btn btn-sm btn-white">Details</button>
+                                        <button data-toggle="collapse" href="#@Html.DisplayFor(modelItem => item.dropDownID)" class="btn btn-white">Details</button>
                                     </div>
                                 </div>
                             </div>
@@ -506,10 +507,10 @@
                                                 <p class="mb-0">Actions: </p>
                                             </div>
                                             <div class="col-9 text-right">
-                                                <a class="btn btn-sm btn-white" href='./EditTravleLogItem?ID=@Html.DisplayFor(modelItem => item.ExpenseID)'> Edit</a>
-                                                <a class="btn btn-sm btn-white" href='./DeleteTravleLogItem?ID=@Html.DisplayFor(modelItem => item.ExpenseID)'>Delete</a>
+                                                <a class="btn btn-white" href='./EditTravleLogItem?ID=@Html.DisplayFor(modelItem => item.ExpenseID)'> Edit</a>
+                                                <a class="btn btn-white" href='./DeleteTravleLogItem?ID=@Html.DisplayFor(modelItem => item.ExpenseID)'>Delete</a>
 
-                                                <a class="btn btn-sm btn-white" href='./JobTravelLog?ID=@Html.DisplayFor(modelItem => item.JobID)'> Job Travel Log</a>
+                                                <a class="btn btn-white" href='./JobTravelLog?ID=@Html.DisplayFor(modelItem => item.JobID)'> Job Travel Log</a>
                                             </div>
                                         </div>
                                     </div>
@@ -528,6 +529,6 @@
         <br />
         <div>
             <a href="/Expense/TravleLog"
-               class="btn btn-sm btn-white">Vehicle Travel Log</a>
+               class="btn btn-white">Vehicle Travel Log</a>
         </div>
     }

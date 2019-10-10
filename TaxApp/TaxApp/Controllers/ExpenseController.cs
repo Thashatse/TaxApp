@@ -71,6 +71,8 @@ namespace TaxApp.Controllers
             try
             {
                 Model.Profile getProfile = new Model.Profile();
+                if (cookie == null)
+                    getCookie();
                 getProfile.ProfileID = int.Parse(cookie["ID"].ToString());
 
                 DateTime sDate = DateTime.Now.AddYears(-1);
@@ -133,6 +135,8 @@ namespace TaxApp.Controllers
                 newExpense.CategoryID = int.Parse(Request.Form["CategoryList"].ToString());
                 newExpense.Name = Request.Form["Name"].ToString();
                 newExpense.Description = Request.Form["Description"].ToString();
+                if (cookie == null)
+                    getCookie();
                 newExpense.ProfileID = int.Parse(cookie["ID"].ToString());
                 newExpense.Repeat = bool.Parse(Request.Form["Repeat"].ToString().Split(',')[0]);
                 newExpense.Amount = Convert.ToDecimal(Request.Form["Amount"], CultureInfo.CurrentCulture);
@@ -530,6 +534,8 @@ namespace TaxApp.Controllers
                 ViewBag.EndDateRange = eDate.ToString("yyyy-MM-dd");
 
                 Profile profileID = new Profile();
+                if (cookie == null)
+                    getCookie();
                 profileID.ProfileID = int.Parse(cookie["ID"]);
 
                 List<Model.SP_GetJobExpense_Result> JobExpenses = handler.getAllJobExpense(profileID, sDate, eDate);
@@ -642,6 +648,8 @@ namespace TaxApp.Controllers
                 ViewBag.EndDateRange = eDate.ToString("yyyy-MM-dd");
 
                 Profile profileID = new Profile();
+                if (cookie == null)
+                    getCookie();
                 profileID.ProfileID = int.Parse(cookie["ID"]);
 
                 List<InvoiceAndReciptesFile> files = handler.getInvoiceAndReciptesFiles(profileID, sDate, eDate);
@@ -750,6 +758,8 @@ namespace TaxApp.Controllers
                 ViewBag.EndDateRange = eDate.ToString("yyyy-MM-dd");
 
                 Model.Profile getProfile = new Model.Profile();
+                if (cookie == null)
+                    getCookie();
                 getProfile.ProfileID = int.Parse(cookie["ID"].ToString());
 
                 List<Model.SP_GetGeneralExpense_Result> ProfileGeneralExpenses = handler.getGeneralExpenses(getProfile, sDate, eDate);
@@ -912,6 +922,8 @@ namespace TaxApp.Controllers
             {
                 getCookie();
                 Model.Profile getProfileVehicles = new Model.Profile();
+                if (cookie == null)
+                    getCookie();
                 getProfileVehicles.ProfileID = int.Parse(cookie["ID"]);
                 List<Model.Vehicle> Vehicles = handler.getVehicles(getProfileVehicles);
 
@@ -955,6 +967,8 @@ namespace TaxApp.Controllers
                 getCookie();
 
                 Model.Profile getProfileVehicles = new Model.Profile();
+                if (cookie == null)
+                    getCookie();
                 getProfileVehicles.ProfileID = int.Parse(cookie["ID"]);
                 List<Model.Vehicle> Vehicles = handler.getVehicles(getProfileVehicles);
                 ViewBag.Vehicles = new SelectList(Vehicles, "VehicleID", "Name");
@@ -1120,6 +1134,8 @@ namespace TaxApp.Controllers
                 Model.TravelLog travelLogItem = handler.getTravelLogItem(getTravelLogItem);
 
                 Model.Profile getProfileVehicles = new Model.Profile();
+                if (cookie == null)
+                    getCookie();
                 getProfileVehicles.ProfileID = int.Parse(cookie["ID"]);
                 List<Model.Vehicle> Vehicles = handler.getVehicles(getProfileVehicles);
                 SelectList VehiclesList = new SelectList(Vehicles, "VehicleID", "Name");
@@ -1160,6 +1176,8 @@ namespace TaxApp.Controllers
                 getCookie();
 
                 Model.Profile getProfileVehicles = new Model.Profile();
+                if (cookie == null)
+                    getCookie();
                 getProfileVehicles.ProfileID = int.Parse(cookie["ID"]);
                 List<Model.Vehicle> Vehicles = handler.getVehicles(getProfileVehicles);
                 ViewBag.Vehicles = new SelectList(Vehicles, "VehicleID", "Name");
@@ -1226,6 +1244,8 @@ namespace TaxApp.Controllers
                 newVehicle.SARSMaintenceCost = decimal.Parse(Request.Form["SARSMaintenceCost"].ToString());
                 newVehicle.SARSFixedCost = decimal.Parse(Request.Form["SARSFixedCost"].ToString());
                 newVehicle.ClientCharge = decimal.Parse(Request.Form["ClientCharge"].ToString());
+                if (cookie == null)
+                    getCookie();
                 newVehicle.ProfielID = int.Parse(cookie["ID"]);
                 
                 bool result = handler.newVehicle(newVehicle);
@@ -1257,6 +1277,8 @@ namespace TaxApp.Controllers
                 ViewBag.cat = "TL";
                 getCookie();
                 Profile getVehicles = new Profile();
+                if (cookie == null)
+                    getCookie();
                 getVehicles.ProfileID = int.Parse(cookie["ID"].ToString());
                 List<Vehicle> vehicles = handler.getVehicles(getVehicles);
 
@@ -1314,6 +1336,8 @@ namespace TaxApp.Controllers
                 vehicle.SARSMaintenceCost = decimal.Parse(Request.Form["SARSMaintenceCost"].ToString());
                 vehicle.SARSFixedCost = decimal.Parse(Request.Form["SARSFixedCost"].ToString());
                 vehicle.ClientCharge = decimal.Parse(Request.Form["ClientCharge"].ToString());
+                if (cookie == null)
+                    getCookie();
                 vehicle.ProfielID = int.Parse(cookie["ID"]);
                 vehicle.VehicleID = int.Parse(ID);
 
@@ -1401,6 +1425,8 @@ namespace TaxApp.Controllers
                 ViewBag.EndDateRange = eDate.ToString("yyyy-MM-dd");
 
                 Model.Profile getProfile = new Model.Profile();
+                if (cookie == null)
+                    getCookie();
                 getProfile.ProfileID = int.Parse(cookie["ID"].ToString());
                 List <Model.TravelLog> ProfileTravelLog = handler.getProfileTravelLog(getProfile, sDate, eDate);
 

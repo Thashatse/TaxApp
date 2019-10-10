@@ -17,14 +17,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Favicon -->
-    <link href="http://sict-iis.nmmu.ac.za/taxapp/Theam/img/brand/favicon.png" rel="icon" type="image/png">
+    <link href="/Theam/img/brand/favicon.png" rel="icon" type="image/png">
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
     <!-- Icons -->
-    <link href="http://sict-iis.nmmu.ac.za/taxapp/Theam/vendor/nucleo/css/nucleo.css" rel="stylesheet">
-    <link href="http://sict-iis.nmmu.ac.za/taxapp/Theam/vendor/fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="/Theam/vendor/nucleo/css/nucleo.css" rel="stylesheet">
+    <link href="/Theam/vendor/fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
     <!-- Argon CSS -->
-    <link type="text/css" href="http://sict-iis.nmmu.ac.za/taxapp/Theam/css/argon.css?v=1.0.0" rel="stylesheet">
+    <link type="text/css" href="/Theam/css/argon.css?v=1.0.0" rel="stylesheet">
 </head>
 <body>
     @if (ViewBag.Report == false)
@@ -35,7 +35,7 @@
                 <div class="container-fluid">
                     <!-- Brand -->
                     <a class="navbar-brand pt-0">
-                        <img src="http://sict-iis.nmmu.ac.za/taxapp/Theam/img/brand/blue.png" class="navbar-brand-img" alt="..." width="60" height="30">
+                        <img src="/Theam/img/brand/blue.png" class="navbar-brand-img" alt="..." width="60" height="30">
                     </a>
                     <!-- User -->
                     <ul class="navbar-nav align-items-center d-none d-md-flex">
@@ -200,11 +200,11 @@
                                         </h4>
                                     </div>
                                     <div class="col-4 float-right">
-                                        <a target="_blank" href="http://sict-iis.nmmu.ac.za/taxapp/Track/ReceiptsDownload?TaxID=1000000006"
-                                           class="btn btn-sm btn-white">Download All Expense Receipts <i class="ni ni-cloud-download-95"></i></a>
+                                        <a target="_blank" href="/Track/ReceiptsDownload?TaxID=1000000006"
+                                           class="btn btn-white">Download All Expense Receipts <i class="ni ni-cloud-download-95"></i></a>
 
-                                        <a href="http://sict-iis.nmmu.ac.za/taxapp/Track/TAX?TaxID=@ViewBag.ID&Report=True"
-                                           class="btn btn-sm btn-white">Print Format</a>
+                                        <a href="/Track/TAX?TaxID=@ViewBag.ID&Report=True"
+                                           class="btn btn-white">Print Format</a>
                                     </div>
                                 </div>
                             </div>
@@ -216,43 +216,43 @@
                                             @if (Model.Report.column1Name != null)
                                             {
                                                 <th scope="col">
-                                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/Track/Vat?VatID=@ViewBag.ID&SortBy=Col1&SortDirection=@ViewBag.SortDirection">@Html.DisplayFor(model => model.Report.column1Name)</a>
+                                                    <a href="/Track/Vat?VatID=@ViewBag.ID&SortBy=Col1&SortDirection=@ViewBag.SortDirection">@Html.DisplayFor(model => model.Report.column1Name)</a>
                                                 </th>
                                             }
                                             @if (Model.Report.column2Name != null)
                                             {
                                                 <th scope="col">
-                                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/Track/Vat?VatID=@ViewBag.ID&SortBy=Col2&SortDirection=@ViewBag.SortDirection">@Html.DisplayFor(model => model.Report.column2Name)</a>
+                                                    <a href="/Track/Vat?VatID=@ViewBag.ID&SortBy=Col2&SortDirection=@ViewBag.SortDirection">@Html.DisplayFor(model => model.Report.column2Name)</a>
                                                 </th>
                                             }
                                             @if (Model.Report.column3Name != null)
                                             {
                                                 <th scope="col">
-                                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/Track/Vat?VatID=@ViewBag.ID&SortBy=Col3&SortDirection=@ViewBag.SortDirection">@Html.DisplayFor(model => model.Report.column3Name)</a>
+                                                    <a href="/Track/Vat?VatID=@ViewBag.ID&SortBy=Col3&SortDirection=@ViewBag.SortDirection">@Html.DisplayFor(model => model.Report.column3Name)</a>
                                                 </th>
                                             }
                                             @if (Model.Report.column4Name != null)
                                             {
                                                 <th scope="col">
-                                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/Track/Vat?VatID=@ViewBag.ID&SortBy=Col4&SortDirection=@ViewBag.SortDirection">@Html.DisplayFor(model => model.Report.column4Name)</a>
+                                                    <a href="/Track/Vat?VatID=@ViewBag.ID&SortBy=Col4&SortDirection=@ViewBag.SortDirection">@Html.DisplayFor(model => model.Report.column4Name)</a>
                                                 </th>
                                             }
                                             @if (Model.Report.column5Name != null)
                                             {
                                                 <th scope="col">
-                                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/Track/Vat?VatID=@ViewBag.ID&SortBy=Col4&SortDirection=@ViewBag.SortDirection">@Html.DisplayFor(model => model.Report.column5Name)</a>
+                                                    <a href="/Track/Vat?VatID=@ViewBag.ID&SortBy=Col4&SortDirection=@ViewBag.SortDirection">@Html.DisplayFor(model => model.Report.column5Name)</a>
                                                 </th>
                                             }
                                             @if (Model.Report.column6Name != null)
                                             {
                                                 <th scope="col">
-                                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/Track/Vat?VatID=@ViewBag.ID&SortBy=Col6&SortDirection=@ViewBag.SortDirection">@Html.DisplayFor(model => model.Report.column6Name)</a>
+                                                    <a href="/Track/Vat?VatID=@ViewBag.ID&SortBy=Col6&SortDirection=@ViewBag.SortDirection">@Html.DisplayFor(model => model.Report.column6Name)</a>
                                                 </th>
                                             }
                                             @if (Model.Report.column6Name != null)
                                             {
                                                 <th scope="col">
-                                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/Track/Vat?VatID=@ViewBag.ID&SortBy=Col7&SortDirection=@ViewBag.SortDirection">@Html.DisplayFor(model => model.Report.column7Name)</a>
+                                                    <a href="/Track/Vat?VatID=@ViewBag.ID&SortBy=Col7&SortDirection=@ViewBag.SortDirection">@Html.DisplayFor(model => model.Report.column7Name)</a>
                                                 </th>
                                             }
                                         </tr>
@@ -529,7 +529,7 @@
                         <div class="col-xl-6">
                             <ul class="nav nav-footer justify-content-center justify-content-xl-end">
                                 <li class="nav-item">
-                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/Home/Index" class="nav-link">Home</a>
+                                    <a href="/Home/Index" class="nav-link">Home</a>
                                 </li>
                             </ul>
                         </div>
@@ -567,43 +567,43 @@
                                     @if (Model.Report.column1Name != null)
                                     {
                                         <th scope="col">
-                                            <a href="http://sict-iis.nmmu.ac.za/taxapp/Track/Vat?VatID=@ViewBag.ID&SortBy=Col1&SortDirection=@ViewBag.SortDirection">@Html.DisplayFor(model => model.Report.column1Name)</a>
+                                            <a href="/Track/Vat?VatID=@ViewBag.ID&SortBy=Col1&SortDirection=@ViewBag.SortDirection">@Html.DisplayFor(model => model.Report.column1Name)</a>
                                         </th>
                                     }
                                     @if (Model.Report.column2Name != null)
                                     {
                                         <th scope="col">
-                                            <a href="http://sict-iis.nmmu.ac.za/taxapp/Track/Vat?VatID=@ViewBag.ID&SortBy=Col2&SortDirection=@ViewBag.SortDirection">@Html.DisplayFor(model => model.Report.column2Name)</a>
+                                            <a href="/Track/Vat?VatID=@ViewBag.ID&SortBy=Col2&SortDirection=@ViewBag.SortDirection">@Html.DisplayFor(model => model.Report.column2Name)</a>
                                         </th>
                                     }
                                     @if (Model.Report.column3Name != null)
                                     {
                                         <th scope="col">
-                                            <a href="http://sict-iis.nmmu.ac.za/taxapp/Track/Vat?VatID=@ViewBag.ID&SortBy=Col3&SortDirection=@ViewBag.SortDirection">@Html.DisplayFor(model => model.Report.column3Name)</a>
+                                            <a href="/Track/Vat?VatID=@ViewBag.ID&SortBy=Col3&SortDirection=@ViewBag.SortDirection">@Html.DisplayFor(model => model.Report.column3Name)</a>
                                         </th>
                                     }
                                     @if (Model.Report.column4Name != null)
                                     {
                                         <th scope="col">
-                                            <a href="http://sict-iis.nmmu.ac.za/taxapp/Track/Vat?VatID=@ViewBag.ID&SortBy=Col4&SortDirection=@ViewBag.SortDirection">@Html.DisplayFor(model => model.Report.column4Name)</a>
+                                            <a href="/Track/Vat?VatID=@ViewBag.ID&SortBy=Col4&SortDirection=@ViewBag.SortDirection">@Html.DisplayFor(model => model.Report.column4Name)</a>
                                         </th>
                                     }
                                     @if (Model.Report.column5Name != null)
                                     {
                                         <th scope="col">
-                                            <a href="http://sict-iis.nmmu.ac.za/taxapp/Track/Vat?VatID=@ViewBag.ID&SortBy=Col4&SortDirection=@ViewBag.SortDirection">@Html.DisplayFor(model => model.Report.column5Name)</a>
+                                            <a href="/Track/Vat?VatID=@ViewBag.ID&SortBy=Col4&SortDirection=@ViewBag.SortDirection">@Html.DisplayFor(model => model.Report.column5Name)</a>
                                         </th>
                                     }
                                     @if (Model.Report.column6Name != null)
                                     {
                                         <th scope="col">
-                                            <a href="http://sict-iis.nmmu.ac.za/taxapp/Track/Vat?VatID=@ViewBag.ID&SortBy=Col6&SortDirection=@ViewBag.SortDirection">@Html.DisplayFor(model => model.Report.column6Name)</a>
+                                            <a href="/Track/Vat?VatID=@ViewBag.ID&SortBy=Col6&SortDirection=@ViewBag.SortDirection">@Html.DisplayFor(model => model.Report.column6Name)</a>
                                         </th>
                                     }
                                     @if (Model.Report.column6Name != null)
                                     {
                                         <th scope="col">
-                                            <a href="http://sict-iis.nmmu.ac.za/taxapp/Track/Vat?VatID=@ViewBag.ID&SortBy=Col7&SortDirection=@ViewBag.SortDirection">@Html.DisplayFor(model => model.Report.column7Name)</a>
+                                            <a href="/Track/Vat?VatID=@ViewBag.ID&SortBy=Col7&SortDirection=@ViewBag.SortDirection">@Html.DisplayFor(model => model.Report.column7Name)</a>
                                         </th>
                                     }
                                 </tr>
@@ -874,10 +874,10 @@
 
 <!-- Argon Scripts -->
 <!-- Core -->
-<script src="http://sict-iis.nmmu.ac.za/taxapp/Theam/vendor/jquery/dist/jquery.min.js"></script>
-<script src="http://sict-iis.nmmu.ac.za/taxapp/Theam/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/Theam/vendor/jquery/dist/jquery.min.js"></script>
+<script src="/Theam/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Optional JS -->
-<script src="http://sict-iis.nmmu.ac.za/taxapp/Theam/vendor/chart.js/dist/Chart.min.js"></script>
-<script src="http://sict-iis.nmmu.ac.za/taxapp/Theam/vendor/chart.js/dist/Chart.extension.js"></script>
+<script src="/Theam/vendor/chart.js/dist/Chart.min.js"></script>
+<script src="/Theam/vendor/chart.js/dist/Chart.extension.js"></script>
 <!-- Argon JS -->
-<script src="http://sict-iis.nmmu.ac.za/taxapp/Theam/js/argon.js?v=1.0.0"></script>
+<script src="/Theam/js/argon.js?v=1.0.0"></script>

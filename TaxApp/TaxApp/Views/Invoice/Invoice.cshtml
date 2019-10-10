@@ -186,10 +186,10 @@
                                 </tr>
 
                                 <tr>
-                                    <td>Qty</td>
-                                    <td>Item</td>
-                                    <td>Unit Price</td>
-                                    <td>Total</td>
+                                    <td style="font-weight:bold">Qty</td>
+                                    <td style="font-weight:bold">Item</td>
+                                    <td style="font-weight:bold">Unit Price (R)</td>
+                                    <td style="font-weight:bold">Total (R)</td>
                                 </tr>
 
                                 @foreach (var item in ViewBag.InvoiceItems)
@@ -197,8 +197,8 @@
                                     <tr>
                                         <td align="right">@item.UnitCountString</td>
                                         <td>@item.Name</td>
-                                        <td align="right">R @item.UnitCostString</td>
-                                        <td align="right">R @item.TotalCostString</td>
+                                        <td align="right">@item.UnitCostString</td>
+                                        <td align="right">@item.TotalCostString</td>
                                     </tr>
                                 }
 
@@ -211,22 +211,22 @@
                                 <tr>
                                     <td></td>
                                     <td></td>
-                                    <td>Excluding VAT:</td>
-                                    <td align="right">R @ViewBag.TotalExcludingVAT</td>
+                                    <td style="font-weight:bold">Excluding VAT (R):</td>
+                                    <td align="right">@ViewBag.TotalExcludingVAT</td>
                                 </tr>
 
                                 <tr>
                                     <td></td>
                                     <td></td>
-                                    <td>VAT at  @Html.DisplayFor(model => model.VATRateString)%:</td>
-                                    <td align="right">R @ViewBag.VAT</td>
+                                    <td style="font-weight:bold">VAT at  @Html.DisplayFor(model => model.VATRateString)% (R):</td>
+                                    <td align="right">@ViewBag.VAT</td>
                                 </tr>
 
                                 <tr>
                                     <td></td>
                                     <td></td>
-                                    <td>Total Due:</td>
-                                    <td align="right">R @ViewBag.TotalDue</td>
+                                    <td style="font-weight:bold">Total Due (R):</td>
+                                    <td align="right">@ViewBag.TotalDue</td>
                                 </tr>
 
                             </table>

@@ -130,8 +130,6 @@ namespace TaxApp.Controllers
                     "Error loding Vat Center");
                 return RedirectToAction("Error", "Shared", new { Err = "An error occurred uploading the file" });
             }
-
-            return RedirectToAction("Error", "Shared", new { Err = "An error occurred uploading the file" });
         }
         #endregion
         

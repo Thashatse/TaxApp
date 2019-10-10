@@ -222,6 +222,7 @@
                             </tbody>
 
                             <tfoot class="thead-light">
+                                @{var light = false;}
                                 @if (Model.column2Total != null
                                         || Model.column3Total != null
                                         || Model.column4Total != null
@@ -337,8 +338,9 @@
                                             }
                                         }
                                     </tr>
-                                }@{i = 0;}
-                                @{var light = true;}
+                                    light = true;
+                                }
+                                @{i = 0;}
                                 @if (Model.FooterRowList != null)
                                 {
                                     foreach (var item in Model.FooterRowList)

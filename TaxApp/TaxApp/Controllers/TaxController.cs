@@ -77,6 +77,8 @@ namespace TaxApp.Controllers
                 nfi.NumberGroupSeparator = " ";
 
                 Profile profileID = new Profile();
+                if (cookie == null)
+                    getCookie();
                 profileID.ProfileID = int.Parse(cookie["ID"]);
 
                 List<TaxAndVatPeriods> taxPeriod = handler.getTaxOrVatPeriodForProfile(profileID, 'T');
@@ -97,7 +99,14 @@ namespace TaxApp.Controllers
 
                     if (period == null || period == "")
                     {
-                        return RedirectToAction("TaxCenter", "Tax", new { period = taxPeriod[0].PeriodID, view });
+                        int i = 0, currentPeriod = 0;
+                        foreach (TaxAndVatPeriods check in taxPeriod)
+                        {
+                            if (DateTime.Now > check.StartDate && DateTime.Now < check.EndDate)
+                                currentPeriod = i;
+                            i++;
+                        }
+                        return RedirectToAction("TaxCenter", "Tax", new { period = taxPeriod[currentPeriod].PeriodID, view });
                     }
 
                     foreach (TaxAndVatPeriods item in taxPeriod)
@@ -153,6 +162,8 @@ namespace TaxApp.Controllers
             try
             {
                 Profile profileID = new Profile();
+                if (cookie == null)
+                    getCookie();
                 profileID.ProfileID = int.Parse(cookie["ID"]);
 
                 List<TaxAndVatPeriods> taxPeriod = handler.getTaxOrVatPeriodForProfile(profileID, 'V');
@@ -221,6 +232,8 @@ namespace TaxApp.Controllers
                     period.StartDate = DateTime.Parse(Request.Form["StartDate"]);
                     period.EndDate = DateTime.Parse(Request.Form["EndDate"]);
                     period.Type = type[0];
+                    if (cookie == null)
+                        getCookie();
                     period.ProfileID = int.Parse(cookie["ID"]);
 
                     bool result = handler.newTaxOrVatPeriod(period);
@@ -274,6 +287,8 @@ namespace TaxApp.Controllers
                         try
                         {
                             Profile profileID = new Profile();
+                            if (cookie == null)
+                                getCookie();
                             profileID.ProfileID = int.Parse(cookie["ID"]);
                             List<TaxAndVatPeriods> taxPeriod = handler.getTaxOrVatPeriodForProfile(profileID, 'V');
                             foreach (TaxAndVatPeriods item in taxPeriod)
@@ -303,6 +318,8 @@ namespace TaxApp.Controllers
                         try
                         {
                             Profile profileID = new Profile();
+                            if (cookie == null)
+                                getCookie();
                             profileID.ProfileID = int.Parse(cookie["ID"]);
                             List<TaxAndVatPeriods> taxPeriod = handler.getTaxOrVatPeriodForProfile(profileID, 'T');
                             foreach (TaxAndVatPeriods item in taxPeriod)
@@ -331,8 +348,6 @@ namespace TaxApp.Controllers
 
                 return View();
             }
-
-            return RedirectToAction("Error", "Shared", new { Err = "Error creating TAX or VAT Period" });
         }
 
         [HttpPost]
@@ -413,6 +428,8 @@ namespace TaxApp.Controllers
                 ConsultantViewModel viewModel = new ConsultantViewModel();
 
                 viewModel.Consultant = new TaxConsultant();
+                if (cookie == null)
+                    getCookie();
                 viewModel.Consultant.ProfileID = int.Parse(cookie["ID"]);
                 viewModel.Consultant = handler.getConsumtant(viewModel.Consultant);
 
@@ -441,6 +458,8 @@ namespace TaxApp.Controllers
                 getCookie();
 
                 TaxConsultant consultant = new TaxConsultant();
+                if (cookie == null)
+                    getCookie();
                 consultant.ProfileID = int.Parse(cookie["ID"]);
                 consultant = handler.getConsumtant(consultant);
 
@@ -467,7 +486,9 @@ namespace TaxApp.Controllers
                     && Request.Form["EmailAddress"] != null && Request.Form["EmailAddress"] != "")
                 {
                 TaxConsultant consultant = new TaxConsultant();
-                consultant.ProfileID = int.Parse(cookie["ID"]);
+                    if (cookie == null)
+                        getCookie();
+                    consultant.ProfileID = int.Parse(cookie["ID"]);
                 consultant = handler.getConsumtant(consultant);
 
                 if(consultant == null)
@@ -657,9 +678,12 @@ if(tuple.Item1 != null && tuple.Item2 != null)
                         ViewBag.ProfileName + " has shared information from their VAT period dated " + tuple.Item1.PeriodString
                         + " with you using Tax App. \n\n" +
                         "Use the link bellow to gain access: \n http://sict-iis.nmmu.ac.za/taxapp/Track/verifyIdentity?ID=" + tuple.Item1.PeriodID + "&Type=VAT";
-                }
+                    }
 
-                bool result = function.sendEmail(tuple.Item2.EmailAddress,
+                    if (cookie == null)
+                        getCookie();
+
+                    bool result = function.sendEmail(tuple.Item2.EmailAddress,
                     tuple.Item2.Name,
                     subject,
                     body,

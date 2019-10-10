@@ -31,14 +31,14 @@
                                 @ViewBag.SearchType Results for search term: '@ViewBag.term'  &nbsp;
                                 @if (ViewBag.SearchType != null && ViewBag.SearchType != "")
                                 {
-                                    <a class="btn btn-sm btn-white" href="Search?view=@ViewBag.view&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&term=@ViewBag.term&cat=A">
+                                    <a class="btn btn-white" href="Search?view=@ViewBag.view&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&term=@ViewBag.term&cat=A">
                                         View All Results
                                     </a>
                                 }
                             </h3>
                         </div>
                         <div class="col-3 text-right">
-                            <a data-toggle="collapse" href="#Filter" class="btn btn-secondary">
+                            <a data-toggle="collapse" href="#Filter" class="btn btn-white">
                                 Filter By
                                 <i class="ni ni-ui-04"></i>
                             </a>
@@ -54,7 +54,7 @@
                                     <p>
                                         Start: <input name="StartDate" type="date" value="@ViewBag.StartDateRange" />
                                         End: <input name="EndDate" type="date" value="@ViewBag.EndDateRange" />
-                                        <input type="submit" value="Update date range" class="btn btn-sm btn-default" />
+                                        <input type="submit" value="Update date range" class="btn btn-default" />
                                     </p>
                                 }
                             </div>

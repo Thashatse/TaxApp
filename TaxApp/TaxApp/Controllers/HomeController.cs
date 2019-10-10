@@ -126,6 +126,8 @@ namespace TaxApp.Controllers
 
                 if (term != null && term != "")
                 {
+                    if (cookie == null)
+                        getCookie();
                     results = handler.getSearchResults(term, int.Parse(cookie["ID"]), sDate, eDate, cat);
                 }
 
@@ -186,6 +188,8 @@ namespace TaxApp.Controllers
             {
 
                 Model.Profile profile = new Model.Profile();
+                if (cookie == null)
+                    getCookie();
                 profile.ProfileID = int.Parse(cookie["ID"].ToString());
 
                 DateTime sDate = DateTime.Now.AddYears(-1);
