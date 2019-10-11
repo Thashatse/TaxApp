@@ -17,8 +17,11 @@ namespace Model
         public byte[] fileByteArray { get; set; }
         public int ID { get; set; }
         public int ProfileID { get; set; }
+        [Required]
         public string fileName { get; set; }
+        [Required]
         public string expenseName { get; set; }
+        [Required]
         public DateTime expenseDate { get; set; }
         public string expenseDateString { get; set; }
         public string Type { get; set; }

@@ -190,8 +190,11 @@
                                         {
                                             <a class="btn btn-white" href='./EditTravleLogItem?ID=@Html.DisplayFor(modelItem => item.ExpenseID)'> Edit</a>
                                             <a class="btn btn-white" href='./DeleteTravleLogItem?ID=@Html.DisplayFor(modelItem => item.ExpenseID)'>Delete</a>
+
+                                            <br />
+                                            <br />
                                         }
-                                            <a class="btn btn-white" href='./JobTravelLog?ID=@Html.DisplayFor(modelItem => item.JobID)'> Job Travel Log</a>
+                                    <a class="btn btn-white" href='./JobTravelLog?ID=@Html.DisplayFor(modelItem => item.JobID)'> @Html.DisplayFor(modelItem => item.JobTitle) Travel Log</a>
                                         </div>
                                 </div>
                             </div>

@@ -45,4 +45,4 @@ namespace Model
         [Display(Name = "Share this job with the Client. Clients will be able to see hours, expenses and invoices.")]
         public bool Share { get; set; }
     }
-}
+} 

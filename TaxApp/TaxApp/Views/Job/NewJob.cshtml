@@ -68,15 +68,15 @@
                                        min="@Html.DisplayFor(model => model.MinDate)" /><p class="text-red">* Required</p>
                             </div>
                         </div>
-                    <div class="form-group">
-    @Html.LabelFor(model => model.Share, htmlAttributes: new { @class = "control-label col-md-12" })
-    <div class="col-md-10">
-        <div class="checkbox">
-            @Html.EditorFor(model => model.Share)
-            @Html.ValidationMessageFor(model => model.Share, "", new { @class = "text-danger" })
-        </div>
-    </div>
-</div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Share, htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    @Html.EditorFor(model => model.Share)
+                                    @Html.ValidationMessageFor(model => model.Share, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
@@ -91,3 +91,6 @@
             </div>
         </div>
     </div>
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

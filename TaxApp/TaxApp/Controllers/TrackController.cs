@@ -779,7 +779,9 @@ namespace TaxApp.Controllers
 
                     foreach (InvoiceAndReciptesFile file in files)
                     {
+                        //Change befor Publishing
                         string redirect = "<script>window.open('/Functions/DownloadFile?ID=" + file.ID + "&type=" + file.Type + "');</script>";
+                        //string redirect = "<script>window.open('http://sict-iis.nmmu.ac.za/TaxApp/Functions/DownloadFile?ID=" + file.ID + "&type=" + file.Type + "');</script>";
                         Response.Write(redirect);
                     }
                 }

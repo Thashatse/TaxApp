@@ -30,9 +30,11 @@ namespace Model
         public decimal Amount { get; set; }
         public string AmountString { get; set; }
         public byte[] Invoice_ReceiptCopy { get; set; }
+        [Required]
 
         [Display(Name = "Category")]
         public string CatName { get; set; }
+        [Required]
 
         [Display(Name = "Category Description")]
         public string CatDescription { get; set; }

@@ -16,13 +16,16 @@ namespace Model
     public partial class Worklog
     {
         public int LogItemID { get; set; }
+        [Required]
         public string Description { get; set; }
+        [Required]
         [Display(Name = "Start")]
         public System.DateTime StartTime { get; set; }
         public string StartTimeString { get; set; }
         [Display(Name = "Date")]
         public string DateString { get; set; }
         [Display(Name = "End")]
+        [Required]
         public DateTime EndTime { get; set; }
         public string EndTimeString { get; set; }
         [Display(Name = "Total Time")]

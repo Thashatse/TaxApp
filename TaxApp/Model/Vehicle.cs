@@ -30,6 +30,6 @@ namespace Model
         public decimal SARSMaintenceCost { get; set; }
         [Required]
         [Display(Name = "Client Charge (R/KM)")]
-        public decimal ClientCharge { get; set; }
+        public decimal ClientCharge { get; set; } 
     }
 }

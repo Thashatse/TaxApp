@@ -426,9 +426,17 @@ namespace TaxApp.Controllers
                     {
                         ViewBag.DropdownName = "Tax Period";
                         ViewBag.DropDownFilter = new SelectList(taxPeriod, "PeriodID", "PeriodString");
+                        
+                        int i = 0, currentPeriod = 0;
+                        foreach (TaxAndVatPeriods check in taxPeriod)
+                        {
+                            if (DateTime.Now > check.StartDate && DateTime.Now < check.EndDate)
+                                currentPeriod = i;
+                            i++;
+                        }
 
                         if (DropDownID == null || DropDownID == "")
-                            DropDownID = taxPeriod[0].PeriodID.ToString();
+                            DropDownID = taxPeriod[currentPeriod].PeriodID.ToString();
 
                         ViewBag.DropDownID = DropDownID;
 
@@ -1030,8 +1038,16 @@ namespace TaxApp.Controllers
                         ViewBag.DropdownName = "Tax Period";
                         ViewBag.DropDownFilter = new SelectList(taxPeriod, "PeriodID", "PeriodString");
 
+                        int i = 0, currentPeriod = 0;
+                        foreach (TaxAndVatPeriods check in taxPeriod)
+                        {
+                            if (DateTime.Now > check.StartDate && DateTime.Now < check.EndDate)
+                                currentPeriod = i;
+                            i++;
+                        }
+
                         if (DropDownID == null || DropDownID == "")
-                            DropDownID = taxPeriod[0].PeriodID.ToString();
+                            DropDownID = taxPeriod[currentPeriod].PeriodID.ToString();
 
                         ViewBag.DropDownID = DropDownID;
 
@@ -1176,8 +1192,16 @@ namespace TaxApp.Controllers
                         ViewBag.DropdownName = "Vat Period";
                         ViewBag.DropDownFilter = new SelectList(vatPeriod, "PeriodID", "PeriodString");
 
+                        int i = 0, currentPeriod = 0;
+                        foreach (TaxAndVatPeriods check in vatPeriod)
+                        {
+                            if (DateTime.Now > check.StartDate && DateTime.Now < check.EndDate)
+                                currentPeriod = i;
+                            i++;
+                        }
+
                         if (DropDownID == null || DropDownID == "")
-                            DropDownID = vatPeriod[0].PeriodID.ToString();
+                            DropDownID = vatPeriod[currentPeriod].PeriodID.ToString();
 
                         ViewBag.DropDownID = DropDownID;
 

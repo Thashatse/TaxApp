@@ -27,7 +27,7 @@
                 @using (Html.BeginForm())
                 {
                     @Html.AntiForgeryToken()
-                    <br/>
+                    <br />
                     <div class="form-horizontal">
                         <p class="text-red">@ViewBag.Err</p>
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -99,3 +99,6 @@
         </div>
     </div>
 </div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

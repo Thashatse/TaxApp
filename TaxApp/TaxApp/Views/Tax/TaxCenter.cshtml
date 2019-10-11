@@ -203,8 +203,8 @@
                                         <th>Total:</th>
                                         <th></th>
                                         <th></th>
-                                        <th align="right">@ViewBag.totalAmount</th>
-                                        <th align="right">@ViewBag.totalAmountTax</th>
+                                        <th><p align="right">@ViewBag.totalAmount</p></th>
+                                        <th><p align="right">@ViewBag.totalAmountTax</p></th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -244,31 +244,30 @@
                             @using (Html.BeginForm())
                             {
                                 @Html.AntiForgeryToken()
-                            <p>
-                                Select Period:  @Html.DropDownList("TaxPeriodList", ViewBag.VATPeriodList as SelectList)
-                                <input type="submit" value="Select" class="btn btn-default" />
-                            </p>
+                                <p>
+                                    Select Period:  @Html.DropDownList("TaxPeriodList", ViewBag.VATPeriodList as SelectList)
+                                    <input type="submit" value="Select" class="btn btn-default" />
+                                </p>
 
+
+                                if (Model.period.Share == true)
+                                {
+                                    <a href="/Tax/Share?ID=@Model.period.PeriodID&type=T"
+                                       class="btn btn-lg btn-white">Stop sharing with Consultant</a>
+                                }
+                                else
+                                {
+                                    <a href="/Tax/Share?ID=@Model.period.PeriodID&type=T"
+                                       class="btn btn-lg btn-white">Share with Consultant</a>
+                                }
+
+                                <br />
                                 <br />
 
                                 <a href="/Tax/EditTaxVatPeriod?Type=T&Period=@ViewBag.PeriodID"
                                    class="btn btn-lg btn-white">Edit Period</a>
                                 <a href="/Tax/TaxVatPeriod?Type=T"
                                    class="btn btn-lg btn-white">New Period</a>
-
-                                <br />
-                                <br />
-
-                                if (Model.period.Share == true)
-                                {
-                                    <a href="/Tax/Share?ID=@Model.period.PeriodID&type=T"
-                                       class="btn btn-lg btn-white">Stop sharing Period with Consultant</a>
-                                }
-                                else
-                                {
-                                    <a href="/Tax/Share?ID=@Model.period.PeriodID&type=T"
-                                       class="btn btn-lg btn-white">Share Period with Consultant</a>
-                                }
                             }
                         </div>
                     </div>

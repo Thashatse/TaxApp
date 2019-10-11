@@ -44,192 +44,195 @@
                         {
                             @Html.AntiForgeryToken()
 
-                        <div class="container">
-                            <br />
-                            <h4>Select the line items you wish to add to the invoice or create a new custom item:</h4>
-                            <br />
-                            <p class="text-red">@ViewBag.Err</p>
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                            @if (ViewBag.Hours.Count != 0 ||
-                                ViewBag.Expenses.Count != 0 ||
-                                ViewBag.Travelss.Count != 0 ||
-                                ViewBag.Custom.Count != 0)
-                            {
+                            <div class="container">
                                 <br />
-                                <input type="checkbox" name="AllCheck" id="AllInvoiceItemsChecked" value="True"
-                                       onclick="InvoiceAllCheck()"<p>All Outstanding Items</p>
-                                <hr />
-
-                            }
-                            <div class="form-group">
+                                <h4>Select the line items you wish to add to the invoice or create a new custom item:</h4>
+                                <br />
+                                <p class="text-red">@ViewBag.Err</p>
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                 @if (ViewBag.Hours.Count != 0 ||
+                                    ViewBag.Expenses.Count != 0 ||
+                                    ViewBag.Travelss.Count != 0 ||
+                                    ViewBag.Custom.Count != 0)
+                                {
+                                    <br />
+                                    <input type="checkbox" name="AllCheck" id="AllInvoiceItemsChecked" value="True"
+                                           onclick="InvoiceAllCheck()"<p>All Outstanding Items</p>
+                                    <hr />
+
+                                }
+                                <div class="form-group">
+                                    @if (ViewBag.Hours.Count != 0 ||
 ViewBag.Expenses.Count != 0 ||
 ViewBag.Travelss.Count != 0 ||
 ViewBag.Custom.Count != 0)
-                                {
-                                    <div id="ItemsNotAll">
-                                        <h4>Select Individual Items:</h4>
-                                        @if (ViewBag.Hours.Count > 0)
-                                        {
-                                            <div>
-                                                Work Log Hours:
-                                                <div class="col-md-10">
-                                                    @foreach (var item in ViewBag.Hours)
-                                                    {
-                                                        <input type="checkbox" name="Hour+@item.ID" value="@item.ID">
-                                                        @item.DisplayString<br />
-                                                    }
+                                    {
+                                        <div id="ItemsNotAll">
+                                            <h4>Select Individual Items:</h4>
+                                            @if (ViewBag.Hours.Count > 0)
+                                            {
+                                                <div>
+                                                    Work Log Hours:
+                                                    <div class="col-md-10">
+                                                        @foreach (var item in ViewBag.Hours)
+                                                        {
+                                                            <input type="checkbox" name="Hour+@item.ID" value="@item.ID">
+                                                            @item.DisplayString<br />
+                                                        }
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        }
+                                            }
 
-                                        @if (ViewBag.Expenses.Count > 0)
-                                        {
-                                            <div>
-                                                Expenses:
-                                                <div class="col-md-10">
-                                                    @foreach (var item in ViewBag.Expenses)
-                                                    {
-                                                        <input type="checkbox" name="Expense+@item.ID" value="@item.ID">
-                                                        @item.DisplayString<br />
-                                                    }
+                                            @if (ViewBag.Expenses.Count > 0)
+                                            {
+                                                <div>
+                                                    Expenses:
+                                                    <div class="col-md-10">
+                                                        @foreach (var item in ViewBag.Expenses)
+                                                        {
+                                                            <input type="checkbox" name="Expense+@item.ID" value="@item.ID">
+                                                            @item.DisplayString<br />
+                                                        }
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        }
+                                            }
 
-                                        @if (ViewBag.Travelss.Count > 0)
-                                        {
-                                            <div>
-                                                Travel Expenses:
-                                                <div class="col-md-10">
-                                                    @foreach (var item in ViewBag.Travelss)
-                                                    {
-                                                        <input type="checkbox" name="Travel+@item.ID" value="@item.ID">
-                                                        @item.DisplayString<br />
-                                                    }
+                                            @if (ViewBag.Travelss.Count > 0)
+                                            {
+                                                <div>
+                                                    Travel Expenses:
+                                                    <div class="col-md-10">
+                                                        @foreach (var item in ViewBag.Travelss)
+                                                        {
+                                                            <input type="checkbox" name="Travel+@item.ID" value="@item.ID">
+                                                            @item.DisplayString<br />
+                                                        }
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        }
+                                            }
 
-                                        @if (ViewBag.Custom.Count > 0)
-                                        {
-                                            <div>
-                                                Custom items:
-                                                <div class="col-md-10">
-                                                    @{int cust = 0;}
-                                                    @foreach (var item in ViewBag.Custom)
-                                                    {
-                                                        <input type="checkbox" name="Custom+@cust" value="@cust">
-                                                        @item.DisplayString<br />
-                                                        { cust++; }
-                                                    }
+                                            @if (ViewBag.Custom.Count > 0)
+                                            {
+                                                <div>
+                                                    Custom items:
+                                                    <div class="col-md-10">
+                                                        @{int cust = 0;}
+                                                        @foreach (var item in ViewBag.Custom)
+                                                        {
+                                                            <input type="checkbox" name="Custom+@cust" value="@cust">
+                                                            @item.DisplayString<br />
+                                                            { cust++; }
+                                                        }
+                                                    </div>
                                                 </div>
+                                            }
+                                        </div>
+
+                                        <div id="ItemsAll" style="display:none">
+                                            <h4>All Items Selected:</h4>
+                                            @if (ViewBag.Hours.Count > 0)
+                                            {
+                                                <div>
+                                                    Work Log Hours:
+                                                    <div class="col-md-10">
+                                                        @foreach (var item in ViewBag.Hours)
+                                                        {
+                                                            @item.DisplayString<br />
+                                                        }
+                                                    </div>
+                                                </div>
+                                            }
+
+                                            @if (ViewBag.Expenses.Count > 0)
+                                            {
+                                                <div>
+                                                    Expenses:
+                                                    <div class="col-md-10">
+                                                        @foreach (var item in ViewBag.Expenses)
+                                                        {
+                                                            @item.DisplayString<br />
+                                                        }
+                                                    </div>
+                                                </div>
+                                            }
+
+                                            @if (ViewBag.Travelss.Count > 0)
+                                            {
+                                                <div>
+                                                    Travel Expenses:
+                                                    <div class="col-md-10">
+                                                        @foreach (var item in ViewBag.Travelss)
+                                                        {
+                                                            @item.DisplayString<br />
+                                                        }
+                                                    </div>
+                                                </div>
+                                            }
+
+                                            @if (ViewBag.Custom.Count > 0)
+                                            {
+                                                <div>
+                                                    Travel Expenses:
+                                                    <div class="col-md-10">
+                                                        @foreach (var item in ViewBag.Custom)
+                                                        {
+                                                            @item.DisplayString<br />
+                                                        }
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    }
+
+                                    <hr />
+
+                                    <div>
+                                        <h4>New Custom Item:</h4>
+                                        <div class="form-group">
+                                            Name:
+                                            <div class="col-md-10">
+                                                <input type="text" name="name" />
                                             </div>
-                                        }
+                                        </div>
+                                        <div class="form-group">
+                                            Unit Count:
+                                            <div class="col-md-10">
+                                                <input type="number" step="any" name="Unit" value="0" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            Amount (R):
+                                            <div class="col-md-10">
+                                                <input type="number" step="any" name="Amount" value="0" />
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="customItemsList" id="customItemsList" value="@ViewBag.customItemsList" />
                                     </div>
 
-                                    <div id="ItemsAll" style="display:none">
-                                        <h4>All Items Selected:</h4>
-                                        @if (ViewBag.Hours.Count > 0)
-                                        {
-                                            <div>
-                                                Work Log Hours:
-                                                <div class="col-md-10">
-                                                    @foreach (var item in ViewBag.Hours)
-                                                    {
-                                                        @item.DisplayString<br />
-                                                    }
-                                                </div>
-                                            </div>
-                                        }
+                                    <br />
 
-                                        @if (ViewBag.Expenses.Count > 0)
-                                        {
-                                            <div>
-                                                Expenses:
-                                                <div class="col-md-10">
-                                                    @foreach (var item in ViewBag.Expenses)
-                                                    {
-                                                        @item.DisplayString<br />
-                                                    }
-                                                </div>
-                                            </div>
-                                        }
-
-                                        @if (ViewBag.Travelss.Count > 0)
-                                        {
-                                            <div>
-                                                Travel Expenses:
-                                                <div class="col-md-10">
-                                                    @foreach (var item in ViewBag.Travelss)
-                                                    {
-                                                        @item.DisplayString<br />
-                                                    }
-                                                </div>
-                                            </div>
-                                        }
-
-                                        @if (ViewBag.Custom.Count > 0)
-                                        {
-                                            <div>
-                                                Travel Expenses:
-                                                <div class="col-md-10">
-                                                    @foreach (var item in ViewBag.Custom)
-                                                    {
-                                                        @item.DisplayString<br />
-                                                    }
-                                                </div>
-                                            </div>
-                                        }
-                                    </div>
-                                }
-
-                                <hr />
-
-                                <div>
-                                    <h4>New Custom Item:</h4>
                                     <div class="form-group">
-                                        Name:
-                                        <div class="col-md-10">
-                                            <input type="text" name="name" />
+                                        <div class="col-md-offset-2 col-md-10">
+                                            <input name="submit" type="submit" id="Create Invoice" value="Create Invoice" class="btn btn-default" /> |
+                                            <input name="submit" type="submit" id="Add custom item" value="Add custom item" class="btn btn-white" /> |
+                                            @if (ViewBag.ReturnTo == "Job")
+                                            {
+                                                <a href="../Job/Job?ID=@ViewBag.JobID">Cancel Invoice</a>
+                                            }
+                                            else
+                                            {
+                                                <a href="../Invoice/JobInvoices?ID=@ViewBag.JobID">Cancel Invoice</a>
+                                            }
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        Unit Count:
-                                        <div class="col-md-10">
-                                            <input type="number" step="any" name="Unit" value="0" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        Amount (R):
-                                        <div class="col-md-10">
-                                            <input type="number" step="any" name="Amount" value="0" />
-                                        </div>
-                                    </div>
-                                    <input type="hidden" name="customItemsList" id="customItemsList" value="@ViewBag.customItemsList" />
                                 </div>
 
-                                <br />
-
-                                <div class="form-group">
-                                    <div class="col-md-offset-2 col-md-10">
-                                        <input name="submit" type="submit" id="Create Invoice" value="Create Invoice" class="btn btn-default" /> |
-                                        <input name="submit" type="submit" id="Add custom item" value="Add custom item" class="btn btn-white" /> |
-                                        @if (ViewBag.ReturnTo == "Job")
-                                        {
-                                            <a href="../Job/Job?ID=@ViewBag.JobID">Cancel Invoice</a>
-                                        }
-                                        else
-                                        {
-                                            <a href="../Invoice/JobInvoices?ID=@ViewBag.JobID">Cancel Invoice</a>
-                                        }
-                                    </div>
-                                </div>
                             </div>
-
-                        </div>
                         }
                     </div>
                 </div>
             </div>
         </div>
+        @section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+        }

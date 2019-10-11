@@ -43,8 +43,8 @@ namespace TaxApp.Controllers
                         if (handler.getProfile(checkProfile) != null)
                         {
                             //Change befor Publishing
-                            //Response.Redirect("/Home/Index");
-                            Response.Redirect("http://sict-iis.nmmu.ac.za/taxapp/Home/Index");
+                            Response.Redirect("/Home/Index");
+                            //Response.Redirect("http://sict-iis.nmmu.ac.za/taxapp/Home/Index");
                         }
                     }
                     else if(cookie["User"] != null || cookie["User"] != "")
@@ -85,7 +85,7 @@ namespace TaxApp.Controllers
                 }
                 else if (newProfile.Password == "")
                 {
-                    return Redirect("/landing/Welcome?Err=PassNull");
+                    return RedirectToAction("Welcome", "Landing", new { err = "PassNull" });
                 }
                 else if (newProfile.EmailAddress != ""
                     && newProfile.Username != ""

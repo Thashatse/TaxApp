@@ -10,8 +10,10 @@ namespace Model
         public int PeriodID { get; set; }
         [Required]
         public decimal VATRate { get; set; }
+        [Required]
         public DateTime StartDate { get; set; }
         public string StartDateString { get; set; }
+        [Required]
         public DateTime EndDate { get; set; }
         public string EndDateString { get; set; }
         public string PeriodString { get; set; }

@@ -63,7 +63,7 @@ Where Invoice.[Datetime] Between @SD and @ED
 
 	(Select ((InvoiceLineItem.UnitCount * InvoiceLineItem.UnitCost))
 From Invoice, InvoiceLineItem, JobInvoice, Jobs, Client
-Where Invoice.[Datetime] Between DATEADD(DAY, (SELECT DATEDIFF(DAY, @ED, @SD)), @SD) and @SD
+Where Invoice.[Datetime] Between @ED and @SD
 	AND Invoice.InvoiceNum = InvoiceLineItem.InvoiceNum
 	AND  Invoice.Paid = 1
 	AND Invoice.InvoiceNum = JobInvoice.InvoiceNum
@@ -101,7 +101,7 @@ Where Invoice.[Datetime] Between DATEADD(DAY, (SELECT DATEDIFF(DAY, @ED, @SD)), 
 
 	(Select sum((((InvoiceLineItem.UnitCount * InvoiceLineItem.UnitCost))/100)*@TR)  
 From Invoice, InvoiceLineItem, JobInvoice, Jobs, Client
-Where Invoice.[Datetime] Between DATEADD(DAY, (SELECT DATEDIFF(DAY, @ED, @SD)), @SD) and @SD
+Where Invoice.[Datetime] Between @ED and @SD
 	AND Invoice.InvoiceNum = InvoiceLineItem.InvoiceNum
 	AND  Invoice.Paid = 1
 	AND Invoice.InvoiceNum = JobInvoice.InvoiceNum

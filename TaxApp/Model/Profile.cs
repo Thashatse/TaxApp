@@ -87,4 +87,4 @@ namespace Model
         public string NewPassword { get; set; }
         public string PassRestCode { get; set; }
     }
-}
+} 

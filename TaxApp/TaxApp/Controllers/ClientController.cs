@@ -165,6 +165,13 @@ namespace TaxApp.Controllers
                 newClient.ProfileID = int.Parse(cookie["ID"].ToString());
                 newClient.PreferedCommunicationChannel = "EMA";
 
+                if (newClient.FirstName == "" ||
+                   newClient.EmailAddress == "")
+                {
+                    ViewBag.Error = "Please fill all requierd fileds";
+                    return View(newClient);
+                }
+
                 bool result = handler.newClient(newClient);
 
                 if (result == true)
@@ -226,6 +233,13 @@ namespace TaxApp.Controllers
                     getCookie();
                 client.ProfileID = int.Parse(cookie["ID"].ToString());
                 client.PreferedCommunicationChannel = "EMA";
+
+                if (client.FirstName == "" ||
+                   client.EmailAddress == "")
+                {
+                    ViewBag.Error = "Please fill all requierd fileds";
+                    return View(client);
+                }
 
                 bool result = handler.editClient(client);
 

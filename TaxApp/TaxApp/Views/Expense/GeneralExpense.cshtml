@@ -98,6 +98,10 @@
                                class="btn btn-white">Edit</a>
                             <a href="/expense/reapetexpense?ID=@Html.DisplayFor(model => model.ExpenseID)"
                                class="btn btn-white">Reapet Expense now</a>
+
+                            <br />
+                            <br />
+
                             @if (@Model.Invoice_ReceiptCopy == null)
                             {
                                 <a href="/Functions/AttachFile?ID=@Html.DisplayFor(model => model.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@ViewBag.Details"
@@ -116,8 +120,6 @@
                                     Update Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i>
                                 </a>
                             }
-                            <a href="/expense/GeneralExpenses"
-                               class="btn btn-white">View All General Expenses</a>
                         </div>
                     </div>
                 </div>

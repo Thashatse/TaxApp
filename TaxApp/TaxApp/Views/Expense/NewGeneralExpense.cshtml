@@ -55,7 +55,7 @@
                                 @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
                                     <input name="Date" type="date" value="@Html.DisplayFor(model => model.DefultDate)"
-                                       max="@Html.DisplayFor(model => model.MaxDate)" /><p class="text-red">* Required</p>
+                                           max="@Html.DisplayFor(model => model.MaxDate)" /><p class="text-red">* Required</p>
                                 </div>
                             </div>
 
@@ -89,3 +89,6 @@
             </div>
         </div>
     </div>
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

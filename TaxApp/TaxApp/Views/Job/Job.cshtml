@@ -165,6 +165,9 @@
                         <div class="col text-right">
                             @if (ViewBag.Complete == "NotDone")
                             {
+                                <a href="/Job/NewWorkLogItem?ID=@ViewBag.JobID"
+                                   class="btn btn-white">Add Hours</a>
+
                                 if (!ViewBag.CurrentSession)
                                 {
                                     <a href="/Job/NewWorkLogItem?ID=@ViewBag.JobID&Session=True"
@@ -172,14 +175,12 @@
                                 }
                                 else
                                 {
-                                        <a href="/Job/EndJobWorkLogSession?ID=@ViewBag.CurrentSessionID&JobID=@ViewBag.JobID"
-                                           class="btn btn-primary">End current session</a>
-                                    }
-                                    <a href="/Job/NewWorkLogItem?ID=@ViewBag.JobID"
-                                       class="btn btn-white">Add Hours</a>
+                                    <a href="/Job/EndJobWorkLogSession?ID=@ViewBag.CurrentSessionID&JobID=@ViewBag.JobID"
+                                       class="btn btn-primary">End current session</a>
                                 }
-                                <i class="ni ni-bold-down"></i>
-                            </div>
+                            }
+                            <i class="ni ni-bold-down"></i>
+                        </div>
                     </div>
                 </div>
                 <div id="Hours" class="panel-collapse collapse">
@@ -505,23 +506,25 @@
                         <div class="col-10 text-right">
                             @if (ViewBag.Complete == "NotDone")
                             {
-                                <a href="/Job/MarkAsComplete?ID=@Html.DisplayFor(model => model.jobDetails.JobID)"
-                                   class="btn btn-white">Mark Job As Complete</a>
                                 <a href="/Job/EditJob?ID=@Html.DisplayFor(model => model.jobDetails.JobID)"
                                    class="btn btn-white">Edit</a>
+                                <a href="/Job/MarkAsComplete?ID=@Html.DisplayFor(model => model.jobDetails.JobID)"
+                                   class="btn btn-white">Mark Job As Complete</a>
                             }
+
+                            <br />
+                            <br />
+
                             @if (Model.jobDetails.Share == true)
                             {
                                 <a href="/Job/Share?ID=@Model.jobDetails.JobID"
-                                   class="btn btn-white">Stop sharing @Model.jobDetails.JobTitle with @Model.jobDetails.ClientFirstName</a>
+                                   class="btn btn-white">Stop sharing with @Model.jobDetails.ClientFirstName</a>
                             }
                             else
                             {
                                 <a href="/Job/Share?ID=@Model.jobDetails.JobID"
-                                   class="btn btn-white">Share @Model.jobDetails.JobTitle with @Model.jobDetails.ClientFirstName</a>
+                                   class="btn btn-white">Share with @Model.jobDetails.ClientFirstName</a>
                             }
-                            <a href="/Job/Jobs"
-                               class="btn btn-white">All Jobs</a>
                         </div>
                     </div>
                 </div>

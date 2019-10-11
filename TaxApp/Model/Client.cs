@@ -27,7 +27,6 @@ namespace Model
         [Display(Name = "Company Name")]
         public string CompanyName { get; set; }
 
-        [Required(ErrorMessage = "Please Enter Mobile No")]
         [Display(Name = "Mobile")]
         [StringLength(10, ErrorMessage = "Please enter a valid phone number", MinimumLength = 10)]
         public string ContactNumber { get; set; }
@@ -47,4 +46,4 @@ namespace Model
         [Required]
         public int ProfileID { get; set; }
     }
-}
+} 

@@ -24,18 +24,6 @@
 <div class="container-fluid mt--7">
     <div class="col-lg-12 col-md-12">
         <div class="card bg-secondary shadow border-0">
-            <div class="card-header border-0">
-                <div class="row align-items-center">
-                    <div class="col-2">
-                        <p class="mb-0">Actions: </p>
-                    </div>
-                    <div class="col-10 text-right">
-                        <a class="btn btn-white" href='/Client/Edit?ID=@Html.DisplayFor(model => model.Client.ClientID)'>
-                            Edit
-                        </a>
-                    </div>
-                </div>
-            </div>
             <div class="table-responsive">
                 <table class="table align-items-center table-flush">
                     <tbody>
@@ -80,7 +68,19 @@
                     </tbody>
                 </table>
             </div>
+            <div class="card-header border-0">
+                <div class="row align-items-center">
+                    <div class="col-2">
+                        <p class="mb-0">Actions: </p>
+                    </div>
+                    <div class="col-10 text-right">
+                        <a class="btn btn-white" href='/Client/Edit?ID=@Html.DisplayFor(model => model.Client.ClientID)'>
+                            Edit
+                        </a>
+                    </div>
+                </div>
             </div>
+        </div>
             <br />
         </div>
 

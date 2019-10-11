@@ -231,8 +231,8 @@
                                         <th>Total: </th>
                                         <th></th>
                                         <th></th>
-                                        <th align="right">@ViewBag.totalAmountRecived</th>
-                                        <th align="right">@ViewBag.vatTotalAmountRecived</th>
+                                        <th><p align="right">@ViewBag.totalAmountRecived</p></th>
+                                        <th><p align="right">@ViewBag.vatTotalAmountRecived</p></th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -308,8 +308,8 @@
                                     <tr>
                                         <th>Total: </th>
                                         <th></th>
-                                        <th align="right">@ViewBag.totalAmountPaid</th>
-                                        <th align="right">@ViewBag.vatTotalAmountPaid</th>
+                                        <th><p align="right">@ViewBag.totalAmountPaid</p></th>
+                                        <th><p align="right">@ViewBag.vatTotalAmountPaid</p></th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -348,30 +348,29 @@
                             @using (Html.BeginForm())
                             {
                                 @Html.AntiForgeryToken()
-                            <p>
-                                Select Period @Html.DropDownList("VatPeriodList", ViewBag.VATPeriodList as SelectList)
-                                <input type="submit" value="Select" class="btn btn-default" />
-                            </p>
-
-                                <br />
-                                <a href="/Tax/EditTaxVatPeriod?Type=V&Period=@ViewBag.PeriodID"
-                                   class="btn btn-white">Edit Period</a>
-                                <a href="/Tax/TaxVatPeriod?Type=V"
-                                   class="btn btn-white">New Period</a>
-
-                                <br />
-                                <br />
+                                <p>
+                                    Select Period @Html.DropDownList("VatPeriodList", ViewBag.VATPeriodList as SelectList)
+                                    <input type="submit" value="Select" class="btn btn-default" />
+                                </p>
 
                                 if (Model.period.Share == true)
                                 {
                                     <a href="/Tax/Share?ID=@Model.period.PeriodID&type=V"
-                                       class="btn btn-white">Stop sharing Period with Consultant</a>
+                                       class="btn btn-white">Stop sharing with Consultant</a>
                                 }
                                 else
                                 {
                                     <a href="/Tax/Share?ID=@Model.period.PeriodID&type=V"
-                                       class="btn btn-white">Share Period with Consultant</a>
+                                       class="btn btn-white">Share with Consultant</a>
                                 }
+
+                                <br />
+                                <br />
+
+                                <a href="/Tax/EditTaxVatPeriod?Type=V&Period=@ViewBag.PeriodID"
+                                   class="btn btn-white">Edit Period</a>
+                                <a href="/Tax/TaxVatPeriod?Type=V"
+                                   class="btn btn-white">New Period</a>
                             }
                         </div>
                     </div>

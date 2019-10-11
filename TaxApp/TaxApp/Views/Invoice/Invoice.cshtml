@@ -35,7 +35,15 @@
                                 {
                                     <a href="/Invoice/MarkAsPaid?ID=@Html.DisplayFor(model => model.InvoiceNum)"
                                        class="btn btn-white">Mark as Paid</a>
+                                    <br />
+                                    <br />
                                 }
+                                <a target="_blank" href="/Invoice/Download?ID=@Html.DisplayFor(model => model.InvoiceNum)"
+                                   class="btn btn-white">Download</a>
+                                <a target="_blank" href="/Invoice/Print?ID=@Html.DisplayFor(model => model.InvoiceNum)"
+                                   class="btn btn-white">Print</a>
+                                <br />
+                                <br />
                                 <a target="_blank" href="/Invoice/EmailInvoice?ID=@Html.DisplayFor(model => model.InvoiceNum)"
                                    class="btn btn-white">Email to Customer</a>
                                 @if (ViewBag.TaxConsultant == true)
@@ -43,10 +51,6 @@
                                     <a target="_blank" href="/Invoice/EmailInvoice?ID=@Html.DisplayFor(model => model.InvoiceNum)&To=Consultant"
                                        class="btn btn-white">Email to Consultant</a>
                                 }
-                                <a target="_blank" href="/Invoice/Download?ID=@Html.DisplayFor(model => model.InvoiceNum)"
-                                   class="btn btn-white">Download</a>
-                                <a target="_blank" href="/Invoice/Print?ID=@Html.DisplayFor(model => model.InvoiceNum)"
-                                   class="btn btn-white">Print</a>
                             </div>
                         </div>
                     </div>
@@ -145,9 +149,9 @@
                                                     }
                                                     else
                                                     {
-                                                <dd>
-                                                    @ViewBag.VatNum
-                                                </dd>
+                                                        <dd>
+                                                            @ViewBag.VatNum
+                                                        </dd>
                                                     }
                                                 </td>
                                             </tr>
@@ -159,8 +163,8 @@
                                                 </td>
                                                 <td align="right">
                                                     <dd>
-                                                            @Html.DisplayFor(model => model.InvoiceNum)
-                                                        </dd>
+                                                        @Html.DisplayFor(model => model.InvoiceNum)
+                                                    </dd>
                                                 </td>
                                             </tr>
                                             <tr>

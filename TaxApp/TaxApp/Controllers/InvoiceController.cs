@@ -147,7 +147,8 @@ namespace TaxApp.Controllers
         // GET: Invoice
         public FileResult Download(string id = "0")
         {
-                getCookie(true);
+            // of to enable PDF Download
+            //getCookie(true);
 
             string InvoiceName = "";
 

@@ -531,7 +531,7 @@ namespace TaxApp.Controllers
 
                     if (result == true)
                     {
-                        return Redirect("/job/job?ID=" + editJob.JobID);
+                        return Redirect(Url.Action("Job", "Job") + "?ID=" + editJob.JobID);
                     }
                     else
                     {
