@@ -89,7 +89,6 @@ namespace TaxApp.Controllers
                 }
                 else
                 {
-                    ViewBag.VatPeriodList = new SelectList(vatPeriod, "PeriodID", "PeriodString");
                     ViewBag.View = view;
 
                     ViewBag.VatPeriod = null;
@@ -108,7 +107,23 @@ namespace TaxApp.Controllers
                         }
                             return RedirectToAction("VatCenter", "Vat", new{period=vatPeriod[currentPeriod].PeriodID, view});
                     }
-                        foreach (TaxAndVatPeriods item in vatPeriod)
+
+                    vatPeriod = vatPeriod.OrderByDescending(o => o.StartDate).ToList();
+                    List<SelectListItem> dropDownList = new List<SelectListItem>();
+                    foreach (var item in vatPeriod)
+                    {
+                        if (item.PeriodID == int.Parse(period))
+                        {
+                            dropDownList.Add(new SelectListItem() { Text = item.PeriodString, Value = item.PeriodID.ToString(), Selected = true });
+                        }
+                        else
+                        {
+                            dropDownList.Add(new SelectListItem() { Text = item.PeriodString, Value = item.PeriodID.ToString() });
+                        }
+                    }
+                    ViewBag.VatPeriodList = dropDownList;
+
+                    foreach (TaxAndVatPeriods item in vatPeriod)
                         {
                             if (item.PeriodID.ToString() == period)
                         {
@@ -149,8 +164,8 @@ namespace TaxApp.Controllers
                                     expense.amountTital = "Cost to Customer:";
                                     expense.amount = expenseItem.ClientCharge;
                                 //Change befor Publishing
-                                expense.URL = "/Expense/TravleLogItem?ID=" + expenseItem.ExpenseID;
-                                    //expense.URL = "http://sict-iis.nmmu.ac.za/taxapp/Expense/TravleLogItem?ID=" + expenseItem.ExpenseID;
+                                //expense.URL = "/Expense/TravleLogItem?ID=" + expenseItem.ExpenseID;
+                                    expense.URL = "http://sict-iis.nmmu.ac.za/taxapp/Expense/TravleLogItem?ID=" + expenseItem.ExpenseID;
                                     expense.expenseType = "Travel";
                                     expense.VAT = expense.amount - (expense.amount / ((item.VATRate/100)+1));
                                     expense.VATString = expense.VAT.ToString("#,0.00", nfi);
@@ -173,8 +188,8 @@ namespace TaxApp.Controllers
                                     expense.amountTital = "Price:";
                                     expense.amount = expenseItem.Amount;
                                 //Change befor Publishing
-                                expense.URL = "/Expense/JobExpense?ID=" + expenseItem.ExpenseID;
-                                    //expense.URL = "http://sict-iis.nmmu.ac.za/taxapp/Expense/JobExpense?ID=" + expenseItem.ExpenseID;
+                                //expense.URL = "/Expense/JobExpense?ID=" + expenseItem.ExpenseID;
+                                    expense.URL = "http://sict-iis.nmmu.ac.za/taxapp/Expense/JobExpense?ID=" + expenseItem.ExpenseID;
                                     expense.expenseType = "Job";
                                     expense.VAT = expense.amount - (expense.amount / ((item.VATRate / 100) + 1));
                                     expense.VATString = expense.VAT.ToString("#,0.00", nfi);
@@ -197,8 +212,8 @@ namespace TaxApp.Controllers
                                     expense.amountTital = "Price:";
                                     expense.amount = expenseItem.Amount;
                                 //Change befor Publishing
-                                expense.URL = "/Expense/GeneralExpense?ID=" + expenseItem.ExpenseID;
-                                    //expense.URL = "http://sict-iis.nmmu.ac.za/taxapp/Expense/GeneralExpense?ID=" + expenseItem.ExpenseID;
+                                //expense.URL = "/Expense/GeneralExpense?ID=" + expenseItem.ExpenseID;
+                                    expense.URL = "http://sict-iis.nmmu.ac.za/taxapp/Expense/GeneralExpense?ID=" + expenseItem.ExpenseID;
                                     expense.expenseType = "General";
                                     expense.VAT = expense.amount - (expense.amount / ((item.VATRate / 100) + 1));
                                     expense.VATString = expense.VAT.ToString("#,0.00", nfi);

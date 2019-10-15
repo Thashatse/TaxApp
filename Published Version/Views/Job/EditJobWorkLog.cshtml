@@ -59,7 +59,7 @@
                             <div class="form-group">
                                 <div class="col-md-offset-2 col-md-10">
                                     <input type="submit" value="Save" class="btn btn-default" />|
-                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/Job/JobWorkLog?ID=@ViewBag.JobID">Cancel</a>
+                                    <a href="http://sict-iis.nmmu.ac.za/TaxApp/Job/JobWorkLog?ID=@ViewBag.JobID">Cancel</a>
                                 </div>
                             </div>
                         </div>
@@ -68,3 +68,6 @@
             </div>
         </div>
     </div>
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

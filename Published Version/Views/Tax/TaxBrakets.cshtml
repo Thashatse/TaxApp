@@ -1,7 +1,7 @@
 ﻿@model Model.TaxBraketsView
 
 @{
-    ViewBag.Title = "TaxBrakets";
+    ViewBag.Title = "Tax Brakets";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -67,6 +67,9 @@
             </div>
         </div>
     </div>
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
     <br />
     <div class="row justify-content-center">
         <div class="col-lg-12 col-md-12">
@@ -94,12 +97,12 @@
                                     @Html.DisplayFor(modelItem => item.Threashold)
                                 </td>
                                 <td>
-                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/Tax/DeleteTaxBraket?RateID=@Html.DisplayFor(modelItem => item.RateID)&ID=@ViewBag.ID&period=@ViewBag.Period" class="btn btn-white">Delete</a>
+                                    <a href="http://sict-iis.nmmu.ac.za/TaxApp/Tax/DeleteTaxBraket?RateID=@Html.DisplayFor(modelItem => item.RateID)&ID=@ViewBag.ID&period=@ViewBag.Period" class="btn btn-white">Delete</a>
                                 </td>
                             </tr>
                         }
                         <tr>
-                            <td><a href="http://sict-iis.nmmu.ac.za/taxapp/Tax/TaxCenter?period=@ViewBag.ID" class="btn btn-primary">Done</a></td>
+                            <td><a href="http://sict-iis.nmmu.ac.za/TaxApp/Tax/TaxCenter?period=@ViewBag.ID" class="btn btn-primary">Done</a></td>
                             <td></td>
                             <td></td>
                         </tr>

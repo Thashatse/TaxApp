@@ -327,7 +327,7 @@ namespace TaxApp.Controllers
 
         #region New Job
         // GET: Landing/NewProfile
-        public ActionResult NewJob()
+        public ActionResult NewJob(string Client)
         {
             try { 
             getCookie();
@@ -340,7 +340,19 @@ namespace TaxApp.Controllers
                 if (Clients.Count == 0)
                     return RedirectToAction("NewClient", "Client");
 
-            ViewBag.ClientList = new SelectList(Clients, "ClientID", "FirstName");
+                List<SelectListItem> dropDownList = new List<SelectListItem>();
+                foreach (var item in Clients)
+                {
+                    if (item.ClientID == int.Parse(Client))
+                    {
+                        dropDownList.Add(new SelectListItem() { Text = item.FirstName, Value = item.ClientID.ToString(), Selected = true });
+                    }
+                    else
+                    {
+                        dropDownList.Add(new SelectListItem() { Text = item.FirstName, Value = item.ClientID.ToString() });
+                    }
+                }
+                ViewBag.ClientList = dropDownList;
 
                 Profile getProfile = new Profile();
                 if (cookie == null)

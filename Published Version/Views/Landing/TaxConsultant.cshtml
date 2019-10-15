@@ -60,11 +60,11 @@
                             <div class="text-center">
                                 @if (ViewBag.Return == "Consultant")
                                 {
-                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/Home/Index" class="btn btn-light">Set Up Later</a>
+                                    <a href="http://sict-iis.nmmu.ac.za/TaxApp/Home/Index" class="btn btn-light">Set Up Later</a>
                                 }
                                 else
                                 {
-                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/Landing/EmailSettings?ID=@ViewBag.ProfileID" class="btn btn-light">Set Up Later</a>
+                                    <a href="http://sict-iis.nmmu.ac.za/TaxApp/Landing/EmailSettings?ID=@ViewBag.ProfileID" class="btn btn-light">Set Up Later</a>
                                 }
                                 <input type="submit" value="Add Consultant" class="btn btn-default" />
                             </div>
@@ -74,4 +74,7 @@
             </div>
         </div>
     </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 }

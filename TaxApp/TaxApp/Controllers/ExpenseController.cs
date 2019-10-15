@@ -298,33 +298,34 @@ namespace TaxApp.Controllers
                 List<Model.ExpenseCategory> cats = handler.getExpenseCatagories();
                 ViewBag.CategoryList = new SelectList(cats, "CategoryID", "Name");
 
-                bool check = true;
-
                 Model.Job getJob = new Model.Job();
                 getJob.JobID = int.Parse(ID);
                 Model.SP_GetJob_Result Job = handler.getJob(getJob);
                 ViewBag.JobTitle = Job.JobTitle;
                 ViewBag.JobID = Job.JobID;
-
-                if (Request.Form["Amount"] == null || Request.Form["Amount"] == "")
-                {
-                    ViewBag.Err = "Please enter an Amount";
-                    check = false;
-
-                    SP_GetJobExpense_Result defaultData = new SP_GetJobExpense_Result();
-                    defaultData.DefultDate = DateTime.Now.ToString("yyyy-MM-dd");
-                    defaultData.MaxDate = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
-
-                    return View(defaultData);
-                }
-
-                if(check == true)
-                {
-
+                
                     newExpense.CategoryID = int.Parse(Request.Form["CategoryList"].ToString());
                     newExpense.Name = Request.Form["Name"].ToString();
                     newExpense.Description = Request.Form["Description"].ToString();
                     newExpense.JobID = int.Parse(ID);
+
+                if (Request.Form["Amount"] == null || Request.Form["Amount"] == "")
+                {
+                    ViewBag.Err = "Please enter an Amount";
+
+                    if (null != Request.Form["Date"].ToString())
+                    {
+                        newExpense.Date = DateTime.Parse(Request.Form["Date"].ToString());
+                        newExpense.DefultDate = newExpense.Date.ToString("yyyy-MM-dd");
+                    }
+                    else
+                        newExpense.DefultDate = DateTime.Now.ToString("yyyy-MM-dd");
+
+                    newExpense.MaxDate = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
+
+                    return View(newExpense);
+                }
+
                     newExpense.Amount = Convert.ToDecimal(Request.Form["Amount"], CultureInfo.CurrentCulture);
                     newExpense.Date = DateTime.Parse(Request.Form["Date"].ToString());
 
@@ -338,7 +339,6 @@ namespace TaxApp.Controllers
                     {
                         return RedirectToAction("Error", "Shared");
                     }
-                }
             }
             catch (Exception e)
             {
@@ -346,7 +346,6 @@ namespace TaxApp.Controllers
                     "Error in new general expense of expense controler");
                 return RedirectToAction("Error", "Shared");
             }
-            return View(newExpense);
         }
         #endregion
         

@@ -43,8 +43,8 @@ namespace TaxApp.Controllers
                         if (handler.getProfile(checkProfile) != null)
                         {
                             //Change befor Publishing
-                            Response.Redirect("/Home/Index");
-                            //Response.Redirect("http://sict-iis.nmmu.ac.za/taxapp/Home/Index");
+                            //Response.Redirect("/Home/Index");
+                            Response.Redirect("http://sict-iis.nmmu.ac.za/taxapp/Home/Index");
                         }
                     }
                     else if(cookie["User"] != null || cookie["User"] != "")
@@ -186,10 +186,29 @@ namespace TaxApp.Controllers
                     newProfile.ContactNumber = Request.Form["ContactNumber"];
                     newProfile.PhysicalAddress = Request.Form["PhysicalAddress"];
                     newProfile.VATNumber = Request.Form["VATNumber"];
-                    newProfile.VATRate = Convert.ToDecimal(Request.Form["VATRate"]);
-                    newProfile.DefaultHourlyRate = Convert.ToDecimal(Request.Form["DefaultHourlyRate"]);
+                    if(Request.Form["VATRate"] != null)
+                        newProfile.VATRate = Convert.ToDecimal(Request.Form["VATRate"]);
+                    else
+                        newProfile.VATRate = 0;
+                    if (Request.Form["DefaultHourlyRate"] != null)
+                        newProfile.DefaultHourlyRate = Convert.ToDecimal(Request.Form["DefaultHourlyRate"]);
+                    else
+                        newProfile.DefaultHourlyRate = 0;
                     newProfile.Username = Request.Form["Username"];
                     newProfile.Password = Request.Form["Password"];
+
+                    if (newProfile.FirstName == "" ||
+                       newProfile.LastName == "" ||
+                       newProfile.EmailAddress == "" ||
+                       newProfile.ContactNumber == "" ||
+                       newProfile.DefaultHourlyRate == 0 ||
+                       newProfile.VATRate == 0 ||
+                       newProfile.Username == "" ||
+                       newProfile.Password == "")
+                    {
+                        ViewBag.Message = "Please ensure are required fields are filled";
+                        return View(newProfile);
+                    }
 
                     Model.Profile profile = handler.getProfile(newProfile);
 

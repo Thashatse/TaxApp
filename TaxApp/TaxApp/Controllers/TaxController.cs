@@ -82,7 +82,6 @@ namespace TaxApp.Controllers
                 profileID.ProfileID = int.Parse(cookie["ID"]);
 
                 List<TaxAndVatPeriods> taxPeriod = handler.getTaxOrVatPeriodForProfile(profileID, 'T');
-
                 if (taxPeriod == null || taxPeriod.Count == 0)
                 {
                     return RedirectToAction("TaxVatPeriod", "Tax", new
@@ -92,11 +91,6 @@ namespace TaxApp.Controllers
                 }
                 else
                 {
-                    ViewBag.TaxPeriodList = new SelectList(taxPeriod, "PeriodID", "PeriodString");
-                    ViewBag.View = view;
-
-                    ViewBag.TaxPeriod = null;
-
                     if (period == null || period == "")
                     {
                         int i = 0, currentPeriod = 0;
@@ -108,6 +102,24 @@ namespace TaxApp.Controllers
                         }
                         return RedirectToAction("TaxCenter", "Tax", new { period = taxPeriod[currentPeriod].PeriodID, view });
                     }
+
+                    taxPeriod = taxPeriod.OrderByDescending(o => o.StartDate).ToList();
+                    List<SelectListItem> dropDownList = new List<SelectListItem>();
+                    foreach (var item in taxPeriod)
+                    {
+                        if (item.PeriodID == int.Parse(period))
+                        {
+                            dropDownList.Add(new SelectListItem() { Text = item.PeriodString, Value = item.PeriodID.ToString(), Selected = true });
+                        }
+                        else
+                        {
+                            dropDownList.Add(new SelectListItem() { Text = item.PeriodString, Value = item.PeriodID.ToString() });
+                        }
+                    }
+                    ViewBag.TaxPeriodList = dropDownList;
+
+                    ViewBag.View = view;
+                    ViewBag.TaxPeriod = null;
 
                     foreach (TaxAndVatPeriods item in taxPeriod)
                     {
@@ -235,6 +247,17 @@ namespace TaxApp.Controllers
                     if (cookie == null)
                         getCookie();
                     period.ProfileID = int.Parse(cookie["ID"]);
+
+                    if(period.StartDate > period.EndDate)
+                    {
+                        period.StartDateString = period.StartDate.ToString("yyyy-MM-dd");
+                        period.EndDateString = period.EndDate.ToString("yyyy-MM-dd");
+                        ViewBag.PeriodID = period.PeriodID;
+                        ViewBag.Message = "Please enter a start date before the end date";
+                        return View(period);
+                        ViewBag.Message = "Please enter a start date before the end date";
+                        return View(period);
+                    }
 
                     bool result = handler.newTaxOrVatPeriod(period);
 
@@ -381,6 +404,15 @@ namespace TaxApp.Controllers
                     period.StartDate = DateTime.Parse(Request.Form["StartDate"]);
                     period.EndDate = DateTime.Parse(Request.Form["EndDate"]);
                     period.PeriodID = int.Parse(Period);
+
+                    if (period.StartDate > period.EndDate)
+                    {
+                        period.StartDateString = period.StartDate.ToString("yyyy-MM-dd");
+                        period.EndDateString = period.EndDate.ToString("yyyy-MM-dd");
+                        ViewBag.PeriodID = period.PeriodID;
+                        ViewBag.Message = "Please enter a start date before the end date";
+                        return View(period);
+                    }
 
                     bool result = handler.editTaxOrVatPeriod(period);
 

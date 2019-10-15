@@ -27,7 +27,7 @@
                 @using (Html.BeginForm())
                 {
                     @Html.AntiForgeryToken()
-                    <br/>
+                    <br />
                     <div class="form-horizontal">
                         <p class="text-red">@ViewBag.Err</p>
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -90,7 +90,7 @@
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
                                 <input type="submit" value="Create" class="btn btn-default" />|
-                                <a href="http://sict-iis.nmmu.ac.za/taxapp/Expense/JobTravelLog?ID=@ViewBag.JobID ">Cancel</a>
+                                <a href="http://sict-iis.nmmu.ac.za/TaxApp/Expense/JobTravelLog?ID=@ViewBag.JobID ">Cancel</a>
                             </div>
                         </div>
                     </div>
@@ -99,3 +99,6 @@
         </div>
     </div>
 </div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

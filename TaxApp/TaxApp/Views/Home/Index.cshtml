@@ -18,38 +18,48 @@
                             <div class="row">
                                 <div class="col">
                                     <h5 class="card-title text-uppercase text-muted mb-0">Income (Past 30 Days)</h5>
-                                    <span class="h2 font-weight-bold mb-0">R @Model.DashboardIncomeExpense.IncomePast30DaysString</span>
+                                    @if (Model.DashboardIncomeExpense != null)
+                                    {
+                                        <span class="h2 font-weight-bold mb-0">R @Model.DashboardIncomeExpense.IncomePast30DaysString</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="h2 font-weight-bold mb-0">An error occurred</span>
+                                    }
                                 </div>
                             </div>
-                            @if (@Model.DashboardIncomeExpense.IncomePast60to30DaysPercent == -999999999)
+                            @if (Model.DashboardIncomeExpense != null)
                             {
-                                <p class="mt-3 mb-0 text-muted text-sm">
-                                    <span class="text-success mr-2">
-                                        <i class="fa fa-arrow-up"></i>
-                                        UP
-                                    </span>
-                                    <span class="text-nowrap">Since last month</span>
-                                </p>
-                            }
-                            else if (@Model.DashboardIncomeExpense.IncomePast60to30DaysUporDown == 'U')
-                            {
-                                <p class="mt-3 mb-0 text-muted text-sm">
-                                    <span class="text-success mr-2">
-                                        <span class="text-success mr-2"><i class="fas fa-arrow-up"></i></span>
-                                        @Model.DashboardIncomeExpense.IncomePast60to30DaysPercentString %
-                                    </span>
-                                    <span class="text-nowrap">Since last month</span>
-                                </p>
-                            }
-                            else if (@Model.DashboardIncomeExpense.IncomePast60to30DaysUporDown == 'D')
-                            {
-                                <p class="mt-3 mb-0 text-muted text-sm">
-                                    <span class="text-danger mr-2">
-                                        <i class="fas fa-arrow-down"></i>
-                                        @Model.DashboardIncomeExpense.IncomePast60to30DaysPercentString %
-                                    </span>
-                                    <span class="text-nowrap">Since last month</span>
-                                </p>
+                                if (@Model.DashboardIncomeExpense.IncomePast60to30DaysPercent == -999999999)
+                                {
+                                    <p class="mt-3 mb-0 text-muted text-sm">
+                                        <span class="text-success mr-2">
+                                            <i class="fa fa-arrow-up"></i>
+                                            UP
+                                        </span>
+                                        <span class="text-nowrap">Since last month</span>
+                                    </p>
+                                }
+                                else if (@Model.DashboardIncomeExpense.IncomePast60to30DaysUporDown == 'U')
+                                {
+                                    <p class="mt-3 mb-0 text-muted text-sm">
+                                        <span class="text-success mr-2">
+                                            <span class="text-success mr-2"><i class="fas fa-arrow-up"></i></span>
+                                            @Model.DashboardIncomeExpense.IncomePast60to30DaysPercentString %
+                                        </span>
+                                        <span class="text-nowrap">Since last month</span>
+                                    </p>
+                                }
+                                else if (@Model.DashboardIncomeExpense.IncomePast60to30DaysUporDown == 'D')
+                                {
+                                    <p class="mt-3 mb-0 text-muted text-sm">
+                                        <span class="text-danger mr-2">
+                                            <i class="fas fa-arrow-down"></i>
+                                            @Model.DashboardIncomeExpense.IncomePast60to30DaysPercentString %
+                                        </span>
+                                        <span class="text-nowrap">Since last month</span>
+                                    </p>
+                                }
                             }
                         </div>
                     </div>
@@ -61,40 +71,50 @@
                             <div class="row">
                                 <div class="col">
                                     <h5 class="card-title text-uppercase text-muted mb-0">Expenses (Past 30 Days)</h5>
-                                    <span class="h2 font-weight-bold mb-0">R @Model.DashboardIncomeExpense.ExpensePast30DaysString</span>
+                                    @if (Model.DashboardIncomeExpense != null)
+                                    {
+                                        <span class="h2 font-weight-bold mb-0">R @Model.DashboardIncomeExpense.ExpensePast30DaysString</span>
+                                    }
+                                    else
+                                    {
+                                <span class="h2 font-weight-bold mb-0">An error occurred</span>
+                                    }
                                 </div>
                             </div>
-                            @if (@Model.DashboardIncomeExpense.ExpensePast60to30DaysPercent == -999999999)
+                            @if (Model.DashboardIncomeExpense != null)
                             {
-                                <p class="mt-3 mb-0 text-muted text-sm">
-                                    <span class="text-danger mr-2">
-                                        <i class="fa fa-arrow-up"></i>
-                                        UP
-                                    </span>
-                                    <span class="text-nowrap">Since last month</span>
-                                </p>
+                                if (@Model.DashboardIncomeExpense.ExpensePast60to30DaysPercent == -999999999)
+                                {
+                                    <p class="mt-3 mb-0 text-muted text-sm">
+                                        <span class="text-danger mr-2">
+                                            <i class="fa fa-arrow-up"></i>
+                                            UP
+                                        </span>
+                                        <span class="text-nowrap">Since last month</span>
+                                    </p>
+                                }
+                                else if (@Model.DashboardIncomeExpense.ExpensePast60to30DaysUporDown == 'U')
+                                {
+                                    <p class="mt-3 mb-0 text-muted text-sm">
+                                        <span class="text-danger mr-2">
+                                            <i class="fas fa-arrow-up"></i>
+                                            @Model.DashboardIncomeExpense.ExpensePast60to30DaysPercentString %
+                                        </span>
+                                        <span class="text-nowrap">Since last month</span>
+                                    </p>
+                                }
+                                else if (@Model.DashboardIncomeExpense.ExpensePast60to30DaysUporDown == 'D')
+                                {
+                                    <p class="mt-3 mb-0 text-muted text-sm">
+                                        <span class="text-success mr-2">
+                                            <i class="fas fa-arrow-down"></i>
+                                            @Model.DashboardIncomeExpense.ExpensePast60to30DaysPercentString %
+                                        </span>
+                                        <span class="text-nowrap">Since last month</span>
+                                    </p>
+                                }
                             }
-                            else if (@Model.DashboardIncomeExpense.ExpensePast60to30DaysUporDown == 'U')
-                            {
-                                <p class="mt-3 mb-0 text-muted text-sm">
-                                    <span class="text-danger mr-2">
-                                        <i class="fas fa-arrow-up"></i>
-                                        @Model.DashboardIncomeExpense.ExpensePast60to30DaysPercentString %
-                                    </span>
-                                    <span class="text-nowrap">Since last month</span>
-                                </p>
-                            }
-                            else if (@Model.DashboardIncomeExpense.ExpensePast60to30DaysUporDown == 'D')
-                            {
-                                <p class="mt-3 mb-0 text-muted text-sm">
-                                    <span class="text-success mr-2">
-                                        <i class="fas fa-arrow-down"></i>
-                                        @Model.DashboardIncomeExpense.ExpensePast60to30DaysPercentString %
-</span>
-                                    <span class="text-nowrap">Since last month</span>
-                                </p>
-                            }
-                        </div>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -320,7 +340,8 @@
     <br />
 
     <div class="row">
-        @{if (Model.Expenses != null)
+        @{
+            if (Model.Expenses != null)
             {
                 foreach (var item in Model.Expenses)
                 {
@@ -491,4 +512,3 @@
                 </div>
             }
         </div>
-

@@ -10,7 +10,7 @@
             <div class="row justify-content-center">
                 <div class="col-lg-5 col-md-6">
                     <h1 class="text-white">Job Work Log</h1>
-                    <p class="text-white">For <a class="text-white" href="http://sict-iis.nmmu.ac.za/taxapp/Job/Job?ID=@ViewBag.JobID"> @ViewBag.JobTitle</a></p>
+                    <p class="text-white">For <a class="text-white" href="http://sict-iis.nmmu.ac.za/TaxApp/Job/Job?ID=@ViewBag.JobID"> @ViewBag.JobTitle</a></p>
                 </div>
             </div>
         </div>
@@ -28,15 +28,15 @@
                     {
                         if (!ViewBag.CurrentSession)
                         {
-                            <a href="http://sict-iis.nmmu.ac.za/taxapp/Job/NewWorkLogItem?ID=@ViewBag.JobID&Session=True"
+                            <a href="http://sict-iis.nmmu.ac.za/TaxApp/Job/NewWorkLogItem?ID=@ViewBag.JobID&Session=True"
                                class="btn btn-primary">Start a new session</a>
                         }
                         else
                         {
-                            <a href="http://sict-iis.nmmu.ac.za/taxapp/Job/EndJobWorkLogSession?ID=@ViewBag.CurrentSessionID&JobID=@ViewBag.JobID"
+                            <a href="http://sict-iis.nmmu.ac.za/TaxApp/Job/EndJobWorkLogSession?ID=@ViewBag.CurrentSessionID&JobID=@ViewBag.JobID"
                                class="btn btn-primary">End current session</a>
                         }
-                        <a href="http://sict-iis.nmmu.ac.za/taxapp/Job/NewWorkLogItem?ID=@ViewBag.JobID"
+                        <a href="http://sict-iis.nmmu.ac.za/TaxApp/Job/NewWorkLogItem?ID=@ViewBag.JobID"
                            class="btn btn-white">Add Hours</a>
                     }
                 </div>
@@ -64,17 +64,17 @@
                         {
                     <tr>
                         <td>
-                            <a href='/Job/JobWorkLogItem?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID'>
+                            <a href='http://sict-iis.nmmu.ac.za/TaxApp/Job/JobWorkLogItem?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID'>
                                 @Html.DisplayFor(modelItem => item.DateString)
                             </a>
                         </td>
                         <td>
-                            <a href='/Job/JobWorkLogItem?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID'>
+                            <a href='http://sict-iis.nmmu.ac.za/TaxApp/Job/JobWorkLogItem?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID'>
                                 @Html.DisplayFor(modelItem => item.Description)
                             </a>
                         </td>
                         <td>
-                            <a href='/Job/JobWorkLogItem?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID'>
+                            <a href='http://sict-iis.nmmu.ac.za/TaxApp/Job/JobWorkLogItem?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID'>
                                 @Html.DisplayFor(modelItem => item.WorkLogHoursString)
                             </a>
                         </td>
@@ -83,14 +83,14 @@
                             <td>
                                 @if (item.StartTime == item.EndTime)
                                 {
-                                    <a href="http://sict-iis.nmmu.ac.za/taxapp/Job/EndJobWorkLogSession?ID=@ViewBag.CurrentSessionID&JobID=@ViewBag.JobID"
+                                    <a href="http://sict-iis.nmmu.ac.za/TaxApp/Job/EndJobWorkLogSession?ID=@ViewBag.CurrentSessionID&JobID=@ViewBag.JobID"
                                        class="btn btn-primary">End session</a>
                                 }
                                 else
                                 {
-                                    <A href="http://sict-iis.nmmu.ac.za/taxapp/Job/EditJobWorkLog?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID">Edit</A>
+                                    <A href="http://sict-iis.nmmu.ac.za/TaxApp/Job/EditJobWorkLog?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID">Edit</A>
                                 }|
-                                <A href="http://sict-iis.nmmu.ac.za/taxapp/Job/DeleteJobWorkLog?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID">Delete</A>
+                                <A href="http://sict-iis.nmmu.ac.za/TaxApp/Job/DeleteJobWorkLog?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID">Delete</A>
                             </td>
                         }
                     </tr>

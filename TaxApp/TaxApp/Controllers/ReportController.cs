@@ -424,9 +424,6 @@ namespace TaxApp.Controllers
                     }
                     else
                     {
-                        ViewBag.DropdownName = "Tax Period";
-                        ViewBag.DropDownFilter = new SelectList(taxPeriod, "PeriodID", "PeriodString");
-                        
                         int i = 0, currentPeriod = 0;
                         foreach (TaxAndVatPeriods check in taxPeriod)
                         {
@@ -439,6 +436,21 @@ namespace TaxApp.Controllers
                             DropDownID = taxPeriod[currentPeriod].PeriodID.ToString();
 
                         ViewBag.DropDownID = DropDownID;
+                        ViewBag.DropdownName = "Tax Period";
+                        taxPeriod = taxPeriod.OrderByDescending(o => o.StartDate).ToList();
+                        List<SelectListItem> dropDownList = new List<SelectListItem>();
+                        foreach (var item in taxPeriod)
+                        {
+                            if (item.PeriodID == int.Parse(DropDownID))
+                            {
+                                dropDownList.Add(new SelectListItem() { Text = item.PeriodString, Value = item.PeriodID.ToString(), Selected = true });
+                            }
+                            else
+                            {
+                                dropDownList.Add(new SelectListItem() { Text = item.PeriodString, Value = item.PeriodID.ToString() });
+                            }
+                        }
+                        ViewBag.DropDownFilter = dropDownList;
 
                         foreach (TaxAndVatPeriods item in taxPeriod)
                         {
@@ -461,6 +473,7 @@ namespace TaxApp.Controllers
 
                             expense.name = expenseItem.Reason;
                             expense.date = expenseItem.DateString;
+                            expense.dateSort = expenseItem.Date;
                             expense.amount = expenseItem.ClientCharge;
                             expense.TotalString = expense.amount.ToString("#,0.00", nfi);
 
@@ -472,6 +485,7 @@ namespace TaxApp.Controllers
 
                             expense.name = expenseItem.Name;
                             expense.date = expenseItem.DateString;
+                            expense.dateSort = expenseItem.Date;
                             expense.amount = expenseItem.Amount;
                             expense.TotalString = expense.amount.ToString("#,0.00", nfi);
 
@@ -483,6 +497,7 @@ namespace TaxApp.Controllers
 
                             expense.name = expenseItem.Name;
                             expense.date = expenseItem.DateString;
+                            expense.dateSort = expenseItem.Date;
                             expense.amount = expenseItem.Amount;
                             expense.TotalString = expense.amount.ToString("#,0.00", nfi);
 
@@ -516,6 +531,7 @@ namespace TaxApp.Controllers
                     decimal c3Total = 0;
                     decimal c4Total = 0;
 
+                    ExpenseReport = ExpenseReport.OrderBy(o => o.dateSort).ToList();
                     foreach (DashboardExpense item in ExpenseReport)
                     {
                         ReportDataList Data = new ReportDataList();
@@ -529,6 +545,7 @@ namespace TaxApp.Controllers
                         c3Total += item.amount * -1;
                     }
 
+                    IncomeRecivedReport = IncomeRecivedReport.OrderBy(o => o.InvoiceDate).ToList();
                     foreach (TAXorVATRecivedList item in IncomeRecivedReport)
                     {
                         ReportDataList Data = new ReportDataList();
@@ -593,17 +610,28 @@ namespace TaxApp.Controllers
                     Client ProfileIDClient = new Client();
                     ProfileIDClient.ProfileID = ProfileID.ProfileID;
                     List<Client> clients = handler.getProfileClients(ProfileIDClient);
-                    clients = clients.OrderBy(o => o.FirstName).ToList();
-                    clients.Insert(0, new Client { FirstName = "All", ClientID = 0 });
-
-                    ViewBag.DropdownName = "Client";
-                    ViewBag.DropDownFilter = new SelectList(clients, "ClientID", "FirstName");
-                    ViewBag.AlsoShowDate = true;
 
                     if (DropDownID == null || DropDownID == "")
                         DropDownID = clients[0].ClientID.ToString();
 
                     ViewBag.DropDownID = DropDownID;
+                    clients = clients.OrderBy(o => o.FirstName).ToList();
+                    clients.Insert(0, new Client { FirstName = "All", ClientID = 0 });
+                    ViewBag.DropdownName = "Client";
+                    List<SelectListItem> dropDownList = new List<SelectListItem>();
+                    foreach (var item in clients)
+                    {
+                        if (item.ClientID == int.Parse(DropDownID))
+                        {
+                            dropDownList.Add(new SelectListItem() { Text = item.FirstName, Value = item.ClientID.ToString(), Selected = true });
+                        }
+                        else
+                        {
+                            dropDownList.Add(new SelectListItem() { Text = item.FirstName, Value = item.ClientID.ToString() });
+                        }
+                    }
+                    ViewBag.DropDownFilter = dropDownList;
+                    ViewBag.AlsoShowDate = true;
 
                     if (DropDownID != "0")
                         report = handler.getIncomeByClientReport(ProfileID, sDate, eDate, DropDownID);
@@ -643,17 +671,28 @@ namespace TaxApp.Controllers
                     Client ProfileIDClient = new Client();
                     ProfileIDClient.ProfileID = ProfileID.ProfileID;
                     List<Client> clients = handler.getProfileClients(ProfileIDClient);
-                    clients = clients.OrderBy(o => o.FirstName).ToList();
-                    clients.Insert(0, new Client { FirstName = "All", ClientID = 0 });
-
-                    ViewBag.DropdownName = "Client";
-                    ViewBag.DropDownFilter = new SelectList(clients, "ClientID", "FirstName");
-                    ViewBag.AlsoShowDate = true;
 
                     if (DropDownID == null || DropDownID == "")
                         DropDownID = clients[0].ClientID.ToString();
 
                     ViewBag.DropDownID = DropDownID;
+                    clients = clients.OrderBy(o => o.FirstName).ToList();
+                    clients.Insert(0, new Client { FirstName = "All", ClientID = 0 });
+                    ViewBag.DropdownName = "Client";
+                    List<SelectListItem> dropDownList = new List<SelectListItem>();
+                    foreach (var item in clients)
+                    {
+                        if (item.ClientID == int.Parse(DropDownID))
+                        {
+                            dropDownList.Add(new SelectListItem() { Text = item.FirstName, Value = item.ClientID.ToString(), Selected = true });
+                        }
+                        else
+                        {
+                            dropDownList.Add(new SelectListItem() { Text = item.FirstName, Value = item.ClientID.ToString()});
+                        }
+                    }
+                    ViewBag.DropDownFilter = dropDownList;
+                    ViewBag.AlsoShowDate = true;
 
                     if (DropDownID != "0")
                         report = handler.getExpensesByClientReport(ProfileID, sDate, eDate, DropDownID);
@@ -950,14 +989,28 @@ namespace TaxApp.Controllers
                     Vehicles = Vehicles.OrderBy(o => o.Name).ToList();
                     Vehicles.Insert(0, new Vehicle { Name = "All", VehicleID = 0 });
 
-                    ViewBag.DropdownName = "Vehicle";
-                    ViewBag.DropDownFilter = new SelectList(Vehicles, "VehicleID", "Name");
-                    ViewBag.AlsoShowDate = true;
-
                     if (DropDownID == null || DropDownID == "")
                         DropDownID = Vehicles[0].VehicleID.ToString();
 
                     ViewBag.DropDownID = DropDownID;
+
+                    ViewBag.DropdownName = "Vehicle";
+                    ViewBag.DropDownFilter = new SelectList(Vehicles, "VehicleID", "Name");
+                    Vehicles = Vehicles.OrderBy(o => o.Name).ToList();
+                    List<SelectListItem> dropDownList = new List<SelectListItem>();
+                    foreach (var item in Vehicles)
+                    {
+                        if (item.VehicleID == int.Parse(DropDownID))
+                        {
+                            dropDownList.Add(new SelectListItem() { Text = item.Name, Value = item.VehicleID.ToString(), Selected = true });
+                        }
+                        else
+                        {
+                            dropDownList.Add(new SelectListItem() { Text = item.Name, Value = item.VehicleID.ToString() });
+                        }
+                    }
+                    ViewBag.DropDownFilter = dropDownList;
+                    ViewBag.AlsoShowDate = true;
 
                     if (DropDownID != "0")
                         ProfileTravelLog = handler.getProfileTravelLog(ProfileID, sDate, eDate, DropDownID);
@@ -1035,8 +1088,6 @@ namespace TaxApp.Controllers
                     }
                     else
                     {
-                        ViewBag.DropdownName = "Tax Period";
-                        ViewBag.DropDownFilter = new SelectList(taxPeriod, "PeriodID", "PeriodString");
 
                         int i = 0, currentPeriod = 0;
                         foreach (TaxAndVatPeriods check in taxPeriod)
@@ -1050,6 +1101,21 @@ namespace TaxApp.Controllers
                             DropDownID = taxPeriod[currentPeriod].PeriodID.ToString();
 
                         ViewBag.DropDownID = DropDownID;
+                        ViewBag.DropdownName = "Tax Period";
+                        taxPeriod = taxPeriod.OrderByDescending(o => o.StartDate).ToList();
+                        List<SelectListItem> dropDownList = new List<SelectListItem>();
+                        foreach (var item in taxPeriod)
+                        {
+                            if (item.PeriodID == int.Parse(DropDownID))
+                            {
+                                dropDownList.Add(new SelectListItem() { Text = item.PeriodString, Value = item.PeriodID.ToString(), Selected = true });
+                            }
+                            else
+                            {
+                                dropDownList.Add(new SelectListItem() { Text = item.PeriodString, Value = item.PeriodID.ToString() });
+                            }
+                        }
+                        ViewBag.DropDownFilter = dropDownList;
 
                         foreach (TaxAndVatPeriods item in taxPeriod)
                         {
@@ -1189,8 +1255,6 @@ namespace TaxApp.Controllers
                     }
                     else
                     {
-                        ViewBag.DropdownName = "Vat Period";
-                        ViewBag.DropDownFilter = new SelectList(vatPeriod, "PeriodID", "PeriodString");
 
                         int i = 0, currentPeriod = 0;
                         foreach (TaxAndVatPeriods check in vatPeriod)
@@ -1204,6 +1268,21 @@ namespace TaxApp.Controllers
                             DropDownID = vatPeriod[currentPeriod].PeriodID.ToString();
 
                         ViewBag.DropDownID = DropDownID;
+                        ViewBag.DropdownName = "Vat Period";
+                        vatPeriod = vatPeriod.OrderByDescending(o => o.StartDate).ToList();
+                        List<SelectListItem> dropDownList = new List<SelectListItem>();
+                        foreach (var item in vatPeriod)
+                        {
+                            if (item.PeriodID == int.Parse(DropDownID))
+                            {
+                                dropDownList.Add(new SelectListItem() { Text = item.PeriodString, Value = item.PeriodID.ToString(), Selected = true });
+                            }
+                            else
+                            {
+                                dropDownList.Add(new SelectListItem() { Text = item.PeriodString, Value = item.PeriodID.ToString() });
+                            }
+                        }
+                        ViewBag.DropDownFilter = dropDownList;
 
                         foreach (TaxAndVatPeriods item in vatPeriod)
                         {
@@ -1399,17 +1478,29 @@ namespace TaxApp.Controllers
                     {
                         getProfileVehicles.ProfileID = int.Parse(DownloadID);
                     }
-                    List<Model.Vehicle> Vehicles = handler.getVehicles(getProfileVehicles);
-                    Vehicles = Vehicles.OrderBy(o => o.Name).ToList();
 
-                    ViewBag.DropdownName = "Vehicle";
-                    ViewBag.DropDownFilter = new SelectList(Vehicles, "VehicleID", "Name");
-                    ViewBag.AlsoShowDate = true;
+                    List<Model.Vehicle> Vehicles = handler.getVehicles(getProfileVehicles);
 
                     if (DropDownID == null || DropDownID == "")
                         DropDownID = Vehicles[0].VehicleID.ToString();
 
                     ViewBag.DropDownID = DropDownID;
+                    Vehicles = Vehicles.OrderBy(o => o.Name).ToList();
+                    List<SelectListItem> dropDownList = new List<SelectListItem>();
+                    foreach (var item in Vehicles)
+                    {
+                        if (item.VehicleID == int.Parse(DropDownID))
+                        {
+                            dropDownList.Add(new SelectListItem() { Text = item.Name, Value = item.VehicleID.ToString(), Selected = true });
+                        }
+                        else
+                        {
+                            dropDownList.Add(new SelectListItem() { Text = item.Name, Value = item.VehicleID.ToString() });
+                        }
+                    }
+                    ViewBag.DropDownFilter = dropDownList;
+                    ViewBag.DropdownName = "Vehicle";
+                    ViewBag.AlsoShowDate = true;
 
                     if (DropDownID != "0")
                         ProfileTravelLog = handler.getProfileTravelLog(ProfileID, sDate, eDate, DropDownID);
@@ -1501,14 +1592,26 @@ namespace TaxApp.Controllers
                         year--;
                     }
 
-                    ViewBag.DropdownName = "Year";
-                    ViewBag.DropDownFilter = new SelectList(years);
-                    ViewBag.AlsoShowDate = false;
 
                     if (DropDownID == null || DropDownID == "")
                         DropDownID = DateTime.Now.Year.ToString();
 
                     ViewBag.DropDownID = DropDownID;
+                    ViewBag.DropdownName = "Year";
+                    List<SelectListItem> dropDownList = new List<SelectListItem>();
+                    foreach (var item in years)
+                    {
+                        if (item == DropDownID)
+                        {
+                            dropDownList.Add(new SelectListItem() { Text = item, Value = item.ToString(), Selected = true });
+                        }
+                        else
+                        {
+                            dropDownList.Add(new SelectListItem() { Text = item, Value = item.ToString()});
+                        }
+                    }
+                    ViewBag.DropDownFilter = dropDownList;
+                    ViewBag.AlsoShowDate = false;
 
                     report = handler.getJobPerMonthReport(ProfileID, DropDownID);
                     
@@ -1572,14 +1675,26 @@ namespace TaxApp.Controllers
                         year--;
                     }
 
-                    ViewBag.DropdownName = "Year";
-                    ViewBag.DropDownFilter = new SelectList(years);
-                    ViewBag.AlsoShowDate = false;
-
                     if (DropDownID == null || DropDownID == "")
                         DropDownID = DateTime.Now.Year.ToString();
 
                     ViewBag.DropDownID = DropDownID;
+
+                    ViewBag.DropdownName = "Year";
+                    List<SelectListItem> dropDownList = new List<SelectListItem>();
+                    foreach (var item in years)
+                    {
+                        if (item == DropDownID)
+                        {
+                            dropDownList.Add(new SelectListItem() { Text = item, Value = item.ToString(), Selected = true });
+                        }
+                        else
+                        {
+                            dropDownList.Add(new SelectListItem() { Text = item, Value = item.ToString() });
+                        }
+                    }
+                    ViewBag.DropDownFilter = dropDownList;
+                    ViewBag.AlsoShowDate = false;
 
                     report = handler.getIncomeRecivedListPerMonth(ProfileID, DropDownID);
                     
@@ -1812,6 +1927,12 @@ namespace TaxApp.Controllers
                     report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column6Data).ToList();
                 else if (SortBy == "Col7")
                     report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column7Data).ToList();
+                else if (SortBy == "Col8")
+                    report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column8Data).ToList();
+                else if (SortBy == "Col9")
+                    report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column9Data).ToList();
+                else if (SortBy == "Col10")
+                    report.ReportDataList = report.ReportDataList.OrderByDescending(o => o.column10Data).ToList();
 
                 SortDirection = "A";
             }
@@ -1831,6 +1952,12 @@ namespace TaxApp.Controllers
                     report.ReportDataList = report.ReportDataList.OrderBy(o => o.column6Data).ToList();
                 else if (SortBy == "Col7")
                     report.ReportDataList = report.ReportDataList.OrderBy(o => o.column7Data).ToList();
+                else if (SortBy == "Col8")
+                    report.ReportDataList = report.ReportDataList.OrderBy(o => o.column8Data).ToList();
+                else if (SortBy == "Col9")
+                    report.ReportDataList = report.ReportDataList.OrderBy(o => o.column9Data).ToList();
+                else if (SortBy == "Col10")
+                    report.ReportDataList = report.ReportDataList.OrderBy(o => o.column10Data).ToList();
 
                 SortDirection = "D";
             }

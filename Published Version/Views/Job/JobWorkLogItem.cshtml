@@ -13,13 +13,13 @@
                     <h1 class="text-white">
                         @Html.DisplayFor(model => model.Description)
                     </h1>
-                    <p class="text-white">For <a class="text-white" href="http://sict-iis.nmmu.ac.za/taxapp/Job/Job?ID=@ViewBag.JobID"> @ViewBag.JobTitle</a></p>
+                    <p class="text-white">For <a class="text-white" href="http://sict-iis.nmmu.ac.za/TaxApp/Job/Job?ID=@ViewBag.JobID"> @ViewBag.JobTitle</a></p>
 
                     <br />
                     <div>
                         @if (ViewBag.Complete == "NotDone")
                         {
-                            <A class="btn btn-white" href="http://sict-iis.nmmu.ac.za/taxapp/Job/EditJobWorkLog?ID=@Html.DisplayFor(model => model.LogItemID)&JobID=@ViewBag.JobID">Edit</A>
+                            <A class="btn btn-white" href="http://sict-iis.nmmu.ac.za/TaxApp/Job/EditJobWorkLog?ID=@Html.DisplayFor(model => model.LogItemID)&JobID=@ViewBag.JobID">Edit</A>
                         }
                     </div>
                 </div>

@@ -59,6 +59,9 @@
                                         @Html.DisplayFor(modelItem => item.CompanyName)
                                     </td>
                                     <td>
+                                        <a class="btn btn-white" href='/Job/NewJob?Client=@Html.DisplayFor(modelItem => item.ClientID)'>
+                                            New Job
+                                        </a>
                                         <a class="btn btn-white" href='/Client/ClientDetails?ID=@Html.DisplayFor(modelItem => item.ClientID)'>
                                             Details
                                         </a>

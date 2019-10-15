@@ -783,6 +783,10 @@ namespace DAL
                             job.StartDate = DateTime.Parse(row["StartDate"].ToString());
                             job.StartDateString = String.Format("{0:dddd, dd MMMM yyyy}", job.StartDate);
                             job.Share = bool.Parse(row["Share"].ToString());
+                            job.Noti75 = bool.Parse(row["Noti75"].ToString());
+                            job.Noti90 = bool.Parse(row["Noti90"].ToString());
+                            job.Noti95 = bool.Parse(row["Noti95"].ToString());
+                            job.noti100 = bool.Parse(row["Noti100"].ToString());
 
                             if (row["EndDate"].ToString() != "" && row["EndDate"] != null)
                             {

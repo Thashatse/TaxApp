@@ -184,9 +184,6 @@ namespace TaxApp.Controllers
 
             ViewBag.Title = "Dashboard";
             
-            try
-            {
-
                 Model.Profile profile = new Model.Profile();
                 if (cookie == null)
                     getCookie();
@@ -195,18 +192,40 @@ namespace TaxApp.Controllers
                 DateTime sDate = DateTime.Now.AddYears(-1);
                 DateTime eDate = DateTime.Now;
 
-                List<Model.SP_GetJob_Result> jobs = handler.getProfileJobsDashboard(profile);
+            List<Model.SP_GetJob_Result> jobs;
+            try
+            {
+                jobs = handler.getProfileJobsDashboard(profile);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding Home page - Jobs");
+                jobs = null;
+            }
 
-                Model.DashboardIncomeExpense dashboardIncomeExpense = handler.getDashboardIncomeExpense(profile);
+            Model.DashboardIncomeExpense dashboardIncomeExpense = null;
+            try
+            {
+                dashboardIncomeExpense = handler.getDashboardIncomeExpense(profile);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding Home page - Income");
+                dashboardIncomeExpense = null;
+            }
 
+            List<Model.DashboardExpense> dashboardExpenses = new List<Model.DashboardExpense>();
+            try
+            {
                 var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
                 nfi.NumberGroupSeparator = " ";
 
-                List<Model.DashboardExpense> dashboardExpenses = new List<Model.DashboardExpense>();
                 List<Model.TravelLog> ProfileTravelLog = handler.getProfileTravelLog(profile, sDate, eDate);
                 List<Model.SP_GetJobExpense_Result> ProfileJobExpenses = handler.getAllJobExpense(profile, DateTime.Now.AddYears(-100), DateTime.Now);
                 List<Model.SP_GetGeneralExpense_Result> ProfileGeneralExpenses = handler.getGeneralExpenses(profile, sDate, eDate);
-                foreach(Model.TravelLog item in ProfileTravelLog)
+                foreach (Model.TravelLog item in ProfileTravelLog)
                 {
                     Model.DashboardExpense expense = new Model.DashboardExpense();
 
@@ -219,8 +238,8 @@ namespace TaxApp.Controllers
                     expense.amount = item.ClientCharge;
                     expense.TotalString = expense.amount.ToString("#,0.00", nfi);
                     //Change befor Publishing
-                    expense.URL = "/Expense/TravleLogItem?ID=" + item.ExpenseID;
-                    //expense.URL = "http://sict-iis.nmmu.ac.za/taxapp/Expense/TravleLogItem?ID=" + item.ExpenseID;
+                    //expense.URL = "/Expense/TravleLogItem?ID=" + item.ExpenseID;
+                    expense.URL = "http://sict-iis.nmmu.ac.za/taxapp/Expense/TravleLogItem?ID=" + item.ExpenseID;
                     expense.expenseType = "Travel";
 
                     dashboardExpenses.Add(expense);
@@ -238,8 +257,8 @@ namespace TaxApp.Controllers
                     expense.amount = item.Amount;
                     expense.TotalString = expense.amount.ToString("#,0.00", nfi);
                     //Change befor Publishing
-                    expense.URL = "/Expense/JobExpense?ID="+item.ExpenseID;
-                    //expense.URL = "http://sict-iis.nmmu.ac.za/taxapp/Expense/JobExpense?ID=" + item.ExpenseID;
+                    //expense.URL = "/Expense/JobExpense?ID=" + item.ExpenseID;
+                    expense.URL = "http://sict-iis.nmmu.ac.za/taxapp/Expense/JobExpense?ID=" + item.ExpenseID;
                     expense.expenseType = "Job";
 
                     dashboardExpenses.Add(expense);
@@ -257,48 +276,83 @@ namespace TaxApp.Controllers
                     expense.amount = item.Amount;
                     expense.TotalString = expense.amount.ToString("#,0.00", nfi);
                     //Change befor Publishing
-                    expense.URL = "/Expense/GeneralExpense?ID=" + item.ExpenseID;
-                    //expense.URL = "http://sict-iis.nmmu.ac.za/taxapp/Expense/GeneralExpense?ID=" + item.ExpenseID;
+                    //expense.URL = "/Expense/GeneralExpense?ID=" + item.ExpenseID;
+                    expense.URL = "http://sict-iis.nmmu.ac.za/taxapp/Expense/GeneralExpense?ID=" + item.ExpenseID;
                     expense.expenseType = "General";
 
                     dashboardExpenses.Add(expense);
                 }
                 dashboardExpenses = dashboardExpenses.OrderByDescending(x => x.dateSort).ToList();
-                List<Model.SP_GetInvoice_Result> OutinvoiceDetails = handler.getInvoicesOutsatanding(profile);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding Home page - Expenses");
+                dashboardExpenses = null;
+            }
 
-                List<VATDashboard> VAT = new List<VATDashboard>();
+            List<Model.SP_GetInvoice_Result> OutinvoiceDetails = null;
+            try
+            {
+                OutinvoiceDetails = handler.getInvoicesOutsatanding(profile);
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding Home page - Invoice");
+                OutinvoiceDetails = null;
+            }
+
+                List<VATDashboard> VAT = new List<VATDashboard>(); try
+            {
                 List<TaxAndVatPeriods> vatPeriod = handler.getTaxOrVatPeriodForProfile(profile, 'V');
                 int v = 0;
                 if (vatPeriod != null && vatPeriod.Count != 0)
                 {
                     foreach (TaxAndVatPeriods item in vatPeriod)
                     {
-                       if(v < 3)
-                       {
+                        if (v < 3)
+                        {
                             VATDashboard periodVAT = handler.getVatCenterDashboard(profile, item);
                             periodVAT.PeriodString = item.PeriodString;
                             VAT.Add(periodVAT);
-                       }
-                       v++;
+                        }
+                        v++;
                     }
                 }
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding Home page - VAT");
+                VAT = null;
+            }
 
-                List<TaxDashboard> TAX = new List<TaxDashboard>();
+            List<TaxDashboard> TAX = new List<TaxDashboard>(); 
+            try
+            {
                 List<TaxAndVatPeriods> taxPeriod = handler.getTaxOrVatPeriodForProfile(profile, 'T');
                 int t = 0;
                 if (taxPeriod != null && taxPeriod.Count != 0)
                 {
                     foreach (TaxAndVatPeriods item in taxPeriod)
                     {
-                       if(t < 3)
-                       {
+                        if (t < 3)
+                        {
                             TaxDashboard periodTAX = handler.getTaxCenterDashboard(profile, item);
                             periodTAX.PeriodString = item.PeriodString;
                             TAX.Add(periodTAX);
-                       }
-                       t++;
+                        }
+                        t++;
                     }
                 }
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error loding Home page - Tax");
+                TAX = null;
+            }
 
                     var viewModel = new Model.homeViewModel();
                 viewModel.Jobs = jobs;
@@ -309,13 +363,6 @@ namespace TaxApp.Controllers
                 viewModel.TAX = TAX;
 
                 return View(viewModel);
-            }
-            catch (Exception e)
-            {
-                function.logAnError(e.ToString() +
-                    "Error loding Home page");
-                return RedirectToAction("Error", "Shared");
-            }
         }
     }
 }
