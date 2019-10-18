@@ -210,10 +210,10 @@
                                                 @Html.DisplayFor(modelItem => item.InvoiceDateString)
                                             </td>
                                             <td>
-                                                <a href="http://sict-iis.nmmu.ac.za/TaxApp/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)">@Html.DisplayFor(modelItem => item.JobTitle)</a>
+                                                <a href="/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)">@Html.DisplayFor(modelItem => item.JobTitle)</a>
                                             </td>
                                             <td>
-                                                <a href='http://sict-iis.nmmu.ac.za/TaxApp/Client/ClientDetails?ID=@Html.DisplayFor(modelItem => item.clientID)'>
+                                                <a href='/Client/ClientDetails?ID=@Html.DisplayFor(modelItem => item.clientID)'>
                                                     @Html.DisplayFor(modelItem => item.clientName)
                                                 </a>
                                             </td>
@@ -355,21 +355,21 @@
 
                                 if (Model.period.Share == true)
                                 {
-                                    <a href="http://sict-iis.nmmu.ac.za/TaxApp/Tax/Share?ID=@Model.period.PeriodID&type=V"
+                                    <a href="/Tax/Share?ID=@Model.period.PeriodID&type=V"
                                        class="btn btn-white">Stop sharing with Consultant</a>
                                 }
                                 else
                                 {
-                                    <a href="http://sict-iis.nmmu.ac.za/TaxApp/Tax/Share?ID=@Model.period.PeriodID&type=V"
+                                    <a href="/Tax/Share?ID=@Model.period.PeriodID&type=V"
                                        class="btn btn-white">Share with Consultant</a>
                                 }
 
                                 <br />
                                 <br />
 
-                                <a href="http://sict-iis.nmmu.ac.za/TaxApp/Tax/EditTaxVatPeriod?Type=V&Period=@ViewBag.PeriodID"
+                                <a href="/Tax/EditTaxVatPeriod?Type=V&Period=@ViewBag.PeriodID"
                                    class="btn btn-white">Edit Period</a>
-                                <a href="http://sict-iis.nmmu.ac.za/TaxApp/Tax/TaxVatPeriod?Type=V"
+                                <a href="/Tax/TaxVatPeriod?Type=V"
                                    class="btn btn-white">New Period</a>
                             }
                         </div>

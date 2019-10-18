@@ -14,7 +14,7 @@
                     <h1 class="text-white">
                         All Invoices
                     </h1>
-                    <p class="text-white">For <a class="text-white" href="http://sict-iis.nmmu.ac.za/TaxApp/Job/Job?ID=@ViewBag.JobID"> @ViewBag.JobName</a></p>
+                    <p class="text-white">For <a class="text-white" href="/Job/Job?ID=@ViewBag.JobID"> @ViewBag.JobName</a></p>
                 </div>
             </div>
         </div>
@@ -33,7 +33,7 @@
                         @if (ViewBag.Complete == "NotDone" && ViewBag.NoInvoice != "True")
                         {
 
-                            <a href="http://sict-iis.nmmu.ac.za/TaxApp/Invoice/NewInvoice?ID=@ViewBag.JobID"
+                            <a href="/Invoice/NewInvoice?ID=@ViewBag.JobID"
                                class="btn btn-primary">New Invoice</a>
                         }
                         </div>

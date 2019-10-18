@@ -113,7 +113,7 @@
                                 <p>Create a new invoices</p><br />
                             </div>
                             <div class="col-3 text-right">
-                                <a href="http://sict-iis.nmmu.ac.za/TaxApp/Job/JobSelector?Dest=New*Invoice" class="btn btn-primary">
+                                <a href="/Job/JobSelector?Dest=New*Invoice" class="btn btn-primary">
                                     <i class="ni ni-fat-add"></i>
                                 </a>
                             </div>
@@ -139,6 +139,10 @@
                                 </div>
                                 <div class="col text-right">
                                     <a href="Invoice?ID=@Html.DisplayFor(modelItem => item.InvoiceNum)" class="btn btn-white">View</a>
+                                    <br />
+                                    <br />
+                                    <a href="/Invoice/MarkAsPaid?ID=@Html.DisplayFor(modelItem => item.InvoiceNum)"
+                                       class="btn btn-white">Mark as Paid</a>
                                 </div>
                             </div>
                         </div>
@@ -166,7 +170,7 @@
                                     @ViewBag.DateRange
                                     @if (ViewBag.View != "DS")
                                     {
-                                        <a href="http://sict-iis.nmmu.ac.za/TaxApp/Invoice/Income?view=DS"
+                                        <a href="/Invoice/Income?view=DS"
                                            class="btn btn-white"><i class="ni ni-settings-gear-65"></i></a>
                                     }
                                 </h3>
@@ -205,7 +209,7 @@
                                     @ViewBag.DateRange
                                     @if (ViewBag.View != "DS")
                                     {
-                                        <a href="http://sict-iis.nmmu.ac.za/TaxApp/Invoice/Income?view=DS"
+                                        <a href="/Invoice/Income?view=DS"
                                            class="btn btn-white"><i class="ni ni-settings-gear-65"></i></a>
                                     }
                                 </h3>
@@ -261,7 +265,7 @@
                                 }
                             </div>
                             <div class="col-3 text-right">
-                                <a href="http://sict-iis.nmmu.ac.za/TaxApp/Job/JobSelector?Dest=New*Invoice" class="btn btn-primary">
+                                <a href="/Job/JobSelector?Dest=New*Invoice" class="btn btn-primary">
                                     <i class="ni ni-fat-add"></i>
                                 </a>
                             </div>
@@ -301,7 +305,7 @@
             {
                 <br />
                 <div>
-                    <a href="http://sict-iis.nmmu.ac.za/TaxApp/Invoice/Income?PastInvoiceDisplayCount=@ViewBag.X"
+                    <a href="/Invoice/Income?PastInvoiceDisplayCount=@ViewBag.X"
                        class="btn btn-white">Show More</a>
                 </div>
             }

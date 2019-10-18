@@ -40,7 +40,7 @@
                                 <p>Create a new job</p>
                             </div>
                             <div class="col-3 text-right">
-                                <a href="http://sict-iis.nmmu.ac.za/TaxApp/Job/NewJob" class="btn btn-primary">
+                                <a href="/Job/NewJob" class="btn btn-primary">
                                     <i class="ni ni-fat-add"></i>
                                 </a>
                             </div>
@@ -95,7 +95,7 @@
                                         }
                                     </div>
                                     <div class="col text-right">
-                                        <a href="http://sict-iis.nmmu.ac.za/TaxApp/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)"
+                                        <a href="/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)"
                                            class="btn btn-white">Details</a>
                                     </div>
                                 </div>
@@ -128,7 +128,7 @@
                                     @ViewBag.DateRange
                                     @if (ViewBag.View != "DS")
                                     {
-                                        <a href="http://sict-iis.nmmu.ac.za/TaxApp/Job/Jobs?view=DS"
+                                        <a href="/Job/Jobs?view=DS"
                                            class="btn btn-white"><i class="ni ni-settings-gear-65"></i></a>
                                     }
                                 </h3>
@@ -210,7 +210,7 @@
                                             }
                                         </div>
                                         <div class="col text-right">
-                                            <a href="http://sict-iis.nmmu.ac.za/TaxApp/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)"
+                                            <a href="/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)"
                                                class="btn btn-white">Details</a>
                                         </div>
                                     </div>
@@ -225,7 +225,7 @@
             {
                 <br />
                 <div>
-                    <a href="http://sict-iis.nmmu.ac.za/TaxApp/Job/Jobs?PastJobsDisplayCount=@ViewBag.X"
+                    <a href="/Job/Jobs?PastJobsDisplayCount=@ViewBag.X"
                        class="btn btn-white">Show More</a>
                 </div>
             }

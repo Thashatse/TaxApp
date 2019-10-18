@@ -14,7 +14,7 @@
                     <h1 class="text-white">Clients</h1>
                     <br />
                     <div>
-                            <a class="btn btn-white" href='http://sict-iis.nmmu.ac.za/TaxApp/Client/NewClient'>
+                            <a class="btn btn-white" href='/Client/NewClient'>
                                 New Client
                             </a>
                     </div>
@@ -59,10 +59,10 @@
                                         @Html.DisplayFor(modelItem => item.CompanyName)
                                     </td>
                                     <td>
-                                        <a class="btn btn-white" href='http://sict-iis.nmmu.ac.za/TaxApp/Job/NewJob?Client=@Html.DisplayFor(modelItem => item.ClientID)'>
+                                        <a class="btn btn-white" href='/Job/NewJob?Client=@Html.DisplayFor(modelItem => item.ClientID)'>
                                             New Job
                                         </a>
-                                        <a class="btn btn-white" href='http://sict-iis.nmmu.ac.za/TaxApp/Client/ClientDetails?ID=@Html.DisplayFor(modelItem => item.ClientID)'>
+                                        <a class="btn btn-white" href='/Client/ClientDetails?ID=@Html.DisplayFor(modelItem => item.ClientID)'>
                                             Details
                                         </a>
                                     </td>

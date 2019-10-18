@@ -97,12 +97,12 @@
                                     @Html.DisplayFor(modelItem => item.Threashold)
                                 </td>
                                 <td>
-                                    <a href="http://sict-iis.nmmu.ac.za/TaxApp/Tax/DeleteTaxBraket?RateID=@Html.DisplayFor(modelItem => item.RateID)&ID=@ViewBag.ID&period=@ViewBag.Period" class="btn btn-white">Delete</a>
+                                    <a href="/Tax/DeleteTaxBraket?RateID=@Html.DisplayFor(modelItem => item.RateID)&ID=@ViewBag.ID&period=@ViewBag.Period" class="btn btn-white">Delete</a>
                                 </td>
                             </tr>
                         }
                         <tr>
-                            <td><a href="http://sict-iis.nmmu.ac.za/TaxApp/Tax/TaxCenter?period=@ViewBag.ID" class="btn btn-primary">Done</a></td>
+                            <td><a href="/Tax/TaxCenter?period=@ViewBag.ID" class="btn btn-primary">Done</a></td>
                             <td></td>
                             <td></td>
                         </tr>

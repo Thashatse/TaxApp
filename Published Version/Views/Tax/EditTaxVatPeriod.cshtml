@@ -61,11 +61,11 @@
                                 <input type="submit" value="Update" class="btn btn-default" /> |
                                 @if (ViewBag.Type == "Edit Tax")
                                 {
-                                    <a href="http://sict-iis.nmmu.ac.za/TaxApp/Tax/TaxCenter?period=@ViewBag.PeriodID">Cancel</a>
+                                    <a href="/Tax/TaxCenter?period=@ViewBag.PeriodID">Cancel</a>
                                 }
                                 else
                                 {
-                                    <a href="http://sict-iis.nmmu.ac.za/TaxApp/Vat/VatCenter?period=@ViewBag.PeriodID">Cancel</a>
+                                    <a href="/Vat/VatCenter?period=@ViewBag.PeriodID">Cancel</a>
                                 }
                             </div>
                         </div>

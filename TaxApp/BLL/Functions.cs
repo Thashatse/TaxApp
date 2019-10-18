@@ -256,66 +256,74 @@ namespace BLL
         }
         public void budgetCheck(int PID)
         {
-            NotificationsFunctions notiFunctions = new NotificationsFunctions();
-
-            Profile profileID = new Profile();
-            profileID.ProfileID = PID;
-            Client client = new Model.Client();
-            client.ClientID = 0;
-            List<SP_GetJob_Result> jobs = handler.getProfileJobs(profileID, client);
-
-            foreach(SP_GetJob_Result job in jobs)
+            try
             {
-                bool createNewNoti = false;
-                Notifications newNoti = new Notifications();
-                newNoti.date = DateTime.Now;
-                newNoti.ProfileID =PID;
-                newNoti.Link = "../Job/Job?ID=" + job.JobID;
+                List<SP_GetJob_Result> jobs = new List<SP_GetJob_Result>();
+                NotificationsFunctions notiFunctions = new NotificationsFunctions();
 
-                var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
-                nfi.NumberGroupSeparator = " ";
+                Profile profileID = new Profile();
+                profileID.ProfileID = PID;
+                Client client = new Model.Client();
+                client.ClientID = 0;
+                jobs = handler.getProfileJobs(profileID, client);
 
-                if (job.BudgetPercent > 100 && job.noti100 == false)
+                foreach (SP_GetJob_Result job in jobs)
                 {
-                    createNewNoti = true;
-                    newNoti.Details = job.JobTitle +" for "+job.ClientFirstName+
-                        " is over budget by "+ decimal.Parse((job.BudgetPercent - 100).ToString()).ToString("#,0.00", nfi) + "%";
-                    job.noti100 = true;
-                }
-                else if (job.BudgetPercent > 95 && job.Noti95 == false)
-                {
-                    createNewNoti = true;
-                    newNoti.Details = job.JobTitle + " for " + job.ClientFirstName +
-                        " has " + decimal.Parse((100 - job.BudgetPercent).ToString()).ToString("#,0.00", nfi) + "% budget remaining";
-                    job.Noti95 = true;
-                }
-                else if (job.BudgetPercent > 90 && job.Noti90 == false)
-                {
-                    createNewNoti = true;
-                    newNoti.Details = job.JobTitle + " for " + job.ClientFirstName +
-                        " has " + decimal.Parse((100 - job.BudgetPercent).ToString()).ToString("#,0.00", nfi) + "% budget remaining";
-                    job.Noti90 = true;
-                }
-                else if (job.BudgetPercent > 75 && job.Noti75 == false)
-                {
-                    createNewNoti = true;
-                    newNoti.Details = job.JobTitle + " for " + job.ClientFirstName +
-                        " has " + decimal.Parse((100 - job.BudgetPercent).ToString()).ToString("#,0.00", nfi) + "% budget remaining";
-                    job.Noti75 = true;
-                }
+                    bool createNewNoti = false;
+                    Notifications newNoti = new Notifications();
+                    newNoti.date = DateTime.Now;
+                    newNoti.ProfileID = PID;
+                    newNoti.Link = "../Job/Job?ID=" + job.JobID;
 
-                if(createNewNoti == true)
-                    createNewNoti = notiFunctions.newNotification(newNoti);
+                    var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                    nfi.NumberGroupSeparator = " ";
 
-                try
-                {
-                    if (createNewNoti == true)
-                        createNewNoti = handler.UpdateJobNotiStatus(job);
+                    if (job.BudgetPercent > 100 && job.noti100 == false)
+                    {
+                        createNewNoti = true;
+                        newNoti.Details = job.JobTitle + " for " + job.ClientFirstName +
+                            " is over budget by " + decimal.Parse((job.BudgetPercent - 100).ToString()).ToString("#,0.00", nfi) + "%";
+                        job.noti100 = true;
+                    }
+                    else if (job.BudgetPercent > 95 && job.Noti95 == false)
+                    {
+                        createNewNoti = true;
+                        newNoti.Details = job.JobTitle + " for " + job.ClientFirstName +
+                            " has " + decimal.Parse((100 - job.BudgetPercent).ToString()).ToString("#,0.00", nfi) + "% budget remaining";
+                        job.Noti95 = true;
+                    }
+                    else if (job.BudgetPercent > 90 && job.Noti90 == false)
+                    {
+                        createNewNoti = true;
+                        newNoti.Details = job.JobTitle + " for " + job.ClientFirstName +
+                            " has " + decimal.Parse((100 - job.BudgetPercent).ToString()).ToString("#,0.00", nfi) + "% budget remaining";
+                        job.Noti90 = true;
+                    }
+                    else if (job.BudgetPercent > 75 && job.Noti75 == false)
+                    {
+                        createNewNoti = true;
+                        newNoti.Details = job.JobTitle + " for " + job.ClientFirstName +
+                            " has " + decimal.Parse((100 - job.BudgetPercent).ToString()).ToString("#,0.00", nfi) + "% budget remaining";
+                        job.Noti75 = true;
+                    }
+
+                    try
+                    {
+                        if (createNewNoti == true)
+                            createNewNoti = notiFunctions.newNotification(newNoti);
+
+                        if (createNewNoti == true)
+                            createNewNoti = handler.UpdateJobNotiStatus(job);
+                    }
+                    catch (Exception err)
+                    {
+                        logAnError("error creating budget notification Job ID: " + job.JobID + " details: " + err);
+                    }
                 }
-                catch (Exception err)
-                {
-                    logAnError("error creating budget notification Job ID: " + job.JobID +" details: "+err);
-                }
+            }
+            catch (Exception err)
+            {
+                logAnError("error running Auto function budgetCheck");
             }
         }
         public void repeatExpense()

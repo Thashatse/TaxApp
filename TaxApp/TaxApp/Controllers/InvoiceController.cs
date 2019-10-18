@@ -69,7 +69,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error in welcome method of LandingControles");
-                Response.Redirect(Url.Action("Error", "Shared") + "?Err=Identity couldn't be verified");
+                Response.Redirect(Url.Action("Error", "Shared") + "?Err=Identity couldn't be verified, please try again later.");
             }
         }
 
@@ -743,6 +743,47 @@ namespace TaxApp.Controllers
         }
         #endregion
 
+        #region Mark Invoice As Paid
+        // GET: Invoice/Create
+        public ActionResult MarkAsPaid(string ID = "0")
+        {
+            try
+            {
+                getCookie(false);
+
+                if(ID != "0")
+                {
+                    Invoice invoice = new Invoice();
+                    invoice.InvoiceNum = ID;
+                    bool result = handler.MarkInvoiceAsPaid(invoice);
+
+                    if(result == true)
+                    {
+                        Response.Redirect("/Invoice/Invoice?ID="+ID);
+                    }
+                    else
+                    {
+                        function.logAnError("Error marking invoice as paid invoice controller - no invoice number supplied");
+                        return RedirectToAction("Error", "Shared", new { err = "Error marking invoice as paid"});
+                    }
+                }
+                else
+                {
+                    function.logAnError("Error marking invoice as paid invoice controller - no invoice number supplied");
+                    return RedirectToAction("Error", "Shared", new { err = "Error marking invoice as paid" });
+                }
+
+            return View();
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error marking invoice as paid invoice controller");
+                return RedirectToAction("Error", "Shared");
+            }
+        }
+        #endregion
+
         #region New Invoice
         // GET: Invoice/Create
         public ActionResult NewInvoice(string ID, string ReturnTo)
@@ -1082,47 +1123,6 @@ namespace TaxApp.Controllers
                 return RedirectToAction("Error", "Shared");
             }
         }
-
-        #region Mark Invoice As Paid
-        // GET: Invoice/Create
-        public ActionResult MarkAsPaid(string ID = "0")
-        {
-            try
-            {
-                getCookie(false);
-
-                if(ID != "0")
-                {
-                    Invoice invoice = new Invoice();
-                    invoice.InvoiceNum = ID;
-                    bool result = handler.MarkInvoiceAsPaid(invoice);
-
-                    if(result == true)
-                    {
-                        Response.Redirect("/Invoice/Invoice?ID="+ID);
-                    }
-                    else
-                    {
-                        function.logAnError("Error marking invoice as paid invoice controller - no invoice number supplied");
-                        return RedirectToAction("Error", "Shared", new { err = "Error marking invoice as paid"});
-                    }
-                }
-                else
-                {
-                    function.logAnError("Error marking invoice as paid invoice controller - no invoice number supplied");
-                    return RedirectToAction("Error", "Shared", new { err = "Error marking invoice as paid" });
-                }
-
-            return View();
-            }
-            catch (Exception e)
-            {
-                function.logAnError(e.ToString() +
-                    "Error marking invoice as paid invoice controller");
-                return RedirectToAction("Error", "Shared");
-            }
-        }
         #endregion
     }
 }
-        #endregion

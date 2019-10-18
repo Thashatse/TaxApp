@@ -124,7 +124,9 @@
 
 <div class="container-fluid mt--7">
     <div class="row">
-        @if (Model.Jobs.Count > 0 && Model.Jobs != null)
+        @if(Model.Jobs != null)
+        { 
+        if (Model.Jobs.Count > 0)
         {
             foreach (var item in Model.Jobs)
             {
@@ -141,7 +143,7 @@
                                     </h3>
                                 </div>
                                 <div class="col text-right">
-                                    <a href="http://sict-iis.nmmu.ac.za/TaxApp/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)"
+                                    <a href="/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)"
                                        class="btn btn-primary">Details</a>
                                 </div>
                             </div>
@@ -226,7 +228,7 @@
             }
         }
 
-        @if (Model.Jobs.Count < 3)
+        if (Model.Jobs.Count < 3)
         {
             <div class="col-xl-4">
                 <div class="card shadow">
@@ -237,7 +239,7 @@
                                 <p>Create a new job</p>
                             </div>
                             <div class="col-3 text-right">
-                                <a href="http://sict-iis.nmmu.ac.za/TaxApp/Job/NewJob" class="btn btn-primary">
+                                <a href="/Job/NewJob" class="btn btn-primary">
                                     <i class="ni ni-fat-add"></i>
                                 </a>
                             </div>
@@ -246,6 +248,7 @@
                 </div>
             </div>
         }
+        }
     </div>
 
     <br />
@@ -253,12 +256,14 @@
     <div class="row">
         @if (Model.OutInvoices.Count > 0 && Model.OutInvoices != null)
         {
-            int x = 0;
-
-            foreach (var item in Model.OutInvoices)
+            if (Model.OutInvoices.Count > 0 && Model.OutInvoices != null)
             {
-                if (x < 3)
+                int x = 0;
+
+                foreach (var item in Model.OutInvoices)
                 {
+                    if (x < 3)
+                    {
                     <div class="col-xl-4">
                         <div class="card shadow">
                             <div class="card-header border-0">
@@ -272,7 +277,7 @@
                                         </h3>
                                     </div>
                                     <div class="col text-right">
-                                        <a href="http://sict-iis.nmmu.ac.za/TaxApp/Invoice/Invoice?ID=@Html.DisplayFor(modelItem => item.InvoiceNum)" class="btn btn-primary">Details</a>
+                                        <a href="/Invoice/Invoice?ID=@Html.DisplayFor(modelItem => item.InvoiceNum)" class="btn btn-primary">Details</a>
                                     </div>
                                 </div>
                             </div>
@@ -310,12 +315,12 @@
                         </div>
                         <br />
                     </div>
+                    }
+                    x++;
                 }
-                x++;
-            }
 
-            if (x < 3)
-            {
+                if (x < 3)
+                {
                 <div class="col-xl-4">
                     <div class="card shadow">
                         <div class="card-header border-0">
@@ -325,7 +330,7 @@
                                     <p>Generate a new invoice</p>
                                 </div>
                                 <div class="col-3 text-right">
-                                    <a href="http://sict-iis.nmmu.ac.za/TaxApp/Job/JobSelector?Dest=New*Invoice" class="btn btn-primary">
+                                    <a href="/Job/JobSelector?Dest=New*Invoice" class="btn btn-primary">
                                         <i class="ni ni-fat-add"></i>
                                     </a>
                                 </div>
@@ -333,6 +338,7 @@
                         </div>
                     </div>
                 </div>
+                }
             }
         }
     </div>
@@ -405,61 +411,67 @@
     <br />
 
     <div class="row">
-        @if (Model.TAX.Count > 0 && Model.TAX != null)
+        @if (Model.TAX != null)
         {
-            <div class="col-xl-6">
-                <div class="card shadow">
-                    <div class="card-header border-0">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <h3 class="mb-0">Tax</h3>
-                            </div>
-                            <div class="col text-right">
-                                <a href="http://sict-iis.nmmu.ac.za/TaxApp/Tax/TaxCenter" class="btn btn-primary">Tax Centre</a>
+            if (Model.TAX.Count > 0 && Model.TAX != null)
+            {
+                <div class="col-xl-6">
+                    <div class="card shadow">
+                        <div class="card-header border-0">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h3 class="mb-0">Tax</h3>
+                                </div>
+                                <div class="col text-right">
+                                    <a href="/Tax/TaxCenter" class="btn btn-primary">Tax Centre</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table align-items-center table-flush">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th scope="col">Period</th>
-                                    <th scope="col">Braket</th>
-                                    <th scope="col">Income Received</th>
-                                    <th scope="col">TAX Est.</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model.TAX)
-                                {
+                        <div class="table-responsive">
+                            <table class="table align-items-center table-flush">
+                                <thead class="thead-light">
                                     <tr>
-                                        <th scope="row">
-                                            <div class="media align-items-center">
-                                                <div class="media-body">
-                                                    <span class="mb-0 text-sm"> @Html.DisplayFor(modelItem => item.PeriodString) </span>
-                                                </div>
-                                            </div>
-                                        </th>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.TaxBraketString)
-                                        </td>
-                                        <td>
-                                            R @Html.DisplayFor(modelItem => item.IncomeSTRING)
-                                        </td>
-                                        <td>
-                                            R @Html.DisplayFor(modelItem => item.TAXOwedSTRING)
-                                        </td>
+                                        <th scope="col">Period</th>
+                                        <th scope="col">Braket</th>
+                                        <th scope="col">Income Received</th>
+                                        <th scope="col">TAX Est.</th>
                                     </tr>
-                                }
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.TAX)
+                                    {
+                                        <tr>
+                                            <th scope="row">
+                                                <div class="media align-items-center">
+                                                    <div class="media-body">
+                                                        <span class="mb-0 text-sm"> @Html.DisplayFor(modelItem => item.PeriodString) </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.TaxBraketString)
+                                            </td>
+                                            <td>
+                                                R @Html.DisplayFor(modelItem => item.IncomeSTRING)
+                                            </td>
+                                            <td>
+                                                R @Html.DisplayFor(modelItem => item.TAXOwedSTRING)
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
+                    <br />
                 </div>
-                <br />
-            </div>
+            }
+
         }
 
-            @if (Model.VAT.Count > 0 && Model.VAT != null)
+        @if (Model.VAT.Count > 0 && Model.VAT != null)
+        {
+            if (Model.VAT.Count > 0 && Model.VAT != null)
             {
                 <div class="col-xl-6">
                     <div class="card shadow">
@@ -469,7 +481,7 @@
                                     <h3 class="mb-0">VAT</h3>
                                 </div>
                                 <div class="col text-right">
-                                    <a href="http://sict-iis.nmmu.ac.za/TaxApp/Vat/VatCenter" class="btn btn-primary">VAT Centre</a>
+                                    <a href="/Vat/VatCenter" class="btn btn-primary">VAT Centre</a>
                                 </div>
                             </div>
                         </div>
@@ -510,5 +522,5 @@
                         </div>
                     </div>
                 </div>
-            }
-        </div>
+            }   }
+    </div>

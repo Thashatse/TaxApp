@@ -94,9 +94,9 @@
                             <p class="mb-0">Actions: </p>
                         </div>
                         <div class="col-10 text-right">
-                            <a href="http://sict-iis.nmmu.ac.za/TaxApp/expense/editexpense?ID=@Html.DisplayFor(model => model.ExpenseID)"
+                            <a href="/expense/editexpense?ID=@Html.DisplayFor(model => model.ExpenseID)"
                                class="btn btn-white">Edit</a>
-                            <a href="http://sict-iis.nmmu.ac.za/TaxApp/expense/reapetexpense?ID=@Html.DisplayFor(model => model.ExpenseID)"
+                            <a href="/expense/reapetexpense?ID=@Html.DisplayFor(model => model.ExpenseID)"
                                class="btn btn-white">Reapet Expense now</a>
 
                             <br />
@@ -104,18 +104,18 @@
 
                             @if (@Model.Invoice_ReceiptCopy == null)
                             {
-                                <a href="http://sict-iis.nmmu.ac.za/TaxApp/Functions/AttachFile?ID=@Html.DisplayFor(model => model.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@ViewBag.Details"
+                                <a href="/Functions/AttachFile?ID=@Html.DisplayFor(model => model.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@ViewBag.Details"
                                    class="btn btn-white">
                                     Add Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i>
                                 </a>
                             }
                             else
                             {
-                                <a target="_blank" href="http://sict-iis.nmmu.ac.za/TaxApp/Functions/DownloadFile?ID=@Html.DisplayFor(model => model.ExpenseID)&type=GE"
+                                <a target="_blank" href="/Functions/DownloadFile?ID=@Html.DisplayFor(model => model.ExpenseID)&type=GE"
                                    class="btn btn-white">
                                     Download Invoice or Receipt Copy <i class="ni ni-cloud-download-95"></i>
                                 </a>
-                                <a href="http://sict-iis.nmmu.ac.za/TaxApp/Functions/AttachFile?ID=@Html.DisplayFor(model => model.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@ViewBag.Details"
+                                <a href="/Functions/AttachFile?ID=@Html.DisplayFor(model => model.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@ViewBag.Details"
                                    class="btn btn-white">
                                     Update Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i>
                                 </a>
@@ -187,18 +187,18 @@
                                             <div class="col-10 text-right">
                                                 @if (item.Invoice_ReceiptCopy == null)
                                                 {
-                                                    <a href="http://sict-iis.nmmu.ac.za/TaxApp/Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@ViewBag.Details"
+                                                    <a href="/Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@ViewBag.Details"
                                                        class="btn btn-white">
                                                         Add Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i>
                                                     </a>
                                                 }
                                                 else
                                                 {
-                                                    <a target="_blank" href="http://sict-iis.nmmu.ac.za/TaxApp/Functions/DownloadFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=GE"
+                                                    <a target="_blank" href="/Functions/DownloadFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=GE"
                                                        class="btn btn-white">
                                                         Download Invoice or Receipt Copy <i class="ni ni-cloud-download-95"></i>
                                                     </a>
-                                                    <a href="http://sict-iis.nmmu.ac.za/TaxApp/Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@ViewBag.Details"
+                                                    <a href="/Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@ViewBag.Details"
                                                        class="btn btn-white">
                                                         Update Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i>
                                                     </a>

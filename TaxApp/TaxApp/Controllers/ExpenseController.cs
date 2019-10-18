@@ -59,7 +59,7 @@ namespace TaxApp.Controllers
             {
                 function.logAnError(e.ToString() +
                     "Error in welcome method of LandingControles");
-                Response.Redirect(Url.Action("Error", "Shared") + "?Err=Identity couldn't be verified");
+                Response.Redirect(Url.Action("Error", "Shared") + "?Err=Identity couldn't be verified, please try again later.");
             }
         }
 

@@ -18,7 +18,7 @@
                         @ViewBag.DateRange
                         @if (ViewBag.View != "DS")
                         {
-                            <a href="http://sict-iis.nmmu.ac.za/TaxApp/Expense/GeneralExpenses?view=DS"
+                            <a href="/Expense/GeneralExpenses?view=DS"
                                class="btn btn-white"><i class="ni ni-settings-gear-65"></i></a>
                         }
                     </h3>
@@ -68,7 +68,7 @@
                             }
                         </div>
                         <div class="col-3 text-right">
-                            <a href="http://sict-iis.nmmu.ac.za/TaxApp/Expense/NewGeneralExpense" class="btn btn-primary">
+                            <a href="/Expense/NewGeneralExpense" class="btn btn-primary">
                                 <i class="ni ni-fat-add"></i>
                             </a>
                         </div>
@@ -144,29 +144,29 @@
                                             <div class="col-9 text-right">
                                                 @if (item.RepeatOccurrences.Count != 0)
                                                 {
-                                                    <a href="http://sict-iis.nmmu.ac.za/TaxApp/expense/GeneralExpense?ID=@Html.DisplayFor(model => item.ExpenseID)"
+                                                    <a href="/expense/GeneralExpense?ID=@Html.DisplayFor(model => item.ExpenseID)"
                                                        class="btn btn-white">View all @Html.DisplayFor(model => item.Name) occurrences</a>
                                                     <br />
                                                     <br />
                                                 }
-                                                <a href="http://sict-iis.nmmu.ac.za/TaxApp/expense/editexpense?ID=@Html.DisplayFor(model => item.ExpenseID)"
+                                                <a href="/expense/editexpense?ID=@Html.DisplayFor(model => item.ExpenseID)"
                                                    class="btn btn-white">Edit</a>
-                                                <a href="http://sict-iis.nmmu.ac.za/TaxApp/expense/reapetexpense?ID=@Html.DisplayFor(model => item.ExpenseID)"
+                                                <a href="/expense/reapetexpense?ID=@Html.DisplayFor(model => item.ExpenseID)"
                                                    class="btn btn-white">Reapet Expense now</a>
                                                 <br />
                                                 <br />
                                                 @if (item.Invoice_ReceiptCopy == null)
                                                 {
-                                                    <a href="http://sict-iis.nmmu.ac.za/TaxApp/Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@Html.DisplayFor(model => item.Name)"
+                                                    <a href="/Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@Html.DisplayFor(model => item.Name)"
                                                        class="btn btn-white">Add Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i></a>
                                                 }
                                                 else
                                                 {
-                                                    <a target="_blank" href="http://sict-iis.nmmu.ac.za/TaxApp/Functions/DownloadFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=GE"
+                                                    <a target="_blank" href="/Functions/DownloadFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=GE"
                                                        class="btn btn-white">Download Invoice or Receipt Copy <i class="ni ni-cloud-download-95"></i></a>
                                                     <br />
                                                     <br />
-                                                    <a href="http://sict-iis.nmmu.ac.za/TaxApp/Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@Html.DisplayFor(model => item.Name)"
+                                                    <a href="/Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=GE&Title=Invoice or Receipt&Details=@Html.DisplayFor(model => item.Name)"
                                                        class="btn btn-white">Update Invoice or Receipt Copy <i class="ni ni-cloud-upload-96"></i></a>
                                                 }
                                             </div>
@@ -182,11 +182,11 @@
     @if (ViewBag.SeeMore)
     {
         <br />
-            <a href="http://sict-iis.nmmu.ac.za/TaxApp/Expense/GeneralExpenses?ExpenseDisplayCount=@ViewBag.X"
+            <a href="/Expense/GeneralExpenses?ExpenseDisplayCount=@ViewBag.X"
                class="btn btn-white">Show More</a>
     }
     @if (ViewBag.files == "True")
     {
-        <a href="http://sict-iis.nmmu.ac.za/TaxApp/Expense/GeneralExpenses?downloadAll=True"
+        <a href="/Expense/GeneralExpenses?downloadAll=True"
            class="btn btn-white">Download All Invoice and Receipts<i class="ni ni-cloud-download-95"></i></a>
     }
