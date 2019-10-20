@@ -28,10 +28,10 @@
         function search() {
             if (document.getElementById('serchTerm').value == null ||
                 document.getElementById('serchTerm').value == "") {
-                window.location.href = "/Home/Search?cat=@ViewBag.cat&term=" + document.getElementById('serchTermColapsed').value;
+                window.location.href ="/Home/Search?cat=@ViewBag.cat&term=" + document.getElementById('serchTermColapsed').value;
             }
             else {
-                window.location.href = "/Home/Search?cat=@ViewBag.cat&term=" + document.getElementById('serchTerm').value;
+                window.location.href ="/Home/Search?cat=@ViewBag.cat&term=" + document.getElementById('serchTerm').value;
             }
         }
 
@@ -395,7 +395,7 @@
                                         }
                                         @if (ViewBag.DropDownFilter != null)
                                         {
-                                    <div class="col-lg-3 col-sm-12 text-right">
+                                    <div class="col-lg-6 col-sm-12 text-right">
                                         @ViewBag.DropdownName:<br />
                                         @Html.DropDownList("DropDownFilter", ViewBag.DropDownFilter as SelectList)
                                     </div>

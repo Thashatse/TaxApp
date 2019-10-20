@@ -59,7 +59,7 @@
 
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" value="Add" class="btn btn-default" />
+                                <input type="submit" value="Add" class="btn btn-default"http://sict-iis.nmmu.ac.za/TaxApp/>
                             </div>
                         </div>
                     </div>
@@ -97,12 +97,12 @@
                                     @Html.DisplayFor(modelItem => item.Threashold)
                                 </td>
                                 <td>
-                                    <a href="/Tax/DeleteTaxBraket?RateID=@Html.DisplayFor(modelItem => item.RateID)&ID=@ViewBag.ID&period=@ViewBag.Period" class="btn btn-white">Delete</a>
+                                    <a href="http://sict-iis.nmmu.ac.za/TaxApp/Tax/DeleteTaxBraket?RateID=@Html.DisplayFor(modelItem => item.RateID)&ID=@ViewBag.ID&period=@ViewBag.Period" class="btn btn-white">Delete</a>
                                 </td>
                             </tr>
                         }
                         <tr>
-                            <td><a href="/Tax/TaxCenter?period=@ViewBag.ID" class="btn btn-primary">Done</a></td>
+                            <td><a href="http://sict-iis.nmmu.ac.za/TaxApp/Tax/TaxCenter?period=@ViewBag.ID" class="btn btn-primary">Done</a></td>
                             <td></td>
                             <td></td>
                         </tr>

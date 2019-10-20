@@ -327,7 +327,7 @@ namespace TaxApp.Controllers
 
         #region New Job
         // GET: Landing/NewProfile
-        public ActionResult NewJob(string Client)
+        public ActionResult NewJob(string Client = "0")
         {
             try { 
             getCookie();

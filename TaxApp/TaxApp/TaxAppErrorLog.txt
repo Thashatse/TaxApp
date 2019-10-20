@@ -1072,3 +1072,29 @@ Curent Directory: C:\Program Files (x86)\IIS Express
 Error: 
 System.NullReferenceException: Object reference not set to an instance of an object.
    at TaxApp.Controllers.ExpenseController.editexpense(String ID) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\ExpenseController.cs:line 189Error loding general expense Details for edit
+
+TimeStamp: 10/20/2019 3:34:55 PM
+Machine Name: TEFO-NTSAKO-HAS
+OS Version: Microsoft Windows NT 10.0.18362.0
+Curent User: thash
+User Domain: TEFO-NTSAKO-HAS
+Curent Directory: C:\Program Files (x86)\IIS Express
+Error: 
+System.Web.HttpException (0x80004005): Cannot redirect after HTTP headers have been sent.
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponseWrapper.Redirect(String url)
+   at TaxApp.Controllers.ReportController.getCookie() in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\ReportController.cs:line 53Error in welcome method of LandingControles
+
+TimeStamp: 10/20/2019 3:49:28 PM
+Machine Name: TEFO-NTSAKO-HAS
+OS Version: Microsoft Windows NT 10.0.18362.0
+Curent User: thash
+User Domain: TEFO-NTSAKO-HAS
+Curent Directory: C:\Program Files (x86)\IIS Express
+Error: 
+System.ArgumentNullException: Value cannot be null.
+Parameter name: String
+   at System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   at System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   at System.Int32.Parse(String s)
+   at TaxApp.Controllers.JobController.NewJob(String Client) in F:\Google Drive\Visual Studio\TaxApp\TaxApp\TaxApp\TaxApp\Controllers\JobController.cs:line 346Error loding new job

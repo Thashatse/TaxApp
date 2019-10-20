@@ -182,10 +182,10 @@
                                                 @Html.DisplayFor(modelItem => item.InvoiceDateString)
                                             </td>
                                             <td>
-                                                <a href="/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)">@Html.DisplayFor(modelItem => item.JobTitle)</a>
+                                                <a href="http://sict-iis.nmmu.ac.za/TaxApp/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)">@Html.DisplayFor(modelItem => item.JobTitle)</a>
                                             </td>
                                             <td>
-                                                <a href='/Client/ClientDetails?ID=@Html.DisplayFor(modelItem => item.clientID)'>
+                                                <a href='http://sict-iis.nmmu.ac.za/TaxApp/Client/ClientDetails?ID=@Html.DisplayFor(modelItem => item.clientID)'>
                                                     @Html.DisplayFor(modelItem => item.clientName)
                                                 </a>
                                             </td>
@@ -246,27 +246,27 @@
                                 @Html.AntiForgeryToken()
                                 <p>
                                     Select Period:  @Html.DropDownList("TaxPeriodList", ViewBag.VATPeriodList as SelectList)
-                                    <input type="submit" value="Select" class="btn btn-default" />
+                                    <input type="submit" value="Select" class="btn btn-default"http://sict-iis.nmmu.ac.za/TaxApp/>
                                 </p>
 
 
                                 if (Model.period.Share == true)
                                 {
-                                    <a href="/Tax/Share?ID=@Model.period.PeriodID&type=T"
+                                    <a href="http://sict-iis.nmmu.ac.za/TaxApp/Tax/Share?ID=@Model.period.PeriodID&type=T"
                                        class="btn btn-lg btn-white">Stop sharing with Consultant</a>
                                 }
                                 else
                                 {
-                                    <a href="/Tax/Share?ID=@Model.period.PeriodID&type=T"
+                                    <a href="http://sict-iis.nmmu.ac.za/TaxApp/Tax/Share?ID=@Model.period.PeriodID&type=T"
                                        class="btn btn-lg btn-white">Share with Consultant</a>
                                 }
 
                                 <br />
                                 <br />
 
-                                <a href="/Tax/EditTaxVatPeriod?Type=T&Period=@ViewBag.PeriodID"
+                                <a href="http://sict-iis.nmmu.ac.za/TaxApp/Tax/EditTaxVatPeriod?Type=T&Period=@ViewBag.PeriodID"
                                    class="btn btn-lg btn-white">Edit Period</a>
-                                <a href="/Tax/TaxVatPeriod?Type=T"
+                                <a href="http://sict-iis.nmmu.ac.za/TaxApp/Tax/TaxVatPeriod?Type=T"
                                    class="btn btn-lg btn-white">New Period</a>
                             }
                         </div>

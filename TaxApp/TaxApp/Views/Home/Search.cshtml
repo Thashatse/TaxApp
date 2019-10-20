@@ -31,7 +31,7 @@
                                 @ViewBag.SearchType Results for search term: '@ViewBag.term'  &nbsp;
                                 @if (ViewBag.SearchType != null && ViewBag.SearchType != "")
                                 {
-                                    <a class="btn btn-white" href="Search?view=@ViewBag.view&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&term=@ViewBag.term&cat=A">
+                                    <a class="btn btn-white" href="/Search?view=@ViewBag.view&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&term=@ViewBag.term&cat=A">
                                         View All Results
                                     </a>
                                 }
@@ -52,9 +52,9 @@
                                 {
                                     @Html.AntiForgeryToken()
                                     <p>
-                                        Start: <input name="StartDate" type="date" value="@ViewBag.StartDateRange" />
-                                        End: <input name="EndDate" type="date" value="@ViewBag.EndDateRange" />
-                                        <input type="submit" value="Update date range" class="btn btn-default" />
+                                        Start: <input name="StartDate" type="date" value="@ViewBag.StartDateRange"http://sict-iis.nmmu.ac.za/TaxApp/>
+                                        End: <input name="EndDate" type="date" value="@ViewBag.EndDateRange"http://sict-iis.nmmu.ac.za/TaxApp/>
+                                        <input type="submit" value="Update date range" class="btn btn-default"http://sict-iis.nmmu.ac.za/TaxApp/>
                                     </p>
                                 }
                             </div>
@@ -62,47 +62,47 @@
                         <div class="row align-items-center">
                             <div class="col">
 
-                                <a class="btn btn-lg btn-white" href="Search?view=@ViewBag.view&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&term=@ViewBag.term&cat=A">
+                                <a class="btn btn-lg btn-white" href="/Search?view=@ViewBag.view&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&term=@ViewBag.term&cat=A">
                                     <i class="ni ni-align-left-2"></i>
                                     <span>All</span>
                                 </a>
 
-                                <a class="btn btn-lg btn-white" href="Search?view=@ViewBag.view&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&term=@ViewBag.term&cat=C">
+                                <a class="btn btn-lg btn-white" href="/Search?view=@ViewBag.view&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&term=@ViewBag.term&cat=C">
                                     <i class="ni ni-align-left-2"></i>
                                     <span>Client</span>
                                 </a>
 
-                                <a class="btn btn-lg btn-white" href="Search?view=@ViewBag.view&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&term=@ViewBag.term&cat=GE">
+                                <a class="btn btn-lg btn-white" href="/Search?view=@ViewBag.view&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&term=@ViewBag.term&cat=GE">
                                     <i class="ni ni-align-left-2"></i>
                                     <span>Genetal Expenses</span>
                                 </a>
 
-                                <a class="btn btn-lg btn-white" href="Search?view=@ViewBag.view&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&term=@ViewBag.term&cat=I">
+                                <a class="btn btn-lg btn-white" href="/Search?view=@ViewBag.view&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&term=@ViewBag.term&cat=I">
                                     <i class="ni ni-align-left-2"></i>
                                     <span>Invoice</span>
                                 </a>
 
-                                <a class="btn btn-lg btn-white" href="Search?view=@ViewBag.view&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&term=@ViewBag.term&cat=J">
+                                <a class="btn btn-lg btn-white" href="/Search?view=@ViewBag.view&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&term=@ViewBag.term&cat=J">
                                     <i class="ni ni-align-left-2"></i>
                                     <span>Job</span>
                                 </a>
 
-                                <a class="btn btn-lg btn-white" href="Search?view=@ViewBag.view&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&term=@ViewBag.term&cat=JE">
+                                <a class="btn btn-lg btn-white" href="/Search?view=@ViewBag.view&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&term=@ViewBag.term&cat=JE">
                                     <i class="ni ni-align-left-2"></i>
                                     <span>Job Expense</span>
                                 </a>
 
-                                <a class="btn btn-lg btn-white" href="Search?view=@ViewBag.view&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&term=@ViewBag.term&cat=TC">
+                                <a class="btn btn-lg btn-white" href="/Search?view=@ViewBag.view&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&term=@ViewBag.term&cat=TC">
                                     <i class="ni ni-align-left-2"></i>
                                     <span>Tax Consultnat</span>
                                 </a>
 
-                                <a class="btn btn-lg btn-white" href="Search?view=@ViewBag.view&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&term=@ViewBag.term&cat=TL">
+                                <a class="btn btn-lg btn-white" href="/Search?view=@ViewBag.view&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&term=@ViewBag.term&cat=TL">
                                     <i class="ni ni-align-left-2"></i>
                                     <span>Travel Log</span>
                                 </a>
 
-                                <a class="btn btn-lg btn-white" href="Search?view=@ViewBag.view&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&term=@ViewBag.term&cat=WL">
+                                <a class="btn btn-lg btn-white" href="/Search?view=@ViewBag.view&StartDateRange=@ViewBag.StartDateRange&EndDateRange=@ViewBag.EndDateRange&term=@ViewBag.term&cat=WL">
                                     <i class="ni ni-align-left-2"></i>
                                     <span>Work Log</span>
                                 </a>

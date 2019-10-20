@@ -15,7 +15,7 @@
                             @Model.jobDetails.JobTitle
                         </h1>
                         <h4 class="text-white">
-                            <a class="text-white" href='/Client/ClientDetails?ID=@Html.DisplayFor(model => model.jobDetails.ClientID)'>
+                            <a class="text-white" href='http://sict-iis.nmmu.ac.za/TaxApp/Client/ClientDetails?ID=@Html.DisplayFor(model => model.jobDetails.ClientID)'>
                                 Client: @Model.jobDetails.ClientFirstName
                             </a>
                             <br />
@@ -165,17 +165,17 @@
                         <div class="col text-right">
                             @if (ViewBag.Complete == "NotDone")
                             {
-                                <a href="/Job/NewWorkLogItem?ID=@ViewBag.JobID"
+                                <a href="http://sict-iis.nmmu.ac.za/TaxApp/Job/NewWorkLogItem?ID=@ViewBag.JobID"
                                    class="btn btn-white">Add Hours</a>
 
                                 if (!ViewBag.CurrentSession)
                                 {
-                                    <a href="/Job/NewWorkLogItem?ID=@ViewBag.JobID&Session=True"
+                                    <a href="http://sict-iis.nmmu.ac.za/TaxApp/Job/NewWorkLogItem?ID=@ViewBag.JobID&Session=True"
                                        class="btn btn-primary">Start a new session</a>
                                 }
                                 else
                                 {
-                                    <a href="/Job/EndJobWorkLogSession?ID=@ViewBag.CurrentSessionID&JobID=@ViewBag.JobID"
+                                    <a href="http://sict-iis.nmmu.ac.za/TaxApp/Job/EndJobWorkLogSession?ID=@ViewBag.CurrentSessionID&JobID=@ViewBag.JobID"
                                        class="btn btn-primary">End current session</a>
                                 }
                             }
@@ -231,14 +231,14 @@
                                         <td>
                                             @if (item.StartTime == item.EndTime)
                                             {
-                                            <a href="/Job/EndJobWorkLogSession?ID=@ViewBag.CurrentSessionID&JobID=@ViewBag.JobID"
+                                            <a href="http://sict-iis.nmmu.ac.za/TaxApp/Job/EndJobWorkLogSession?ID=@ViewBag.CurrentSessionID&JobID=@ViewBag.JobID"
                                                class="btn btn-primary">End session</a>
                                             }
                                             else
                                             {
-                                                <A href="/Job/EditJobWorkLog?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID">Edit</A>
+                                                <A href="http://sict-iis.nmmu.ac.za/TaxApp/Job/EditJobWorkLog?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID">Edit</A>
                                             }|
-                                            <A href="/Job/DeleteJobWorkLog?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID">Delete</A>
+                                            <A href="http://sict-iis.nmmu.ac.za/TaxApp/Job/DeleteJobWorkLog?ID=@Html.DisplayFor(model => item.LogItemID)&JobID=@ViewBag.JobID">Delete</A>
                                         </td>
                                             }
                                         </tr>
@@ -267,7 +267,7 @@
                         <div class="col text-right">
                             @if (ViewBag.Complete == "NotDone")
                             {
-                                <a href="/Expense/NewJobExpense?ID=@ViewBag.JobID"
+                                <a href="http://sict-iis.nmmu.ac.za/TaxApp/Expense/NewJobExpense?ID=@ViewBag.JobID"
                                    class="btn btn-white">Add Expense</a>
                             }
                             <i class="ni ni-bold-down"></i>
@@ -309,23 +309,23 @@
                                             <td>
                                                 @if (item.invoiced == false)
                                                 {
-                                                    <a href="/Expense/EditJobExpense?ID=@Html.DisplayFor(model => item.ExpenseID)"
+                                                    <a href="http://sict-iis.nmmu.ac.za/TaxApp/Expense/EditJobExpense?ID=@Html.DisplayFor(model => item.ExpenseID)"
                                                        class="btn btn-white">Edit</a>
                                                 }
                                                 @if (item.Invoice_ReceiptCopy == null)
                                                 {
-                                                    <a href="/Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=JE&Title=Invoice or Receipt&Details=@Html.DisplayFor(model => item.Name)"
+                                                    <a href="http://sict-iis.nmmu.ac.za/TaxApp/Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=JE&Title=Invoice or Receipt&Details=@Html.DisplayFor(model => item.Name)"
                                                        class="btn btn-white">
                                                         Add Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i>
                                                     </a>
                                                 }
                                                 else
                                                 {
-                                                    <a target="_blank" href="/Functions/DownloadFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=JE"
+                                                    <a target="_blank" href="http://sict-iis.nmmu.ac.za/TaxApp/Functions/DownloadFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=JE"
                                                        class="btn btn-white">
                                                         Download Invoice or Receipt Copy <i class="ni ni-cloud-download-95"></i>
                                                     </a>
-                                                    <a href="/Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=JE&Title=Invoice or Receipt&Details=@Html.DisplayFor(model => item.Name)"
+                                                    <a href="http://sict-iis.nmmu.ac.za/TaxApp/Functions/AttachFile?ID=@Html.DisplayFor(model => item.ExpenseID)&type=JE&Title=Invoice or Receipt&Details=@Html.DisplayFor(model => item.Name)"
                                                        class="btn btn-white">
                                                         Update Invoice or Receipt Copy<i class="ni ni-cloud-upload-96"></i>
                                                     </a>
@@ -356,7 +356,7 @@
                         <div class="col text-right">
                             @if (ViewBag.Complete == "NotDone")
                             {
-                                <a href="/Expense/NewTravelExpense?ID=@ViewBag.JobID"
+                                <a href="http://sict-iis.nmmu.ac.za/TaxApp/Expense/NewTravelExpense?ID=@ViewBag.JobID"
                                    class="btn btn-white">New Log Item</a>
                             }
                             <i class="ni ni-bold-down"></i>
@@ -405,8 +405,8 @@
                                     @if (ViewBag.Complete == "NotDone")
                                     {
                                         <td>
-                                            <A href="/Expense/EditTravleLogItem?ID=@Html.DisplayFor(model => item.ExpenseID)&JobID=@ViewBag.JobID">Edit</A> |
-                                            <A href="/Expense/DeleteTravleLogItem?ID=@Html.DisplayFor(model => item.ExpenseID)&JobID=@ViewBag.JobID">Delete</A>
+                                            <A href="http://sict-iis.nmmu.ac.za/TaxApp/Expense/EditTravleLogItem?ID=@Html.DisplayFor(model => item.ExpenseID)&JobID=@ViewBag.JobID">Edit</A> |
+                                            <A href="http://sict-iis.nmmu.ac.za/TaxApp/Expense/DeleteTravleLogItem?ID=@Html.DisplayFor(model => item.ExpenseID)&JobID=@ViewBag.JobID">Delete</A>
                                         </td>
                                     }
                                 </tr>
@@ -434,7 +434,7 @@
                         <div class="col text-right">
                             @if (ViewBag.Complete == "NotDone" || ViewBag.NoInvoice != "True")
                             {
-                                <a href="/Invoice/NewInvoice?ID=@ViewBag.JobID"
+                                <a href="http://sict-iis.nmmu.ac.za/TaxApp/Invoice/NewInvoice?ID=@ViewBag.JobID"
                                    class="btn btn-white">New Invoice</a>
                             }
                             <i class="ni ni-bold-down"></i>
@@ -476,7 +476,7 @@
                                                 @Html.DisplayFor(modelItem => item.TotalCostString)
                                             </td>
                                             <td>
-                                                <a class="btn btn-white" href='/Invoice/Invoice?ID=@Html.DisplayFor(modelItem => item.InvoiceNum)'>
+                                                <a class="btn btn-white" href='http://sict-iis.nmmu.ac.za/TaxApp/Invoice/Invoice?ID=@Html.DisplayFor(modelItem => item.InvoiceNum)'>
                                                     View
                                                 </a>
                                             </td>
@@ -506,9 +506,9 @@
                         <div class="col-10 text-right">
                             @if (ViewBag.Complete == "NotDone")
                             {
-                                <a href="/Job/EditJob?ID=@Html.DisplayFor(model => model.jobDetails.JobID)"
+                                <a href="http://sict-iis.nmmu.ac.za/TaxApp/Job/EditJob?ID=@Html.DisplayFor(model => model.jobDetails.JobID)"
                                    class="btn btn-white">Edit</a>
-                                <a href="/Job/MarkAsComplete?ID=@Html.DisplayFor(model => model.jobDetails.JobID)"
+                                <a href="http://sict-iis.nmmu.ac.za/TaxApp/Job/MarkAsComplete?ID=@Html.DisplayFor(model => model.jobDetails.JobID)"
                                    class="btn btn-white">Mark Job As Complete</a>
                             }
 
@@ -517,12 +517,12 @@
 
                             @if (Model.jobDetails.Share == true)
                             {
-                                <a href="/Job/Share?ID=@Model.jobDetails.JobID"
+                                <a href="http://sict-iis.nmmu.ac.za/TaxApp/Job/Share?ID=@Model.jobDetails.JobID"
                                    class="btn btn-white">Stop sharing with @Model.jobDetails.ClientFirstName</a>
                             }
                             else
                             {
-                                <a href="/Job/Share?ID=@Model.jobDetails.JobID"
+                                <a href="http://sict-iis.nmmu.ac.za/TaxApp/Job/Share?ID=@Model.jobDetails.JobID"
                                    class="btn btn-white">Share with @Model.jobDetails.ClientFirstName</a>
                             }
                         </div>

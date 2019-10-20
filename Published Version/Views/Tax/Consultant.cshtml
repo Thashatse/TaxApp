@@ -12,7 +12,7 @@
                 <div class="col-lg-5 col-md-6">
                     <h1 class="text-white">Tax Consultant</h1>
                     <div>
-                            <a href="/Tax/EditConsultant"
+                            <a href="http://sict-iis.nmmu.ac.za/TaxApp/Tax/EditConsultant"
                                class="btn btn-white">Edit</a>
                     </div>
                 </div>
@@ -59,7 +59,7 @@
                         <h3 class="mb-0">Tax Periods: </h3>
                     </div>
                     <div class="col text-right">
-                        <a href="/Tax/TaxVatPeriod?Type=T"
+                        <a href="http://sict-iis.nmmu.ac.za/TaxApp/Tax/TaxVatPeriod?Type=T"
                            class="btn btn-white">New Tax Period</a>
 
                         <i class="ni ni-bold-down"></i>
@@ -95,17 +95,17 @@
                                             @Html.DisplayFor(modelItem => item.Share)
                                         </td>
                                         <td>
-                                            <a href="/Tax/EditTaxVatPeriod?Type=T&Period=@item.PeriodID&ReturnToConsultant=true"
+                                            <a href="http://sict-iis.nmmu.ac.za/TaxApp/Tax/EditTaxVatPeriod?Type=T&Period=@item.PeriodID&ReturnToConsultant=true"
                                                class="btn btn-white">Edit Period</a>
 
                                             @if (item.Share == true)
                                             {
-                                            <a href="/Tax/Share?ID=@item.PeriodID&type=T&ReturnToConsultant=true"
+                                            <a href="http://sict-iis.nmmu.ac.za/TaxApp/Tax/Share?ID=@item.PeriodID&type=T&ReturnToConsultant=true"
                                                class="btn btn-white">Stop sharing Period with Consultant</a>
                                             }
                                             else
                                             {
-                                            <a href="/Tax/Share?ID=@item.PeriodID&type=T&ReturnToConsultant=true"
+                                            <a href="http://sict-iis.nmmu.ac.za/TaxApp/Tax/Share?ID=@item.PeriodID&type=T&ReturnToConsultant=true"
                                                class="btn btn-white">Share Period with Consultant</a>
                                             }
                                         </td>
@@ -128,7 +128,7 @@
                         <h3 class="mb-0">Vat Periods: </h3>
                     </div>
                     <div class="col text-right">
-                        <a href="/Tax/TaxVatPeriod?Type=V"
+                        <a href="http://sict-iis.nmmu.ac.za/TaxApp/Tax/TaxVatPeriod?Type=V"
                            class="btn btn-white">New VAT Period</a>
                         <i class="ni ni-bold-down"></i>
                     </div>
@@ -163,17 +163,17 @@
                                             @Html.DisplayFor(modelItem => item.Share)
                                         </td>
                                         <td>
-                                            <a href="/Tax/EditTaxVatPeriod?Type=V&Period=@item.PeriodID&ReturnToConsultant=true"
+                                            <a href="http://sict-iis.nmmu.ac.za/TaxApp/Tax/EditTaxVatPeriod?Type=V&Period=@item.PeriodID&ReturnToConsultant=true"
                                                class="btn btn-white">Edit Period</a>
 
                                             @if (item.Share == true)
                                             {
-                                                <a href="/Tax/Share?ID=@item.PeriodID&type=V&ReturnToConsultant=true"
+                                                <a href="http://sict-iis.nmmu.ac.za/TaxApp/Tax/Share?ID=@item.PeriodID&type=V&ReturnToConsultant=true"
                                                    class="btn btn-white">Stop sharing Period with Consultant</a>
                                             }
                                             else
                                             {
-                                                <a href="/Tax/Share?ID=@item.PeriodID&type=V&ReturnToConsultant=true"
+                                                <a href="http://sict-iis.nmmu.ac.za/TaxApp/Tax/Share?ID=@item.PeriodID&type=V&ReturnToConsultant=true"
                                                    class="btn btn-white">Share Period with Consultant</a>
                                             }
                                         </td>

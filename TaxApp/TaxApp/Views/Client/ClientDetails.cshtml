@@ -74,7 +74,7 @@
                         <p class="mb-0">Actions: </p>
                     </div>
                     <div class="col-10 text-right">
-                        <a class="btn btn-white" href='/Client/Edit?ID=@Html.DisplayFor(model => model.Client.ClientID)'>
+                        <a class="btn btn-white" href='http://sict-iis.nmmu.ac.za/TaxApp/Client/Edit?ID=@Html.DisplayFor(model => model.Client.ClientID)'>
                             Edit
                         </a>
                     </div>
@@ -92,7 +92,7 @@
                         <h3 class="mb-0">Jobs: </h3>
                     </div>
                     <div class="col text-right">
-                        <a class="btn btn-white" href='/Job/NewJob?Client=@Html.DisplayFor(model => model.Client.ClientID)'>
+                        <a class="btn btn-white" href='http://sict-iis.nmmu.ac.za/TaxApp/Job/NewJob?Client=@Html.DisplayFor(model => model.Client.ClientID)'>
                             New Job
                         </a>
                         <i class="ni ni-bold-down"></i>
@@ -148,10 +148,10 @@
                                         <td align="right">
                                             @if (item.ItemsToInvoice == true)
                                             {
-                                                <a href="/Invoice/NewInvoice?ID=@Html.DisplayFor(modelItem => item.JobID)"
+                                                <a href="http://sict-iis.nmmu.ac.za/TaxApp/Invoice/NewInvoice?ID=@Html.DisplayFor(modelItem => item.JobID)"
                                                    class="btn btn-white">New Invoice</a>
                                             }
-                                            <a href="/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)"
+                                            <a href="http://sict-iis.nmmu.ac.za/TaxApp/Job/Job?ID=@Html.DisplayFor(modelItem => item.JobID)"
                                                class="btn btn-white">Details</a>
                                         </td>
                                     </tr>
@@ -163,6 +163,8 @@
             </div>
         </div>
     </div>
+
+    <br />
 
     <div class="col-lg-12 col-md-12">
         <div class="card shadow">
@@ -217,7 +219,7 @@
                                     R @Html.DisplayFor(modelItem => item.TotalCost)
                                 </td>
                                 <td>
-                                    <a href="/Invoice/Invoice?ID=@Html.DisplayFor(modelItem => item.InvoiceNum)" class="btn btn-white">View</a>
+                                    <a href="http://sict-iis.nmmu.ac.za/TaxApp/Invoice/Invoice?ID=@Html.DisplayFor(modelItem => item.InvoiceNum)" class="btn btn-white">View</a>
                                 </td>
                             </tr>
                                 }
