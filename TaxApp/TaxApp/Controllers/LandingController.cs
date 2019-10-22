@@ -42,9 +42,7 @@ namespace TaxApp.Controllers
 
                         if (handler.getProfile(checkProfile) != null)
                         {
-                            //Change befor Publishing
-                            //Response.Redirect("/Home/Index");
-                            Response.Redirect("http://sict-iis.nmmu.ac.za/taxapp/Home/Index");
+                            return RedirectToAction("Index", "Home");
                         }
                     }
                     else if(cookie["User"] != null || cookie["User"] != "")
@@ -118,6 +116,139 @@ namespace TaxApp.Controllers
                 function.logAnError(e.ToString() +
                     "Error in welcome method of LandingControles");
                 return RedirectToAction("Error", "Shared", new { Err = "An error occurred while processing your request, please try again later." });
+            }
+        }
+        #endregion
+
+        #region Change Pass
+        public ActionResult ChangePass()
+        {
+            ViewBag.Email = true;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ChangePass(FormCollection collection)
+        {
+            ViewBag.Email = false;
+            ViewBag.OTP = false;
+            ViewBag.Pass = false;
+            ViewBag.success = false;
+
+            try
+            {
+                Model.Profile profile = new Profile();
+                profile.EmailAddress = Request.Form["Username"];
+                profile.Username = Request.Form["Username"];
+                profile = handler.getProfile(profile);
+
+                if (profile == null)
+                {
+                    ViewBag.Message = "The account could not be found, please check your email and try again.";
+                    ViewBag.Email = true;
+                    return View();
+                }
+
+                profile.Password = "";
+
+                if (Request.Form["PassRestCode"].Length != 6)
+                {
+                    try
+                    {
+                        int OTP = function.generateOTP();
+
+                        bool result = function.sendEmail(profile.EmailAddress,
+                                profile.FirstName + " " + profile.LastName,
+                                "Verify your identity - TaxApp",
+                                "Hello " + profile.FirstName + " " + profile.LastName + ", \n\n Your OTP is: " + OTP + "\n\n Regards, \n The TaxApp Team.",
+                                "TaxApp",
+                                0);
+
+                        if (result)
+                        {
+                            profile.PassRestCode = OTP.ToString();
+                            ViewBag.Email = false;
+                            ViewBag.OTP = true;
+                            return View(profile);
+                        }
+                        else
+                        {
+                            function.logAnError("Error creating OTP in password rest");
+                            return RedirectToAction("Error", "Shared", new { Err = "Error generating OTP, please check your email and try again." });
+                        }
+                    }
+                    catch (Exception err)
+                    {
+                        function.logAnError("Error creating OTP in password rest | Error: " + err);
+                        return RedirectToAction("Error", "Shared", new { Err = "Error generating OTP, please check your email and try again." });
+                    }
+                }
+                else if (Request.Form["Password"].Length == 6)
+                {
+                    if (Request.Form["Password"] == Request.Form["PassRestCode"])
+                    {
+                        ViewBag.Email = false;
+                        ViewBag.OTP = false;
+                        ViewBag.Pass = true;
+                        profile.Password = "Done";
+                        profile.PassRestCode = Request.Form["PassRestCode"];
+                        return View(profile);
+                    }
+                    else
+                    {
+                        ViewBag.Message = "The OTP was not valid, please try again.";
+                        ViewBag.OTP = true;
+                        profile.Password = "";
+                        profile.PassRestCode = Request.Form["PassRestCode"];
+                        return View(profile);
+                    }
+                }
+                else if(Request.Form["Password"] != "Done")
+                {
+                    ViewBag.Message = "The OTP was not valid, please try again.";
+                    ViewBag.OTP = true;
+                    profile.Password = "Done";
+                    profile.PassRestCode = Request.Form["PassRestCode"];
+                    return View(profile);
+                }
+                else
+                {
+                    if (Request.Form["NewPassword"] == Request.Form["NewPasswordConfirmation"] && Request.Form["NewPassword"] != "" && Request.Form["NewPasswordConfirmation"] != "")
+                    {
+                        profile.PassRestCode = "";
+                        profile.Password = Auth.generatePassHash(Request.Form["NewPassword"]);
+                        bool result = handler.editprofile(profile);
+
+                        if (!result) 
+                        {
+                            function.logAnError("Error in ChangePass method of Landing Controler updating the profile");
+                            return RedirectToAction("Error", "Shared", new { Err = "An error occurred while changing your password, please try again later." });
+                        }
+
+                        ViewBag.success = true;
+                        profile.NewPassword = "";
+                        profile.NewPasswordConfirmation = "";
+                        profile.Password = "Done";
+                        profile.PassRestCode = Request.Form["PassRestCode"];
+                        return View(profile);
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Passwords do not match. Please try again.";
+                        ViewBag.Pass = true;
+                        profile.NewPassword = "";
+                        profile.NewPasswordConfirmation = "";
+                        profile.Password = "Done";
+                        profile.PassRestCode = Request.Form["PassRestCode"];
+                        return View(profile);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                function.logAnError(e.ToString() +
+                    "Error in ChangePass method of Landing Controle");
+                return RedirectToAction("Error", "Shared", new { Err = "An error occurred while changing your password, please try again later." });
             }
         }
         #endregion

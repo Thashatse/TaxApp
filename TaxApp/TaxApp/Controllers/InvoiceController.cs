@@ -759,7 +759,7 @@ namespace TaxApp.Controllers
 
                     if(result == true)
                     {
-                        Response.Redirect("/Invoice/Invoice?ID="+ID);
+                        return Redirect(Url.Action("Error", "Shared")+ "?ID=" + ID);
                     }
                     else
                     {

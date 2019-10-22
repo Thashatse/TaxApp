@@ -1609,6 +1609,7 @@
     <Content Include="Theam\vendor\fortawesome\fontawesome-free\webfonts\fa-solid-900.ttf" />
     <Content Include="Theam\vendor\fortawesome\fontawesome-free\webfonts\fa-solid-900.woff" />
     <Content Include="Theam\vendor\fortawesome\fontawesome-free\webfonts\fa-solid-900.woff2" />
+    <Content Include="Views\Landing\ChangePass.cshtml" />
     <None Include="Views\Shared\Help.cshtml" />
     <Content Include="libman.json" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />

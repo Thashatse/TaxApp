@@ -530,7 +530,20 @@ namespace DAL
                                 job.WorkLogHours = int.Parse(row["WorkLogHours"].ToString());
                                 int Hour = int.Parse(row["WorkLogHours"].ToString()) / 60;
                                 int Minute = int.Parse(row["WorkLogHours"].ToString()) % 60;
-                                job.WorkLogHoursString = Hour +":" + Minute + " ";
+
+                                string HourString = Hour.ToString();
+                                if (Hour == 0)
+                                    HourString = "00";
+                                else if (Hour < 10)
+                                    HourString = "0" + Hour;
+
+                                string MinuteString = Minute.ToString();
+                                if (Minute == 0)
+                                    MinuteString = "00";
+                                else if (Minute < 10)
+                                    MinuteString = "0" + Minute;
+
+                                job.WorkLogHoursString = HourString + ":" + MinuteString + " ";
                             }
                             else
                             {
@@ -774,7 +787,20 @@ namespace DAL
                                     job.WorkLogHours = hours.WorkLogHours;
                                     int Hour = hours.WorkLogHours / 60;
                                     int Minute = hours.WorkLogHours % 60;
-                                    job.WorkLogHoursString = Hour + ":" + Minute + " ";
+
+                                    string HourString = Hour.ToString();
+                                    if (Hour == 0)
+                                        HourString = "00";
+                                    else if (Hour < 10)
+                                        HourString = "0" + Hour;
+
+                                    string MinuteString = Minute.ToString();
+                                    if (Minute == 0)
+                                        MinuteString = "00";
+                                    else if (Minute < 10)
+                                        MinuteString = "0" + Minute;
+
+                                    job.WorkLogHoursString = HourString + ":" + MinuteString + " ";
                                 }
                             }
 
@@ -1027,7 +1053,20 @@ namespace DAL
                                     job.WorkLogHours = hours.WorkLogHours;
                                     int Hour = hours.WorkLogHours / 60;
                                     int Minute = hours.WorkLogHours % 60;
-                                    job.WorkLogHoursString = Hour + ":" + Minute + " ";
+
+                                    string HourString = Hour.ToString();
+                                    if (Hour == 0)
+                                        HourString = "00";
+                                    else if (Hour < 10)
+                                        HourString = "0" + Hour;
+
+                                    string MinuteString = Minute.ToString();
+                                    if (Minute == 0)
+                                        MinuteString = "00";
+                                    else if (Minute < 10)
+                                        MinuteString = "0" + Minute;
+
+                                    job.WorkLogHoursString = HourString + ":" + MinuteString + " ";
                                 }
                             }
 
@@ -1272,7 +1311,20 @@ namespace DAL
                                     job.WorkLogHours = hours.WorkLogHours;
                                     int Hour = hours.WorkLogHours / 60;
                                     int Minute = hours.WorkLogHours % 60;
-                                    job.WorkLogHoursString = Hour + ":" + Minute + " ";
+
+                                    string HourString = Hour.ToString();
+                                    if (Hour == 0)
+                                        HourString = "00";
+                                    else if (Hour < 10)
+                                        HourString = "0" + Hour;
+
+                                    string MinuteString = Minute.ToString();
+                                    if (Minute == 0)
+                                        MinuteString = "00";
+                                    else if (Minute < 10)
+                                        MinuteString = "0" + Minute;
+
+                                    job.WorkLogHoursString = HourString + ":" + MinuteString + " ";
                                 }
                             }
                             
@@ -1508,7 +1560,20 @@ namespace DAL
                             logItem.DateString = logItem.StartTime.ToString("dddd, dd MMMM yyyy");
                             int Hour = int.Parse(row["WorkLogHours"].ToString()) / 60;
                             int Minute = int.Parse(row["WorkLogHours"].ToString()) % 60;
-                            logItem.WorkLogHoursString = Hour + ":" + Minute + " ";
+
+                            string HourString = Hour.ToString();
+                            if (Hour == 0)
+                                HourString = "00";
+                            else if (Hour < 10)
+                                HourString = "0" + Hour;
+
+                            string MinuteString = Minute.ToString();
+                            if (Minute == 0)
+                                MinuteString = "00";
+                            else if (Minute < 10)
+                                MinuteString = "0" + Minute;
+
+                            logItem.WorkLogHoursString = HourString + ":" + MinuteString + " ";
                         }
                     }
                 }
@@ -1545,7 +1610,20 @@ namespace DAL
                             logItem.DateString = logItem.StartTime.ToString("dddd, dd MMMM yyyy");
                             int Hour = int.Parse(row["WorkLogHours"].ToString()) / 60;
                             int Minute = int.Parse(row["WorkLogHours"].ToString()) % 60;
-                            logItem.WorkLogHoursString = Hour + ":" + Minute + " ";
+
+                            string HourString = Hour.ToString();
+                            if (Hour == 0)
+                                HourString = "00";
+                            else if (Hour < 10)
+                                HourString = "0" + Hour;
+
+                            string MinuteString = Minute.ToString();
+                            if (Minute == 0)
+                                MinuteString = "00";
+                            else if (Minute < 10)
+                                MinuteString = "0" + Minute;
+
+                            logItem.WorkLogHoursString = HourString + ":" + MinuteString + " ";
                             JobWorkLog.Add(logItem);
                         }
                     }
@@ -4641,7 +4719,20 @@ namespace DAL
                                     job.WorkLogHours = hours.WorkLogHours;
                                     int Hour = hours.WorkLogHours / 60;
                                     int Minute = hours.WorkLogHours % 60;
-                                    job.WorkLogHoursString = Hour + ":" + Minute + " ";
+
+                                    string HourString = Hour.ToString();
+                                    if (Hour == 0)
+                                        HourString = "00";
+                                    else if (Hour < 10)
+                                        HourString = "0" + Hour;
+
+                                    string MinuteString = Minute.ToString();
+                                    if (Minute == 0)
+                                        MinuteString = "00";
+                                    else if (Minute < 10)
+                                        MinuteString = "0" + Minute;
+
+                                    job.WorkLogHoursString = HourString + ":" + MinuteString + " ";
                                 }
                             }
 

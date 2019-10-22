@@ -2091,7 +2091,7 @@ namespace TaxApp.Controllers
             if (report == null)
                 Response.Redirect(Url.Action("Error", "Shared") + "?ERR=Error downloading report");
 
-            return File(function.downloadPage("http://sict-iis.nmmu.ac.za/taxapp/Report/PrintReport?reportID="+reportID+"&StartDateRange="+StartDateRange+"&EndDateRange="+EndDateRange+"&SortBy="+SortBy+"&SortDirection="+SortDirection+"&DropDownID="+DropDownID+ "&DownloadID"+DownloadID), System.Net.Mime.MediaTypeNames.Application.Octet, 
+            return File(function.downloadPage("http://localhost:54533/Report/PrintReport?reportID=" + reportID+"&StartDateRange="+StartDateRange+"&EndDateRange="+EndDateRange+"&SortBy="+SortBy+"&SortDirection="+SortDirection+"&DownloadID="+DropDownID+ "&DownloadID" + DownloadID), System.Net.Mime.MediaTypeNames.Application.Octet, 
                 report.reportTitle+" - Generated: "+ DateTime.Now+".pdf");
         }
     }
